@@ -3,7 +3,7 @@ import "./bootstrap"
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter } from "react-router-dom"
 
 import MainLayout from "./layouts/main-layout"
 
@@ -12,12 +12,13 @@ import MainLayout from "./layouts/main-layout"
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        {/* <Route path="/login" render={(props) => <AuthLayout {...props} />} />
-                <Route path="/register" render={(props) => <AuthLayout {...props} />} /> */}
+      <MainLayout />
+      {/* <Routes>
+        <Route path="/login" render={(props) => <AuthLayout {...props} />} />
+                <Route path="/register" render={(props) => <AuthLayout {...props} />} /> 
         <Route path="/" element={<MainLayout />} />
-        {/* <Navigate from="/" exact={true} to="/home" /> */}
-      </Routes>
+        <Navigate from="/" exact={true} to="/home" />
+      </Routes>*/}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root"),

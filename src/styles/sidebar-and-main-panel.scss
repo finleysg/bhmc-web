@@ -58,19 +58,34 @@
     padding-bottom: 30px;
     box-shadow: inset -1px 0px 0px 0px #cfcfca;
 
-    > .nav {
+    > .sidebar-nav {
       margin-top: 20px;
+      padding-left: 0;
+      margin-bottom: 0;
+      list-style: none;
     }
 
     .dropdown .dropdown-backdrop {
       display: none !important;
     }
-    .nav,
+    .sidebar-nav,
     .user .info {
+      li {
+        position: relative;
+        display: block;
+      }
+
       li {
         a {
           outline: none;
           cursor: pointer;
+          position: relative;
+          display: block;
+          padding: 10px;
+        }
+
+        a:hover {
+          text-decoration: none;
         }
       }
 
@@ -165,15 +180,15 @@
       height: 1px;
     }
   }
-  .nav {
-    i {
-      font-size: 24px;
-      float: left;
-      margin-right: 15px;
-      line-height: 30px;
-      width: 30px;
-      text-align: center;
-    }
+  .sidebar-nav {
+    // i {
+    //   font-size: 24px;
+    //   float: left;
+    //   margin-right: 15px;
+    //   line-height: 30px;
+    //   width: 30px;
+    //   text-align: center;
+    // }
 
     li {
       > a {
@@ -480,10 +495,10 @@
       }
 
       .sidebar-wrapper {
-        > .nav ul > li > a .sidebar-normal,
+        > .sidebar-nav ul > li > a .sidebar-normal,
         .user .info ul > li > a .sidebar-normal,
         .user .info > a > span,
-        > .nav li > a p {
+        > .sidebar-nav li > a p {
           @include transform-translate-x(-25px);
           opacity: 0;
         }
@@ -503,15 +518,15 @@
       .sidebar-wrapper {
         width: 260px;
 
-        > .nav li > a p,
-        > .nav ul > li > a .sidebar-normal,
+        > .sidebar-nav li > a p,
+        > .sidebar-nav ul > li > a .sidebar-normal,
         .user .info ul > li > a .sidebar-normal,
         .user .info > a > span {
           @include transform-translate-x(0px);
           opacity: 1;
         }
 
-        > .nav {
+        > .sidebar-nav {
           li.active {
             > a:not([data-toggle="collapse"]) {
               &:before,

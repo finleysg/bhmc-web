@@ -15,7 +15,9 @@ import { TiContacts } from "react-icons/ti"
 import { useEventListener } from "utils/use-event-listener"
 
 function Sidebar(props) {
-  const { color, hasImage, image } = props
+  const { color, hasImage, image, isMini } = props
+  console.log(`Sidebar says isMini is ${isMini}`)
+
   const ps = React.useRef()
   const sidebar = React.useRef()
   // const [width, setWidth] = React.useState(0)
@@ -41,16 +43,21 @@ function Sidebar(props) {
   return (
     <div className="sidebar" data-color={color} data-image={image}>
       {hasImage && <div className="sidebar-background" style={{ backgroundImage: "url(" + image + ")" }} />}
-      <div className="logo">
-        <span className="simple-text logo-normal">Bunker Hills Men's Golf Club</span>
-      </div>
       <div className="sidebar-wrapper" ref={sidebar}>
+        <div className="logo">
+          {isMini ? (
+            <span className="simple-text">BHMC</span>
+          ) : (
+            <span className="simple-text">Bunker Hills Men's Golf Club</span>
+          )}
+        </div>
         <ul
-          css={{
-            paddingLeft: 0,
-            marginBottom: 0,
-            listStyle: "none",
-          }}
+          className="sidebar-nav"
+          //   css={{
+          //     paddingLeft: 0,
+          //     marginBottom: 0,
+          //     listStyle: "none",
+          //   }}
         >
           {/* {width <= 992 ? <AdminNavbarLinks /> : null} */}
           <MenuItem path="home" icon={<GoHome />} name="Home" />

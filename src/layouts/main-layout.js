@@ -8,17 +8,15 @@ import { Route, Routes } from "react-router-dom"
 import { NotFoundScreen } from "screens/not-found"
 import { TestingScreen } from "screens/testing"
 
-function useLayout(initialState) {
-  const [showSidebar, setShowSidebar] = React.useState(initialState)
-  return [showSidebar, setShowSidebar]
-}
-
 function MainLayout() {
-  const [showSidebar, setShowSidebar] = useLayout(true)
+  //   const { showSidebar, setShowSidebar } = React.useState(false)
+  const [isMini, setIsMini] = React.useState(false)
+  console.log(`MainLayout says isMini is ${isMini}`)
 
   function MainRoutes() {
     return (
       <Routes>
+        <Route path="/" element={<TestingScreen />} />
         <Route path="/home" element={<TestingScreen />} />
         <Route path="/calendar" element={<TestingScreen />} />
         <Route path="/results" element={<TestingScreen />} />
@@ -36,9 +34,9 @@ function MainLayout() {
 
   return (
     <div className="wrapper">
-      <Sidebar image={image} color="black" hasImage={true} mini={!showSidebar} />
+      <Sidebar image={image} color="azure" hasImage={true} isMini={isMini} />
       <div className="main-panel">
-        <Header color="black" handleMiniClick={() => setShowSidebar(!showSidebar)} />
+        <Header color="azure" onSidebarMiniChange={() => setIsMini(!isMini)} />
         <MainRoutes />
         <Footer />
       </div>
