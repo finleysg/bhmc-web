@@ -1,0 +1,5 @@
+import "bootstrap/dist/css/bootstrap-reboot.css"
+import "./styles/global.css"
+import "./styles/global.scss"
+import "perfect-scrollbar/css/perfect-scrollbar.css"
+import "stop-runaway-react-effects/hijack"
