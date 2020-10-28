@@ -1,0 +1,22 @@
+@import "../assets/scss/bootstrap/_functions.scss";
+@import "../assets/scss/bootstrap/mixins";
+@import "../assets/scss/bootstrap/_variables.scss";
+@import "../assets/scss/variables";
+@import "../assets/scss/mixins";
+
+.header__logo {
+  @include media-breakpoint-up(xl) {
+    min-width: calc(#{$sidebar-width} - 2rem);
+  }
+
+  & > h1 {
+    line-height: 100%;
+    font-size: 1.3rem;
+    font-weight: normal;
+    margin: 0;
+
+    & > a {
+      color: $white;
+    }
+  }
+}

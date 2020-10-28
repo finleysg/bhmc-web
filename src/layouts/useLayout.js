@@ -1,9 +1,9 @@
 import React from "react"
 
 function useLayout() {
-  const [isMini, setIsMini] = React.useState(false)
-  const [showSidebar, setShowSidebar] = React.useState(false)
-  return { showSidebar, setShowSidebar, isMini, setIsMini }
+  const [showSidebar, setShowSidebar] = React.useState(true)
+
+  return [showSidebar, setShowSidebar]
 }
 
 export { useLayout }

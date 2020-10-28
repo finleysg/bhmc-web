@@ -1,20 +1,26 @@
 import React from "react"
 
-import { Nav, NavDropdown } from "react-bootstrap"
-import { GrUserSettings } from "react-icons/gr"
+import { Link } from "react-router-dom"
 
 function UserMenu() {
+  const [showMenu, setShowMenu] = React.useState(false)
+
   return (
-    <Nav>
-      <Nav.Item style={{ paddingTop: "6px" }}>
-        <GrUserSettings />
-      </Nav.Item>
-      <NavDropdown title="User Name">
-        <NavDropdown.Item eventKey={2.1}>Account Settings</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item eventKey={2.2}>Log Out</NavDropdown.Item>
-      </NavDropdown>
-    </Nav>
+    <div className="user">
+      <div className={showMenu ? "user__info active" : "user__info"} onClick={() => setShowMenu(!showMenu)}>
+        <img className="user__img" src="./assets/demo/img/profile-pics/8.jpg" alt="" />
+        <div className="user__name">Malinda Hollaway</div>
+        <div className="user__email">malinda-h@gmail.com</div>
+      </div>
+
+      {showMenu && (
+        <div className="user__menu">
+          <Link to="">View Profile</Link>
+          <Link to="">Settings</Link>
+          <Link to="">Logout</Link>
+        </div>
+      )}
+    </div>
   )
 }
 

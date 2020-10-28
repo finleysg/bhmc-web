@@ -1,6 +1,124 @@
-@import "./_variables.scss";
+// Variables
+@import "../assets/scss/variables";
+@import "../assets/scss/mixins";
 
-@import "./buttons.scss";
-@import "./footers.scss";
-@import "./navbars.scss";
-@import "./sidebar-and-main-panel.scss";
+// Bootstrap
+@import "../assets/scss/bootstrap/bootstrap.scss";
+
+// Site Styles
+@import "../assets/scss/fonts";
+@import "../assets/scss/base";
+@import "../assets/scss/utilities";
+@import "../assets/scss/layout";
+@import "../assets/scss/misc";
+@import "../assets/scss/listview";
+@import "../assets/scss/todo";
+@import "../assets/scss/forms/toggle-switch";
+@import "../assets/scss/forms/icon-toggles";
+@import "../assets/scss/toolbars";
+@import "../assets/scss/photos";
+@import "../assets/scss/contacts";
+@import "../assets/scss/login";
+@import "../assets/scss/theme";
+
+// Bootstrap Overrides
+@import "../assets/scss/bootstrap-overrides/buttons";
+@import "../assets/scss/bootstrap-overrides/dropdown";
+@import "../assets/scss/bootstrap-overrides/progress";
+@import "../assets/scss/bootstrap-overrides/card";
+@import "../assets/scss/bootstrap-overrides/buttons";
+@import "../assets/scss/bootstrap-overrides/tables";
+@import "../assets/scss/bootstrap-overrides/forms";
+@import "../assets/scss/bootstrap-overrides/input-groups";
+@import "../assets/scss/bootstrap-overrides/custom-forms";
+@import "../assets/scss/bootstrap-overrides/pagination";
+@import "../assets/scss/bootstrap-overrides/alerts";
+@import "../assets/scss/bootstrap-overrides/close";
+@import "../assets/scss/bootstrap-overrides/breadcrumbs";
+@import "../assets/scss/bootstrap-overrides/collapse";
+@import "../assets/scss/bootstrap-overrides/carousel";
+@import "../assets/scss/bootstrap-overrides/modal";
+@import "../assets/scss/bootstrap-overrides/popovers";
+@import "../assets/scss/bootstrap-overrides/tabs";
+@import "../assets/scss/bootstrap-overrides/tooltip";
+@import "../assets/scss/bootstrap-overrides/datepicker";
+@import "../assets/scss/bootstrap-overrides/rating";
+@import "../assets/scss/bootstrap-overrides/sortable";
+@import "../assets/scss/bootstrap-overrides/time-picker";
+
+// .main {
+//   position: relative;
+// }
+
+// .main--alt {
+//   padding-top: 40px;
+// }
+
+// .content {
+//   &:not(.content--boxed):not(.content--full) {
+//     @include media-breakpoint-up(xl) {
+//       padding: ($header-height + $grid-gutter-width) $grid-gutter-width 0 $sidebar-width;
+//     }
+
+//     @include media-breakpoint-between(sm, lg) {
+//       padding: ($header-height + $grid-gutter-width) $grid-gutter-width 0;
+//     }
+
+//     @include media-breakpoint-down(xs) {
+//       padding: ($header-height + $grid-gutter-width/2) $grid-gutter-width/2 0;
+//     }
+//   }
+// }
+
+// .content--full {
+//   @include media-breakpoint-up(sm) {
+//     padding: ($header-height + $grid-gutter-width) $grid-gutter-width 0;
+//   }
+
+//   @include media-breakpoint-down(sm) {
+//     padding: ($header-height + $grid-gutter-width/2) $grid-gutter-width/2 0;
+//   }
+// }
+
+// .content__inner {
+//   margin: auto;
+
+//   &:not(.content__inner--sm) {
+//     max-width: 1280px;
+//   }
+// }
+
+// .content__inner--sm {
+//   max-width: 800px;
+// }
+
+// .content__title {
+//   margin-bottom: 2rem;
+//   padding: 1.5rem 2rem 0;
+//   position: relative;
+
+//   & > h1 {
+//     line-height: 100%;
+//     font-weight: normal;
+//     font-size: 1.15rem;
+//     margin: 0;
+//     text-transform: uppercase;
+//     color: $content-title-heading-color;
+//   }
+
+//   .actions {
+//     position: absolute;
+//     min-height: 30px;
+//     bottom: 0;
+//     top: 0;
+//     margin: auto;
+//     right: 1rem;
+//   }
+
+//   & > small {
+//     font-size: 1rem;
+//     display: block;
+//     margin-top: 0.8rem;
+//     color: lighten($content-title-heading-color, 18%);
+//   }
+// }

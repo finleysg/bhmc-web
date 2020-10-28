@@ -1,6 +1,6 @@
 import React from "react"
 
-import image from "assets/img/NineWestGreen.jpg"
+import { useLayout } from "layouts/useLayout"
 import { Footer } from "navigation/footer"
 import { Header } from "navigation/header"
 import { Sidebar } from "navigation/sidebar"
@@ -9,9 +9,7 @@ import { NotFoundScreen } from "screens/not-found"
 import { TestingScreen } from "screens/testing"
 
 function MainLayout() {
-  //   const { showSidebar, setShowSidebar } = React.useState(false)
-  const [isMini, setIsMini] = React.useState(false)
-  console.log(`MainLayout says isMini is ${isMini}`)
+  const [showSidebar, setShowSidebar] = useLayout()
 
   function MainRoutes() {
     return (
@@ -33,14 +31,15 @@ function MainLayout() {
   }
 
   return (
-    <div className="wrapper">
-      <Sidebar image={image} color="azure" hasImage={true} isMini={isMini} />
-      <div className="main-panel">
-        <Header color="azure" onSidebarMiniChange={() => setIsMini(!isMini)} />
+    <main className="main" data-ma-theme="blue">
+      <Header />
+      <Sidebar />
+      <section className="content">
         <MainRoutes />
         <Footer />
-      </div>
-    </div>
+        <div onClick={() => setShowSidebar(!showSidebar)} className="sidebar-backdrop"></div>
+      </section>
+    </main>
   )
 }
 
