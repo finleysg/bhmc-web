@@ -1,6 +1,7 @@
+import "./main-layout.scss"
+
 import React from "react"
 
-import { useLayout } from "layouts/useLayout"
 import { Footer } from "navigation/footer"
 import { Header } from "navigation/header"
 import { Sidebar } from "navigation/sidebar"
@@ -9,7 +10,7 @@ import { NotFoundScreen } from "screens/not-found"
 import { TestingScreen } from "screens/testing"
 
 function MainLayout() {
-  const [showSidebar, setShowSidebar] = useLayout()
+  const [sidebarOpen, setSidebarOpen] = React.useState(true)
 
   function MainRoutes() {
     return (
@@ -25,6 +26,7 @@ function MainLayout() {
         <Route path="/directory" element={<TestingScreen />} />
         <Route path="/contact-us" element={<TestingScreen />} />
         <Route path="/about-us" element={<TestingScreen />} />
+        <Route path="/sign-up" element={<TestingScreen />} />
         <Route path="*" element={<NotFoundScreen />} />
       </Routes>
     )
@@ -32,12 +34,12 @@ function MainLayout() {
 
   return (
     <main className="main" data-ma-theme="blue">
-      <Header />
-      <Sidebar />
+      <Header sidebarOpen={sidebarOpen} onSidebarToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <Sidebar open={sidebarOpen} />
       <section className="content">
         <MainRoutes />
         <Footer />
-        <div onClick={() => setShowSidebar(!showSidebar)} className="sidebar-backdrop"></div>
+        {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="sidebar-backdrop"></div>}
       </section>
     </main>
   )

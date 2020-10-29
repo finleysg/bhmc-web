@@ -7,7 +7,7 @@ function MenuItem({ path, icon, name }) {
   return (
     <li className={match ? "navigation__active" : ""}>
       <RouterLink to={path}>
-        {icon}
+        <i>{icon}</i>
         {name}
       </RouterLink>
     </li>

@@ -1,15 +1,13 @@
 import "./navigation-trigger.scss"
 
-import { useLayout } from "layouts/useLayout"
-
-function NavigationTrigger() {
-  const [showSidebar, setShowSidebar] = useLayout()
-
+function NavigationTrigger({ sidebarOpen, onSidebarToggle }) {
   const triggerClass = () => {
-    return `navigation-trigger hidden-xl-up ${showSidebar ? "toggled" : ""}`
+    return `navigation-trigger hidden-xl-up ${sidebarOpen ? "toggled" : ""}`
   }
+
+  console.log(`trigger says sidebarOpen is ${sidebarOpen}`)
   return (
-    <div className={triggerClass()} onClick={() => setShowSidebar(!showSidebar)}>
+    <div className={triggerClass()} onClick={onSidebarToggle}>
       <div className="navigation-trigger__inner">
         <i className="navigation-trigger__line"></i>
         <i className="navigation-trigger__line"></i>

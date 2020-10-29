@@ -29,7 +29,7 @@
   overflow: hidden;
   z-index: $sidebar-z-index;
 
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-down(xl) {
     @include sidebar-toggled();
   }
 }
@@ -41,6 +41,7 @@
 // Site Navigation
 .navigation {
   list-style: none;
+  margin-top: 20px;
   padding: 0;
 
   li {

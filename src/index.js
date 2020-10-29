@@ -3,8 +3,9 @@ import "./bootstrap"
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 
+import AuthLayout from "./layouts/auth-layout"
 import MainLayout from "./layouts/main-layout"
 
 // import reportWebVitals from "./reportWebVitals"
@@ -12,13 +13,10 @@ import MainLayout from "./layouts/main-layout"
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <MainLayout />
-      {/* <Routes>
-        <Route path="/login" render={(props) => <AuthLayout {...props} />} />
-                <Route path="/register" render={(props) => <AuthLayout {...props} />} /> 
-        <Route path="/" element={<MainLayout />} />
-        <Navigate from="/" exact={true} to="/home" />
-      </Routes>*/}
+      <Routes>
+        <Route path="*" element={<MainLayout />} />
+        <Route path="session/*" element={<AuthLayout />} />
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root"),
