@@ -5,7 +5,6 @@ function NavigationTrigger({ sidebarOpen, onSidebarToggle }) {
     return `navigation-trigger hidden-xl-up ${sidebarOpen ? "toggled" : ""}`
   }
 
-  console.log(`trigger says sidebarOpen is ${sidebarOpen}`)
   return (
     <div className={triggerClass()} onClick={onSidebarToggle}>
       <div className="navigation-trigger__inner">

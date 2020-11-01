@@ -1,8 +1,10 @@
-import "./main-layout.scss"
+import "./auth-layout.scss"
 
 import React from "react"
 
+import { AuthHeader } from "navigation/header"
 import { Route, Routes } from "react-router-dom"
+import { LoginScreen } from "screens/login"
 import { SessionScreen } from "screens/session"
 
 function AuthLayout() {
@@ -10,7 +12,7 @@ function AuthLayout() {
     return (
       <Routes>
         {/* <Route path="/" element={<SessionScreen />} /> */}
-        <Route path="/login" element={<SessionScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<SessionScreen />} />
         <Route path="/forgot-password" element={<SessionScreen />} />
         {/* <Route path="*" element={<NotFoundScreen />} /> */}
@@ -19,11 +21,13 @@ function AuthLayout() {
   }
 
   return (
-    <main className="main" data-ma-theme="blue">
-      <section className="content">
+    <div className="session">
+      <AuthHeader />
+      <div>
         <SessionRoutes />
-      </section>
-    </main>
+      </div>
+      {/* <Footer transparent /> */}
+    </div>
   )
 }
 

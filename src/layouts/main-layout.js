@@ -27,6 +27,8 @@ function MainLayout() {
         <Route path="/contact-us" element={<TestingScreen />} />
         <Route path="/about-us" element={<TestingScreen />} />
         <Route path="/sign-up" element={<TestingScreen />} />
+        <Route path="/my-account" element={<TestingScreen />} />
+        <Route path="/settings" element={<TestingScreen />} />
         <Route path="*" element={<NotFoundScreen />} />
       </Routes>
     )

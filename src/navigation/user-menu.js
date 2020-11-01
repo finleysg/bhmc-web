@@ -1,27 +1,55 @@
 import React from "react"
 
+import { useAuth } from "context/auth-context"
 import { Link } from "react-router-dom"
+import * as colors from "styles/colors"
 
 function UserMenu() {
   const [showMenu, setShowMenu] = React.useState(false)
+  const { user, logout } = useAuth()
 
-  return (
-    <div className="user">
-      <div className={showMenu ? "user__info active" : "user__info"} onClick={() => setShowMenu(!showMenu)}>
-        <img className="user__img" src="./assets/demo/img/profile-pics/8.jpg" alt="" />
-        <div className="user__name">Malinda Hollaway</div>
-        <div className="user__email">malinda-h@gmail.com</div>
-      </div>
+  const handleLogout = () => {
+    setShowMenu(false)
+    logout()
+  }
 
-      {showMenu && (
-        <div className="user__menu">
-          <Link to="">View Profile</Link>
-          <Link to="">Settings</Link>
-          <Link to="">Logout</Link>
+  const anonymousMenu = () => {
+    return (
+      <li style={{ float: "right", color: colors.base }}>
+        <ul style={{ listStyle: "none" }}>
+          <li>Guest</li>
+        </ul>
+      </li>
+    )
+  }
+
+  const authenticatedMenu = () => {
+    return (
+      <li className="nav-item dropdown">
+        <button className="nav-link dropdown-toggle" onClick={() => setShowMenu(!showMenu)}>
+          {`${user.first_name} ${user.last_name}`}
+        </button>
+        <div className={`dropdown-menu dropdown-menu-right ${showMenu ? "show" : ""}`}>
+          <Link to="my-account" className="dropdown-item">
+            My Account
+          </Link>
+          <Link to="settings" className="dropdown-item">
+            Settings
+          </Link>
+          <div className="dropdown-divider"></div>
+          <button onClick={handleLogout} className="dropdown-item">
+            Logout
+          </button>
         </div>
-      )}
-    </div>
-  )
+      </li>
+    )
+  }
+
+  if (user?.is_authenticated) {
+    return authenticatedMenu()
+  }
+
+  return anonymousMenu()
 }
 
 export { UserMenu }

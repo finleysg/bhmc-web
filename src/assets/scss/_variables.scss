@@ -2,7 +2,6 @@
 $enable-transitions: true;
 $enable-shadows: false;
 
-
 // Colors
 $gray-50: #f9f9f9;
 $gray-100: #f6f6f6;
@@ -18,24 +17,24 @@ $gray-900: #212529;
 $red: #ff6b68;
 $pink: #ff85af;
 $purple: #d066e2;
-$deep-purple: #673AB7;
-$indigo: #3F51B5;
-$blue: #2196F3;
-$light-blue: #03A9F4;
-$cyan: #00BCD4;
+$deep-purple: #673ab7;
+$indigo: #3f51b5;
+$blue: #2196f3;
+$light-blue: #03a9f4;
+$cyan: #00bcd4;
 $teal: #39bbb0;
 $green: #32c787;
-$light-green: #8BC34A;
-$lime: #CDDC39;
-$yellow: #FFEB3B;
+$light-green: #8bc34a;
+$lime: #cddc39;
+$yellow: #ffeb3b;
 $amber: #ffc721;
-$orange: #FF9800;
-$deep-orange: #FF5722;
+$orange: #ff9800;
+$deep-orange: #ff5722;
 $brown: #795548;
-$grey: #9E9E9E;
-$blue-grey: #607D8B;
+$grey: #9e9e9e;
+$blue-grey: #607d8b;
 $black: #000000;
-$white: #FFFFFF;
+$white: #ffffff;
 
 $colors: (
   white: $white,
@@ -57,7 +56,7 @@ $colors: (
   orange: $orange,
   deep-orange: $deep-orange,
   brown: $brown,
-  blue-grey: $blue-grey
+  blue-grey: $blue-grey,
 );
 
 // Theme Colors
@@ -68,36 +67,32 @@ $theme-colors: (
   info: $light-blue,
   warning: $amber,
   danger: $red,
-  dark: $gray-700
+  dark: $gray-700,
 );
 
 $yiq-text-dark: #525a62;
 
-
 // Typography
-$font-family-sans-serif: 'Roboto', sans-serif;
+$font-family-sans-serif: "Roboto", sans-serif;
 $text-muted: #9c9c9c;
 $text-muted-hover: darken($text-muted, 15%);
 $headings-color: #333;
 $font-weight-bold: 500;
-$font-family-icon: 'Material-Design-Iconic-Font';
+$font-family-icon: "Material-Design-Iconic-Font";
 $font-size-root: 13.5px;
-
 
 // Links
 $link-color: $blue;
 $link-hover-decoration: none;
 
-
 // Body
 $body-bg: #f3f3f3;
 $body-color: #747a80;
 
-
 // Form
 $input-bg: transparent;
 $input-disabled-bg: transparent;
-$input-box-shadow: rgba($black ,0);
+$input-box-shadow: rgba($black, 0);
 $input-border-color: lighten($gray-200, 1%);
 $input-focus-border-color: $input-border-color;
 $input-border-radius: 0;
@@ -109,7 +104,6 @@ $input-padding-x: 0;
 $input-padding-x-lg: $input-padding-x;
 $input-padding-x-sm: $input-padding-x;
 
-
 // Checbox and Radio
 $checkbox-radio-size: 18px;
 $checkbox-radio-background-color: transparent;
@@ -117,16 +111,13 @@ $checkbox-radio-checked-background-color: $teal;
 $checkbox-radio-border-color: #6e6e6e;
 $checkbox-radio-checked-border-color: $checkbox-radio-checked-background-color;
 
-
 // Layout
 $content-title-heading-color: #676767;
-
 
 // Header
 $header-height: 72px;
 $header-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.15);
 $header-z-index: 20;
-
 
 // Dropdown
 $dropdown-border-width: 0;
@@ -144,12 +135,10 @@ $dropdown-spacer: 0;
 $dropdown-divider-bg: $gray-100;
 $dropdown-header-color: $gray-500;
 
-
 // Border Radius
 $border-radius: 2px;
 $border-radius-lg: 2px;
 $border-radius-sm: 2px;
-
 
 // List Group
 $list-group-bg: transparent;
@@ -159,13 +148,11 @@ $list-group-active-bg: $blue;
 $list-group-item-padding-x: 2rem;
 $list-group-item-padding-y: 1rem;
 
-
 // Progress Bar
 $progress-box-shadow: none;
 $progress-bar-color: $blue;
 $progress-bg: $gray-200;
 $progress-height: 5px;
-
 
 // Card
 $card-inner-border-radius: $border-radius;
@@ -175,7 +162,7 @@ $card-spacer-x: 2.2rem;
 $card-spacer-y: 2.1rem;
 $card-cap-bg: transparent;
 $card-img-overlay-padding: 0;
-$card-shadow: 0 1px 2px rgba($black,0.075);
+$card-shadow: 0 1px 2px rgba($black, 0.075);
 $card-columns-margin: 2.3rem;
 $card-header-bg: $gray-50;
 
@@ -185,7 +172,6 @@ $sidebar-z-index: $header-z-index - 1;
 $navigation-link-color: $body-color;
 $navigation-link-active-color: $white;
 $navigation-link-hover-bg: rgba(0, 0, 0, 0.04);
-
 
 // Tabels
 $table-border-color: lighten($gray-200, 3%);
@@ -197,7 +183,6 @@ $table-hover-bg: $table-accent-bg;
 $table-cell-padding: 1rem 1.5rem;
 $table-cell-padding-sm: 0.75rem 1rem;
 $table-head-bg: lighten($gray-200, 3%);
-
 
 // Pagination
 $pagination-border-width: 0;
@@ -211,12 +196,10 @@ $pagination-disabled-bg: $pagination-bg;
 $pagination-disabled-color: $pagination-color;
 $pagination-active-bg: $light-blue;
 
-
 // Code
-$pre-color: $white;
-$pre-bg: $gray-800;
+$pre-color: $red;
+$pre-bg: $gray-100;
 $pre-border-color: $pre-bg;
-
 
 // Alert
 $alert-link-font-weight: normal;
@@ -226,11 +209,9 @@ $alert-padding-y: 1.1rem;
 $alert-bg-level: 0;
 $alert-color-level: -12.5;
 
-
 // Close
 $close-font-weight: normal;
 $close-text-shadow: none;
-
 
 // Badges
 $badge-padding-y: 0.5rem;
@@ -240,12 +221,10 @@ $badge-font-weight: 500;
 $badge-pill-padding-x: $badge-padding-x;
 $badge-pill-padding-y: $badge-padding-y;
 
-
 // Breadcrumbs
-$breadcrumb-divider: '\f30f';
+$breadcrumb-divider: "\f30f";
 $breadcrumb-bg: transparent;
 $breadcrumb-padding-x: 0.25rem;
-
 
 // Carosuel
 $carousel-control-prev-icon-bg: none;
@@ -254,10 +233,9 @@ $carousel-control-icon-width: 40px;
 $carousel-control-opacity: 0.8;
 $carousel-caption-color: rgba($white, 0.9);
 
-
 // Modal
 $modal-backdrop-opacity: 0.2;
-$modal-content-box-shadow-xs: 0 5px 20px rgba($black,.07);
+$modal-content-box-shadow-xs: 0 5px 20px rgba($black, 0.07);
 $modal-content-box-shadow-sm-up: $modal-content-box-shadow-xs;
 $modal-content-border-width: 0;
 $modal-header-border-width: 0;
@@ -265,7 +243,6 @@ $modal-footer-border-width: 0;
 $modal-header-padding: 25px 30px 0;
 $modal-inner-padding: 25px 30px;
 $modal-lg: 1000px;
-
 
 // Popovers
 $popover-border-color: transparent;
@@ -275,7 +252,6 @@ $popover-body-padding-x: 1.5rem;
 $popover-header-padding-x: $popover-body-padding-x;
 $popover-header-padding-y: $popover-body-padding-y;
 $popover-header-bg: $white;
-
 
 // Tabs
 $nav-tabs-border-width: 1px;
@@ -287,18 +263,15 @@ $nav-link-padding: 1rem 1.2rem;
 $nav-tabs-link-active-bg: transparent;
 $nav-tabs-link-active-color: inherit;
 
-
 // Tooltips
 $tooltip-padding-y: 0.7rem;
-$tooltip-padding-x:  1.1rem;
+$tooltip-padding-x: 1.1rem;
 $tooltip-bg: $gray-700;
 $tooltip-arrow-color: $tooltip-bg;
 $tooltip-opacity: 1;
 
-
 // Backdrop
 $backdrop-z-index: 100;
-
 
 // Listview
 $listview-item-active-bg: $gray-50;
@@ -309,18 +282,14 @@ $listview-invert-item-hover-bg: rgba($white, 0.025);
 $listview-invert-item-striped-bg: rgba($white, 0.1);
 $listview-border-color: $gray-100;
 
-
 // HR
 $hr-border-color: $gray-200;
-
 
 // Input Group
 $input-group-addon-bg: $white;
 
-
 // Jumbotron
 $jumbotron-bg: $white;
-
 
 // Tree View
 $treeview-item-border-color: #f1f4f7;
@@ -328,24 +297,19 @@ $treeview-item-active-border-color: $gray-50;
 $treeview-item-active-bg: $treeview-item-active-border-color;
 $treeview-item-hover-bg: lighten($gray-50, 1%);
 
-
 // YIQ Contrast
 $yiq-contrasted-threshold: 200;
-
 
 // Buttons
 $btn-focus-width: 0;
 $btn-border-width: 2px;
 
-
 // Accordion
 $accordion-border-color: $gray-200;
 $accordion-padding: 0.85rem 1.35rem;
 
-
 // Datepicker
 $date-picker-head-color: $green;
-
 
 // Sortable
 $sortable-item-border-color: $gray-200;

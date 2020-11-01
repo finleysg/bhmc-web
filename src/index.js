@@ -3,7 +3,8 @@ import "./bootstrap"
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { AppProviders } from "context"
+import { Route, Routes } from "react-router-dom"
 
 import AuthLayout from "./layouts/auth-layout"
 import MainLayout from "./layouts/main-layout"
@@ -12,12 +13,12 @@ import MainLayout from "./layouts/main-layout"
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <AppProviders>
       <Routes>
         <Route path="*" element={<MainLayout />} />
         <Route path="session/*" element={<AuthLayout />} />
       </Routes>
-    </BrowserRouter>
+    </AppProviders>
   </React.StrictMode>,
   document.getElementById("root"),
 )

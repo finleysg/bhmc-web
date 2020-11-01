@@ -6,7 +6,8 @@
   }
 
   &:active {
-    box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 10px 2px rgba(0,0,0,.12) !important;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0 3px 10px 2px rgba(0, 0, 0, 0.12) !important;
   }
 }
 
@@ -27,7 +28,7 @@
   width: 3rem;
   height: 3rem;
   padding: 0;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: center;
   line-height: 2.75rem;
 
@@ -72,7 +73,6 @@
   &:hover,
   &:focus {
     color: $white;
-
   }
 }
 
@@ -121,13 +121,13 @@
     margin-right: 5px;
     margin-bottom: 3px;
     position: relative;
-    
+
     &:not([class*="bg-"]) {
       border-color: $gray-100 !important;
     }
 
     &:before {
-      @include font-icon('\f26b', 16px);
+      @include font-icon("\f26b", 16px);
       @include transition(transform 200ms, opacity 200ms);
       position: absolute;
       left: 0;

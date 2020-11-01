@@ -11,7 +11,6 @@ import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiContacts } from "react-icons/ti"
 
 function Sidebar({ open }) {
-  console.log(`sidebar says sidebarOpen is ${open}`)
   return (
     <aside className={open ? "sidebar toggled" : "sidebar"}>
       <ul className="navigation">
