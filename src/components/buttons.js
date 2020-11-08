@@ -3,6 +3,8 @@ import styled from "@emotion/styled/macro"
 import { Link as RouterLink } from "react-router-dom"
 import * as colors from "styles/colors"
 
+import { Spinner } from "./spinners"
+
 const CircleButton = styled.button({
   borderRadius: "30px",
   padding: "0",
@@ -46,4 +48,16 @@ const Link = styled(RouterLink)({
   },
 })
 
-export { Button, CircleButton, Link }
+function IconSubmitButton({ color, loading, children }) {
+  return (
+    <button type="submit" className={`btn btn--icon bg-${color}`} disabled={loading}>
+      {!loading && <i>{children}</i>}
+      {loading && (
+        <i title="loading">
+          <Spinner style={{ marginTop: ".6rem" }} />
+        </i>
+      )}
+    </button>
+  )
+}
+export { Button, CircleButton, IconSubmitButton, Link }

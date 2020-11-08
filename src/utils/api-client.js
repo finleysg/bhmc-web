@@ -21,8 +21,7 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
     if (error.non_field_errors) {
       return error.non_field_errors[0]
     }
-    // TODO
-    return error
+    return JSON.stringify(error)
   }
 
   return window.fetch(`${serverURL}/${endpoint}`, config).then(async (response) => {

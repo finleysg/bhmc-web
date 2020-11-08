@@ -27,11 +27,10 @@ async function removeToken() {
 
 async function loadUser() {
   const token = await getToken()
+  console.log(`getting user with token ${token}`)
   if (token) {
     const data = await client("auth/users/me", { token })
-    // queryCache.setQueryData("user", data, {
-    //   staleTime: 5000,
-    // })
+    console.log(`received user ${JSON.stringify(data)}`)
     return data
   }
   return null
@@ -53,10 +52,16 @@ function AuthProvider(props) {
     (form) => {
       const { email, password } = form
       return client("auth/token/login/", { data: { email, password } })
-        .then((data) => storeToken(data.auth_token))
+        .then((data) => {
+          console.log(`storing token ${data.auth_token}`)
+          storeToken(data.auth_token)
+        })
         .then(() => loadUser())
         .then((user) => setData(user))
-        .then(() => navigate("home"))
+        .then(() => {
+          console.log("going home")
+          navigate("home")
+        })
     },
     [setData, navigate],
   )

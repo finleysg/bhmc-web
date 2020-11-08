@@ -3,14 +3,14 @@
 import { jsx, keyframes } from "@emotion/core"
 import styled from "@emotion/styled/macro"
 
-import { FaSpinner } from "react-icons/fa"
+import { ImSpinner } from "react-icons/im"
 
 const spin = keyframes({
   "0%": { transform: "rotate(0deg)" },
   "100%": { transform: "rotate(360deg)" },
 })
 
-const Spinner = styled(FaSpinner)({
+const Spinner = styled(ImSpinner)({
   animation: `${spin} 1s linear infinite`,
 })
 Spinner.defaultProps = {

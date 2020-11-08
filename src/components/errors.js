@@ -9,7 +9,7 @@ const errorMessageVariants = {
   inline: { display: "inline-block" },
 }
 
-function ErrorMessage({ error, variant = "stacked", ...props }) {
+function ErrorDisplay({ error, variant = "stacked", ...props }) {
   return (
     <div role="alert" css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants[variant]]} {...props}>
       <span>There was an error: </span>
@@ -39,4 +39,4 @@ function FullPageErrorFallback({ error }) {
   )
 }
 
-export { ErrorMessage, FullPageErrorFallback }
+export { ErrorDisplay, FullPageErrorFallback }
