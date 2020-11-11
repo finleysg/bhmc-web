@@ -27,10 +27,8 @@ async function removeToken() {
 
 async function loadUser() {
   const token = await getToken()
-  console.log(`getting user with token ${token}`)
   if (token) {
     const data = await client("auth/users/me", { token })
-    console.log(`received user ${JSON.stringify(data)}`)
     return data
   }
   return null
@@ -49,17 +47,14 @@ function AuthProvider(props) {
   }, [run])
 
   const login = React.useCallback(
-    (form) => {
-      const { email, password } = form
+    async ({ email, password }) => {
       return client("auth/token/login/", { data: { email, password } })
         .then((data) => {
-          console.log(`storing token ${data.auth_token}`)
           storeToken(data.auth_token)
         })
         .then(() => loadUser())
         .then((user) => setData(user))
         .then(() => {
-          console.log("going home")
           navigate("home")
         })
     },
@@ -68,7 +63,7 @@ function AuthProvider(props) {
 
   const logout = React.useCallback(async () => {
     const token = await getToken()
-    client("auth/token/logout/", { token, method: "POST" })
+    return client("auth/token/logout/", { token, method: "POST" })
       .then(() => removeToken())
       .then(() => {
         queryCache.clear()
@@ -78,14 +73,53 @@ function AuthProvider(props) {
   }, [setData, navigate])
 
   const register = React.useCallback(
-    // first_name, last_name, email, password, re_password
-    (form) => {
-      client("auth/users/", form).then((user) => setData(user))
+    async ({ first_name, last_name, email, password, re_password }) => {
+      return client("auth/users/", { data: { first_name, last_name, email, password, re_password } })
+        .then((user) => {
+          setData(user)
+        })
+        .then(() => navigate("session/account/confirm"))
     },
-    [setData],
+    [setData, navigate],
   )
 
-  const value = React.useMemo(() => ({ user, login, logout, register }), [login, logout, register, user])
+  const activate = React.useCallback(async ({ uid, token }) => {
+    return client("auth/users/activation/", { data: { uid, token } })
+  }, [])
+
+  const requestPasswordReset = React.useCallback(
+    async ({ email }) => {
+      return client("auth/users/reset_password/", { data: { email } })
+        .then(() => {
+          const user = {
+            first_name: "unknown",
+            last_name: "unknown",
+            email: email,
+          }
+          setData(user)
+        }) // anonymous user, but set the email
+        .then(() => navigate("/session/reset-password/sent"))
+    },
+    [setData, navigate],
+  )
+
+  const resetPassword = React.useCallback(
+    async ({ uid, token, new_password, re_new_password }) => {
+      return client("auth/users/reset_password_confirm/", {
+        data: { uid, token, new_password, re_new_password },
+      }).then(() => navigate("/session/reset-password/complete"))
+    },
+    [navigate],
+  )
+
+  const changePassword = React.useCallback(async ({ current_password, new_password, re_new_password }) => {
+    return client("auth/users/set_password/", { data: { current_password, new_password, re_new_password } })
+  }, [])
+
+  const value = React.useMemo(
+    () => ({ user, login, logout, register, activate, requestPasswordReset, resetPassword, changePassword }),
+    [login, logout, register, activate, requestPasswordReset, resetPassword, changePassword, user],
+  )
 
   if (isLoading || isIdle) {
     return <FullPageSpinner />

@@ -22,7 +22,7 @@ const CircleButton = styled.button({
 
 const buttonVariants = {
   primary: {
-    background: colors.indigo,
+    background: colors.green,
     color: colors.base,
   },
   secondary: {
@@ -36,6 +36,7 @@ const Button = styled.button(
     border: "0",
     lineHeight: "1",
     borderRadius: "3px",
+    cursor: "pointer",
   },
   ({ variant = "primary" }) => buttonVariants[variant],
 )

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event"
 
 import React from "react"
 
-import { LoginForm } from "session/login-form"
+import { LoginForm } from "screens/session/login-form"
 import { buildLoginForm } from "test/generate/auth"
 
 test("submitting the login form calls onSubmit with email and password", async () => {

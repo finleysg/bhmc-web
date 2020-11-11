@@ -1,5 +1,3 @@
-import "./logo.scss"
-
 import { Link } from "react-router-dom"
 
 function Logo({ sidebarOpen }) {

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`duplicate email displays custom message 1`] = `"\\"We already have an account with that email. Do you need to reset your password?\\""`;

@@ -1,10 +1,10 @@
-import "./login.scss"
+import "./session.scss"
 
 import React from "react"
 
 import { useAuth } from "context/auth-context"
 import { MdAccountCircle } from "react-icons/md"
-import { LoginForm } from "session/login-form"
+import { LoginForm } from "screens/session/login-form"
 
 function LoginScreen() {
   const { login } = useAuth()

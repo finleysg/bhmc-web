@@ -1,5 +1,9 @@
 import { build, fake } from "@jackfranklin/test-data-bot"
 
+import * as faker from "faker"
+
+const password = faker.internet.password()
+
 const buildLoginForm = build({
   fields: {
     email: fake((f) => f.internet.email()),
@@ -19,4 +23,14 @@ const buildUser = build({
   },
 })
 
-export { buildLoginForm, buildUser }
+const buildRegisterForm = build({
+  fields: {
+    first_name: fake((f) => f.name.firstName()),
+    last_name: fake((f) => f.name.lastName()),
+    email: fake((f) => f.internet.email()),
+    password: password,
+    re_password: password,
+  },
+})
+
+export { buildLoginForm, buildRegisterForm, buildUser }

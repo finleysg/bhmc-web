@@ -6,8 +6,8 @@ import ReactDOM from "react-dom"
 import { AppProviders } from "context"
 import { Route, Routes } from "react-router-dom"
 
-import AuthLayout from "./layouts/auth-layout"
-import MainLayout from "./layouts/main-layout"
+import AuthLayout from "./layout/auth-layout"
+import MainLayout from "./layout/main-layout"
 
 // import reportWebVitals from "./reportWebVitals"
 

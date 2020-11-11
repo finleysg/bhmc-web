@@ -1,23 +1,4 @@
-import "./header.scss"
-
 import { Link } from "react-router-dom"
-
-import { Logo } from "./logo"
-import { NavigationTrigger } from "./navigation-trigger"
-import { UserMenu } from "./user-menu"
-
-function Header({ sidebarOpen, onSidebarToggle }) {
-  return (
-    <header className="header">
-      <NavigationTrigger sidebarOpen={sidebarOpen} onSidebarToggle={onSidebarToggle} />
-      <Logo sidebarOpen={sidebarOpen} />
-
-      <ul className="top-nav">
-        <UserMenu />
-      </ul>
-    </header>
-  )
-}
 
 function AuthHeader() {
   return (
@@ -45,13 +26,18 @@ function AuthHeader() {
             </Link>
           </li>
           <li className="top-nav--active">
-            <Link to={"login"} className="nav-link">
+            <Link to={"/session/login"} className="nav-link">
               <p>Login</p>
             </Link>
           </li>
           <li className="">
-            <Link to={"register"} className="nav-link">
+            <Link to={"/session/account"} className="nav-link">
               <p>Register</p>
+            </Link>
+          </li>
+          <li className="">
+            <Link to={"/session/reset-password"} className="nav-link">
+              <p>Forget Password</p>
             </Link>
           </li>
         </ul>
@@ -60,4 +46,4 @@ function AuthHeader() {
   )
 }
 
-export { AuthHeader, Header }
+export { AuthHeader }

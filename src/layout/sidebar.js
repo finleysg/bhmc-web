@@ -1,14 +1,13 @@
-import "./sidebar.scss"
-
 import React from "react"
 
-import { MenuItem } from "navigation/menu-item"
 import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
 import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
 import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiContacts } from "react-icons/ti"
+
+import { MenuItem } from "./menu-item"
 
 function Sidebar({ open }) {
   return (
@@ -26,7 +25,7 @@ function Sidebar({ open }) {
         <MenuItem path="contact-us" icon={<BiEnvelope />} name="Contact Us" />
         <MenuItem path="about-us" icon={<GoQuestion />} name="About Us" />
         <MenuItem path="session/login" icon={<BiLogInCircle />} name="Login" />
-        <MenuItem path="session/register" icon={<MdPersonAdd />} name="Create an Account" />
+        <MenuItem path="session/account" icon={<MdPersonAdd />} name="Create an Account" />
       </ul>
     </aside>
   )

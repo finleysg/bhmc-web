@@ -1,22 +1,15 @@
-import { act, render, screen } from "@testing-library/react"
+import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
 import React from "react"
 
-import { AuthProvider } from "context/auth-context"
 import { rest } from "msw"
 import { setupServer } from "msw/node"
-import { MemoryRouter as Router } from "react-router-dom"
-import { LoginScreen } from "screens/login"
+import { LoginScreen } from "screens/session/login-screen"
 import { handlers } from "test/auth-handlers"
 import { buildLoginForm } from "test/generate/auth"
-import { deferred } from "test/test-utils"
+import { AuthWrapper, deferred } from "test/test-utils"
 
-const Wrapper = ({ children }) => (
-  <Router>
-    <AuthProvider>{children}</AuthProvider>
-  </Router>
-)
 const serverURL = process.env.REACT_APP_SERVER_URL
 const server = setupServer(...handlers)
 
@@ -33,15 +26,17 @@ afterAll(() => server.close())
 afterEach(() => {
   server.resetHandlers()
   jest.clearAllMocks()
+  // TODO: this is a useAuth implementation detail -- alternative?
+  window.localStorage.removeItem("__bhmc_token__")
 })
 
 test("successful login", async () => {
   const { promise, resolve } = deferred()
 
   render(
-    <Wrapper>
+    <AuthWrapper>
       <LoginScreen />
-    </Wrapper>,
+    </AuthWrapper>,
   )
 
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
@@ -57,7 +52,7 @@ test("successful login", async () => {
   userEvent.type(screen.getByLabelText(/password/i), password)
   userEvent.click(screen.getByRole("button"))
 
-  // await waitFor(expect(mockNav).toHaveBeenCalledWith("home"))
+  await waitFor(() => expect(mockNav).toHaveBeenCalledWith("home"))
 })
 
 test("invalid credentials displays the error message", async () => {
@@ -73,9 +68,9 @@ test("invalid credentials displays the error message", async () => {
   const { promise, resolve } = deferred()
 
   render(
-    <Wrapper>
+    <AuthWrapper>
       <LoginScreen />
-    </Wrapper>,
+    </AuthWrapper>,
   )
 
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()

@@ -1,5 +1,3 @@
-import "./navigation-trigger.scss"
-
 function NavigationTrigger({ sidebarOpen, onSidebarToggle }) {
   const triggerClass = () => {
     return `navigation-trigger hidden-xl-up ${sidebarOpen ? "toggled" : ""}`
