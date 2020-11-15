@@ -15,7 +15,7 @@ function Sidebar({ open }) {
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
         <MenuItem path="sign-up" icon={<GoPlus />} name="Sign Up for 2021" />
-        <MenuItem path="calendar" icon={<GoCalendar />} name="Event Calendar" />
+        <MenuItem path="calendar/2020/november" icon={<GoCalendar />} name="Event Calendar" />
         <MenuItem path="results" icon={<GrOrderedList />} name="Event Results" />
         <MenuItem path="policies" icon={<GoInfo />} name="Policies" />
         <MenuItem path="match-play" icon={<MdPeopleOutline />} name="Match Play" />

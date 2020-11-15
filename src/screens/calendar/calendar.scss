@@ -1,0 +1,182 @@
+@import "../../assets/scss/bootstrap/functions";
+@import "../../assets/scss/bootstrap/variables";
+@import "../../assets/scss/bootstrap/bootstrap-grid";
+@import "../../assets/scss/utilities";
+@import "../../assets/scss/variables";
+
+.calendar-wrap {
+  position: relative;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+
+  header {
+    height: 180px;
+    background-image: url("../../assets/img/ThreeNorthTee.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    position: relative;
+
+    .month-title {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      height: 50px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+    .month-nav {
+      margin-top: 0.5rem;
+    }
+  }
+  span {
+    margin: 20px;
+    cursor: pointer;
+  }
+}
+
+.calendar {
+  width: 100%;
+  .date {
+    text-align: right;
+    margin-bottom: 0.75rem;
+    width: 20px;
+    float: right;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+    li {
+      display: block;
+      float: left;
+      width: 14.3425%;
+      padding: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      margin-right: -1px;
+      margin-bottom: -1px;
+    }
+    &.weekdays {
+      height: 40px;
+      background-color: $light-green;
+
+      li {
+        text-align: center;
+        text-transform: uppercase;
+        line-height: 20px;
+        border: none !important;
+        padding: 10px 6px;
+        color: #fff;
+        font-size: 13px;
+      }
+    }
+    &.days li {
+      height: 150px;
+      background-color: white;
+    }
+  }
+}
+
+.calendar-event {
+  clear: both;
+  display: block;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.5rem;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+
+  &.canceled {
+    background-color: $amber;
+    a {
+      color: $gray-600;
+    }
+  }
+  &.deadline {
+    background-color: $red;
+  }
+  &.weeknight-event {
+    background-color: $teal;
+  }
+  &.weekend-major {
+    background-color: $orange;
+  }
+  &.open-event {
+    background-color: $blue;
+  }
+  &.meeting {
+    color: $indigo;
+  }
+  &.external-event {
+    background-color: $light-green;
+    a {
+      color: $gray-700;
+    }
+  }
+  &.other {
+    background-color: $light-blue;
+  }
+  &.open-registration-period {
+    background-color: $purple;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+.today {
+  background-color: rgba(139, 195, 74, 0.3) !important;
+}
+
+.other-month {
+  background-color: $gray-300 !important;
+  color: #666 !important;
+}
+
+a.month-nav {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* ============================
+    Mobile Responsiveness
+============================*/
+@include media-breakpoint-down(xs) {
+  .calendar {
+    .date {
+      float: none;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    ul {
+      li {
+        height: auto !important;
+        border: 1px solid #ededed;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: -1px;
+      }
+      &.weekdays {
+        display: none;
+      }
+    }
+  }
+  .other-month {
+    display: none !important;
+  }
+}

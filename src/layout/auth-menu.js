@@ -3,8 +3,6 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 function AuthMenu() {
-  const [showMenu, setShowMenu] = React.useState(false)
-
   return (
     <ul className="navbar-nav">
       <li className="top-nav--active">

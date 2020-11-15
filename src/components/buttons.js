@@ -49,6 +49,14 @@ const Link = styled(RouterLink)({
   },
 })
 
+function IconButton({ to, color, children }) {
+  return (
+    <RouterLink to={to} className={`btn btn--icon bg-${color}`}>
+      <i>{children}</i>
+    </RouterLink>
+  )
+}
+
 function IconSubmitButton({ color, loading, children }) {
   return (
     <button type="submit" className={`btn btn--icon bg-${color}`} disabled={loading}>
@@ -61,4 +69,4 @@ function IconSubmitButton({ color, loading, children }) {
     </button>
   )
 }
-export { Button, CircleButton, IconSubmitButton, Link }
+export { Button, CircleButton, IconButton, IconSubmitButton, Link }

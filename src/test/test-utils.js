@@ -1,8 +1,7 @@
-import { render } from "@testing-library/react"
+import { render as rtlRender } from "@testing-library/react"
 
 import { AuthProvider } from "context/auth-context"
-import { createMemoryHistory } from "history"
-import { MemoryRouter as Router, Route } from "react-router-dom"
+import { MemoryRouter as Router } from "react-router-dom"
 
 function deferred() {
   let resolve, reject
@@ -13,31 +12,35 @@ function deferred() {
   return { promise, resolve, reject }
 }
 
-function renderWithRouterMatch(
-  ui,
-  { path = "/", route = "/", history = createMemoryHistory({ initialEntries: [route] }) } = {},
-) {
-  console.log(history.location)
-  return {
-    ...render(
-      <Router history={history}>
-        <AuthProvider>
-          <Route path={path} element={ui} />
-        </AuthProvider>
-      </Router>,
-    ),
-  }
+// function renderWithRouterMatch(
+//   ui,
+//   { path = "/", route = "/", history = createMemoryHistory({ initialEntries: [route] }) } = {},
+// ) {
+//   console.log(history.location)
+//   return {
+//     ...render(
+//       <Router history={history}>
+//         <AuthProvider>
+//           <Route path={path} element={ui} />
+//         </AuthProvider>
+//       </Router>,
+//     ),
+//   }
+// }
+
+function render(ui, { theme = "anonymous", ...options } = {}) {
+  const Wrapper = ({ children }) => (
+    <Router>
+      <AuthProvider>{children}</AuthProvider>
+    </Router>
+  )
+  return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-// const renderWithRouter = ({children}) => (
-//     render(
-//       <Router initialEntries={['blogs/1']}>
-//         <Route path='blogs/:blogId'>
-//           {children}
-//         </Route>
-//       </Router>
-//     )
-//   )
+function renderWithRouter(ui, { theme = "anonymous", ...options } = {}) {
+  const Wrapper = ({ children }) => <Router>{children}</Router>
+  return rtlRender(ui, { wrapper: Wrapper, ...options })
+}
 
 function AuthWrapper({ children }) {
   return (
@@ -47,4 +50,6 @@ function AuthWrapper({ children }) {
   )
 }
 
-export { AuthWrapper, deferred, renderWithRouterMatch }
+export * from "@testing-library/react"
+// override React Testing Library's render with our own
+export { AuthWrapper, deferred, render, renderWithRouter }

@@ -22,7 +22,7 @@ function FullPageSpinner() {
     <div
       css={{
         fontSize: "4em",
-        height: "100vh",
+        height: "50vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

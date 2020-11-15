@@ -3,6 +3,7 @@ import "./main-layout.scss"
 import React from "react"
 
 import { Route, Routes } from "react-router-dom"
+import CalendarScreen from "screens/calendar/calendar-screen"
 import { NotFoundScreen } from "screens/not-found"
 import { TestingScreen } from "screens/testing"
 
@@ -15,7 +16,7 @@ function MainRoutes() {
     <Routes>
       <Route path="/" element={<TestingScreen />} />
       <Route path="/home" element={<TestingScreen />} />
-      <Route path="/calendar" element={<TestingScreen />} />
+      <Route path="/calendar/:year/:monthName" element={<CalendarScreen />} />
       <Route path="/results" element={<TestingScreen />} />
       <Route path="/policies" element={<TestingScreen />} />
       <Route path="/match-play" element={<TestingScreen />} />

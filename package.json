@@ -8,6 +8,7 @@
     "bootstrap": "^4.5.3",
     "formik": "^2.2.2",
     "history": "^5.0.0",
+    "moment": "^2.29.1",
     "msw": "^0.21.3",
     "perfect-scrollbar": "^1.5.0",
     "prop-types": "^15.7.2",
@@ -27,6 +28,7 @@
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "mq-polyfill": "^1.1.8",
     "node-sass": "^4.14.1",
     "web-vitals": "^0.2.4"
   },
