@@ -29,6 +29,7 @@ async function loadUser() {
   const token = await getToken()
   if (token) {
     const data = await client("auth/users/me", { token })
+    data.token = token
     return data
   }
   return null
@@ -38,7 +39,17 @@ const AuthContext = React.createContext()
 AuthContext.displayName = "AuthContext"
 
 function AuthProvider(props) {
-  const { data: user, status, error, isLoading, isIdle, isError, isSuccess, run, setData } = useAsync()
+  const {
+    data: user,
+    status,
+    error,
+    isLoading,
+    isIdle,
+    isError,
+    isSuccess,
+    run,
+    setData,
+  } = useAsync()
   const navigate = useNavigate()
 
   React.useEffect(() => {
@@ -74,7 +85,9 @@ function AuthProvider(props) {
 
   const register = React.useCallback(
     async ({ first_name, last_name, email, password, re_password }) => {
-      return client("auth/users/", { data: { first_name, last_name, email, password, re_password } })
+      return client("auth/users/", {
+        data: { first_name, last_name, email, password, re_password },
+      })
         .then((user) => {
           setData(user)
         })
@@ -112,12 +125,26 @@ function AuthProvider(props) {
     [navigate],
   )
 
-  const changePassword = React.useCallback(async ({ current_password, new_password, re_new_password }) => {
-    return client("auth/users/set_password/", { data: { current_password, new_password, re_new_password } })
-  }, [])
+  const changePassword = React.useCallback(
+    async ({ current_password, new_password, re_new_password }) => {
+      return client("auth/users/set_password/", {
+        data: { current_password, new_password, re_new_password },
+      })
+    },
+    [],
+  )
 
   const value = React.useMemo(
-    () => ({ user, login, logout, register, activate, requestPasswordReset, resetPassword, changePassword }),
+    () => ({
+      user,
+      login,
+      logout,
+      register,
+      activate,
+      requestPasswordReset,
+      resetPassword,
+      changePassword,
+    }),
     [login, logout, register, activate, requestPasswordReset, resetPassword, changePassword, user],
   )
 
@@ -145,14 +172,10 @@ function useAuth() {
 }
 
 function useClient() {
-  const { user } = useAuth()
-  const token = user?.token // TODO: will not have the token on the user
-  return React.useCallback(
-    (endpoint, config) => {
-      client(endpoint, { ...config, token })
-    },
-    [token],
-  )
+  const {
+    user: { token },
+  } = useAuth()
+  return React.useCallback((endpoint, config) => client(endpoint, { ...config, token }), [token])
 }
 
 export { AuthProvider, useAuth, useClient }

@@ -13,11 +13,6 @@ const inputStyles = {
 const Input = styled.input({ borderRadius: "3px" }, inputStyles)
 const Textarea = styled.textarea(inputStyles)
 
-// const FormGroup = styled.div({
-//   display: "flex",
-//   flexDirection: "column",
-// })
-
 function FloatingInput({ typeVariant, id, label }) {
   const [active, setActive] = React.useState(false)
 

@@ -9,7 +9,8 @@
 .content {
   &:not(.content--boxed):not(.content--full) {
     @include media-breakpoint-up(xl) {
-      padding: ($header-height + $grid-gutter-width) $grid-gutter-width 0 ($sidebar-width + $grid-gutter-width);
+      padding: ($header-height + $grid-gutter-width) $grid-gutter-width 0
+        ($sidebar-width + $grid-gutter-width);
     }
 
     @include media-breakpoint-between(sm, lg) {
@@ -34,6 +35,7 @@
 
 .content__inner {
   margin: auto;
+  min-height: calc(100vh - 216px);
 
   &:not(.content__inner--sm) {
     max-width: 1280px;

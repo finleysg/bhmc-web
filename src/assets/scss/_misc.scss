@@ -9,7 +9,6 @@
   }
 }
 
-
 // View More Link
 .view-more {
   display: block;
@@ -99,6 +98,7 @@
   cursor: pointer;
   transition: color 300ms;
   margin: 0 2px;
+  border-style: none;
   @include size(30px, 30px);
 
   & > i {
@@ -120,7 +120,6 @@
     color: $white;
   }
 }
-
 
 // Icon Lists
 .icon-list {
@@ -148,7 +147,6 @@
   }
 }
 
-
 // Avatars
 .avatar-img,
 .avatar-char {
@@ -169,7 +167,6 @@
   }
 }
 
-
 // Backdrops
 .ma-backdrop {
   position: fixed;
@@ -180,7 +177,6 @@
   cursor: pointer;
   z-index: $sidebar-z-index - 1;
 }
-
 
 // Tags
 .tags {
@@ -200,12 +196,11 @@
   }
 }
 
-
 // Dashboard
 .widget-lists {
   column-gap: $grid-gutter-width;
 
-  @media(min-width: 1500px) {
+  @media (min-width: 1500px) {
     column-count: 3;
   }
 

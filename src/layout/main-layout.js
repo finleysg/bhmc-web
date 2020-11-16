@@ -5,6 +5,7 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 import CalendarScreen from "screens/calendar/calendar-screen"
 import { NotFoundScreen } from "screens/not-found"
+import { PolicyScreen } from "screens/policy/policy-screen"
 import { TestingScreen } from "screens/testing"
 
 import { Footer } from "./footer"
@@ -18,7 +19,7 @@ function MainRoutes() {
       <Route path="/home" element={<TestingScreen />} />
       <Route path="/calendar/:year/:monthName" element={<CalendarScreen />} />
       <Route path="/results" element={<TestingScreen />} />
-      <Route path="/policies" element={<TestingScreen />} />
+      <Route path="/policies/:policyType" element={<PolicyScreen />} />
       <Route path="/match-play" element={<TestingScreen />} />
       <Route path="/season-long-points" element={<TestingScreen />} />
       <Route path="/dam-cup" element={<TestingScreen />} />
@@ -43,7 +44,9 @@ function MainLayout() {
       <section className="content">
         <MainRoutes />
         <Footer />
-        {sidebarOpen && <div onClick={() => setSidebarOpen(false)} className="sidebar-backdrop"></div>}
+        {sidebarOpen && (
+          <div onClick={() => setSidebarOpen(false)} className="sidebar-backdrop"></div>
+        )}
       </section>
     </main>
   )

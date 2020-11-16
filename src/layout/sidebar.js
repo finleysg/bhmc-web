@@ -17,7 +17,7 @@ function Sidebar({ open }) {
         <MenuItem path="sign-up" icon={<GoPlus />} name="Sign Up for 2021" />
         <MenuItem path="calendar/2020/november" icon={<GoCalendar />} name="Event Calendar" />
         <MenuItem path="results" icon={<GrOrderedList />} name="Event Results" />
-        <MenuItem path="policies" icon={<GoInfo />} name="Policies" />
+        <MenuItem path="policies/policies-and-procedures" icon={<GoInfo />} name="Policies" />
         <MenuItem path="match-play" icon={<MdPeopleOutline />} name="Match Play" />
         <MenuItem path="season-long-points" icon={<GiGolfFlag />} name="Season Long Points" />
         <MenuItem path="dam-cup" icon={<GiTrophyCup />} name="Dam Cup" />

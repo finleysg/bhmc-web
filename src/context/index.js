@@ -4,6 +4,7 @@ import { ReactQueryConfigProvider } from "react-query"
 import { BrowserRouter as Router } from "react-router-dom"
 
 import { AuthProvider } from "./auth-context"
+import { PermissionsProvider } from "./permission-context"
 
 const queryConfig = {
   queries: {
@@ -21,7 +22,9 @@ function AppProviders({ children }) {
   return (
     <ReactQueryConfigProvider config={queryConfig}>
       <Router>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <PermissionsProvider>{children}</PermissionsProvider>
+        </AuthProvider>
       </Router>
     </ReactQueryConfigProvider>
   )
