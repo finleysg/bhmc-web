@@ -17,7 +17,7 @@ const policyCode = (policyType) => {
       return "S"
     case "new-member-faqs":
       return "N"
-    case "financial-information":
+    case "payment-faqs":
       return "F"
     default:
       return "P"
@@ -51,7 +51,7 @@ function PolicyList() {
             <Tab to="/policies/policies-and-procedures">Policies & Procedures</Tab>
             <Tab to="/policies/local-rules">Local Rules</Tab>
             <Tab to="/policies/scoring-and-handicaps">Scoring & Handicaps</Tab>
-            <Tab to="/policies/financial-information">Financial Information</Tab>
+            <Tab to="/policies/payment-faqs">Online Payment FAQs</Tab>
             <Tab to="/policies/new-member-faqs">New Member FAQs</Tab>
           </Tabs>
           {filteredPolicies()}
