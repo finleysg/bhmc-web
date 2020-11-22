@@ -10,7 +10,7 @@ function PermissionProvider(props) {
 
   const value = React.useMemo(
     () => ({
-      canEdit: user.is_authenticated && user.is_staff,
+      canEdit: user && user.is_authenticated && user.is_staff,
     }),
     [user],
   )

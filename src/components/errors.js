@@ -13,7 +13,11 @@ const errorMessageVariants = {
 // "We already have an account with that email. Do you need to reset your password?"
 function DuplicateEmailDisplay({ variant = "stacked", ...props }) {
   return (
-    <div role="alert" css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants[variant]]} {...props}>
+    <div
+      role="alert"
+      css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants[variant]]}
+      {...props}
+    >
       <span>
         "We already have an account with that email. Do you need to{" "}
         <Link to="/session/reset-password">reset your password</Link>?"
@@ -22,15 +26,27 @@ function DuplicateEmailDisplay({ variant = "stacked", ...props }) {
   )
 }
 
-function ErrorDisplay({ error, variant = "stacked", ...props }) {
-  return (
-    <div role="alert" css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants[variant]]} {...props}>
-      <span>There was an error: </span>
-      <pre css={[{ whiteSpace: "break-spaces", margin: "0", marginBottom: -5 }, errorMessageVariants[variant]]}>
-        {error}
-      </pre>
-    </div>
-  )
+function ErrorDisplay({ isError, error, variant = "stacked", ...props }) {
+  if (isError) {
+    return (
+      <div
+        role="alert"
+        css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants[variant]]}
+        {...props}
+      >
+        <span>There was an error: </span>
+        <pre
+          css={[
+            { whiteSpace: "break-spaces", margin: "0", marginBottom: -5 },
+            errorMessageVariants[variant],
+          ]}
+        >
+          {error}
+        </pre>
+      </div>
+    )
+  }
+  return null
 }
 
 function FullPageErrorFallback({ error }) {

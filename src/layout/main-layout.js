@@ -2,11 +2,13 @@ import "./main-layout.scss"
 
 import React from "react"
 
+import { AccountScreen } from "features/account/account-screen"
+import CalendarScreen from "features/calendar/calendar-screen"
+import { NotFoundScreen } from "features/not-found"
+import { PolicyScreen } from "features/policy/policy-screen"
+import { TestingScreen } from "features/testing"
 import { Route, Routes } from "react-router-dom"
-import CalendarScreen from "screens/calendar/calendar-screen"
-import { NotFoundScreen } from "screens/not-found"
-import { PolicyScreen } from "screens/policy/policy-screen"
-import { TestingScreen } from "screens/testing"
+import { ToastContainer } from "react-toastify"
 
 import { Footer } from "./footer"
 import { Header } from "./header"
@@ -27,7 +29,7 @@ function MainRoutes() {
       <Route path="/contact-us" element={<TestingScreen />} />
       <Route path="/about-us" element={<TestingScreen />} />
       <Route path="/sign-up" element={<TestingScreen />} />
-      <Route path="/my-account" element={<TestingScreen />} />
+      <Route path="/my-account" element={<AccountScreen />} />
       <Route path="/settings" element={<TestingScreen />} />
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
@@ -39,6 +41,7 @@ function MainLayout() {
 
   return (
     <main className="main" data-ma-theme="blue">
+      <ToastContainer autoClose={3000} hideProgressBar={true} newestOnTop={true} />
       <Header sidebarOpen={sidebarOpen} onSidebarToggle={() => setSidebarOpen(!sidebarOpen)} />
       <Sidebar open={sidebarOpen} />
       <section className="content">

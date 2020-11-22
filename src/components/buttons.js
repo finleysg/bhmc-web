@@ -69,4 +69,27 @@ function IconSubmitButton({ color, loading, children }) {
     </button>
   )
 }
-export { Button, CircleButton, IconButton, IconSubmitButton, Link }
+
+function SubmitButton({ loading, ...props }) {
+  return (
+    <button type="submit" className="btn btn-primary" disabled={loading} {...props}>
+      Save
+    </button>
+  )
+}
+
+function CancelButton({ loading, onCancel, ...props }) {
+  return (
+    <button
+      type="button"
+      className="btn btn-light"
+      disabled={loading}
+      onClick={onCancel}
+      {...props}
+    >
+      Cancel
+    </button>
+  )
+}
+
+export { Button, CancelButton, CircleButton, IconButton, IconSubmitButton, Link, SubmitButton }

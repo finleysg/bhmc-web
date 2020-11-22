@@ -30,7 +30,7 @@ function UserMenu() {
           {`${user.first_name} ${user.last_name}`}
         </button>
         <div className={`dropdown-menu dropdown-menu-right ${showMenu ? "show" : ""}`}>
-          <Link to="my-account" className="dropdown-item">
+          <Link onClick={() => setShowMenu(false)} to="my-account" className="dropdown-item">
             My Account
           </Link>
           <Link to="settings" className="dropdown-item">

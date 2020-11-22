@@ -17,12 +17,32 @@ Spinner.defaultProps = {
   "aria-label": "loading",
 }
 
+function LoadingSpinner({ loading }) {
+  if (loading) {
+    return (
+      <div
+        css={{
+          fontSize: "3em",
+          paddingTop: "120px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Spinner />
+      </div>
+    )
+  }
+  return null
+}
+
 function FullPageSpinner() {
   return (
     <div
       css={{
         fontSize: "4em",
-        height: "50vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -34,4 +54,4 @@ function FullPageSpinner() {
   )
 }
 
-export { FullPageSpinner, Spinner }
+export { FullPageSpinner, LoadingSpinner, Spinner }

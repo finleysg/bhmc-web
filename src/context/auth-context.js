@@ -11,28 +11,10 @@ import { useNavigate } from "react-router-dom"
 import { client } from "utils/api-client"
 import { useAsync } from "utils/use-async"
 
-const localStorageKey = "__bhmc_token__"
-
-async function getToken() {
-  return window.localStorage.getItem(localStorageKey)
-}
-
-async function storeToken(token) {
-  return window.localStorage.setItem(localStorageKey, token)
-}
-
-async function removeToken() {
-  return window.localStorage.removeItem(localStorageKey)
-}
+import * as auth from "./auth-provider"
 
 async function loadUser() {
-  const token = await getToken()
-  if (token) {
-    const data = await client("auth/users/me", { token })
-    data.token = token
-    return data
-  }
-  return null
+  return await auth.getUser()
 }
 
 const AuthContext = React.createContext()
@@ -59,23 +41,18 @@ function AuthProvider(props) {
 
   const login = React.useCallback(
     async ({ email, password }) => {
-      return client("auth/token/login/", { data: { email, password } })
-        .then((data) => {
-          storeToken(data.auth_token)
-        })
+      return auth
+        .login(email, password)
         .then(() => loadUser())
         .then((user) => setData(user))
-        .then(() => {
-          navigate("home")
-        })
+        .then(() => navigate("home"))
     },
     [setData, navigate],
   )
 
   const logout = React.useCallback(async () => {
-    const token = await getToken()
-    return client("auth/token/logout/", { token, method: "POST" })
-      .then(() => removeToken())
+    return auth
+      .logout()
       .then(() => {
         queryCache.clear()
         setData(null)
@@ -85,24 +62,22 @@ function AuthProvider(props) {
 
   const register = React.useCallback(
     async ({ first_name, last_name, email, password, re_password }) => {
-      return client("auth/users/", {
-        data: { first_name, last_name, email, password, re_password },
-      })
-        .then((user) => {
-          setData(user)
-        })
+      return auth
+        .register(first_name, last_name, email, password, re_password)
+        .then((user) => setData(user))
         .then(() => navigate("session/account/confirm"))
     },
     [setData, navigate],
   )
 
   const activate = React.useCallback(async ({ uid, token }) => {
-    return client("auth/users/activation/", { data: { uid, token } })
+    return auth.activate(uid, token)
   }, [])
 
   const requestPasswordReset = React.useCallback(
     async ({ email }) => {
-      return client("auth/users/reset_password/", { data: { email } })
+      return auth
+        .requestPasswordReset(email)
         .then(() => {
           const user = {
             first_name: "unknown",
@@ -118,18 +93,16 @@ function AuthProvider(props) {
 
   const resetPassword = React.useCallback(
     async ({ uid, token, new_password, re_new_password }) => {
-      return client("auth/users/reset_password_confirm/", {
-        data: { uid, token, new_password, re_new_password },
-      }).then(() => navigate("/session/reset-password/complete"))
+      return auth
+        .resetPassword(uid, token, new_password, re_new_password)
+        .then(() => navigate("/session/reset-password/complete"))
     },
     [navigate],
   )
 
   const changePassword = React.useCallback(
     async ({ current_password, new_password, re_new_password }) => {
-      return client("auth/users/set_password/", {
-        data: { current_password, new_password, re_new_password },
-      })
+      return auth.changePassword(current_password, new_password, re_new_password)
     },
     [],
   )

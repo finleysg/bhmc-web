@@ -2,8 +2,7 @@ import "./auth-layout.scss"
 
 import React from "react"
 
-import { Route, Routes } from "react-router-dom"
-import { NotFoundScreen } from "screens/not-found"
+import { NotFoundScreen } from "features/not-found"
 import {
   AccountActivateScreen,
   AccountConfirmScreen,
@@ -13,7 +12,9 @@ import {
   ResetPasswordConfirmScreen,
   ResetPasswordScreen,
   ResetPasswordSentScreen,
-} from "screens/session/index"
+} from "features/session/index"
+import { Route, Routes } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 
 import { AuthHeader } from "./auth-header"
 
@@ -36,6 +37,7 @@ function SessionRoutes() {
 function AuthLayout() {
   return (
     <div className="session">
+      <ToastContainer />
       <AuthHeader />
       <div>
         <SessionRoutes />
