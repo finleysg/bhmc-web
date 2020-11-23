@@ -36,6 +36,10 @@
   // as much space as possible, ensuring footers are aligned to the bottom.
   flex: 1 1 auto;
   padding: $card-spacer-x;
+
+  @media (max-width: map-get($grid-breakpoints, sm)) {
+    padding: $card-spacer-x / 2;
+  }
 }
 
 .card-title {
@@ -72,6 +76,10 @@
   background-color: $card-cap-bg;
   border-bottom: $card-border-width solid $card-border-color;
 
+  @media (max-width: map-get($grid-breakpoints, sm)) {
+    padding: $card-spacer-x / 2;
+  }
+
   &:first-child {
     @include border-radius($card-inner-border-radius $card-inner-border-radius 0 0);
   }
@@ -92,7 +100,6 @@
     @include border-radius(0 0 $card-inner-border-radius $card-inner-border-radius);
   }
 }
-
 
 //
 // Header navs
@@ -136,7 +143,6 @@
   @include border-bottom-radius($card-inner-border-radius);
 }
 
-
 // Card deck
 
 .card-deck {
@@ -163,7 +169,6 @@
     }
   }
 }
-
 
 //
 // Card groups
@@ -249,7 +254,6 @@
   }
 }
 
-
 //
 // Columns
 //
@@ -271,7 +275,6 @@
     }
   }
 }
-
 
 //
 // Accordion

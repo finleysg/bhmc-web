@@ -14,7 +14,7 @@ function Sidebar({ open }) {
     <aside className={open ? "sidebar toggled" : "sidebar"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
-        <MenuItem path="sign-up" icon={<GoPlus />} name="Sign Up for 2021" />
+        <MenuItem path="season-signup" icon={<GoPlus />} name="Sign Up for 2021" />
         <MenuItem path="calendar/2020/november" icon={<GoCalendar />} name="Event Calendar" />
         <MenuItem path="results" icon={<GrOrderedList />} name="Event Results" />
         <MenuItem path="policies/policies-and-procedures" icon={<GoInfo />} name="Policies" />

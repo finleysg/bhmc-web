@@ -1,4 +1,8 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 import styled from "@emotion/styled/macro"
+import Tooltip from "@reach/tooltip"
 
 import { Link as RouterLink } from "react-router-dom"
 import * as colors from "styles/colors"
@@ -44,10 +48,34 @@ const Button = styled.button(
 const Link = styled(RouterLink)({
   color: colors.indigo,
   ":hover": {
-    color: colors.indigoDarken10,
+    color: colors.indigo,
     textDecoration: "underline",
   },
 })
+
+function TooltipButton({ label, highlight, onClick, icon, ...rest }) {
+  return (
+    <Tooltip label={label}>
+      <CircleButton
+        css={{
+          backgroundColor: "white",
+          width: "28px",
+          height: "28px",
+          color: highlight,
+          fontsize: "1.3rem",
+          ":hover,:focus": {
+            color: highlight,
+          },
+        }}
+        onClick={onClick}
+        aria-label={label}
+        {...rest}
+      >
+        {icon}
+      </CircleButton>
+    </Tooltip>
+  )
+}
 
 function IconButton({ to, color, children }) {
   return (
@@ -92,4 +120,13 @@ function CancelButton({ loading, onCancel, ...props }) {
   )
 }
 
-export { Button, CancelButton, CircleButton, IconButton, IconSubmitButton, Link, SubmitButton }
+export {
+  Button,
+  CancelButton,
+  CircleButton,
+  IconButton,
+  IconSubmitButton,
+  Link,
+  SubmitButton,
+  TooltipButton,
+}

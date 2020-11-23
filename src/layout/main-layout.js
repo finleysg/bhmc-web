@@ -4,6 +4,7 @@ import React from "react"
 
 import { AccountScreen } from "features/account/account-screen"
 import CalendarScreen from "features/calendar/calendar-screen"
+import SeasonSignupScreen from "features/events/season-signup-screen"
 import { NotFoundScreen } from "features/not-found"
 import { PolicyScreen } from "features/policy/policy-screen"
 import { TestingScreen } from "features/testing"
@@ -19,6 +20,7 @@ function MainRoutes() {
     <Routes>
       <Route path="/" element={<TestingScreen />} />
       <Route path="/home" element={<TestingScreen />} />
+      <Route path="/season-signup" element={<SeasonSignupScreen />} />
       <Route path="/calendar/:year/:monthName" element={<CalendarScreen />} />
       <Route path="/results" element={<TestingScreen />} />
       <Route path="/policies/:policyType" element={<PolicyScreen />} />

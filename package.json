@@ -7,6 +7,7 @@
     "@emotion/styled": "^10.0.27",
     "@reach/alert-dialog": "^0.11.2",
     "@reach/dialog": "^0.11.2",
+    "@reach/tooltip": "^0.11.2",
     "@reach/visually-hidden": "^0.11.1",
     "@toast-ui/react-editor": "^2.5.0",
     "bootstrap": "^4.5.3",
