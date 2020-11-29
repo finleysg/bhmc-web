@@ -13,8 +13,8 @@ function PlayerForm({ player, onClose }) {
   const [update, { isLoading, isError, error }] = useUpdatePlayer()
 
   async function handleSubmit(values) {
-    const updates = { id: player.id, ...values }
-    await update(updates, {
+    const playerUpdates = { id: player.id, ...values }
+    await update(playerUpdates, {
       onSuccess: () => {
         toast.success("👍 Your profile changes have been saved")
         onClose()

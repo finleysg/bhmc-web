@@ -109,6 +109,22 @@ const sampleEvent = {
   total_groups: null,
 }
 
+const loadingEvent = {
+  name: "loading...",
+  notes: "loading...",
+  signupWindow: "loading...",
+  fees: [],
+}
+
+function EventFee(json) {
+  this.id = +json.id
+  this.amount = +json.amount
+  this.displayOrder = +json.displayOrder
+  this.name = json.fee_type.name
+  this.code = json.fee_type.code
+  this.isRequired = !!json.is_required
+}
+
 /**
  * A club event object converted to be ui-friendly.
  * @constructor
@@ -120,6 +136,9 @@ function ClubEvent(json) {
   this.eventType = mapEventType(json.event_type)
   this.eventTypeCode = json.event_type
   this.externalUrl = json.external_url
+  this.fees = json.fees
+    ? json.fees.sort((a, b) => (a.display_order = b.display_order)).map((f) => new EventFee(f))
+    : []
   this.ghinRequired = json.ghin_required
   this.groupSize = json.group_size
   this.maximumSignupGroupSize = json.maximum_signup_group_size
@@ -154,6 +173,9 @@ function ClubEvent(json) {
   }
   this.eventTypeClass = mapEventType(json.event_type).toLowerCase().replace(" ", "-")
   this.eventUrl = `/event/${this.startDate.format("yyyy-MM-DD")}/${slugify(json.name)}`
+  this.signupWindow = `${this.signupStart.format("MMMM Do YYYY")} to ${this.signupEnd.format(
+    "MMMM Do YYYY",
+  )}`
 }
 
-export { ClubEvent, sampleEvent }
+export { ClubEvent, EventFee, loadingEvent, sampleEvent }

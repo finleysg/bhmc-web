@@ -1,5 +1,6 @@
 import moment from "moment"
-import { ClubEvent } from "utils/club-event-utils"
+
+import { ClubEvent } from "../club-event"
 
 test("generates the correct event urls", () => {
   const event1 = new ClubEvent({

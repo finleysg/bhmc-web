@@ -1,7 +1,8 @@
-import { render as rtlRender } from "@testing-library/react"
+import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing-library/react"
 
 import { AuthProvider } from "context/auth-context"
 import { MemoryRouter as Router } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 
 function deferred() {
   let resolve, reject
@@ -12,32 +13,27 @@ function deferred() {
   return { promise, resolve, reject }
 }
 
-// function renderWithRouterMatch(
-//   ui,
-//   { path = "/", route = "/", history = createMemoryHistory({ initialEntries: [route] }) } = {},
-// ) {
-//   console.log(history.location)
-//   return {
-//     ...render(
-//       <Router history={history}>
-//         <AuthProvider>
-//           <Route path={path} element={ui} />
-//         </AuthProvider>
-//       </Router>,
-//     ),
-//   }
-// }
+const waitForLoadingToFinish = () =>
+  waitForElementToBeRemoved(
+    () => [...screen.queryAllByLabelText(/loading/i), ...screen.queryAllByText(/loading/i)],
+    { timeout: 4000 },
+  )
 
-function render(ui, { theme = "anonymous", ...options } = {}) {
+function render(ui, { user = null, ...options } = {}) {
   const Wrapper = ({ children }) => (
     <Router>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider value={{ user }}>
+        <div>
+          <ToastContainer />
+          {children}
+        </div>
+      </AuthProvider>
     </Router>
   )
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-function renderWithRouter(ui, { theme = "anonymous", ...options } = {}) {
+function renderWithRouter(ui, { ...options } = {}) {
   const Wrapper = ({ children }) => <Router>{children}</Router>
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
@@ -52,4 +48,4 @@ function AuthWrapper({ children }) {
 
 export * from "@testing-library/react"
 // override React Testing Library's render with our own
-export { AuthWrapper, deferred, render, renderWithRouter }
+export { AuthWrapper, deferred, render, renderWithRouter, waitForLoadingToFinish }

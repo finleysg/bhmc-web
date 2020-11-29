@@ -1,5 +1,6 @@
 import * as auth from "context/auth-provider"
 import { queryCache } from "react-query"
+import { toast } from "react-toastify"
 
 import { apiUrl, parseError } from "./client-utils"
 
@@ -32,8 +33,14 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
       }
       return null
     } else {
-      const data = await response.json()
-      return Promise.reject(parseError(data))
+      toast.error("💣 Aww, Snap! Something went wrong.")
+      try {
+        const data = await response.json()
+        return Promise.reject(parseError(data))
+      } catch {
+        // probably html from django
+        return Promise.reject("django server error: check the server logs for details")
+      }
     }
   })
 }

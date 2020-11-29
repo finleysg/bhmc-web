@@ -1,8 +1,8 @@
 import React from "react"
 
+import { ClubEvent } from "models/club-event"
 import moment from "moment"
 import { renderWithRouter, screen } from "test/test-utils"
-import { ClubEvent } from "utils/club-event-utils"
 
 import { CalendarDay } from "../calendar-day"
 import { Day } from "../calendar-utils"

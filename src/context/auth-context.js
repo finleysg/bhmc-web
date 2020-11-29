@@ -14,7 +14,17 @@ import { useAsync } from "utils/use-async"
 import * as auth from "./auth-provider"
 
 async function loadUser() {
-  return await auth.getUser()
+  const user = await auth.getUser()
+  if (user.token) {
+    const players = await client(`players/?email=${user.email}`)
+    queryCache.setQueryData("player", players[0])
+    const slots = await client(`registration-slots/?player_id=${players[0].id}`)
+    queryCache.setQueryData(
+      "my-events",
+      slots.filter((s) => s.status === "R").map((s) => s.event),
+    )
+  }
+  return user
 }
 
 const AuthContext = React.createContext()
@@ -53,11 +63,11 @@ function AuthProvider(props) {
   const logout = React.useCallback(async () => {
     return auth
       .logout()
+      .then(() => navigate("home"))
       .then(() => {
         queryCache.clear()
         setData(null)
       })
-      .then(() => navigate("home"))
   }, [setData, navigate])
 
   const register = React.useCallback(
@@ -145,9 +155,8 @@ function useAuth() {
 }
 
 function useClient() {
-  const {
-    user: { token },
-  } = useAuth()
+  const { user } = useAuth()
+  const token = user ? user.token : undefined
   return React.useCallback((endpoint, config) => client(endpoint, { ...config, token }), [token])
 }
 

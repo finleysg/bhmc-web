@@ -1,14 +1,18 @@
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js"
+
 import React from "react"
 
 import { ReactQueryConfigProvider } from "react-query"
 import { BrowserRouter as Router } from "react-router-dom"
+import * as config from "utils/app-config"
 
 import { AuthProvider } from "./auth-context"
-import { PermissionsProvider } from "./permission-context"
+import { EventRegistrationProvider } from "./registration-context"
 
 const queryConfig = {
   queries: {
-    useErrorBoundary: true,
+    // useErrorBoundary: true,
     refetchOnWindowFocus: false,
     retry(failureCount, error) {
       if (error.status === 404) return false
@@ -18,12 +22,16 @@ const queryConfig = {
   },
 }
 
+const stripePromise = loadStripe(config.stripePublicKey)
+
 function AppProviders({ children }) {
   return (
     <ReactQueryConfigProvider config={queryConfig}>
       <Router>
         <AuthProvider>
-          <PermissionsProvider>{children}</PermissionsProvider>
+          <EventRegistrationProvider>
+            <Elements stripe={stripePromise}>{children}</Elements>
+          </EventRegistrationProvider>
         </AuthProvider>
       </Router>
     </ReactQueryConfigProvider>

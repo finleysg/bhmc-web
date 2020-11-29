@@ -49,6 +49,24 @@ function ErrorDisplay({ isError, error, variant = "stacked", ...props }) {
   return null
 }
 
+function RegistrationErrorFallback({ error }) {
+  return (
+    <div
+      role="alert"
+      css={{
+        color: colors.danger,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p>Doh! Stupid computers...</p>
+      <pre>{error}</pre>
+    </div>
+  )
+}
+
 function FullPageErrorFallback({ error }) {
   return (
     <div
@@ -68,4 +86,4 @@ function FullPageErrorFallback({ error }) {
   )
 }
 
-export { DuplicateEmailDisplay, ErrorDisplay, FullPageErrorFallback }
+export { DuplicateEmailDisplay, ErrorDisplay, FullPageErrorFallback, RegistrationErrorFallback }

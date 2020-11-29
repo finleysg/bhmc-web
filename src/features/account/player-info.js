@@ -1,7 +1,7 @@
 import React from "react"
 
-import { ErrorDisplay } from "components/errors"
-import { LoadingSpinner } from "components/spinners"
+// import { ErrorDisplay } from "components/errors"
+// import { LoadingSpinner } from "components/spinners"
 import { MdEdit, MdPerson } from "react-icons/md"
 
 import { usePlayer } from "./account-hooks"
@@ -9,7 +9,7 @@ import { PlayerForm } from "./player-form"
 
 function PlayerInfo() {
   const [mode, setMode] = React.useState("view")
-  const { isLoading, isError, isSuccess, player, error } = usePlayer()
+  const player = usePlayer()
 
   return (
     <div className="pmb-block">
@@ -31,9 +31,9 @@ function PlayerInfo() {
           </li>
         </ul>
       </div>
-      <LoadingSpinner loading={isLoading} />
-      <ErrorDisplay isError={isError} error={error} />
-      {isSuccess && mode === "view" && (
+      {/* <LoadingSpinner loading={isLoading} />
+      <ErrorDisplay isError={isError} error={error} /> */}
+      {mode === "view" && (
         <div style={{ paddingLeft: "30px" }}>
           <dl className="dl-horizontal">
             <dt>Full Name</dt>
@@ -61,9 +61,7 @@ function PlayerInfo() {
           </dl>
         </div>
       )}
-      {isSuccess && mode === "edit" && (
-        <PlayerForm player={player.obj} onClose={() => setMode("view")} />
-      )}
+      {mode === "edit" && <PlayerForm player={player.obj} onClose={() => setMode("view")} />}
     </div>
   )
 }

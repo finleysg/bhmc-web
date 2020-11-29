@@ -9,7 +9,7 @@ import { ProfilePicPicker } from "./profile-pic-picker"
 
 function ProfilePic() {
   const [mode, setMode] = React.useState("view")
-  const { player } = usePlayer()
+  const player = usePlayer()
   const [saveProfilePic] = usePlayerProfilePic()
 
   async function handleSelectedFile(file) {
@@ -47,7 +47,7 @@ function ProfilePic() {
             </button>
           </div>
           <div className="pmo-stat">
-            <h2>{player.name}</h2>
+            <h2>{player?.name}</h2>
           </div>
         </div>
       </div>

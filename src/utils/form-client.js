@@ -30,9 +30,8 @@ async function client(endpoint, formData, token) {
 }
 
 function useFormClient() {
-  const {
-    user: { token },
-  } = useAuth()
+  const { user } = useAuth()
+  const token = user ? user.token : undefined
   if (!token) {
     throw new Error("A form client requires an authenticated user.")
   }

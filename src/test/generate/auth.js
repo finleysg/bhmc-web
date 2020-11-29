@@ -23,6 +23,19 @@ const buildUser = build({
   },
 })
 
+const buildUserWithToken = build({
+  fields: {
+    first_name: fake((f) => f.name.firstName()),
+    last_name: fake((f) => f.name.lastName()),
+    email: fake((f) => f.internet.email()),
+    id: fake((f) => f.random.number()),
+    is_active: true,
+    is_authenticated: true,
+    is_staff: false,
+    token: fake((f) => f.random.uuid()),
+  },
+})
+
 const buildRegisterForm = build({
   fields: {
     first_name: fake((f) => f.name.firstName()),
@@ -33,4 +46,4 @@ const buildRegisterForm = build({
   },
 })
 
-export { buildLoginForm, buildRegisterForm, buildUser }
+export { buildLoginForm, buildRegisterForm, buildUser, buildUserWithToken }

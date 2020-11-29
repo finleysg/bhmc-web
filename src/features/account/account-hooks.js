@@ -5,35 +5,76 @@ import { toast } from "react-toastify"
 import { useFormClient } from "utils/form-client"
 
 const playerMutationConfig = {
-  onSettled: () => queryCache.invalidateQueries("player"),
   onError: () => toast.error("💣 Aww, Snap!"),
+  onSettled: () => queryCache.invalidateQueries("player"),
 }
 
 function usePlayer() {
   const { user } = useAuth()
   const client = useClient()
 
-  const { isLoading, isError, isSuccess, data: player, error } = useQuery({
-    queryKey: "player",
-    queryFn: () =>
-      client(`players/?email=${user.email}`).then((data) => {
-        return new Player(data[0])
-      }),
-  })
+  const { data: player } = useQuery(
+    "player",
+    () => {
+      return client(`players/?email=${user.email}`).then((data) => {
+        return data[0]
+      })
+    },
+    {
+      initialData: () => {
+        return queryCache.getQueryData("player")
+      },
+      cacheTime: 1000 * 60 * 60,
+      staleTime: 1000 * 60 * 60,
+    },
+  )
 
-  return { isLoading, isError, isSuccess, player, error }
+  return new Player(player ?? {})
+}
+
+function useMyEvents() {
+  const { player } = usePlayer()
+  const client = useClient()
+
+  const { data: myEvents } = useQuery(
+    "my-events",
+    () => {
+      return client(`registration-slots/?player_id=${player.id}`).then((slots) => {
+        return slots.filter((s) => s.status === "R").map((s) => s.event)
+      })
+    },
+    {
+      initialData: () => {
+        return queryCache.getQueryData("my-events")
+      },
+      cacheTime: 1000 * 60 * 60,
+      staleTime: 1000 * 60 * 60,
+    },
+  )
+
+  return myEvents ?? []
 }
 
 function useUpdatePlayer() {
   const client = useClient()
 
   return useMutation(
-    (updates) =>
-      client(`players/${updates.id}/`, {
+    (updates) => {
+      // If I don't return the promise, onError and onSuccess don't work
+      // as expected.
+      return client(`players/${updates.id}/`, {
         method: "PUT",
         data: updates,
-      }),
-    playerMutationConfig,
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap!")
+      },
+      onSuccess: () => {
+        queryCache.invalidateQueries("player")
+      },
+    },
   )
 }
 
@@ -43,4 +84,4 @@ function usePlayerProfilePic() {
   return useMutation((formData) => formClient(`photos/`, formData), playerMutationConfig)
 }
 
-export { usePlayer, usePlayerProfilePic, useUpdatePlayer }
+export { useMyEvents, usePlayer, usePlayerProfilePic, useUpdatePlayer }

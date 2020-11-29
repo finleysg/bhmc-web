@@ -1,5 +1,5 @@
 import { FullPageSpinner } from "components/spinners"
-import { ClubEvent } from "utils/club-event-utils"
+import { ClubEvent } from "models/club-event"
 
 import { CalendarDay } from "./calendar-day"
 import { CalendarHeader } from "./calendar-header"
@@ -37,7 +37,13 @@ function EventCalendar({ year, monthName, events, loading }) {
             return (
               <ul key={week.nbr} className="days">
                 {week.days.map((day) => {
-                  return <CalendarDay key={day.date.toString()} day={day} currentMonthNbr={getMonth(monthName)} />
+                  return (
+                    <CalendarDay
+                      key={day.date.toString()}
+                      day={day}
+                      currentMonthNbr={getMonth(monthName)}
+                    />
+                  )
                 })}
               </ul>
             )

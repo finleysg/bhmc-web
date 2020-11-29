@@ -10,7 +10,7 @@ async function getUser() {
       return user
     })
   }
-  return null
+  return {}
 }
 
 async function login(email, password) {
