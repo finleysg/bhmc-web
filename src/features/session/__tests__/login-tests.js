@@ -4,14 +4,10 @@ import userEvent from "@testing-library/user-event"
 import React from "react"
 
 import { LoginScreen } from "features/session/login-screen"
-import { rest } from "msw"
-import { setupServer } from "msw/node"
-import { handlers } from "test/auth-handlers"
 import { buildLoginForm } from "test/generate/auth"
+import { rest, server } from "test/test-server"
 import { AuthWrapper, deferred } from "test/test-utils"
-import { authUrl } from "utils/client-utils"
-
-const server = setupServer(...handlers)
+import { apiUrl, authUrl } from "utils/client-utils"
 
 const mockNav = jest.fn()
 jest.mock("react-router-dom", () => ({
@@ -19,19 +15,23 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNav,
 }))
 
-beforeAll(() => {
-  server.listen()
-})
-afterAll(() => server.close())
 afterEach(() => {
-  server.resetHandlers()
-  jest.clearAllMocks()
   // TODO: this is a useAuth implementation detail -- alternative?
   window.localStorage.removeItem("__bhmc_token__")
 })
 
 test("successful login", async () => {
   const { promise, resolve } = deferred()
+
+  // post-login calls to bootstrap a user
+  server.use(
+    rest.get(apiUrl(`players`), async (req, res, ctx) => {
+      return res(ctx.json([{}]))
+    }),
+    rest.get(apiUrl(`registration-slots`), async (req, res, ctx) => {
+      return res(ctx.json([]))
+    }),
+  )
 
   render(
     <AuthWrapper>

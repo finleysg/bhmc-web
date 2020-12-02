@@ -2,29 +2,16 @@ import { act, render, screen, waitFor } from "@testing-library/react"
 
 import React from "react"
 
-import { rest } from "msw"
-import { setupServer } from "msw/node"
-import { handlers } from "test/auth-handlers"
+import { rest, server } from "test/test-server"
 import { AuthWrapper, deferred } from "test/test-utils"
 import { authUrl } from "utils/client-utils"
 
 import { AccountActivateScreen } from "../account-activate-screen"
 
-const server = setupServer(...handlers)
-
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useParams: () => ({ uid: "ABC", token: "123" }),
 }))
-
-beforeAll(() => {
-  server.listen()
-})
-afterAll(() => server.close())
-afterEach(() => {
-  server.resetHandlers()
-  jest.clearAllMocks()
-})
 
 test("successful activation", async () => {
   const { promise, resolve } = deferred()

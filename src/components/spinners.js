@@ -17,13 +17,14 @@ Spinner.defaultProps = {
   "aria-label": "loading",
 }
 
-function LoadingSpinner({ loading }) {
+function LoadingSpinner(props) {
+  const { loading, offset } = props
   if (loading) {
     return (
       <div
         css={{
           fontSize: "3em",
-          paddingTop: "120px",
+          paddingTop: offset ?? "120px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",

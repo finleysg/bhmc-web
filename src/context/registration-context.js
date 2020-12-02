@@ -204,30 +204,6 @@ function EventRegistrationProvider(props) {
       },
     },
   )
-  //   const value = React.useMemo(
-  //     () => ({
-  //       clubEvent,
-  //       registration: new Registration(registrationData ?? {}),
-  //       payment: new Payment(paymentData ?? {}),
-  //       loadEvent,
-  //       createRegistration,
-  //       updateRegistration,
-  //       cancelRegistration,
-  //       createPayment,
-  //       updatePayment,
-  //     }),
-  //     [
-  //       clubEvent,
-  //       registrationData,
-  //       paymentData,
-  //       loadEvent,
-  //       createRegistration,
-  //       updateRegistration,
-  //       cancelRegistration,
-  //       createPayment,
-  //       updatePayment,
-  //     ],
-  //   )
 
   const value = {
     clubEvent,

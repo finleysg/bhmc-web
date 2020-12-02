@@ -1,5 +1,6 @@
 import React from "react"
 
+import { LoadingSpinner } from "components/spinners"
 // import { ErrorDisplay } from "components/errors"
 // import { LoadingSpinner } from "components/spinners"
 import { MdEdit, MdPerson } from "react-icons/md"
@@ -31,8 +32,7 @@ function PlayerInfo() {
           </li>
         </ul>
       </div>
-      {/* <LoadingSpinner loading={isLoading} />
-      <ErrorDisplay isError={isError} error={error} /> */}
+      <LoadingSpinner loading={!player.id} offset="20px" />
       {mode === "view" && (
         <div style={{ paddingLeft: "30px" }}>
           <dl className="dl-horizontal">

@@ -17,7 +17,7 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
   }
 
   const url = apiUrl(endpoint)
-
+  console.log(url)
   return window.fetch(url, config).then(async (response) => {
     if (response.status === 401) {
       queryCache.clear()

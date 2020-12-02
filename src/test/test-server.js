@@ -1,9 +1,8 @@
 import { setupServer } from "msw/node"
 
-import { handlers as accountHandlers } from "./account-handlers"
-import { handlers } from "./auth-handlers"
+import { handlers } from "./test-handlers"
 
-const server = setupServer(...handlers, ...accountHandlers)
+const server = setupServer(...handlers)
 
 export * from "msw"
 export { server }

@@ -7,6 +7,9 @@ import "@testing-library/jest-dom/extend-expect"
 
 import { server } from "test/test-server"
 
-beforeAll(() => server.listen())
+beforeAll(() => server.listen({ onUnhandledRequest: "warn" }))
 afterAll(() => server.close())
-afterEach(() => server.resetHandlers())
+afterEach(() => {
+  server.resetHandlers()
+  jest.clearAllMocks()
+})

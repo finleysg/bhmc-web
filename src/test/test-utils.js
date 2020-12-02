@@ -1,6 +1,7 @@
 import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing-library/react"
 
 import { AuthProvider } from "context/auth-context"
+import { EventRegistrationProvider } from "context/registration-context"
 import { MemoryRouter as Router } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
@@ -33,6 +34,22 @@ function render(ui, { user = null, ...options } = {}) {
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
+function renderForEventRegistration(ui, { user = null, ...options } = {}) {
+  const Wrapper = ({ children }) => (
+    <Router>
+      <AuthProvider value={{ user }}>
+        <EventRegistrationProvider>
+          <div>
+            <ToastContainer />
+            {children}
+          </div>
+        </EventRegistrationProvider>
+      </AuthProvider>
+    </Router>
+  )
+  return rtlRender(ui, { wrapper: Wrapper, ...options })
+}
+
 function renderWithRouter(ui, { ...options } = {}) {
   const Wrapper = ({ children }) => <Router>{children}</Router>
   return rtlRender(ui, { wrapper: Wrapper, ...options })
@@ -48,4 +65,11 @@ function AuthWrapper({ children }) {
 
 export * from "@testing-library/react"
 // override React Testing Library's render with our own
-export { AuthWrapper, deferred, render, renderWithRouter, waitForLoadingToFinish }
+export {
+  AuthWrapper,
+  deferred,
+  render,
+  renderForEventRegistration,
+  renderWithRouter,
+  waitForLoadingToFinish,
+}

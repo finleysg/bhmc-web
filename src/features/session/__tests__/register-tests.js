@@ -3,31 +3,18 @@ import userEvent from "@testing-library/user-event"
 
 import React from "react"
 
-import { rest } from "msw"
-import { setupServer } from "msw/node"
-import { handlers } from "test/auth-handlers"
 import { buildRegisterForm } from "test/generate/auth"
+import { rest, server } from "test/test-server"
 import { AuthWrapper, deferred } from "test/test-utils"
 import { authUrl } from "utils/client-utils"
 
 import { RegisterScreen } from "../register-screen"
-
-const server = setupServer(...handlers)
 
 const mockNav = jest.fn()
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: () => mockNav,
 }))
-
-beforeAll(() => {
-  server.listen()
-})
-afterAll(() => server.close())
-afterEach(() => {
-  server.resetHandlers()
-  jest.clearAllMocks()
-})
 
 test("successful registration", async () => {
   const { promise, resolve } = deferred()

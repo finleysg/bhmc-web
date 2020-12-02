@@ -2,6 +2,7 @@ import { useClient } from "context/auth-context"
 import Player from "models/player"
 import { useQuery } from "react-query"
 
+// TODO: only eligible players for a given event
 function usePlayers() {
   const client = useClient()
   const { data: players } = useQuery(

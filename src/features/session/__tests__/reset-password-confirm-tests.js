@@ -5,11 +5,7 @@ import React from "react"
 
 import * as faker from "faker"
 import { ResetPasswordConfirmScreen } from "features/session/index"
-import { setupServer } from "msw/node"
-import { handlers } from "test/auth-handlers"
 import { AuthWrapper, deferred } from "test/test-utils"
-
-const server = setupServer(...handlers)
 
 const mockNav = jest.fn()
 jest.mock("react-router-dom", () => ({
@@ -17,15 +13,6 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNav,
   useParams: () => ({ uid: "ABC", token: "123" }),
 }))
-
-beforeAll(() => {
-  server.listen()
-})
-afterAll(() => server.close())
-afterEach(() => {
-  server.resetHandlers()
-  jest.clearAllMocks()
-})
 
 test("successful password reset", async () => {
   const { promise, resolve } = deferred()

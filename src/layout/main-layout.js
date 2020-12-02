@@ -4,7 +4,7 @@ import React from "react"
 
 import { AccountScreen } from "features/account/account-screen"
 import CalendarScreen from "features/calendar/calendar-screen"
-import SeasonSignupFlow from "features/events/season-signup-flow"
+import SeasonSignupFlow from "features/event-registration/season-signup-flow"
 import { NotFoundScreen } from "features/not-found"
 import { PolicyScreen } from "features/policy/policy-screen"
 import { TestingScreen } from "features/testing"

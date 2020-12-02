@@ -1,6 +1,6 @@
 import { Calendar, Day } from "features/calendar/calendar-utils"
+import { ClubEvent } from "models/club-event"
 import moment from "moment"
-import { ClubEvent } from "utils/club-event-utils"
 
 test("can create a Calendar object", () => {
   const october = new Calendar(2020, "October")
