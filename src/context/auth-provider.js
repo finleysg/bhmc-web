@@ -27,8 +27,8 @@ async function logout() {
   )
 }
 
-async function register(first_name, last_name, email, password, re_password) {
-  return client("users", { first_name, last_name, email, password, re_password })
+async function register(first_name, last_name, email, ghin, password, re_password) {
+  return client("users", { first_name, last_name, email, ghin, password, re_password })
 }
 
 async function activate(uid, token) {

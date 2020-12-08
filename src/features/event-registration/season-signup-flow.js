@@ -44,7 +44,6 @@ function SeasonSignupFlow() {
   const [currentStep, changeCurrentStep] = React.useState(registrationSteps.pending)
   const {
     error,
-    isFetching,
     registration,
     loadEvent,
     createRegistration,
@@ -52,6 +51,7 @@ function SeasonSignupFlow() {
   } = useEventRegistration()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
+  const [isBusy, setIsBusy] = React.useState(false)
   const cancelRef = React.useRef()
 
   React.useEffect(() => {
@@ -102,7 +102,7 @@ function SeasonSignupFlow() {
                 <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
                   {currentStep.title}
                 </span>
-                {isFetching > 0 && (
+                {isBusy && (
                   <span>
                     <Spinner style={{ fontSize: "2rem", color: colors.white }} />
                   </span>
@@ -112,6 +112,7 @@ function SeasonSignupFlow() {
                 <EventRegistrationForm
                   onCancel={setShowConfirm}
                   onReview={() => handleChangeStep(registrationSteps.review)}
+                  onBusy={(busy) => setIsBusy(busy)}
                 />
               )}
               {currentStep === registrationSteps.review && (
@@ -119,6 +120,7 @@ function SeasonSignupFlow() {
                   onBack={() => handleChangeStep(registrationSteps.register)}
                   onCancel={setShowConfirm}
                   onConfirm={() => handleChangeStep(registrationSteps.payment)}
+                  onBusy={(busy) => setIsBusy(busy)}
                 />
               )}
               {currentStep === registrationSteps.payment && (
@@ -126,6 +128,7 @@ function SeasonSignupFlow() {
                   onBack={() => handleChangeStep(registrationSteps.review)}
                   onCancel={setShowConfirm}
                   onPaymentComplete={() => handleChangeStep(registrationSteps.complete)}
+                  onBusy={(busy) => setIsBusy(busy)}
                 />
               )}
               {currentStep === registrationSteps.complete && <EventRegistrationComplete />}

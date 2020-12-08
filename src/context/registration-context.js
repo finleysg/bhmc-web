@@ -35,7 +35,7 @@ function EventRegistrationProvider(props) {
   useQuery(
     ["registration", clubEvent?.id],
     () => {
-      if (user.is_authenticated && clubEvent && clubEvent.id) {
+      if (user && user.is_authenticated && clubEvent && clubEvent.id) {
         return client(`registration/?event_id=${clubEvent.id}&player=me`).then((data) => data[0])
       }
     },
@@ -56,7 +56,7 @@ function EventRegistrationProvider(props) {
   useQuery(
     ["payment", clubEvent?.id],
     () => {
-      if (user.is_authenticated && clubEvent && clubEvent.id) {
+      if (user && user.is_authenticated && clubEvent && clubEvent.id) {
         return client(`payments/?event=${clubEvent.id}&player=me`).then((data) => data[0])
       }
     },

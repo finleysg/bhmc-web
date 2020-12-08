@@ -2,44 +2,19 @@ import "./main-layout.scss"
 
 import React from "react"
 
-import { AccountScreen } from "features/account/account-screen"
-import CalendarScreen from "features/calendar/calendar-screen"
-import SeasonSignupFlow from "features/event-registration/season-signup-flow"
-import { NotFoundScreen } from "features/not-found"
-import { PolicyScreen } from "features/policy/policy-screen"
-import { TestingScreen } from "features/testing"
-import { Route, Routes } from "react-router-dom"
+import { useAuth } from "context/auth-context"
+import { useRoutes } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
 import { Footer } from "./footer"
 import { Header } from "./header"
+import { mainRoutes } from "./routes"
 import { Sidebar } from "./sidebar"
-
-function MainRoutes() {
-  return (
-    <Routes>
-      <Route path="/" element={<TestingScreen />} />
-      <Route path="/home" element={<TestingScreen />} />
-      <Route path="/season-signup" element={<SeasonSignupFlow />} />
-      <Route path="/calendar/:year/:monthName" element={<CalendarScreen />} />
-      <Route path="/results" element={<TestingScreen />} />
-      <Route path="/policies/:policyType" element={<PolicyScreen />} />
-      <Route path="/match-play" element={<TestingScreen />} />
-      <Route path="/season-long-points" element={<TestingScreen />} />
-      <Route path="/dam-cup" element={<TestingScreen />} />
-      <Route path="/directory" element={<TestingScreen />} />
-      <Route path="/contact-us" element={<TestingScreen />} />
-      <Route path="/about-us" element={<TestingScreen />} />
-      <Route path="/sign-up" element={<TestingScreen />} />
-      <Route path="/my-account" element={<AccountScreen />} />
-      <Route path="/settings" element={<TestingScreen />} />
-      <Route path="*" element={<NotFoundScreen />} />
-    </Routes>
-  )
-}
 
 function MainLayout() {
   const [sidebarOpen, setSidebarOpen] = React.useState(true)
+  const { user } = useAuth()
+  const routing = useRoutes(mainRoutes(user))
 
   return (
     <main className="main" data-ma-theme="blue">
@@ -47,7 +22,7 @@ function MainLayout() {
       <Header sidebarOpen={sidebarOpen} onSidebarToggle={() => setSidebarOpen(!sidebarOpen)} />
       <Sidebar open={sidebarOpen} />
       <section className="content">
-        <MainRoutes />
+        {routing}
         <Footer />
         {sidebarOpen && (
           <div onClick={() => setSidebarOpen(false)} className="sidebar-backdrop"></div>

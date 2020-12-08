@@ -71,9 +71,9 @@ function AuthProvider(props) {
   }, [setData, navigate])
 
   const register = React.useCallback(
-    async ({ first_name, last_name, email, password, re_password }) => {
+    async ({ first_name, last_name, email, ghin, password, re_password }) => {
       return auth
-        .register(first_name, last_name, email, password, re_password)
+        .register(first_name, last_name, email, ghin, password, re_password)
         .then((user) => setData(user))
         .then(() => navigate("session/account/confirm"))
     },

@@ -37,7 +37,16 @@ function SeasonEvent(props) {
                         .
                       </li>
                       <li>
-                        Your current age is <strong>{player.age}</strong>.
+                        {isNaN(player.age) ? (
+                          <span>
+                            You have not given us your birth date. We cannot give you the senior
+                            rate for the patron card.
+                          </span>
+                        ) : (
+                          <span>
+                            Your current age is <strong>{player.age}</strong>.
+                          </span>
+                        )}
                       </li>
                       <li>
                         {player.ghin ? (
@@ -72,7 +81,7 @@ function SeasonEvent(props) {
                   {!hasSignedUp && (
                     <button
                       className="btn btn-primary"
-                      style={{ marginRight: "1rem" }}
+                      style={{ marginRight: ".5rem" }}
                       disabled={!canStart}
                       onClick={onStart}
                     >

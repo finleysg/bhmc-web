@@ -1,8 +1,6 @@
 import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
-// import { ErrorDisplay } from "components/errors"
-// import { LoadingSpinner } from "components/spinners"
 import { MdEdit, MdPerson } from "react-icons/md"
 
 import { usePlayer } from "./account-hooks"
@@ -45,15 +43,15 @@ function PlayerInfo() {
           </dl>
           <dl className="dl-horizontal">
             <dt>GHIN</dt>
-            <dd>{player.ghin}</dd>
+            <dd>{player.ghin ? player.ghin : "No GHIN"}</dd>
           </dl>
           <dl className="dl-horizontal">
             <dt>Age</dt>
-            <dd>{player.age}</dd>
+            <dd>{isNaN(player.age) ? "Not given" : player.age}</dd>
           </dl>
           <dl className="dl-horizontal">
             <dt>Phone Number</dt>
-            <dd>{player.phoneNumber}</dd>
+            <dd>{player.phoneNumber ? player.phoneNumber : "Not given"}</dd>
           </dl>
           <dl className="dl-horizontal">
             <dt>Tee</dt>

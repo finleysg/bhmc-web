@@ -34,11 +34,11 @@ function PlayerForm({ player, onClose }) {
       }}
       validationSchema={Yup.object({
         email: Yup.string().email("Invalid email address").required("A valid email is required"),
-        first_name: Yup.string().required("First name is required"),
-        last_name: Yup.string().required("Last name is required"),
-        ghin: Yup.string(),
+        first_name: Yup.string().max(30).required("First name is required"),
+        last_name: Yup.string().max(30).required("Last name is required"),
+        ghin: Yup.string().max(8),
         birth_date: Yup.date(),
-        phone_number: Yup.string(),
+        phone_number: Yup.string().nullable(),
       })}
       onSubmit={(values) => handleSubmit(values)}
     >

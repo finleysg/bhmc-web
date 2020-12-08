@@ -5,9 +5,12 @@ import Player from "models/player"
 import { usePlayers } from "./registration-hooks"
 
 function EventRegistrationConfirm(props) {
-  const { onBack, onConfirm } = props
+  const { onBack, onConfirm, onCancel, onBusy } = props
   const players = usePlayers()
   const { clubEvent, registration, payment } = useEventRegistration()
+
+  const isBusy = payment === undefined || payment.id === undefined
+  onBusy(isBusy)
 
   const findPlayer = (id) => {
     const index = players.findIndex((p) => p.id === id)
@@ -67,10 +70,23 @@ function EventRegistrationConfirm(props) {
       <hr />
       <div className="row" style={{ textAlign: "right" }}>
         <div className="col-12">
-          <button className="btn btn-light" onClick={onBack}>
+          <button className="btn btn-light" disabled={isBusy} onClick={onBack}>
             Back
           </button>
-          <button className="btn btn-success" style={{ marginLeft: "1rem" }} onClick={onConfirm}>
+          <button
+            className="btn btn-light"
+            disabled={isBusy}
+            style={{ marginLeft: ".5rem" }}
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-success"
+            disabled={isBusy}
+            style={{ marginLeft: ".5rem" }}
+            onClick={onConfirm}
+          >
             Looks Good!
           </button>
         </div>

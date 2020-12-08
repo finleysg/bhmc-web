@@ -3,7 +3,7 @@ import React from "react"
 import { MdCameraAlt } from "react-icons/md"
 import { toast } from "react-toastify"
 
-import defaultProfilePic from "../../assets/img/default-avatar.png"
+import defaultProfilePic from "../../assets/img/unknown.jpg"
 import { usePlayer, usePlayerProfilePic } from "./account-hooks"
 import { ProfilePicPicker } from "./profile-pic-picker"
 

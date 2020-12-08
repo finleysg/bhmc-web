@@ -39,10 +39,12 @@ function useMyEvents() {
   const { data: myEvents } = useQuery(
     "my-events",
     () => {
-      return client(`registration-slots/?player_id=${player.id}`).then((slots) => {
-        console.log("my events for " + player.id)
-        return slots.filter((s) => s.status === "R").map((s) => s.event)
-      })
+      if (player && player.id) {
+        return client(`registration-slots/?player_id=${player.id}`).then((slots) => {
+          console.log("my events for " + player.id)
+          return slots.filter((s) => s.status === "R").map((s) => s.event)
+        })
+      }
     },
     {
       initialData: () => {

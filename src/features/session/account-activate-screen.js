@@ -53,8 +53,8 @@ function AccountActivateScreen() {
           <div className="login__body">
             <h3>Your Account is Active</h3>
             <p>
-              Thank you! Log in now to update your account with your GHIN. If you don't have a GHIN,
-              you will receive one if you join us for the current golf season.
+              Thank you! Log in now to sign up for an event or update your profile. If you don't
+              have a GHIN, you will receive one when you join us for the current golf season.
             </p>
             <Button onClick={handleLogin}>Login</Button>
           </div>

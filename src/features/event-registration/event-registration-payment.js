@@ -8,14 +8,21 @@ import { useEventRegistration } from "context/registration-context"
 import { toast } from "react-toastify"
 
 function EventRegistrationPayment(props) {
-  const { onBack, onPaymentComplete } = props
+  const { onBack, onPaymentComplete, onCancel, onBusy } = props
   const [paymentError, setPaymentError] = React.useState()
+  const [isBusy, setIsBusy] = React.useState(false)
   const { user } = useAuth()
   const { clubEvent, payment } = useEventRegistration()
   const stripe = useStripe()
   const elements = useElements()
 
+  const publishBusyFeedback = (busy) => {
+    setIsBusy(busy)
+    onBusy(busy)
+  }
+
   const handlePaymentClick = async () => {
+    publishBusyFeedback(true)
     const cardElement = elements.getElement(CardElement)
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -28,11 +35,13 @@ function EventRegistrationPayment(props) {
 
     if (error) {
       setPaymentError(error.message)
+      publishBusyFeedback(false)
     } else {
       if (paymentMethod !== undefined) {
         submitPayment(paymentMethod)
       } else {
         setPaymentError("No payment method was created!")
+        publishBusyFeedback(false)
       }
     }
   }
@@ -42,10 +51,12 @@ function EventRegistrationPayment(props) {
       payment_method: method.id,
     })
     if (result.error) {
+      publishBusyFeedback(false)
       toast.error("😟 Something went wrong.")
       const message = result.error.message
       setPaymentError(message)
     } else if (result.paymentIntent) {
+      publishBusyFeedback(false)
       toast.success("💸 Your payment has been accepted.")
       onPaymentComplete()
     }
@@ -84,12 +95,21 @@ function EventRegistrationPayment(props) {
       <hr />
       <div className="row" style={{ textAlign: "right" }}>
         <div className="col-12">
-          <button className="btn btn-light" onClick={onBack}>
+          <button className="btn btn-light" disabled={isBusy} onClick={onBack}>
             Back
           </button>
           <button
+            className="btn btn-light"
+            disabled={isBusy}
+            style={{ marginLeft: ".5rem" }}
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
             className="btn btn-success"
-            style={{ marginLeft: "1rem" }}
+            disabled={isBusy}
+            style={{ marginLeft: ".5rem" }}
             onClick={handlePaymentClick}
           >
             Submit Payment

@@ -1,0 +1,92 @@
+Profile page:
+- after saving, need to see the changes correctly on the page
+
+Account registration:
+
+Season registration:
+- two lines for credit card
+- saving cards (part of a larger settings effort)
+- TODO: text or maybe cards to select from (on payment step)
+- on error card, add a reset button
+
+Email:
+- style djoser emails (activation done)
+
+Player info:
+- New account goes directly to profile:
+index.js:1 Warning: Received NaN for the `children` attribute. If this is expected, cast the value to a string.
+    at dd
+    at dl
+    at div
+    at div
+    at PlayerInfo (http://localhost:3000/static/js/main.chunk.js:4240:72)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at AccountScreen
+    at section
+    at main
+    at MainLayout (http://localhost:3000/static/js/main.chunk.js:14560:86)
+    at Route (http://localhost:3000/static/js/0.chunk.js:226516:9)
+    at Routes (http://localhost:3000/static/js/0.chunk.js:226563:13)
+    at Elements (http://localhost:3000/static/js/0.chunk.js:5510:30)
+    at EventRegistrationProvider (http://localhost:3000/static/js/main.chunk.js:2968:82)
+    at AuthProvider (http://localhost:3000/static/js/main.chunk.js:2353:71)
+    at Router (http://localhost:3000/static/js/0.chunk.js:226528:13)
+    at BrowserRouter (http://localhost:3000/static/js/0.chunk.js:226153:13)
+    at ReactQueryConfigProvider (http://localhost:3000/static/js/0.chunk.js:224044:21)
+    at AppProviders (http://localhost:3000/static/js/main.chunk.js:2806:3)
+console.<computed> @ index.js:1
+overrideMethod @ react_devtools_backend.js:2430
+printWarning @ react-dom.development.js:67
+error @ react-dom.development.js:43
+validateProperty$1 @ react-dom.development.js:3492
+warnUnknownProperties @ react-dom.development.js:3559
+validateProperties$2 @ react-dom.development.js:3583
+validatePropertiesInDevelopment @ react-dom.development.js:8765
+setInitialProperties @ react-dom.development.js:9041
+finalizeInitialChildren @ react-dom.development.js:10201
+completeWork @ react-dom.development.js:19470
+completeUnitOfWork @ react-dom.development.js:22815
+performUnitOfWork @ react-dom.development.js:22787
+workLoopSync @ react-dom.development.js:22707
+renderRootSync @ react-dom.development.js:22670
+performSyncWorkOnRoot @ react-dom.development.js:22293
+(anonymous) @ react-dom.development.js:11327
+unstable_runWithPriority @ scheduler.development.js:646
+runWithPriority$1 @ react-dom.development.js:11276
+flushSyncCallbackQueueImpl @ react-dom.development.js:11322
+flushSyncCallbackQueue @ react-dom.development.js:11309
+discreteUpdates$1 @ react-dom.development.js:22420
+discreteUpdates @ react-dom.development.js:3756
+dispatchDiscreteEvent @ react-dom.development.js:5889
+index.js:1 Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.
+    at input
+    at div
+    at FormGroup (http://localhost:3000/static/js/main.chunk.js:1627:3)
+    at form
+    at Form (http://localhost:3000/static/js/0.chunk.js:12156:22)
+    at Formik (http://localhost:3000/static/js/0.chunk.js:11814:19)
+    at PlayerForm (http://localhost:3000/static/js/main.chunk.js:3988:3)
+    at div
+    at PlayerInfo (http://localhost:3000/static/js/main.chunk.js:4240:72)
+    at div
+    at div
+    at div
+    at div
+    at div
+    at AccountScreen
+    at section
+    at main
+    at MainLayout (http://localhost:3000/static/js/main.chunk.js:14560:86)
+    at Route (http://localhost:3000/static/js/0.chunk.js:226516:9)
+    at Routes (http://localhost:3000/static/js/0.chunk.js:226563:13)
+    at Elements (http://localhost:3000/static/js/0.chunk.js:5510:30)
+    at EventRegistrationProvider (http://localhost:3000/static/js/main.chunk.js:2968:82)
+    at AuthProvider (http://localhost:3000/static/js/main.chunk.js:2353:71)
+    at Router (http://localhost:3000/static/js/0.chunk.js:226528:13)
+    at BrowserRouter (http://localhost:3000/static/js/0.chunk.js:226153:13)
+    at ReactQueryConfigProvider (http://localhost:3000/static/js/0.chunk.js:224044:21)
+    at AppProviders (http://localhost:3000/static/js/main.chunk.js:2806:3)
