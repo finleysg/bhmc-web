@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom"
 import * as config from "utils/app-config"
 
 import { AuthProvider } from "./auth-context"
+import { LayoutProvider } from "./layout-context"
 import { EventRegistrationProvider } from "./registration-context"
 
 const queryConfig = {
@@ -27,13 +28,15 @@ const stripePromise = loadStripe(config.stripePublicKey)
 function AppProviders({ children }) {
   return (
     <ReactQueryConfigProvider config={queryConfig}>
-      <Router>
-        <AuthProvider>
-          <EventRegistrationProvider>
-            <Elements stripe={stripePromise}>{children}</Elements>
-          </EventRegistrationProvider>
-        </AuthProvider>
-      </Router>
+      <LayoutProvider>
+        <Router>
+          <AuthProvider>
+            <EventRegistrationProvider>
+              <Elements stripe={stripePromise}>{children}</Elements>
+            </EventRegistrationProvider>
+          </AuthProvider>
+        </Router>
+      </LayoutProvider>
     </ReactQueryConfigProvider>
   )
 }

@@ -2,12 +2,11 @@ import { Logo } from "./logo"
 import { NavigationTrigger } from "./navigation-trigger"
 import { UserMenu } from "./user-menu"
 
-function Header({ sidebarOpen, onSidebarToggle }) {
+function Header() {
   return (
     <header className="header">
-      <NavigationTrigger sidebarOpen={sidebarOpen} onSidebarToggle={onSidebarToggle} />
-      <Logo sidebarOpen={sidebarOpen} />
-
+      <NavigationTrigger />
+      <Logo />
       <ul className="top-nav">
         <UserMenu />
       </ul>

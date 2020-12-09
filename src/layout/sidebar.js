@@ -1,5 +1,6 @@
 import React from "react"
 
+import { useLayout } from "context/layout-context"
 import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
 import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
@@ -9,9 +10,11 @@ import { TiContacts } from "react-icons/ti"
 
 import { MenuItem } from "./menu-item"
 
-function Sidebar({ open }) {
+function Sidebar() {
+  const { sidebarOpen } = useLayout()
+
   return (
-    <aside className={open ? "sidebar toggled" : "sidebar"}>
+    <aside className={sidebarOpen ? "sidebar toggled" : "sidebar"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
         <MenuItem path="membership" icon={<GoPlus />} name="Sign Up for 2021" />

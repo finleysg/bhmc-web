@@ -1,6 +1,8 @@
+import { useLayout } from "context/layout-context"
 import { Link } from "react-router-dom"
 
-function Logo({ sidebarOpen }) {
+function Logo() {
+  const { sidebarOpen } = useLayout()
   return (
     <div className="header__logo hidden-sm-down">
       <h1>

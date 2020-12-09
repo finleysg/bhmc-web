@@ -41,7 +41,6 @@ function useMyEvents() {
     () => {
       if (player && player.id) {
         return client(`registration-slots/?player_id=${player.id}`).then((slots) => {
-          console.log("my events for " + player.id)
           return slots.filter((s) => s.status === "R").map((s) => s.event)
         })
       }
@@ -54,7 +53,6 @@ function useMyEvents() {
       staleTime: 1000 * 60 * 60,
     },
   )
-  console.log("my events: " + myEvents)
   return myEvents ?? []
 }
 
