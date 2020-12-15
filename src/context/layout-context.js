@@ -7,7 +7,9 @@ function LayoutProvider(props) {
   const [sidebarOpen, setSidebarOpen] = React.useState(true)
 
   const closeSidebar = () => {
-    setSidebarOpen(false)
+    if (window.innerWidth < 1200) {
+      setSidebarOpen(false)
+    }
   }
 
   const openSidebar = () => {

@@ -1,9 +1,5 @@
-export const large = "@media (min-width: 1200px)"
-export const medium = "@media (min-width: 992px) and (max-width: 1199px)"
-export const small = "@media (min-width: 481px) and (max-width: 991px)"
-export const mobile = "@media (max-width: 480px)"
-// xs: 0,
-// sm: 576px,
-// md: 768px,
-// lg: 992px,
-// xl: 1200px,
+export const extraLarge = "@media (min-width: 1201px)"
+export const large = "@media (min-width: 993px) and (max-width: 1200px)"
+export const medium = "@media (min-width: 769px) and (max-width: 992px)"
+export const small = "@media (min-width: 577px) and (max-width: 768px)"
+export const mobile = "@media (max-width: 576px)"

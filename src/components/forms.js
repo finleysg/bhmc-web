@@ -47,4 +47,17 @@ const FormGroup = ({ label, ...props }) => {
   )
 }
 
-export { FloatingInput, FormGroup, Input, Textarea }
+const FormGroupAsTextarea = ({ label, ...props }) => {
+  const [field, meta] = useField(props)
+
+  return (
+    <div className={"form-group"}>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <textarea {...field} {...props} id={props.name} className="form-control" />
+      <i className="form-group__bar"></i>
+      {meta.touched && meta.error ? <div className="invalid-feedback">{meta.error}</div> : null}
+    </div>
+  )
+}
+
+export { FloatingInput, FormGroup, FormGroupAsTextarea, Input, Textarea }

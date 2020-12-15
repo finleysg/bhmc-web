@@ -101,7 +101,7 @@ function IconSubmitButton({ color, loading, children }) {
 function SubmitButton({ loading, ...props }) {
   return (
     <button type="submit" className="btn btn-primary" disabled={loading} {...props}>
-      Save
+      {props.label ?? "Save"}
     </button>
   )
 }
