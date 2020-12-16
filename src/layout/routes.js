@@ -2,6 +2,7 @@ import { AccountScreen } from "features/account/account-screen"
 import CalendarScreen from "features/calendar/calendar-screen"
 import SeasonSignupFlow from "features/event-registration/season-signup-flow"
 import { NotFoundScreen } from "features/not-found"
+import AboutPage from "features/pages/about-page"
 import ContactPage from "features/pages/contact-page"
 import SendMessagePage from "features/pages/send-message-page"
 import { PolicyScreen } from "features/policy/policy-screen"
@@ -26,7 +27,7 @@ const mainRoutes = (user) => [
   { path: "/directory", element: <TestingScreen /> },
   { path: "/contact-us", element: <ContactPage /> },
   { path: "/contact-us/message", element: <SendMessagePage /> },
-  { path: "/about-us", element: <TestingScreen /> },
+  { path: "/about-us", element: <AboutPage /> },
   { path: "/my-account", element: <AccountScreen /> },
   { path: "/settings", element: <TestingScreen /> },
   { path: "*", element: <NotFoundScreen /> },
