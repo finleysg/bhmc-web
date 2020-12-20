@@ -3,7 +3,7 @@ import React from "react"
 import { LoadingSpinner } from "components/spinners"
 import { MdEdit, MdPerson } from "react-icons/md"
 
-import { usePlayer } from "./account-hooks"
+import { usePlayer } from "../../hooks/account-hooks"
 import { PlayerForm } from "./player-form"
 
 function PlayerInfo() {

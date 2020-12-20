@@ -3,8 +3,8 @@ import React from "react"
 import { useEventRegistration } from "context/registration-context"
 import Player from "models/player"
 
+import { usePlayers } from "../../hooks/registration-hooks"
 import { RegistrationItemRow } from "./event-registration-rows"
-import { usePlayers } from "./registration-hooks"
 
 function RegistrationSlots(props) {
   const { clubEvent, registration, payment } = useEventRegistration()

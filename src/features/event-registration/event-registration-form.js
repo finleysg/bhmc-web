@@ -2,21 +2,13 @@ import React from "react"
 
 import { useEventRegistration } from "context/registration-context"
 import debounceFn from "debounce-fn"
-import { useMyEvents, usePlayer } from "features/account/account-hooks"
-import * as config from "utils/app-config"
 import { calculateFees } from "utils/payment-utils"
 
 import { RegistrationAmountDueRow, RegistrationTransactionFeeRow } from "./event-registration-rows"
 import { RegistrationSlots } from "./event-registration-slots"
 
 function EventRegistrationForm(props) {
-  const { onCancel, onReview, onBusy } = props
-  const player = usePlayer()
-  const myEvents = useMyEvents()
-
-  // TODO: selections must be populated in the "back" scenario
-  const [selections, updateSelections] = React.useState([])
-
+  const { onCancel, onComplete, onBusy, feeFilter, getNotificationType } = props
   const {
     clubEvent,
     registration,
@@ -26,8 +18,12 @@ function EventRegistrationForm(props) {
     updatePayment,
   } = useEventRegistration()
 
+  const [selections, updateSelections] = React.useState(() => clubEvent.selectedFees(payment))
+
   const isBusy = registration === undefined || registration.id === undefined
-  onBusy(isBusy)
+  React.useEffect(() => {
+    onBusy(isBusy)
+  }, [isBusy, onBusy])
 
   // Update the registration with changes to the notes.
   const updateNotes = React.useMemo(() => debounceFn(updateRegistration, { wait: 500 }), [
@@ -41,11 +37,10 @@ function EventRegistrationForm(props) {
 
   // This applies only to the season signup form.
   // TODO: adjust if rate applies for turning NN at any time this season.
-  const isReturning = myEvents.indexOf(config.previousSeasonEventId)
   const filteredEventFees = () => {
-    const duesCode = isReturning >= 0 ? "RMD" : "NMD"
-    const patronCode = player.age >= config.seniorRateAge ? "SPC" : "PC"
-    return clubEvent.fees.filter((fee) => fee.code === duesCode || fee.code === patronCode)
+    // const duesCode = isReturning >= 0 ? "RMD" : "NMD"
+    // const patronCode = player.age >= config.seniorRateAge ? "SPC" : "PC"
+    return clubEvent.fees.filter((fee) => feeFilter(fee))
   }
 
   const paymentDetails = () => {
@@ -82,12 +77,12 @@ function EventRegistrationForm(props) {
   const confirm = () => {
     if (payment?.id) {
       payment.details = paymentDetails()
-      updatePayment(payment).then(onReview())
+      updatePayment(payment).then(onComplete())
     } else {
       createPayment({
-        notificationType: isReturning ? "R" : "N",
+        notificationType: getNotificationType(),
         details: paymentDetails(),
-      }).then(onReview())
+      }).then(onComplete())
     }
   }
 

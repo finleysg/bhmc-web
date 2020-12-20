@@ -1,19 +1,18 @@
 import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
-import { useEventRegistration } from "context/registration-context"
-import { useMyEvents, usePlayer } from "features/account/account-hooks"
+import { RegistrationSteps, useEventRegistration } from "context/registration-context"
+import { useMyEvents, usePlayer } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
 import * as config from "utils/app-config"
 
-function SeasonEvent(props) {
-  const { canStart, onStart } = props
+function SeasonEvent() {
   const myEvents = useMyEvents()
   const player = usePlayer()
 
-  const { clubEvent } = useEventRegistration()
+  const { clubEvent, currentStep, startRegistration } = useEventRegistration()
 
   const loading = clubEvent?.id === undefined
   const hasSignedUp = myEvents.indexOf(config.seasonEventId) >= 0
@@ -82,13 +81,17 @@ function SeasonEvent(props) {
                     <button
                       className="btn btn-primary"
                       style={{ marginRight: ".5rem" }}
-                      disabled={!canStart}
-                      onClick={onStart}
+                      disabled={currentStep !== RegistrationSteps.Pending}
+                      onClick={startRegistration}
                     >
                       Register Online
                     </button>
                   )}
-                  <Link className="btn btn-success" to="/home">
+                  <Link
+                    className="btn btn-success"
+                    disabled={currentStep !== RegistrationSteps.Pending}
+                    to="/home"
+                  >
                     See Who Signed Up
                   </Link>
                 </div>

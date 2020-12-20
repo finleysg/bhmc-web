@@ -7,7 +7,7 @@ import { Form, Formik } from "formik"
 import { toast } from "react-toastify"
 import * as Yup from "yup"
 
-import { useUpdatePlayer } from "./account-hooks"
+import { useUpdatePlayer } from "../../hooks/account-hooks"
 
 function PlayerForm({ player, onClose }) {
   const [update, { isLoading, isError, error }] = useUpdatePlayer()

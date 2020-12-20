@@ -4,7 +4,7 @@ import { jsx } from "@emotion/core"
 
 import React from "react"
 
-import { useClubEvent } from "features/event-registration/event-hooks"
+import { useClubEvent } from "hooks/event-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"

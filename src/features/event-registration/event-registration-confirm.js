@@ -1,16 +1,24 @@
+import React from "react"
+
 import { useEventRegistration } from "context/registration-context"
 import { EventFee } from "models/club-event"
+import { Payment } from "models/payment"
 import Player from "models/player"
 
-import { usePlayers } from "./registration-hooks"
+import { usePlayers } from "../../hooks/registration-hooks"
 
 function EventRegistrationConfirm(props) {
-  const { onBack, onConfirm, onCancel, onBusy } = props
+  const { onBack, onComplete, onCancel, onBusy } = props
   const players = usePlayers()
   const { clubEvent, registration, payment } = useEventRegistration()
 
-  const isBusy = payment === undefined || payment.id === undefined
-  onBusy(isBusy)
+  // When the user navigates back and forth between the reg form and confirm
+  // screens, this is a reliable way of telling if we have reloaded the
+  // payment record from the back end.
+  const isBusy = !(payment instanceof Payment && payment.hasPaymentDetails())
+  React.useEffect(() => {
+    onBusy(isBusy)
+  }, [isBusy, onBusy])
 
   const findPlayer = (id) => {
     const index = players.findIndex((p) => p.id === id)
@@ -39,7 +47,7 @@ function EventRegistrationConfirm(props) {
               <strong>{findPlayer(slot.playerId).name}</strong>
             </div>
             <div className="col-8">
-              {payment &&
+              {!isBusy &&
                 payment.details
                   .filter((f) => f.slotId === slot.id)
                   .map((f) => {
@@ -85,7 +93,7 @@ function EventRegistrationConfirm(props) {
             className="btn btn-success"
             disabled={isBusy}
             style={{ marginLeft: ".5rem" }}
-            onClick={onConfirm}
+            onClick={onComplete}
           >
             Looks Good!
           </button>

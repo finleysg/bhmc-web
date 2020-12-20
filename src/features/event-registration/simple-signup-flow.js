@@ -8,95 +8,72 @@ import React from "react"
 import { ConfirmAlertDialog } from "components/confirm"
 import { ErrorDisplay } from "components/errors"
 import { Spinner } from "components/spinners"
-import { useEventRegistration } from "context/registration-context"
+import { RegistrationSteps, useEventRegistration } from "context/registration-context"
+import { queryCache } from "react-query"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
 
 import EventRegistrationComplete from "./event-registration-complete"
 import EventRegistrationConfirm from "./event-registration-confirm"
 import EventRegistrationForm from "./event-registration-form"
 import EventRegistrationPayment from "./event-registration-payment"
-import SeasonEvent from "./season-event"
 
-const registrationSteps = {
-  pending: {
-    name: "pending",
-  },
-  register: {
-    name: "register",
-    title: "Online Registration (1 of 3)",
-  },
-  review: {
-    name: "review",
-    title: "Confirm Registration Details (2 of 3)",
-  },
-  payment: {
-    name: "payment",
-    title: "Submit Payment (3 of 3)",
-  },
-  complete: {
-    name: "complete",
-    title: "Registration Complete",
-  },
-}
-
-function SeasonSignupFlow() {
-  const [currentStep, changeCurrentStep] = React.useState(registrationSteps.pending)
+function SimpleSignupFlow(props) {
   const {
     error,
     registration,
-    loadEvent,
-    createRegistration,
+    currentStep,
     cancelRegistration,
+    updateStep,
   } = useEventRegistration()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
   const [isBusy, setIsBusy] = React.useState(false)
   const cancelRef = React.useRef()
 
-  React.useEffect(() => {
-    loadEvent(config.seasonEventId)
-  }, [loadEvent])
+  const handleReset = () => {
+    cancelRegistration(registration.id)
+    window.location.assign(window.location)
+  }
 
   const handleCancel = () => {
     setShowConfirm(false)
-    cancelRegistration(registration.id).then(changeCurrentStep(registrationSteps.pending))
+    cancelRegistration(registration.id)
+    window.location.assign(window.location)
   }
 
-  const handleStart = () => {
-    if (registration && registration.id) {
-      changeCurrentStep(registrationSteps.register)
-    } else {
-      const reg = {
-        slots: [],
-      }
-      createRegistration(reg).then(changeCurrentStep(registrationSteps.register))
-    }
-  }
-
-  const handleChangeStep = (nextStep) => {
-    changeCurrentStep(nextStep)
+  const handleRegistrationComplete = () => {
+    queryCache.invalidateQueries("my-events")
+    updateStep(RegistrationSteps.Complete)
   }
 
   return (
-    <div className="content__inner">
-      <header className="content__title">
-        <h1>{config.currentSeason} Season Registration</h1>
-      </header>
-      <div className="row">
-        <div className="col-lg-6">
-          <SeasonEvent canStart={currentStep === registrationSteps.pending} onStart={handleStart} />
-        </div>
-        {currentStep !== registrationSteps.pending && (
-          <div className="col-lg-6">
-            {error && (
-              <div className="card border border-danger">
-                <div className="card-header text-white bg-danger">Registration Failure</div>
-                <div className="card-body">
-                  <ErrorDisplay error={error} isError={true} />
+    <React.Fragment>
+      {currentStep !== RegistrationSteps.Pending && (
+        <React.Fragment>
+          {error ? (
+            <div className="card border border-danger">
+              <div className="card-header text-white bg-danger">Registration Failure</div>
+              <div className="card-body">
+                <p>
+                  An error occurred and we cannot continue the registration process. This may be
+                  temporary. Click the Reset button to start over. If this problem persists, please
+                  contact <a href="mailto:admin@bhmc.org">admin@bhmc.org</a>.
+                </p>
+                <ErrorDisplay error={error} isError={true} />
+                <div className="row" style={{ marginTop: "1rem", textAlign: "right" }}>
+                  <div className="col-12">
+                    <button
+                      className="btn btn-danger"
+                      style={{ marginLeft: ".5rem" }}
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button>
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
+          ) : (
             <div className="card border border-success">
               <div className="card-header bg-success">
                 <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
@@ -108,34 +85,36 @@ function SeasonSignupFlow() {
                   </span>
                 )}
               </div>
-              {currentStep === registrationSteps.register && (
+              {currentStep === RegistrationSteps.Register && (
                 <EventRegistrationForm
-                  onCancel={setShowConfirm}
-                  onReview={() => handleChangeStep(registrationSteps.review)}
+                  feeFilter={props.feeFilter}
+                  getNotificationType={props.getNotificationType}
                   onBusy={(busy) => setIsBusy(busy)}
+                  onCancel={setShowConfirm}
+                  onComplete={() => updateStep(RegistrationSteps.Review)}
                 />
               )}
-              {currentStep === registrationSteps.review && (
+              {currentStep === RegistrationSteps.Review && (
                 <EventRegistrationConfirm
-                  onBack={() => handleChangeStep(registrationSteps.register)}
-                  onCancel={setShowConfirm}
-                  onConfirm={() => handleChangeStep(registrationSteps.payment)}
+                  onBack={() => updateStep(RegistrationSteps.Register)}
                   onBusy={(busy) => setIsBusy(busy)}
+                  onCancel={setShowConfirm}
+                  onComplete={() => updateStep(RegistrationSteps.Payment)}
                 />
               )}
-              {currentStep === registrationSteps.payment && (
+              {currentStep === RegistrationSteps.Payment && (
                 <EventRegistrationPayment
-                  onBack={() => handleChangeStep(registrationSteps.review)}
-                  onCancel={setShowConfirm}
-                  onPaymentComplete={() => handleChangeStep(registrationSteps.complete)}
+                  onBack={() => updateStep(RegistrationSteps.Review)}
                   onBusy={(busy) => setIsBusy(busy)}
+                  onCancel={setShowConfirm}
+                  onComplete={handleRegistrationComplete}
                 />
               )}
-              {currentStep === registrationSteps.complete && <EventRegistrationComplete />}
+              {currentStep === RegistrationSteps.Complete && <EventRegistrationComplete />}
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </React.Fragment>
+      )}
       {showConfirm && (
         <ConfirmAlertDialog leastDestructiveRef={cancelRef}>
           <AlertDialogLabel>
@@ -163,8 +142,8 @@ function SeasonSignupFlow() {
           </div>
         </ConfirmAlertDialog>
       )}
-    </div>
+    </React.Fragment>
   )
 }
 
-export default SeasonSignupFlow
+export default SimpleSignupFlow

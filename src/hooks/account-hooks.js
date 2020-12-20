@@ -1,4 +1,5 @@
 import { useAuth, useClient } from "context/auth-context"
+import { SavedCard } from "models/payment"
 import Player from "models/player"
 import { queryCache, useMutation, useQuery } from "react-query"
 import { toast } from "react-toastify"
@@ -56,6 +57,18 @@ function useMyEvents() {
   return myEvents ?? []
 }
 
+function useMyCards() {
+  const client = useClient()
+
+  const { data: myCards } = useQuery("my-cards", () => {
+    return client("saved-cards").then((obj) => {
+      if (obj.data) return obj.data.map((c) => new SavedCard(c))
+      return []
+    })
+  })
+  return myCards
+}
+
 function useUpdatePlayer() {
   const client = useClient()
 
@@ -85,4 +98,4 @@ function usePlayerProfilePic() {
   return useMutation((formData) => formClient(`photos/`, formData), playerMutationConfig)
 }
 
-export { useMyEvents, usePlayer, usePlayerProfilePic, useUpdatePlayer }
+export { useMyCards, useMyEvents, usePlayer, usePlayerProfilePic, useUpdatePlayer }

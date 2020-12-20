@@ -1,7 +1,7 @@
 import React from "react"
 
 import { useClient } from "context/auth-context"
-import { ContactForm } from "features/forms/contact-form"
+import { ContactForm } from "forms/contact-form"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 

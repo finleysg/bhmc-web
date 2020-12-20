@@ -2,15 +2,23 @@ Profile page:
 - after saving, need to see the changes correctly on the page
 
 Account registration:
+"ghin is already associated with a player" with no ghin
 
 Season registration:
-- two lines for credit card
+- Stays stuck on last step -- reset after navigating away?
 - saving cards (part of a larger settings effort)
 - TODO: text or maybe cards to select from (on payment step)
-- on error card, add a reset button
+- After registration, should not have to refresh to get the "you have already signed up" message
 
 Email:
 - style djoser emails (activation done)
 
 Player info:
 
+Mobile:
+- Confirm dialog should be larger
+- Buttoms should stack if they don't fit horizontally
+
+General:
+- Menu should be hidden by default on smaller screens
+- Remove registrations from event detail (load separately)

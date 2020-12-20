@@ -2,53 +2,86 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 
 import React from "react"
 
+import { CreditCardList } from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
 import { useAuth } from "context/auth-context"
 import { useEventRegistration } from "context/registration-context"
+import { useMyCards } from "hooks/account-hooks"
 import { toast } from "react-toastify"
 
 function EventRegistrationPayment(props) {
-  const { onBack, onPaymentComplete, onCancel, onBusy } = props
+  const { onBack, onComplete, onCancel, onBusy } = props
   const [paymentError, setPaymentError] = React.useState()
+  const [paymentMethod, setPaymentMethod] = React.useState()
   const [isBusy, setIsBusy] = React.useState(false)
+  const [saveCard, setSaveCard] = React.useState(false)
   const { user } = useAuth()
   const { clubEvent, payment } = useEventRegistration()
+  const myCards = useMyCards()
   const stripe = useStripe()
   const elements = useElements()
+
+  React.useEffect(() => {
+    if (myCards === undefined || myCards.length === 0) {
+      setPaymentMethod("new")
+    } else {
+      setPaymentMethod(myCards[0])
+    }
+  }, [myCards])
+
+  const formattedPaymentAmount = (payment) => {
+    const amt = Number(payment?.paymentAmount || 0)
+    return `$${amt.toFixed(2)}`
+  }
 
   const publishBusyFeedback = (busy) => {
     setIsBusy(busy)
     onBusy(busy)
   }
 
+  const handleSaveCard = (evt) => {
+    setSaveCard(evt.target.checked)
+  }
+
   const handlePaymentClick = async () => {
     publishBusyFeedback(true)
-    const cardElement = elements.getElement(CardElement)
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: {
-        email: user.email,
-        name: `${user.first_name} ${user.last_name}`,
-      },
-    })
+    if (paymentMethod === "new") {
+      const cardElement = elements.getElement(CardElement)
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+        billing_details: {
+          email: user.email,
+          name: `${user.first_name} ${user.last_name}`,
+        },
+      })
 
-    if (error) {
-      setPaymentError(error.message)
-      publishBusyFeedback(false)
-    } else {
-      if (paymentMethod !== undefined) {
-        submitPayment(paymentMethod)
-      } else {
-        setPaymentError("No payment method was created!")
+      if (error) {
+        setPaymentError(error.message)
         publishBusyFeedback(false)
+      } else {
+        if (paymentMethod !== undefined) {
+          submitPayment(paymentMethod)
+        } else {
+          setPaymentError("No payment method was created!")
+          publishBusyFeedback(false)
+        }
       }
+    } else {
+      submitPayment({ id: paymentMethod })
     }
   }
 
   const submitPayment = async (method) => {
+    // The setup_future_usage defaults to "on_session", unless this is a new card
+    // and the player has not elected to save it.
+    let setup_future_usage = "on_session"
+    if (paymentMethod === "new" && !saveCard) {
+      setup_future_usage = ""
+    }
     const result = await stripe.confirmCardPayment(payment.paymentKey, {
       payment_method: method.id,
+      setup_future_usage,
     })
     if (result.error) {
       publishBusyFeedback(false)
@@ -58,36 +91,64 @@ function EventRegistrationPayment(props) {
     } else if (result.paymentIntent) {
       publishBusyFeedback(false)
       toast.success("💸 Your payment has been accepted.")
-      onPaymentComplete()
+      onComplete()
     }
   }
 
   return (
     <div className="card-body">
       <h4 className="card-title">{clubEvent.name}</h4>
-      <h6 className="card-subtitle">{payment?.paymentAmount}</h6>
-      <div className="row" style={{ marginBottom: "1rem" }}>
-        <div className="col-12">TODO: text or maybe cards to select from</div>
-      </div>
+      <h6 className="card-subtitle">{formattedPaymentAmount(payment)}</h6>
       <div className="row" style={{ marginBottom: "1rem" }}>
         <div className="col-12">
-          <CardElement
-            className="form-control"
-            options={{
-              style: {
-                base: {
-                  color: "#212529",
-                  lineHeight: "1.429",
-                },
-                invalid: {
-                  color: "red",
-                },
-              },
-            }}
-          />
+          <CreditCardList cards={myCards} onSelected={(pm) => setPaymentMethod(pm)} />
         </div>
       </div>
-      <div className="row" style={{ textAlign: "right" }}>
+      {paymentMethod === "new" && (
+        <React.Fragment>
+          <div className="row" style={{ marginBottom: "1rem" }}>
+            <div className="col-12">
+              <CardElement
+                className="form-control"
+                options={{
+                  style: {
+                    base: {
+                      color: "#32325d",
+                      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                      fontSmoothing: "antialiased",
+                      fontSize: "14px",
+                      "::placeholder": {
+                        color: "#aab7c4",
+                      },
+                    },
+                    invalid: {
+                      color: "#fa755a",
+                      iconColor: "#fa755a",
+                    },
+                  },
+                }}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <div className="checkbox">
+                <input
+                  id="saveCard"
+                  type="checkbox"
+                  value={saveCard}
+                  checked={saveCard}
+                  onChange={handleSaveCard}
+                />
+                <label className="checkbox__label" htmlFor="saveCard">
+                  Save this card for future payments
+                </label>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      )}
+      <div className="row">
         <div className="col-12">
           <ErrorDisplay error={paymentError} isError={paymentError !== undefined} />
         </div>

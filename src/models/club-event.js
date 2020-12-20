@@ -176,6 +176,23 @@ function ClubEvent(json) {
   this.signupWindow = `${this.signupStart.format("MMMM Do YYYY")} to ${this.signupEnd.format(
     "MMMM Do YYYY",
   )}`
+
+  /**
+   * Returns the event fees that match the given payment record
+   * @param {Payment} payment
+   * @param {boolean} optional - Return only optional fees
+   */
+  this.selectedFees = (payment, optional = true) => {
+    if (this.fees) {
+      const selectedIds = payment?.details.map((p) => p.eventFeeId)
+      if (!selectedIds || selectedIds.length === 0) return []
+      return this.fees
+        .filter((fee) => selectedIds.indexOf(fee.id) >= 0)
+        .filter((fee) => fee.isRequired === !optional)
+    } else {
+      return []
+    }
+  }
 }
 
 export { ClubEvent, EventFee, loadingEvent, sampleEvent }

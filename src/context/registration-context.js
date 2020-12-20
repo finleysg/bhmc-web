@@ -3,9 +3,35 @@ import React from "react"
 import { ClubEvent } from "models/club-event"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
-import { queryCache, useIsFetching, useMutation, useQuery } from "react-query"
+import { queryCache, useMutation, useQuery } from "react-query"
 
 import { useAuth, useClient } from "./auth-context"
+
+const RegistrationSteps = {
+  Pending: {
+    name: "pending",
+  },
+  Reserve: {
+    name: "reserve",
+    title: "Reserve Tee Time or Starting Hole",
+  },
+  Register: {
+    name: "register",
+    title: "Online Registration",
+  },
+  Review: {
+    name: "review",
+    title: "Confirm Registration Details",
+  },
+  Payment: {
+    name: "payment",
+    title: "Submit Payment",
+  },
+  Complete: {
+    name: "complete",
+    title: "Registration Complete",
+  },
+}
 
 const EventRegistrationContext = React.createContext()
 EventRegistrationContext.displayName = "EventRegistrationContext"
@@ -15,10 +41,10 @@ function EventRegistrationProvider(props) {
   const [registration, setRegistration] = React.useState()
   const [payment, setPayment] = React.useState()
   const [error, setError] = React.useState()
+  const [currentStep, changeCurrentStep] = React.useState(RegistrationSteps.Pending)
 
   const { user } = useAuth()
   const client = useClient()
-  const isFetching = useIsFetching()
 
   const loadEvent = React.useCallback(
     async (id) => {
@@ -128,8 +154,11 @@ function EventRegistrationProvider(props) {
       onSettled: () => {
         queryCache.invalidateQueries("registration", { refetchActive: false })
         if (payment && payment.id) {
+          queryCache.invalidateQueries("payment", { refetchActive: false })
           deletePayment(payment.id)
         }
+        setError(undefined)
+        changeCurrentStep(RegistrationSteps.Pending)
       },
     },
   )
@@ -200,24 +229,44 @@ function EventRegistrationProvider(props) {
         queryCache.invalidateQueries("payment", { refetchActive: false })
       },
       onError: (error) => {
-        setError(error)
+        // Clear this error, otherwise we will be stuck in an unrecoverable state.
+        // Most likely, we don't have a payment to delete.
+        console.error(error)
+        setError(undefined)
       },
     },
   )
+
+  const startRegistration = React.useCallback(() => {
+    if (registration && registration.id) {
+      changeCurrentStep(RegistrationSteps.Register)
+    } else {
+      const reg = {
+        slots: [],
+      }
+      createRegistration(reg).then(changeCurrentStep(RegistrationSteps.Register))
+    }
+  }, [registration, createRegistration])
+
+  const updateStep = React.useCallback((step) => {
+    changeCurrentStep(step)
+  }, [])
 
   const value = {
     clubEvent,
     registration,
     payment,
     error,
-    isFetching,
+    currentStep,
     loadEvent,
+    startRegistration,
     createRegistration,
     updateRegistration,
     cancelRegistration,
     createPayment,
     updatePayment,
     deletePayment,
+    updateStep,
   }
 
   return <EventRegistrationContext.Provider value={value} {...props} />
@@ -231,4 +280,4 @@ function useEventRegistration() {
   return context
 }
 
-export { EventRegistrationProvider, useEventRegistration }
+export { EventRegistrationProvider, RegistrationSteps, useEventRegistration }
