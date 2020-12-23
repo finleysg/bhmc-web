@@ -16,16 +16,13 @@ import {
 } from "react-icons/fa"
 import { GiCheckMark } from "react-icons/gi"
 import { GoPlusSmall } from "react-icons/go"
+import { MdRemoveCircle } from "react-icons/md"
+import * as colors from "styles/colors"
 
 const cardStyle = {
-  //   width: "35px",
-  //   height: "24px",
   fontSize: "2rem",
-  textAlign: "center",
-  //   borderRadius: "3px",
-  //   borderStyle: "solid",
-  //   borderWidth: "1px",
-  //   overflow: "hidden",
+  height: "24px",
+  //   textAlign: "center",
 }
 
 const cardImage = (brand) => {
@@ -110,29 +107,26 @@ function CreditCardList(props) {
 }
 
 function ManageCreditCards(props) {
-  const { cards, onAdd, onUpdate } = props
-
-  const handleSelection = (paymentMethod) => {
-    if (paymentMethod === "new") {
-      onAdd()
-    } else {
-      onUpdate(paymentMethod)
-    }
-  }
+  const { cards, onAdd, onRemove } = props
 
   return (
     <div>
       {cards &&
         cards.map((card) => {
           return (
-            <ManagedCreditCard key={card.paymentMethod} card={card} onSelect={handleSelection} />
+            <ManagedCreditCard
+              key={card.paymentMethod}
+              card={card}
+              onRemove={onRemove}
+              {...props}
+            />
           )
         })}
-      <div style={{ display: "flex", cursor: "pointer" }} onClick={() => onAdd("new")}>
+      <div style={{ display: "flex", cursor: "pointer" }} onClick={() => onAdd()}>
         <div style={{ flex: "1" }}>
           <div css={cardStyle}>{cardImage("add")}</div>
         </div>
-        <div style={{ flex: "6" }}>
+        <div style={{ flex: "7" }}>
           <span style={{ marginLeft: "8px" }}>
             <strong>Add a payment method</strong>
           </span>
@@ -148,7 +142,7 @@ function CreditCard(props) {
   return (
     <div
       className={selected ? "text-primary" : "text-muted"}
-      style={{ display: "flex", cursor: "pointer" }}
+      style={{ display: "flex", alignItems: "center", marginBottom: "10px", cursor: "pointer" }}
       onClick={() => onSelect(card.paymentMethod)}
     >
       <div style={{ flex: "1" }}>
@@ -171,10 +165,10 @@ function CreditCard(props) {
 }
 
 function ManagedCreditCard(props) {
-  const { card, onSelect } = props
+  const { card, onUpdate, onRemove } = props
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
       <div style={{ flex: "1" }}>
         <div css={cardStyle}>{cardImage(card.brand)}</div>
       </div>
@@ -187,7 +181,7 @@ function ManagedCreditCard(props) {
         {card.isExpired ? (
           <span>
             <span className="text-warning">expired</span> (
-            <button className="btn btn-link" onClick={() => onSelect(card.paymentMethod)}>
+            <button className="btn btn-link" onClick={() => onUpdate(card)}>
               update
             </button>
             )
@@ -195,6 +189,15 @@ function ManagedCreditCard(props) {
         ) : (
           <span>exp {card.expires}</span>
         )}
+      </div>
+      <div style={{ flex: "1", height: "1.5rem", textAlign: "right" }}>
+        <span
+          className="text-danger"
+          style={{ fontSize: "1.5rem", cursor: "pointer" }}
+          onClick={() => onRemove(card)}
+        >
+          <MdRemoveCircle />
+        </span>
       </div>
     </div>
   )
@@ -216,8 +219,8 @@ function StyledCardElement() {
             },
           },
           invalid: {
-            color: "#fa755a",
-            iconColor: "#fa755a",
+            color: colors.danger,
+            iconColor: colors.danger,
           },
         },
       }}

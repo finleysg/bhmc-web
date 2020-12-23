@@ -21,7 +21,7 @@ function useClubEvents() {
 
 function useClubEvent(eventId) {
   const { data } = useClubEvents()
-  return data.find((e) => e.id === eventId) ?? loadingEvent
+  return data?.find((e) => e.id === eventId) ?? loadingEvent
 }
 
 function useEventRegistrationSlots(eventId) {

@@ -49,7 +49,7 @@ function EventRegistrationProvider(props) {
 
   const loadEvent = React.useCallback(
     (id) => {
-      const event = events.find((evt) => evt.id === id)
+      const event = events?.find((evt) => evt.id === id)
       if (event) {
         setClubEvent(event)
       }

@@ -33,8 +33,8 @@ function UserMenu() {
           <Link onClick={() => setShowMenu(false)} to="my-account" className="dropdown-item">
             My Account
           </Link>
-          <Link to="settings" className="dropdown-item">
-            Settings
+          <Link onClick={() => setShowMenu(false)} to="settings" className="dropdown-item">
+            My Events
           </Link>
           <div className="dropdown-divider"></div>
           <button onClick={handleLogout} className="dropdown-item">

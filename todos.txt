@@ -1,29 +1,30 @@
 Profile page:
-CLose menu on settings click
 
 Account registration:
-"ghin is already associated with a player" with no ghin
 
 Registration:
 - Enforce require ghin
 - Practical way to determine what events / registrations to pull (current season ok?)
 - Pull past season registration separately
+- Not saving card not working
 
 Email:
 - style djoser emails (activation done)
 
 Settings:
-- Intro text and remove page header
-- My Events
+- Intro text
+- My Events (Add bg calls to get registration info, turn them into links)
 
 Mobile:
-- Confirm dialog should be larger
-- Buttoms should stack if they don't fit horizontally
+- Buttons should stack if they don't fit horizontally
 
 General:
 - Menu should be hidden by default on smaller screens
 - Handle cleanup on abandoned flows
 - Replace momentjs
+- Upgrade react-query
+- Credit card custom viewset
+- Update expired card (https://stripe.com/docs/api/payment_methods/update)
 
 Match Play:
 - No dup signup
