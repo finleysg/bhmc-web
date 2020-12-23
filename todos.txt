@@ -1,19 +1,20 @@
 Profile page:
-- after saving, need to see the changes correctly on the page
+CLose menu on settings click
 
 Account registration:
 "ghin is already associated with a player" with no ghin
 
-Season registration:
-- Stays stuck on last step -- reset after navigating away?
-- saving cards (part of a larger settings effort)
-- TODO: text or maybe cards to select from (on payment step)
-- After registration, should not have to refresh to get the "you have already signed up" message
+Registration:
+- Enforce require ghin
+- Practical way to determine what events / registrations to pull (current season ok?)
+- Pull past season registration separately
 
 Email:
 - style djoser emails (activation done)
 
-Player info:
+Settings:
+- Intro text and remove page header
+- My Events
 
 Mobile:
 - Confirm dialog should be larger
@@ -21,4 +22,9 @@ Mobile:
 
 General:
 - Menu should be hidden by default on smaller screens
-- Remove registrations from event detail (load separately)
+- Handle cleanup on abandoned flows
+- Replace momentjs
+
+Match Play:
+- No dup signup
+- Portal button based on url on the event

@@ -9,7 +9,6 @@ import { ConfirmAlertDialog } from "components/confirm"
 import { ErrorDisplay } from "components/errors"
 import { Spinner } from "components/spinners"
 import { RegistrationSteps, useEventRegistration } from "context/registration-context"
-import { queryCache } from "react-query"
 import * as colors from "styles/colors"
 
 import EventRegistrationComplete from "./event-registration-complete"
@@ -24,11 +23,19 @@ function SimpleSignupFlow(props) {
     currentStep,
     cancelRegistration,
     updateStep,
+    completeRegistration,
   } = useEventRegistration()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
   const [isBusy, setIsBusy] = React.useState(false)
   const cancelRef = React.useRef()
+
+  React.useEffect(() => {
+    return () => {
+      console.log("unmounting SimpleSignupFlow")
+      completeRegistration()
+    }
+  }, [completeRegistration])
 
   const handleReset = () => {
     cancelRegistration(registration.id)
@@ -42,7 +49,6 @@ function SimpleSignupFlow(props) {
   }
 
   const handleRegistrationComplete = () => {
-    queryCache.invalidateQueries("my-events")
     updateStep(RegistrationSteps.Complete)
   }
 

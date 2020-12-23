@@ -16,7 +16,7 @@ function SeasonSignupPage() {
     loadEvent(eventId)
   }, [loadEvent, eventId])
 
-  const isReturning = myEvents.indexOf(config.previousSeasonEventId)
+  const isReturning = myEvents?.indexOf(config.previousSeasonEventId)
 
   const seasonEventFeeFilter = React.useCallback(
     (fee) => {

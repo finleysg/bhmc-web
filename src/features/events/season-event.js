@@ -15,7 +15,7 @@ function SeasonEvent() {
   const { clubEvent, currentStep, startRegistration } = useEventRegistration()
 
   const loading = clubEvent?.id === undefined
-  const hasSignedUp = myEvents.indexOf(config.seasonEventId) >= 0
+  const hasSignedUp = myEvents?.indexOf(config.seasonEventId) >= 0
 
   return (
     <div className="card">

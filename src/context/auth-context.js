@@ -18,11 +18,11 @@ async function loadUser() {
   if (user.token) {
     const players = await client(`players/?email=${user.email}`)
     queryCache.setQueryData("player", players[0])
-    const slots = await client(`registration-slots/?player_id=${players[0].id}`)
-    queryCache.setQueryData(
-      "my-events",
-      slots.filter((s) => s.status === "R").map((s) => s.event),
-    )
+    //   const slots = await client(`registration-slots/?player_id=${players[0].id}`)
+    //   queryCache.setQueryData(
+    //     "my-events",
+    //     slots.filter((s) => s.status === "R").map((s) => s.event),
+    //   )
   }
   return user
 }

@@ -1,15 +1,17 @@
+import "./calendar.scss"
+
 import { FullPageSpinner } from "components/spinners"
-import { ClubEvent } from "models/club-event"
 
 import { CalendarDay } from "./calendar-day"
 import { CalendarHeader } from "./calendar-header"
 import { Calendar, getMonth } from "./calendar-utils"
 
-function EventCalendar({ year, monthName, events, loading }) {
+function EventCalendar(props) {
+  const { year, monthName, events, loading } = props
   const calendar = new Calendar(year, monthName)
 
   if (events) {
-    events.forEach((evt) => calendar.addEvent(new ClubEvent(evt)))
+    events.forEach((evt) => calendar.addEvent(evt))
   }
 
   return (

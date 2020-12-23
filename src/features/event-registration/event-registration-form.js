@@ -19,9 +19,13 @@ function EventRegistrationForm(props) {
   } = useEventRegistration()
 
   const [selections, updateSelections] = React.useState(() => clubEvent.selectedFees(payment))
+  const scrollRef = React.useRef()
+
+  const executeScroll = () => scrollRef.current.scrollIntoView()
 
   const isBusy = registration === undefined || registration.id === undefined
   React.useEffect(() => {
+    executeScroll()
     onBusy(isBusy)
   }, [isBusy, onBusy])
 
@@ -87,7 +91,7 @@ function EventRegistrationForm(props) {
   }
 
   return (
-    <div className="card-body">
+    <div className="card-body" ref={scrollRef}>
       {!isBusy && (
         <React.Fragment>
           <RegistrationSlots eventFees={filteredEventFees()} onAdd={addFee} onRemove={removeFee} />

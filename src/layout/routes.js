@@ -1,14 +1,15 @@
 import { AccountScreen } from "features/account/account-screen"
-import CalendarScreen from "features/calendar/calendar-screen"
 import { PolicyScreen } from "features/policy/policy-screen"
 import MembershipScreen from "features/session/membership-screen"
 import AboutPage from "pages/about-page"
+import CalendarPage from "pages/calendar-page"
 import ContactPage from "pages/contact-page"
 import MatchPlaySignupPage from "pages/match-play-signup-page"
 import { NotFoundScreen } from "pages/not-found"
 import PaymentTestPage from "pages/payment-test-page"
 import SeasonSignupPage from "pages/season-signup-page"
 import SendMessagePage from "pages/send-message-page"
+import SettingsPage from "pages/settings-page"
 import { TestingScreen } from "pages/testing"
 
 // import { Navigate, Outlet} from "react-router-dom"
@@ -20,7 +21,7 @@ const mainRoutes = (user) => [
     path: "/membership",
     element: user?.is_authenticated ? <SeasonSignupPage /> : <MembershipScreen />,
   },
-  { path: "/calendar/:year/:monthName", element: <CalendarScreen /> },
+  { path: "/calendar/:year/:monthName", element: <CalendarPage /> },
   { path: "/results", element: <TestingScreen /> },
   { path: "/policies/:policyType", element: <PolicyScreen /> },
   { path: "/match-play", element: <MatchPlaySignupPage /> },
@@ -31,7 +32,7 @@ const mainRoutes = (user) => [
   { path: "/contact-us/message", element: <SendMessagePage /> },
   { path: "/about-us", element: <AboutPage /> },
   { path: "/my-account", element: <AccountScreen /> },
-  { path: "/settings", element: <TestingScreen /> },
+  { path: "/settings", element: <SettingsPage /> },
   { path: "*", element: <NotFoundScreen /> },
 ]
 

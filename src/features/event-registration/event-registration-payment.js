@@ -2,7 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 
 import React from "react"
 
-import { CreditCardList } from "components/credit-card"
+import { CreditCardList, StyledCardElement } from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
 import { useAuth } from "context/auth-context"
 import { useEventRegistration } from "context/registration-context"
@@ -25,7 +25,7 @@ function EventRegistrationPayment(props) {
     if (myCards === undefined || myCards.length === 0) {
       setPaymentMethod("new")
     } else {
-      setPaymentMethod(myCards[0])
+      setPaymentMethod(myCards[0].paymentMethod)
     }
   }, [myCards])
 
@@ -101,33 +101,16 @@ function EventRegistrationPayment(props) {
       <h6 className="card-subtitle">{formattedPaymentAmount(payment)}</h6>
       <div className="row" style={{ marginBottom: "1rem" }}>
         <div className="col-12">
-          <CreditCardList cards={myCards} onSelected={(pm) => setPaymentMethod(pm)} />
+          {myCards && myCards[0] && (
+            <CreditCardList cards={myCards} onSelected={(pm) => setPaymentMethod(pm)} />
+          )}
         </div>
       </div>
       {paymentMethod === "new" && (
         <React.Fragment>
           <div className="row" style={{ marginBottom: "1rem" }}>
             <div className="col-12">
-              <CardElement
-                className="form-control"
-                options={{
-                  style: {
-                    base: {
-                      color: "#32325d",
-                      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                      fontSmoothing: "antialiased",
-                      fontSize: "14px",
-                      "::placeholder": {
-                        color: "#aab7c4",
-                      },
-                    },
-                    invalid: {
-                      color: "#fa755a",
-                      iconColor: "#fa755a",
-                    },
-                  },
-                }}
-              />
+              <StyledCardElement />
             </div>
           </div>
           <div className="row">

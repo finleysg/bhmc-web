@@ -177,6 +177,10 @@ function ClubEvent(json) {
     "MMMM Do YYYY",
   )}`
 
+  this.isCurrent = (year, month) => {
+    return this.startDate.year() === year && this.startDate.month() === month
+  }
+
   /**
    * Returns the event fees that match the given payment record
    * @param {Payment} payment

@@ -1,6 +1,7 @@
 import React from "react"
 
 import * as config from "utils/app-config"
+import { useAsync } from "utils/use-async"
 
 const giphy = async (tag) => {
   const response = await window.fetch(
@@ -18,28 +19,29 @@ const giphy = async (tag) => {
 
 function RandomGif(props) {
   const { tag, enabled } = props
-  const [randomGiphy, setRandomGiphy] = React.useState()
+  const { run, data } = useAsync()
+  //  const [randomGiphy, setRandomGiphy] = React.useState()
 
-  const getRandomGif = React.useCallback(async () => {
-    if (enabled) {
-      const gif = await giphy(tag)
-      if (gif) {
-        setRandomGiphy(gif)
-      }
-    }
-  }, [tag, enabled])
+  //   const getRandomGif = React.useCallback(async () => {
+  //     if (enabled) {
+  //       const gif = await giphy(tag)
+  //       if (gif) {
+  //         setRandomGiphy(gif)
+  //       }
+  //     }
+  //   }, [tag, enabled])
 
   React.useEffect(() => {
-    getRandomGif()
-  }, [getRandomGif])
+    run(giphy(tag))
+  }, [run, tag])
 
   return (
     <div style={{ textAlign: "center" }}>
-      {randomGiphy && (
+      {data && enabled && (
         <img
           style={{ maxWidth: "100%", objectFit: "contain" }}
-          src={randomGiphy.url}
-          title={randomGiphy.title}
+          src={data.url}
+          title={data.title}
           alt="Random golf gif"
         />
       )}

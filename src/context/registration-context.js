@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ClubEvent } from "models/club-event"
+import { useClubEvents } from "hooks/event-hooks"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
 import { queryCache, useMutation, useQuery } from "react-query"
@@ -44,18 +44,17 @@ function EventRegistrationProvider(props) {
   const [currentStep, changeCurrentStep] = React.useState(RegistrationSteps.Pending)
 
   const { user } = useAuth()
+  const { data: events } = useClubEvents()
   const client = useClient()
 
   const loadEvent = React.useCallback(
-    async (id) => {
-      return client(`events/${id}`)
-        .then((data) => setClubEvent(new ClubEvent(data)))
-        .then(() => {
-          queryCache.invalidateQueries("registration")
-          queryCache.invalidateQueries("payment")
-        })
+    (id) => {
+      const event = events.find((evt) => evt.id === id)
+      if (event) {
+        setClubEvent(event)
+      }
     },
-    [client],
+    [events],
   )
 
   useQuery(
@@ -252,6 +251,15 @@ function EventRegistrationProvider(props) {
     changeCurrentStep(step)
   }, [])
 
+  const completeRegistration = React.useCallback(() => {
+    queryCache.invalidateQueries("my-events", { refetchInactive: true })
+    changeCurrentStep(RegistrationSteps.Pending)
+    setClubEvent(undefined)
+    setPayment(undefined)
+    setRegistration(undefined)
+    setError(undefined)
+  }, [])
+
   const value = {
     clubEvent,
     registration,
@@ -267,6 +275,7 @@ function EventRegistrationProvider(props) {
     updatePayment,
     deletePayment,
     updateStep,
+    completeRegistration,
   }
 
   return <EventRegistrationContext.Provider value={value} {...props} />
