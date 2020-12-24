@@ -1,6 +1,5 @@
 import { Calendar, Day } from "features/calendar/calendar-utils"
 import { ClubEvent } from "models/club-event"
-import moment from "moment"
 
 test("can create a Calendar object", () => {
   const october = new Calendar(2020, "October")
@@ -12,7 +11,7 @@ test("can create a Calendar object", () => {
 })
 
 test("can create a Day object", () => {
-  const dt = moment(new Date(1960, 9, 27)) // Oct 17, 1960
+  const dt = new Date(1960, 9, 27) // Oct 17, 1960
   const today = new Day(dt)
   expect(today.isToday).toBe(false)
 })
@@ -21,7 +20,7 @@ test("can add single day events to a Calendar", () => {
   const event1 = new ClubEvent({
     id: 1,
     name: "event 1",
-    start_date: moment("2020-10-03"),
+    start_date: "2020-10-03",
     rounds: 1,
   })
   const october = new Calendar(2020, "October")
@@ -41,7 +40,7 @@ test("can add multi-day events to a Calendar", () => {
   const event1 = new ClubEvent({
     id: 1,
     name: "event 1",
-    start_date: moment("2020-10-03"),
+    start_date: "2020-10-03",
     rounds: 2,
   })
   const october = new Calendar(2020, "October")

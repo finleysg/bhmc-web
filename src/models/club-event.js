@@ -1,4 +1,4 @@
-import moment from "moment"
+import { addDays, format, parseISO, parseJSON } from "date-fns"
 
 const mapRegistrationType = (code) => {
   switch (code) {
@@ -145,7 +145,7 @@ function ClubEvent(json) {
   this.minimumSignupGroupSize = json.minimum_signup_group_size
   this.name = json.name
   this.notes = json.notes
-  this.paymentsEnd = moment(json.payements_end)
+  this.paymentsEnd = parseJSON(json.payements_end)
   this.portalUrl = json.portal_url
   this.registrationMaximum = json.registration_maximum
   this.registrationType = mapRegistrationType(json.registration_type)
@@ -153,11 +153,11 @@ function ClubEvent(json) {
   this.registrationWindow = json.registration_window
   this.rounds = json.rounds
   this.seasonPoints = json.season_points
-  this.signupStart = moment(json.signup_start)
-  this.signupEnd = moment(json.signup_end)
+  this.signupStart = parseJSON(json.signup_start)
+  this.signupEnd = parseJSON(json.signup_end)
   this.skinsType = mapSkinsType(json.skins_type)
   this.skinsTypeCode = json.skins_type
-  this.startDate = moment(json.start_date)
+  this.startDate = parseISO(json.start_date)
   this.startTime = json.start_time
   this.startType = mapStartType(json.start_type)
   this.startTypeCode = json.start_type
@@ -167,18 +167,24 @@ function ClubEvent(json) {
 
   // derived properties
   if (this.rounds <= 1) {
-    this.endDate = moment(json.start_date)
+    this.endDate = parseISO(json.start_date)
   } else {
-    this.endDate = moment(json.start_date).add(this.rounds - 1, "days")
+    this.endDate = addDays(this.startDate, this.rounds - 1)
   }
   this.eventTypeClass = mapEventType(json.event_type).toLowerCase().replace(" ", "-")
-  this.eventUrl = `/event/${this.startDate.format("yyyy-MM-DD")}/${slugify(json.name)}`
-  this.signupWindow = `${this.signupStart.format("MMMM Do YYYY")} to ${this.signupEnd.format(
-    "MMMM Do YYYY",
+  this.eventUrl = `/event/${format(this.startDate, "yyyy-MM-dd")}/${slugify(json.name)}`
+  this.signupWindow = `${format(this.startDate, "MMMM do yyyy")} to ${format(
+    this.endDate,
+    "MMMM do yyyy",
   )}`
 
+  /**
+   * Returns true if this event starts in the given year and (0-based) month
+   * @param {number} year
+   * @param {number} month
+   */
   this.isCurrent = (year, month) => {
-    return this.startDate.year() === year && this.startDate.month() === month
+    return this.startDate.getFullYear() === year && this.startDate.getMonth() === month
   }
 
   /**

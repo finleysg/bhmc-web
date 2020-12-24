@@ -1,4 +1,13 @@
-import moment from "moment"
+import {
+  addDays,
+  addMonths,
+  format,
+  isSameDay,
+  isSameMonth,
+  isWithinInterval,
+  startOfWeek,
+  subMonths,
+} from "date-fns"
 
 function getMonth(name, zeroBased = true) {
   let m = 0
@@ -112,14 +121,14 @@ function getMonthName(nbr, zeroBased = true) {
 /**
  * Represents a calendar day with a collection of zero to many events.
  * @constructor
- * @param {moment} date - The date as a moment.
+ * @param {Date} date - The date as a javascript date.
  */
 function Day(date) {
-  this.name = date.format("dddd")
-  this.shortName = date.format("ddd")
-  this.day = parseInt(date.format("D"), 10)
+  this.name = format(date, "iiii")
+  this.shortName = format(date, "iii")
+  this.day = date.getDate() // parseInt(date.format("D"), 10)
   //   this.isCurrentMonth = date.month() === currentMonthNumber
-  this.isToday = date.isSame(new Date(), "day")
+  this.isToday = isSameDay(date, new Date())
   this.date = date
   this.events = []
   this.hasEvents = () => {
@@ -136,51 +145,40 @@ function Day(date) {
  * @param {string} monthName - The name of the month.
  */
 function Calendar(year, monthName) {
-  /**
-   * Return the first sunday before the calendar month starts.
-   * @param {number} month - The month as a 0-based number.
-   * @param {number} year - The year.
-   */
-  this.findSunday = (month, year) => {
-    const start = moment([year, month, 1])
-    let dow = start.day()
-    while (dow > 0) {
-      start.add(-1, "d")
-      dow = start.day()
-    }
-    return start
-  }
+  //   /**
+  //    * Return the first sunday before the calendar month starts.
+  //    * @param {number} month - The month as a 0-based number.
+  //    * @param {number} year - The year.
+  //    */
+  //   this.findSunday = (month, year) => {
+  //     const firstDay = new Date(year, month, 1)
+  //     return startOfWeek(firstDay)
+  //   }
 
   /**
    * Create the collection of weeks for this calendar month.
-   * @param {moment} firstSunday - The Sunday before the start of the month.
-   * @param {moment} firstDay - The first day of the month.
+   * @param {Date} firstSunday - The Sunday before the start of the month.
+   * @param {Date} firstDay - The first day of the month.
    */
   this.buildMonth = (firstSunday, firstDay) => {
     const weeks = []
-    const startDate = firstSunday.clone()
-    let done = false,
-      monthIndex = startDate.month(),
-      count = 0
-    while (!done) {
-      weeks.push({ nbr: count, days: this.buildWeek(startDate.clone()) })
-      startDate.add(1, "w")
-      done = count++ > 2 && monthIndex !== startDate.month()
-      monthIndex = startDate.month()
+    for (let i = 0; i < 6; i++) {
+      const days = this.buildWeek(addDays(firstSunday, i * 7))
+      if (i === 0 || isSameMonth(firstDay, days[0].date)) {
+        weeks.push({ nbr: i, days: days })
+      }
     }
     return weeks
   }
 
   /**
    * Create a given week in the month
-   * @param {moment} sunday - The Sunday of this week.
+   * @param {Date} sunday - The Sunday of this week.
    */
   this.buildWeek = (sunday) => {
     const days = []
     for (let i = 0; i < 7; i++) {
-      days.push(new Day(sunday))
-      sunday = sunday.clone()
-      sunday.add(1, "d")
+      days.push(new Day(addDays(sunday, i)))
     }
     return days
   }
@@ -193,7 +191,11 @@ function Calendar(year, monthName) {
   this.addEvent = (event) => {
     for (const week of this.weeks) {
       for (const day of week.days) {
-        if (day.date.isBetween(event.startDate, event.endDate, "day", "[]")) {
+        const addEvent = isWithinInterval(day.date, {
+          start: event.startDate,
+          end: event.endDate,
+        })
+        if (addEvent) {
           day.events.push(event)
         }
       }
@@ -221,8 +223,8 @@ function Calendar(year, monthName) {
    */
   this.thisMonth = () => {
     return {
-      year: this.firstDay.year(),
-      month: this.firstDay.format("MMMM"),
+      year: this.firstDay.getFullYear(),
+      month: format(this.firstDay, "MMMM"),
     }
   }
 
@@ -230,10 +232,10 @@ function Calendar(year, monthName) {
    * Returns the following year and long month name.
    */
   this.nextMonth = () => {
-    const mth = this.firstDay.clone().add(1, "months")
+    const nextMonth = addMonths(this.firstDay, 1)
     return {
-      year: mth.year(),
-      month: mth.format("MMMM"),
+      year: nextMonth.getFullYear(),
+      month: format(nextMonth, "MMMM"),
     }
   }
 
@@ -241,16 +243,16 @@ function Calendar(year, monthName) {
    * Returns the previous year and long month name.
    */
   this.lastMonth = () => {
-    const mth = this.firstDay.clone().subtract(1, "months")
+    const lastMonth = subMonths(this.firstDay, 1)
     return {
-      year: mth.year(),
-      month: mth.format("MMMM"),
+      year: lastMonth.getFullYear(),
+      month: format(lastMonth, "MMMM"),
     }
   }
 
   this.monthNumber = getMonth(monthName)
-  this.firstDay = moment([year, getMonth(monthName), 1])
-  this.sunday = this.findSunday(this.monthNumber, year)
+  this.firstDay = new Date([year, getMonth(monthName, false), 1])
+  this.sunday = startOfWeek(this.firstDay)
   this.weeks = this.buildMonth(this.sunday, this.firstDay)
 }
 

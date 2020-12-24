@@ -21,10 +21,10 @@ Mobile:
 General:
 - Menu should be hidden by default on smaller screens
 - Handle cleanup on abandoned flows
-- Replace momentjs
 - Upgrade react-query
 - Credit card custom viewset
 - Update expired card (https://stripe.com/docs/api/payment_methods/update)
+- Hide login and account menu items for authenticated users
 
 Match Play:
 - No dup signup

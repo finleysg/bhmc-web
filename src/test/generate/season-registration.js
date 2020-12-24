@@ -1,4 +1,4 @@
-import moment from "moment"
+import { addDays, addMinutes, format, subDays } from "date-fns"
 
 export const testSeasonRegistrationEvent = {
   id: 1,
@@ -18,11 +18,11 @@ export const testSeasonRegistrationEvent = {
   skins_type: null,
   season_points: null,
   portal_url: null,
-  start_date: moment().subtract(1, "days").format("yyyy-MM-DD"),
+  start_date: format(subDays(new Date(), 1), "yyyy-MM-dd"),
   start_time: "Open",
   registration_type: "O",
-  signup_start: moment().subtract(1, "days").toISOString(),
-  signup_end: moment().add(7, "days").toISOString(),
+  signup_start: subDays(new Date(), 1).toISOString(),
+  signup_end: addDays(new Date(), 7).toISOString(),
   payments_end: null,
   registration_maximum: null,
   courses: [],
@@ -102,7 +102,7 @@ export const newRegistrationResponse = {
       player: 1,
     },
   ],
-  expires: moment().add(10, "minutes").toISOString(),
+  expires: addMinutes(new Date(), 10).toISOString(),
 }
 
 export const paymentRequest = {
