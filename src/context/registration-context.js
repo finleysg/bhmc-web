@@ -69,7 +69,10 @@ function EventRegistrationProvider(props) {
       initialData: () => {
         const queryData = queryClient.getQueryData("registration")
         if (queryData !== undefined) {
-          return queryData.find((r) => r.eventId === clubEvent.id)
+          if (Array.isArray(queryData)) {
+            return queryData.find((r) => r.event === clubEvent.id)
+          }
+          return queryData
         }
       },
       staleTime: 1000 * 60 * 15,
@@ -79,6 +82,7 @@ function EventRegistrationProvider(props) {
           setRegistration(new Registration(data))
         }
       },
+      onError: (error) => setError(error),
     },
   )
 
@@ -93,7 +97,10 @@ function EventRegistrationProvider(props) {
       initialData: () => {
         const queryData = queryClient.getQueryData("payment")
         if (queryData !== undefined) {
-          return queryData.find((r) => r.eventId === clubEvent.id)
+          if (Array.isArray(queryData)) {
+            return queryData.find((r) => r.event === clubEvent.id)
+          }
+          return queryData
         }
       },
       staleTime: 1000 * 60 * 15,
@@ -103,6 +110,7 @@ function EventRegistrationProvider(props) {
           setPayment(new Payment(data))
         }
       },
+      onError: (error) => setError(error),
     },
   )
 
@@ -245,15 +253,15 @@ function EventRegistrationProvider(props) {
   )
 
   const startRegistration = React.useCallback(() => {
-    if (registration && registration.id) {
-      changeCurrentStep(RegistrationSteps.Register)
-    } else {
-      const reg = {
-        slots: [],
-      }
-      createRegistration(reg)
+    // if (registration && registration.id) {
+    //   changeCurrentStep(RegistrationSteps.Register)
+    // } else {
+    const reg = {
+      slots: [],
     }
-  }, [registration, createRegistration])
+    createRegistration(reg)
+    // }
+  }, [createRegistration])
 
   const updateStep = React.useCallback((step) => {
     changeCurrentStep(step)

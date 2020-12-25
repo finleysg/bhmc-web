@@ -3,6 +3,8 @@ import { loadStripe } from "@stripe/stripe-js"
 
 import React from "react"
 
+import { FullPageErrorFallback } from "components/errors"
+import { ErrorBoundary } from "react-error-boundary"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { BrowserRouter as Router } from "react-router-dom"
 import * as config from "utils/app-config"
@@ -15,7 +17,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // query options
-      // useErrorBoundary: true,
       refetchOnWindowFocus: false,
       retry(failureCount, error) {
         if (error.status === 404) return false
@@ -25,6 +26,7 @@ const queryClient = new QueryClient({
     },
     mutations: {
       // mutation options
+      //   useErrorBoundary: true,
     },
   },
 })
@@ -36,11 +38,13 @@ function AppProviders({ children }) {
     <QueryClientProvider client={queryClient}>
       <LayoutProvider>
         <Router>
-          <AuthProvider>
-            <EventRegistrationProvider>
-              <Elements stripe={stripePromise}>{children}</Elements>
-            </EventRegistrationProvider>
-          </AuthProvider>
+          <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
+            <AuthProvider>
+              <EventRegistrationProvider>
+                <Elements stripe={stripePromise}>{children}</Elements>
+              </EventRegistrationProvider>
+            </AuthProvider>
+          </ErrorBoundary>
         </Router>
       </LayoutProvider>
     </QueryClientProvider>

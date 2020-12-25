@@ -2,20 +2,16 @@ import "./main-layout.scss"
 
 import React from "react"
 
-import { useAuth } from "context/auth-context"
 import { useLayout } from "context/layout-context"
-import { useRoutes } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
+import BoundedRoutes from "./bounded-routes"
 import { Footer } from "./footer"
 import { Header } from "./header"
-import { mainRoutes } from "./routes"
 import { Sidebar } from "./sidebar"
 
 function MainLayout() {
   const { sidebarOpen, closeSidebar } = useLayout()
-  const { user } = useAuth()
-  const routing = useRoutes(mainRoutes(user))
 
   return (
     <main className="main" data-ma-theme="blue">
@@ -23,7 +19,7 @@ function MainLayout() {
       <Header />
       <Sidebar />
       <section className="content">
-        {routing}
+        <BoundedRoutes />
         <Footer />
         {sidebarOpen && <div onClick={closeSidebar} className="sidebar-backdrop"></div>}
       </section>

@@ -2,6 +2,8 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 
+import React from "react"
+
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
 
@@ -49,20 +51,48 @@ function ErrorDisplay({ isError, error, variant = "stacked", ...props }) {
   return null
 }
 
-function RegistrationErrorFallback({ error }) {
+function RegistrationErrorFallback({ error, resetErrorBoundary }) {
+  const scrollRef = React.useRef()
+
+  React.useLayoutEffect(() => {
+    scrollRef.current.scrollIntoView()
+  }, [])
+
   return (
-    <div
-      role="alert"
-      css={{
-        color: colors.danger,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <p>Doh! Stupid computers...</p>
-      <pre>{error}</pre>
+    <div ref={scrollRef} className="card border border-danger">
+      <div className="card-header text-white bg-danger">Registration Failure</div>
+      <div className="card-body">
+        <p>
+          An error occurred and we cannot continue the registration process. This may be temporary.
+          Click the Reset button to start over. If this problem persists, please contact{" "}
+          <a href="mailto:admin@bhmc.org">admin@bhmc.org</a>.
+        </p>
+        <div
+          role="alert"
+          css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants.stacked]}
+        >
+          <span>Error detail: </span>
+          <pre
+            css={[
+              { whiteSpace: "break-spaces", margin: "0", marginBottom: -5 },
+              errorMessageVariants.stacked,
+            ]}
+          >
+            {error}
+          </pre>
+          <div className="row" style={{ marginTop: "1rem", textAlign: "right" }}>
+            <div className="col-12">
+              <button
+                className="btn btn-danger"
+                style={{ marginLeft: ".5rem" }}
+                onClick={resetErrorBoundary}
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -70,6 +100,7 @@ function RegistrationErrorFallback({ error }) {
 function FullPageErrorFallback({ error }) {
   return (
     <div
+      style={{ padding: "20px" }}
       role="alert"
       css={{
         color: colors.danger,
@@ -80,8 +111,13 @@ function FullPageErrorFallback({ error }) {
         alignItems: "center",
       }}
     >
-      <p>Uh oh... There's a problem. Try refreshing the app.</p>
-      <pre>{error.message}</pre>
+      <p>
+        Uh oh... There's a problem. This is probably a network error or bad internet connection.
+      </p>
+      <pre>{error}</pre>
+      <button className="btn btn-primary" onClick={() => window.location.assign(window.location)}>
+        Refresh
+      </button>
     </div>
   )
 }

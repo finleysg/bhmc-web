@@ -1,20 +1,29 @@
 import React from "react"
 
+import { RegistrationErrorFallback } from "components/errors"
 import { useEventRegistration } from "context/registration-context"
 import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
 import SeasonEvent from "features/events/season-event"
 import { useMyEvents, usePlayer } from "hooks/account-hooks"
+import { ErrorBoundary } from "react-error-boundary"
 import * as config from "utils/app-config"
 
 function SeasonSignupPage() {
   const eventId = config.seasonEventId
   const player = usePlayer()
   const myEvents = useMyEvents()
-  const { loadEvent } = useEventRegistration()
+  const { loadEvent, cancelRegistration, registration } = useEventRegistration()
 
   React.useEffect(() => {
     loadEvent(eventId)
   }, [loadEvent, eventId])
+
+  const handleReset = () => {
+    if (registration && registration.id) {
+      cancelRegistration(registration.id)
+    }
+    window.location.assign(window.location)
+  }
 
   const isReturning = myEvents?.indexOf(config.previousSeasonEventId)
 
@@ -42,10 +51,12 @@ function SeasonSignupPage() {
           <SeasonEvent />
         </div>
         <div className="col-lg-6">
-          <SimpleSignupFlow
-            feeFilter={seasonEventFeeFilter}
-            getNotificationType={getNotificationType}
-          />
+          <ErrorBoundary FallbackComponent={RegistrationErrorFallback} onReset={handleReset}>
+            <SimpleSignupFlow
+              feeFilter={seasonEventFeeFilter}
+              getNotificationType={getNotificationType}
+            />
+          </ErrorBoundary>
         </div>
       </div>
     </div>

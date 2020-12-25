@@ -1,16 +1,25 @@
 import React from "react"
 
+import { RegistrationErrorFallback } from "components/errors"
 import { useEventRegistration } from "context/registration-context"
 import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
 import TestEvent from "features/events/test-event"
+import { ErrorBoundary } from "react-error-boundary"
 
 function PaymentTestPage() {
   const eventId = 5
-  const { loadEvent } = useEventRegistration()
+  const { loadEvent, cancelRegistration, registration } = useEventRegistration()
 
   React.useEffect(() => {
     loadEvent(eventId)
   }, [loadEvent, eventId])
+
+  const handleReset = () => {
+    if (registration && registration.id) {
+      cancelRegistration(registration.id)
+    }
+    window.location.assign(window.location)
+  }
 
   const matchPlayEventFeeFilter = React.useCallback(() => {
     return true
@@ -30,10 +39,12 @@ function PaymentTestPage() {
           <TestEvent />
         </div>
         <div className="col-lg-4 col-md-6 col-sm-12">
-          <SimpleSignupFlow
-            feeFilter={matchPlayEventFeeFilter}
-            getNotificationType={getNotificationType}
-          />
+          <ErrorBoundary FallbackComponent={RegistrationErrorFallback} onReset={handleReset}>
+            <SimpleSignupFlow
+              feeFilter={matchPlayEventFeeFilter}
+              getNotificationType={getNotificationType}
+            />
+          </ErrorBoundary>
         </div>
       </div>
     </div>
