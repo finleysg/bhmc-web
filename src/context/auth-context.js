@@ -1,31 +1,13 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
-
 import React from "react"
 
 import { FullPageErrorFallback } from "components/errors"
 import { FullPageSpinner } from "components/spinners"
-import { queryCache } from "react-query"
+import { useQueryClient } from "react-query"
 import { useNavigate } from "react-router-dom"
 import { client } from "utils/api-client"
 import { useAsync } from "utils/use-async"
 
 import * as auth from "./auth-provider"
-
-async function loadUser() {
-  const user = await auth.getUser()
-  if (user.token) {
-    const players = await client(`players/?email=${user.email}`)
-    queryCache.setQueryData("player", players[0])
-    //   const slots = await client(`registration-slots/?player_id=${players[0].id}`)
-    //   queryCache.setQueryData(
-    //     "my-events",
-    //     slots.filter((s) => s.status === "R").map((s) => s.event),
-    //   )
-  }
-  return user
-}
 
 const AuthContext = React.createContext()
 AuthContext.displayName = "AuthContext"
@@ -43,11 +25,21 @@ function AuthProvider(props) {
     setData,
   } = useAsync()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  const loadUser = React.useCallback(async () => {
+    const user = await auth.getUser()
+    if (user.token) {
+      const players = await client(`players/?email=${user.email}`)
+      queryClient.setQueryData("player", players[0])
+    }
+    return user
+  }, [queryClient])
 
   React.useEffect(() => {
     const appDataPromise = loadUser()
     run(appDataPromise)
-  }, [run])
+  }, [run, loadUser])
 
   const login = React.useCallback(
     async ({ email, password }) => {
@@ -57,7 +49,7 @@ function AuthProvider(props) {
         .then((user) => setData(user))
         .then(() => navigate("home"))
     },
-    [setData, navigate],
+    [setData, navigate, loadUser],
   )
 
   const logout = React.useCallback(async () => {
@@ -65,10 +57,10 @@ function AuthProvider(props) {
       .logout()
       .then(() => navigate("home"))
       .then(() => {
-        queryCache.clear()
+        queryClient.clear()
         setData(null)
       })
-  }, [setData, navigate])
+  }, [setData, navigate, queryClient])
 
   const register = React.useCallback(
     async ({ first_name, last_name, email, ghin, password, re_password }) => {

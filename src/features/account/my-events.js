@@ -1,6 +1,7 @@
 import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
+import { format } from "date-fns"
 import { useMyEvents } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
 
@@ -23,7 +24,9 @@ function MyEvents() {
                   <div className="col-12">
                     <h6>
                       {evt.name}{" "}
-                      <small className="text-muted">({evt.startDate.format("MMMM D, YYYY")})</small>
+                      <small className="text-muted">
+                        ({format(evt.startDate, "MMMM d, yyyy")})
+                      </small>
                     </h6>
                   </div>
                 </div>

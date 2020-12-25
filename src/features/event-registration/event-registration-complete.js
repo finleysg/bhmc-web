@@ -3,6 +3,7 @@ import React from "react"
 import { RandomGif } from "components/random"
 import { useAuth } from "context/auth-context"
 import { useEventRegistration } from "context/registration-context"
+import { format } from "date-fns"
 import { Link } from "react-router-dom"
 
 function EventRegistrationComplete() {
@@ -12,7 +13,7 @@ function EventRegistrationComplete() {
   return (
     <div className="card-body">
       <h4 className="card-title">{clubEvent?.name}</h4>
-      <h6 className="card-subtitle">{clubEvent?.startDate.format("MMMM DD, yyyy")}</h6>
+      <h6 className="card-subtitle">{format(clubEvent.startDate, "MMMM d, yyyy")}</h6>
       <div className="row" style={{ marginBottom: "1rem" }}>
         <div className="col-12">
           <h3 className="text-success">You're In!</h3>

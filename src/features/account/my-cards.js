@@ -7,7 +7,7 @@ import { ManageCreditCards, StyledCardElement } from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
 import { useAuth, useClient } from "context/auth-context"
 import { useMyCards } from "hooks/account-hooks"
-import { queryCache } from "react-query"
+import { useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 
 function MyCards() {
@@ -23,6 +23,7 @@ function MyCards() {
   const stripe = useStripe()
   const elements = useElements()
   const client = useClient()
+  const queryClient = useQueryClient()
 
   const handleCardSetup = async () => {
     setIsBusy(true)
@@ -44,7 +45,7 @@ function MyCards() {
         setSetupError(result.error)
         toast.error("💣 Failed to save new card.")
       } else {
-        queryCache.invalidateQueries("my-cards")
+        queryClient.invalidateQueries("my-cards")
         toast.success("💳 Your card has been saved for future use.")
       }
     } catch (err) {
@@ -62,7 +63,7 @@ function MyCards() {
     } else {
       setShowConfirm(false)
       await client(`remove-card/${currentCard.paymentMethod}`, { method: "DELETE" })
-      queryCache.invalidateQueries("my-cards")
+      queryClient.invalidateQueries("my-cards")
       toast.success("💳 Your card has been removed.")
     }
   }

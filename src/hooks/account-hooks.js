@@ -1,13 +1,14 @@
 import { useAuth, useClient } from "context/auth-context"
 import { SavedCard } from "models/payment"
 import Player from "models/player"
-import { queryCache, useMutation, useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 import { useFormClient } from "utils/form-client"
 
 function usePlayer() {
   const { user } = useAuth()
   const client = useClient()
+  const queryClient = useQueryClient()
 
   const { data: player } = useQuery(
     "player",
@@ -18,7 +19,7 @@ function usePlayer() {
     },
     {
       initialData: () => {
-        return queryCache.getQueryData("player")
+        return queryClient.getQueryData("player")
       },
       cacheTime: 1000 * 60 * 60,
       staleTime: 1000 * 60 * 60,
@@ -35,13 +36,13 @@ function useMyEvents() {
   const { data: myEvents } = useQuery("my-events", () => {
     return client(`registration-slots/?player_id=${player.id}`).then(
       (data) => {
-        if (data) return data.map((s) => s.event)
+        if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
         return []
       },
       {
-        enabled: player && player.id,
-        cacheTime: 1000 * 60,
-        staleTime: 1000 * 60,
+        enabled: player?.id !== undefined,
+        cacheTime: 1000 * 60 * 5,
+        staleTime: 1000 * 60 * 5,
       },
     )
   })
@@ -62,6 +63,7 @@ function useMyCards() {
 
 function useUpdatePlayer() {
   const client = useClient()
+  const queryClient = useQueryClient()
 
   return useMutation(
     (updates) => {
@@ -77,7 +79,7 @@ function useUpdatePlayer() {
         toast.error("💣 Aww, Snap!")
       },
       onSuccess: (data) => {
-        queryCache.setQueryData("player", data)
+        queryClient.setQueryData("player", data)
       },
     },
   )
@@ -85,15 +87,16 @@ function useUpdatePlayer() {
 
 function usePlayerProfilePic() {
   const formClient = useFormClient()
+  const queryClient = useQueryClient()
 
   return useMutation((formData) => formClient(`photos/`, formData), {
     onError: () => {
       toast.error("💣 Aww, Snap!")
     },
     onSuccess: (data) => {
-      const player = queryCache.getQueryData("player")
+      const player = queryClient.getQueryData("player")
       player.profile_picture = data
-      queryCache.setQueryData("player", player)
+      queryClient.setQueryData("player", player)
     },
   })
 }

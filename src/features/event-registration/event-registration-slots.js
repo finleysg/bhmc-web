@@ -7,7 +7,7 @@ import { usePlayers } from "../../hooks/registration-hooks"
 import { RegistrationItemRow } from "./event-registration-rows"
 
 function RegistrationSlots(props) {
-  const { clubEvent, registration, payment } = useEventRegistration()
+  const { registration, payment } = useEventRegistration()
   const players = usePlayers()
 
   // If there is a payment object created, has a given fee been selected?

@@ -39,11 +39,7 @@ function EventRegistrationForm(props) {
     updateNotes(registration)
   }
 
-  // This applies only to the season signup form.
-  // TODO: adjust if rate applies for turning NN at any time this season.
   const filteredEventFees = () => {
-    // const duesCode = isReturning >= 0 ? "RMD" : "NMD"
-    // const patronCode = player.age >= config.seniorRateAge ? "SPC" : "PC"
     return clubEvent.fees.filter((fee) => feeFilter(fee))
   }
 
@@ -81,12 +77,19 @@ function EventRegistrationForm(props) {
   const confirm = () => {
     if (payment?.id) {
       payment.details = paymentDetails()
-      updatePayment(payment).then(onComplete())
+      updatePayment(payment, {
+        onSuccess: () => onComplete(),
+      })
     } else {
-      createPayment({
-        notificationType: getNotificationType(),
-        details: paymentDetails(),
-      }).then(onComplete())
+      createPayment(
+        {
+          notificationType: getNotificationType(),
+          details: paymentDetails(),
+        },
+        {
+          onSuccess: () => onComplete(),
+        },
+      )
     }
   }
 

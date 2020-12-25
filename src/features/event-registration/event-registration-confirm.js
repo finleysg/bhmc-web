@@ -1,6 +1,7 @@
 import React from "react"
 
 import { useEventRegistration } from "context/registration-context"
+import { format } from "date-fns"
 import { EventFee } from "models/club-event"
 import { Payment } from "models/payment"
 import Player from "models/player"
@@ -39,7 +40,7 @@ function EventRegistrationConfirm(props) {
   return (
     <div className="card-body">
       <h4 className="card-title">{clubEvent.name}</h4>
-      <h6 className="card-subtitle">{clubEvent.startDate.format("MMMM DD, yyyy")}</h6>
+      <h6 className="card-subtitle">{format(clubEvent.startDate, "MMMM d, yyyy")}</h6>
       {registration.slots.map((slot) => {
         return (
           <div key={slot.id} className="row" style={{ marginBottom: "1rem" }}>

@@ -3,7 +3,7 @@ import React from "react"
 import { useClubEvents } from "hooks/event-hooks"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
-import { queryCache, useMutation, useQuery } from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 
 import { useAuth, useClient } from "./auth-context"
 
@@ -46,6 +46,7 @@ function EventRegistrationProvider(props) {
   const { user } = useAuth()
   const { data: events } = useClubEvents()
   const client = useClient()
+  const queryClient = useQueryClient()
 
   const loadEvent = React.useCallback(
     (id) => {
@@ -66,7 +67,10 @@ function EventRegistrationProvider(props) {
     },
     {
       initialData: () => {
-        return queryCache.getQueryData("registration")?.find((r) => r.eventId === clubEvent.id)
+        const queryData = queryClient.getQueryData("registration")
+        if (queryData !== undefined) {
+          return queryData.find((r) => r.eventId === clubEvent.id)
+        }
       },
       staleTime: 1000 * 60 * 15,
       cacheTime: 1000 * 60 * 15,
@@ -87,7 +91,10 @@ function EventRegistrationProvider(props) {
     },
     {
       initialData: () => {
-        return queryCache.getQueryData("payment")?.find((r) => r.eventId === clubEvent.id)
+        const queryData = queryClient.getQueryData("payment")
+        if (queryData !== undefined) {
+          return queryData.find((r) => r.eventId === clubEvent.id)
+        }
       },
       staleTime: 1000 * 60 * 15,
       cacheTime: 1000 * 60 * 15,
@@ -99,7 +106,7 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const [createRegistration] = useMutation(
+  const { mutate: createRegistration } = useMutation(
     (registration) => {
       return client("registration", {
         data: {
@@ -112,7 +119,8 @@ function EventRegistrationProvider(props) {
     {
       onSuccess: (data, variables) => {
         setRegistration(new Registration(data))
-        queryCache.setQueryData(["registration", variables.eventId], data)
+        changeCurrentStep(RegistrationSteps.Register)
+        queryClient.setQueryData(["registration", variables.eventId], data)
       },
       onError: (error) => {
         setError(error)
@@ -120,7 +128,7 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const [updateRegistration] = useMutation(
+  const { mutate: updateRegistration } = useMutation(
     (registration) => {
       return client(`registration/${registration.id}`, {
         method: "PUT",
@@ -135,7 +143,7 @@ function EventRegistrationProvider(props) {
     {
       onSuccess: (data, variables) => {
         setRegistration(new Registration(data))
-        queryCache.setQueryData(["registration", variables.eventId], data)
+        queryClient.setQueryData(["registration", variables.eventId], data)
       },
       onError: (error) => {
         setError(error)
@@ -143,7 +151,7 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const [cancelRegistration] = useMutation(
+  const { mutate: cancelRegistration } = useMutation(
     (registrationId) => {
       return client(`registration/${registrationId}/cancel`, {
         method: "PUT",
@@ -151,9 +159,9 @@ function EventRegistrationProvider(props) {
     },
     {
       onSettled: () => {
-        queryCache.invalidateQueries("registration", { refetchActive: false })
+        queryClient.invalidateQueries("registration", { refetchActive: false })
         if (payment && payment.id) {
-          queryCache.invalidateQueries("payment", { refetchActive: false })
+          queryClient.invalidateQueries("payment", { refetchActive: false })
           deletePayment(payment.id)
         }
         setError(undefined)
@@ -162,7 +170,7 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const [createPayment] = useMutation(
+  const { mutate: createPayment } = useMutation(
     (payment) => {
       return client("payments", {
         data: {
@@ -181,7 +189,7 @@ function EventRegistrationProvider(props) {
     {
       onSuccess: (data, variables) => {
         setPayment(new Payment(data))
-        queryCache.setQueryData(["payment", variables.eventId], data)
+        queryClient.setQueryData(["payment", variables.eventId], data)
       },
       onError: (error) => {
         setError(error)
@@ -189,7 +197,7 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const [updatePayment] = useMutation(
+  const { mutate: updatePayment } = useMutation(
     (payment) => {
       return client(`payments/${payment.id}`, {
         method: "PUT",
@@ -209,7 +217,7 @@ function EventRegistrationProvider(props) {
     {
       onSuccess: (data, variables) => {
         setPayment(new Payment(data))
-        queryCache.setQueryData(["payment", variables.eventId], data)
+        queryClient.setQueryData(["payment", variables.eventId], data)
       },
       onError: (error) => {
         setError(error)
@@ -217,7 +225,7 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const [deletePayment] = useMutation(
+  const { mutate: deletePayment } = useMutation(
     (paymentId) => {
       return client(`payments/${paymentId}`, {
         method: "DELETE",
@@ -225,7 +233,7 @@ function EventRegistrationProvider(props) {
     },
     {
       onSettled: () => {
-        queryCache.invalidateQueries("payment", { refetchActive: false })
+        queryClient.invalidateQueries("payment", { refetchActive: false })
       },
       onError: (error) => {
         // Clear this error, otherwise we will be stuck in an unrecoverable state.
@@ -243,7 +251,7 @@ function EventRegistrationProvider(props) {
       const reg = {
         slots: [],
       }
-      createRegistration(reg).then(changeCurrentStep(RegistrationSteps.Register))
+      createRegistration(reg)
     }
   }, [registration, createRegistration])
 
@@ -252,31 +260,50 @@ function EventRegistrationProvider(props) {
   }, [])
 
   const completeRegistration = React.useCallback(() => {
-    queryCache.invalidateQueries("my-events", { refetchInactive: true })
+    queryClient.invalidateQueries("my-events", { refetchInactive: true })
     changeCurrentStep(RegistrationSteps.Pending)
     setClubEvent(undefined)
     setPayment(undefined)
     setRegistration(undefined)
     setError(undefined)
-  }, [])
+  }, [queryClient])
 
-  const value = {
-    clubEvent,
-    registration,
-    payment,
-    error,
-    currentStep,
-    loadEvent,
-    startRegistration,
-    createRegistration,
-    updateRegistration,
-    cancelRegistration,
-    createPayment,
-    updatePayment,
-    deletePayment,
-    updateStep,
-    completeRegistration,
-  }
+  const value = React.useMemo(
+    () => ({
+      clubEvent,
+      registration,
+      payment,
+      error,
+      currentStep,
+      loadEvent,
+      startRegistration,
+      createRegistration,
+      updateRegistration,
+      cancelRegistration,
+      completeRegistration,
+      createPayment,
+      updatePayment,
+      deletePayment,
+      updateStep,
+    }),
+    [
+      clubEvent,
+      registration,
+      payment,
+      error,
+      currentStep,
+      loadEvent,
+      startRegistration,
+      createRegistration,
+      updateRegistration,
+      cancelRegistration,
+      completeRegistration,
+      createPayment,
+      updatePayment,
+      deletePayment,
+      updateStep,
+    ],
+  )
 
   return <EventRegistrationContext.Provider value={value} {...props} />
 }

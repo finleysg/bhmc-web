@@ -10,7 +10,7 @@ import * as Yup from "yup"
 import { useUpdatePlayer } from "../../hooks/account-hooks"
 
 function PlayerForm({ player, onClose }) {
-  const [update, { isLoading, isError, error }] = useUpdatePlayer()
+  const { mutate: update, isLoading, isError, error } = useUpdatePlayer()
 
   async function handleSubmit(values) {
     const playerUpdates = { id: player.id, ...values }
@@ -28,9 +28,9 @@ function PlayerForm({ player, onClose }) {
         email: player.email,
         first_name: player.first_name,
         last_name: player.last_name,
-        ghin: player.ghin,
+        ghin: player.ghin ?? "",
         birth_date: player.birth_date,
-        phone_number: player.phone_number,
+        phone_number: player.phone_number ?? "",
       }}
       validationSchema={Yup.object({
         email: Yup.string().email("Invalid email address").required("A valid email is required"),

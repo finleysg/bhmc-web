@@ -10,7 +10,7 @@ import { ProfilePicPicker } from "./profile-pic-picker"
 function ProfilePic() {
   const [mode, setMode] = React.useState("view")
   const player = usePlayer()
-  const [saveProfilePic] = usePlayerProfilePic()
+  const { saveProfilePic } = usePlayerProfilePic()
 
   async function handleSelectedFile(file) {
     const form = new FormData()
