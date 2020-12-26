@@ -3,7 +3,6 @@ import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
 
 function CardContent(props) {
-  console.log(props)
   const pageContent = usePageContent(props.contentKey)
 
   return (

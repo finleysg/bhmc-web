@@ -90,7 +90,7 @@ function SeasonEvent() {
                   <Link
                     className="btn btn-success"
                     disabled={currentStep !== RegistrationSteps.Pending}
-                    to="/home"
+                    to={clubEvent.eventUrl + "/registrations"}
                   >
                     See Who Signed Up
                   </Link>

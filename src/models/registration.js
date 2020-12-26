@@ -10,6 +10,7 @@ function Registration(json) {
   this.startingHole = json.starting_hole
   this.startingOrder = json.starting_order
   this.notes = json.notes
+  this.createdDate = parseJSON(json.created_date)
   this.slots = json.slots ? json.slots.map((s) => new RegistrationSlot(s)) : []
 
   this.addSlots = (slots) => {

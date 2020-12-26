@@ -49,7 +49,7 @@ function MatchPlayEvent() {
                   <Link
                     className="btn btn-light"
                     disabled={currentStep !== RegistrationSteps.Pending}
-                    to="/home"
+                    to={clubEvent.eventUrl + "/registrations"}
                   >
                     See Who Signed Up
                   </Link>

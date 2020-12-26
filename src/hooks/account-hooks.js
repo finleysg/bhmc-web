@@ -22,7 +22,6 @@ function usePlayer() {
         return queryClient.getQueryData("player")
       },
       cacheTime: 1000 * 60 * 60,
-      staleTime: 1000 * 60 * 60,
     },
   )
 
@@ -32,17 +31,17 @@ function usePlayer() {
 function useMyEvents() {
   const player = usePlayer()
   const client = useClient()
+  const playerId = player?.id
 
   const { data: myEvents } = useQuery("my-events", () => {
-    return client(`registration-slots/?player_id=${player.id}`).then(
+    return client(`registration-slots/?player_id=${playerId}`).then(
       (data) => {
         if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
         return []
       },
       {
-        enabled: player?.id !== undefined,
+        enabled: !!playerId,
         cacheTime: 1000 * 60 * 5,
-        staleTime: 1000 * 60 * 5,
       },
     )
   })

@@ -10,6 +10,7 @@ import PaymentTestPage from "pages/payment-test-page"
 import SeasonSignupPage from "pages/season-signup-page"
 import SendMessagePage from "pages/send-message-page"
 import SettingsPage from "pages/settings-page"
+import SignupsPage from "pages/signups-page"
 import { TestingScreen } from "pages/testing"
 
 // import { Navigate, Outlet} from "react-router-dom"
@@ -22,6 +23,9 @@ const mainRoutes = (user) => [
     element: user?.is_authenticated ? <SeasonSignupPage /> : <MembershipScreen />,
   },
   { path: "/calendar/:year/:monthName", element: <CalendarPage /> },
+  { path: "/event/:eventDate/:eventName", element: <TestingScreen /> },
+  { path: "/event/:eventDate/:eventName/register", element: <TestingScreen /> },
+  { path: "/event/:eventDate/:eventName/registrations", element: <SignupsPage /> },
   { path: "/results", element: <TestingScreen /> },
   { path: "/policies/:policyType", element: <PolicyScreen /> },
   { path: "/match-play", element: <MatchPlaySignupPage /> },
