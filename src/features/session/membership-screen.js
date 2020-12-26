@@ -11,7 +11,7 @@ import gfm from "remark-gfm"
 import * as config from "utils/app-config"
 
 function MembershipScreen() {
-  const clubEvent = useClubEvent(config.seasonEventId)
+  const clubEvent = useClubEvent({ eventId: config.seasonEventId })
 
   return (
     <div className="content__inner">

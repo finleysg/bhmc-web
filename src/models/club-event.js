@@ -3,11 +3,11 @@ import { addDays, format, parseISO, parseJSON } from "date-fns"
 const mapRegistrationType = (code) => {
   switch (code) {
     case "M":
-      return "Member Only"
+      return "Members Only"
     case "G":
       return "Guests Allowed"
     case "O":
-      return "Open"
+      return "Open to All"
     default:
       return "None"
   }

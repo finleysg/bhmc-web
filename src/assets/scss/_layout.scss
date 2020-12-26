@@ -21,6 +21,19 @@
       padding: ($header-height + $grid-gutter-width/2) $grid-gutter-width/2 0;
     }
   }
+  //   &::after {
+  //     content: "";
+  //     position: absolute;
+  //     top: 0;
+  //     right: 0;
+  //     bottom: 0;
+  //     left: 0;
+  //     opacity: 0.75;
+  //     z-index: -1;
+  //     background-image: url(../img/FourEast.png);
+  //     background-size: contain;
+  //     background-position: top;
+  //   }
 }
 
 .content--full {

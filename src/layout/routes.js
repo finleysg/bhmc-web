@@ -4,6 +4,7 @@ import MembershipScreen from "features/session/membership-screen"
 import AboutPage from "pages/about-page"
 import CalendarPage from "pages/calendar-page"
 import ContactPage from "pages/contact-page"
+import EventDetailPage from "pages/event-detail-page"
 import MatchPlaySignupPage from "pages/match-play-signup-page"
 import { NotFoundScreen } from "pages/not-found"
 import PaymentTestPage from "pages/payment-test-page"
@@ -23,7 +24,7 @@ const mainRoutes = (user) => [
     element: user?.is_authenticated ? <SeasonSignupPage /> : <MembershipScreen />,
   },
   { path: "/calendar/:year/:monthName", element: <CalendarPage /> },
-  { path: "/event/:eventDate/:eventName", element: <TestingScreen /> },
+  { path: "/event/:eventDate/:eventName", element: <EventDetailPage /> },
   { path: "/event/:eventDate/:eventName/register", element: <TestingScreen /> },
   { path: "/event/:eventDate/:eventName/registrations", element: <SignupsPage /> },
   { path: "/results", element: <TestingScreen /> },

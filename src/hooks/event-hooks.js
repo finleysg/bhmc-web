@@ -18,8 +18,13 @@ function useClubEvents() {
   )
 }
 
-function useClubEvent(eventId) {
+function useClubEvent({ eventId, eventDate, eventName }) {
   const { data } = useClubEvents()
+  if (!eventId) {
+    return (
+      data?.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
+    )
+  }
   return data?.find((e) => e.id === eventId) ?? loadingEvent
 }
 
