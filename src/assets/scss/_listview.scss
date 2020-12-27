@@ -18,7 +18,7 @@
 }
 
 .listview__item {
-  padding: 1.25rem $card-spacer-x;
+  padding: 0.5rem;
   transition: background-color 300ms;
 
   & > .avatar-char {
@@ -92,7 +92,6 @@
 // Listview modifier classes
 .listview {
   &:not(.listview--inverse) {
-
     &.listview--hover {
       .listview__item:hover {
         background-color: $listview-item-hover-bg;

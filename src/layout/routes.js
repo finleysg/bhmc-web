@@ -5,6 +5,7 @@ import AboutPage from "pages/about-page"
 import CalendarPage from "pages/calendar-page"
 import ContactPage from "pages/contact-page"
 import EventDetailPage from "pages/event-detail-page"
+import HomePage from "pages/home-page"
 import MatchPlaySignupPage from "pages/match-play-signup-page"
 import { NotFoundScreen } from "pages/not-found"
 import PaymentTestPage from "pages/payment-test-page"
@@ -17,8 +18,8 @@ import { TestingScreen } from "pages/testing"
 // import { Navigate, Outlet} from "react-router-dom"
 
 const mainRoutes = (user) => [
-  { path: "/", element: <TestingScreen /> },
-  { path: "/home", element: <TestingScreen /> },
+  { path: "/", element: <HomePage /> },
+  { path: "/home", element: <HomePage /> },
   {
     path: "/membership",
     element: user?.is_authenticated ? <SeasonSignupPage /> : <MembershipScreen />,
