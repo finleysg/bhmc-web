@@ -1,15 +1,24 @@
-import { format, isDate } from "date-fns"
+import { format, isDate, isValid } from "date-fns"
+
+const isoDayFormat = (dt) => {
+  if (dt && isDate(dt) && isValid(dt)) {
+    return format(dt, "yyyy-MM-dd")
+  }
+  return ""
+}
 
 const dayAndDateFormat = (dt) => {
-  if (isDate(dt)) {
+  if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "iiii, MMMM do")
   }
+  return ""
 }
 
 const dayDateAndTimeFormat = (dt) => {
-  if (isDate(dt)) {
+  if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "iiii, MMMM do h:mm aaaa")
   }
+  return ""
 }
 
-export { dayAndDateFormat, dayDateAndTimeFormat }
+export { dayAndDateFormat, dayDateAndTimeFormat, isoDayFormat }

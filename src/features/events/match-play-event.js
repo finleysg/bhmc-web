@@ -2,19 +2,18 @@ import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
 import { RegistrationSteps, useEventRegistration } from "context/registration-context"
-import { useMyEvents } from "hooks/account-hooks"
+import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
 import * as config from "utils/app-config"
 
 function MatchPlayEvent() {
-  const myEvents = useMyEvents()
-
+  const isMember = useRegistrationStatus(config.seasonEventId)
+  const hasSignedUp = useRegistrationStatus(config.seasonMatchPlayId)
   const { clubEvent, currentStep, startRegistration } = useEventRegistration()
 
   const loading = clubEvent?.id === undefined
-  const hasSignedUp = myEvents?.indexOf(config.seasonMatchPlayId) >= 0
 
   return (
     <div className="card">
@@ -28,7 +27,7 @@ function MatchPlayEvent() {
               <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
               <div className="row">
                 <div className="col-12">
-                  {!hasSignedUp && (
+                  {isMember && !hasSignedUp && (
                     <button
                       className="btn btn-primary"
                       style={{ marginRight: ".5rem" }}
@@ -38,21 +37,25 @@ function MatchPlayEvent() {
                       Register Online
                     </button>
                   )}
-                  <Link
-                    className="btn btn-success"
-                    style={{ marginRight: ".5rem" }}
-                    disabled={currentStep !== RegistrationSteps.Pending}
-                    to="/home"
-                  >
-                    Match Play Portal
-                  </Link>
-                  <Link
-                    className="btn btn-light"
-                    disabled={currentStep !== RegistrationSteps.Pending}
-                    to={clubEvent.eventUrl + "/registrations"}
-                  >
-                    See Who Signed Up
-                  </Link>
+                  {clubEvent.portalUrl && (
+                    <a
+                      className="btn btn-success"
+                      style={{ marginRight: ".5rem" }}
+                      disabled={currentStep !== RegistrationSteps.Pending}
+                      href={clubEvent.portalUrl}
+                    >
+                      Match Play Portal
+                    </a>
+                  )}
+                  {isMember && (
+                    <Link
+                      className="btn btn-success"
+                      disabled={currentStep !== RegistrationSteps.Pending}
+                      to={clubEvent.eventUrl + "/registrations"}
+                    >
+                      See Who Signed Up
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

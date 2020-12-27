@@ -37,6 +37,7 @@ const EventRegistrationContext = React.createContext()
 EventRegistrationContext.displayName = "EventRegistrationContext"
 
 function EventRegistrationProvider(props) {
+  // TODO: use a reducer
   const [clubEvent, setClubEvent] = React.useState()
   const [registration, setRegistration] = React.useState()
   const [payment, setPayment] = React.useState()
@@ -108,6 +109,8 @@ function EventRegistrationProvider(props) {
       onSuccess: (data) => {
         if (data) {
           setPayment(new Payment(data))
+        } else {
+          setPayment(undefined)
         }
       },
       onError: (error) => setError(error),
@@ -172,8 +175,10 @@ function EventRegistrationProvider(props) {
           queryClient.invalidateQueries("payment", { refetchActive: false })
           deletePayment(payment.id)
         }
-        setError(undefined)
         changeCurrentStep(RegistrationSteps.Pending)
+        setPayment(undefined)
+        setRegistration(undefined)
+        setError(undefined)
       },
     },
   )
@@ -253,15 +258,15 @@ function EventRegistrationProvider(props) {
   )
 
   const startRegistration = React.useCallback(() => {
-    // if (registration && registration.id) {
-    //   changeCurrentStep(RegistrationSteps.Register)
-    // } else {
-    const reg = {
-      slots: [],
+    if (registration && registration.id) {
+      changeCurrentStep(RegistrationSteps.Register)
+    } else {
+      const reg = {
+        slots: [],
+      }
+      createRegistration(reg)
     }
-    createRegistration(reg)
-    // }
-  }, [createRegistration])
+  }, [registration, createRegistration])
 
   const updateStep = React.useCallback((step) => {
     changeCurrentStep(step)

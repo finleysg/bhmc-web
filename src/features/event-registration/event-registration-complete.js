@@ -30,7 +30,11 @@ function EventRegistrationComplete() {
           <Link to="/home" className="btn btn-light">
             Home
           </Link>
-          <Link to="/home" className="btn btn-light" style={{ marginLeft: "1rem" }}>
+          <Link
+            to={clubEvent.eventUrl + "/registrations"}
+            className="btn btn-success"
+            style={{ marginLeft: "1rem" }}
+          >
             Who Else Signed Up?
           </Link>
         </div>

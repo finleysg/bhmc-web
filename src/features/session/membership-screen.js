@@ -44,7 +44,7 @@ function MembershipScreen() {
                     >
                       Login
                     </Link>
-                    <Link className="btn btn-light" to="/session/account">
+                    <Link className="btn btn-success" to="/session/account">
                       Sign Up For an Account
                     </Link>
                   </div>

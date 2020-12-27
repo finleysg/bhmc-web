@@ -1,12 +1,11 @@
-import { useLayout } from "context/layout-context"
 import { Link } from "react-router-dom"
+import { isMobile } from "styles/media-queries"
 
 function Logo() {
-  const { sidebarOpen } = useLayout()
   return (
-    <div className="header__logo hidden-sm-down">
+    <div className="header__logo">
       <h1>
-        <Link to="home">{sidebarOpen ? "Bunker Hills Men's Golf Club" : "BHMC"}</Link>
+        <Link to="home">{isMobile() ? "BHMC" : "Bunker Hills Men's Golf Club"}</Link>
       </h1>
     </div>
   )

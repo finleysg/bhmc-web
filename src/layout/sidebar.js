@@ -1,24 +1,35 @@
 import React from "react"
 
+import { useAuth } from "context/auth-context"
 import { useLayout } from "context/layout-context"
+import { useRegistrationStatus } from "hooks/account-hooks"
+import { useSelectedMonth } from "hooks/calendar-hooks"
 import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
 import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
 import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiContacts } from "react-icons/ti"
+import * as config from "utils/app-config"
 
 import { MenuItem } from "./menu-item"
 
 function Sidebar() {
   const { sidebarOpen } = useLayout()
+  const { user } = useAuth()
+  const isMember = useRegistrationStatus(config.seasonEventId)
+  const [selectedMonth] = useSelectedMonth()
 
   return (
     <aside className={sidebarOpen ? "sidebar toggled" : "sidebar"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
-        <MenuItem path="membership" icon={<GoPlus />} name="Sign Up for 2021" />
-        <MenuItem path="calendar/2020/november" icon={<GoCalendar />} name="Event Calendar" />
+        {!isMember && <MenuItem path="membership" icon={<GoPlus />} name="Sign Up for 2021" />}
+        <MenuItem
+          path={`calendar/${selectedMonth.year}/${selectedMonth.monthName.toLowerCase()}`}
+          icon={<GoCalendar />}
+          name="Event Calendar"
+        />
         <MenuItem path="results" icon={<GrOrderedList />} name="Event Results" />
         <MenuItem path="policies/policies-and-procedures" icon={<GoInfo />} name="Policies" />
         <MenuItem path="match-play" icon={<MdPeopleOutline />} name="Match Play" />
@@ -27,8 +38,12 @@ function Sidebar() {
         <MenuItem path="directory" icon={<TiContacts />} name="Member Directory" />
         <MenuItem path="contact-us" icon={<BiEnvelope />} name="Contact Us" />
         <MenuItem path="about-us" icon={<GoQuestion />} name="About Us" />
-        <MenuItem path="session/login" icon={<BiLogInCircle />} name="Login" />
-        <MenuItem path="session/account" icon={<MdPersonAdd />} name="Create an Account" />
+        {user && !user.is_authenticated && (
+          <React.Fragment>
+            <MenuItem path="session/login" icon={<BiLogInCircle />} name="Login" />
+            <MenuItem path="session/account" icon={<MdPersonAdd />} name="Create an Account" />
+          </React.Fragment>
+        )}
       </ul>
     </aside>
   )

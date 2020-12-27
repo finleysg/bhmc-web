@@ -1,16 +1,14 @@
-import { parseJSON } from "date-fns"
-
 function Registration(json) {
   this.obj = json
   this.id = json.id
   this.eventId = json.event
   this.courseId = json.course
   this.signedUpBy = json.signed_up_by
-  this.expires = parseJSON(json.expires)
+  this.expires = new Date(json.expires)
   this.startingHole = json.starting_hole
   this.startingOrder = json.starting_order
   this.notes = json.notes
-  this.createdDate = parseJSON(json.created_date)
+  this.createdDate = new Date(json.created_date)
   this.slots = json.slots ? json.slots.map((s) => new RegistrationSlot(s)) : []
 
   this.addSlots = (slots) => {

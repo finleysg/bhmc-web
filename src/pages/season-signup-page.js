@@ -4,14 +4,14 @@ import { RegistrationErrorFallback } from "components/errors"
 import { useEventRegistration } from "context/registration-context"
 import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
 import SeasonEvent from "features/events/season-event"
-import { useMyEvents, usePlayer } from "hooks/account-hooks"
+import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import { ErrorBoundary } from "react-error-boundary"
 import * as config from "utils/app-config"
 
 function SeasonSignupPage() {
   const eventId = config.seasonEventId
   const player = usePlayer()
-  const myEvents = useMyEvents()
+  const isReturning = useRegistrationStatus(config.previousSeasonEventId)
   const { loadEvent, cancelRegistration, registration } = useEventRegistration()
 
   React.useEffect(() => {
@@ -25,11 +25,9 @@ function SeasonSignupPage() {
     window.location.assign(window.location)
   }
 
-  const isReturning = myEvents?.indexOf(config.previousSeasonEventId)
-
   const seasonEventFeeFilter = React.useCallback(
     (fee) => {
-      const duesCode = isReturning >= 0 ? "RMD" : "NMD"
+      const duesCode = isReturning ? "RMD" : "NMD"
       // TODO: adjust if rate applies for turning NN at any time this season.
       const patronCode = player.age >= config.seniorRateAge ? "SPC" : "PC"
       return fee.code === duesCode || fee.code === patronCode

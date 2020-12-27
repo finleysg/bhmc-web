@@ -75,14 +75,13 @@ function EventRegistrationPayment(props) {
   const submitPayment = async (method) => {
     // The setup_future_usage defaults to "on_session", unless this is a new card
     // and the player has not elected to save it.
-    let setup_future_usage = "on_session"
-    if (paymentMethod === "new" && !saveCard) {
-      setup_future_usage = ""
-    }
-    const result = await stripe.confirmCardPayment(payment.paymentKey, {
+    const thisPaymentMethod = {
       payment_method: method.id,
-      setup_future_usage,
-    })
+    }
+    if (paymentMethod === "new" && saveCard) {
+      thisPaymentMethod.setup_future_usage = "on_session"
+    }
+    const result = await stripe.confirmCardPayment(payment.paymentKey, thisPaymentMethod)
     if (result.error) {
       publishBusyFeedback(false)
       toast.error("😟 Something went wrong.")

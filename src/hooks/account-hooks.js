@@ -3,6 +3,7 @@ import { SavedCard } from "models/payment"
 import Player from "models/player"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
+import * as config from "utils/app-config"
 import { useFormClient } from "utils/form-client"
 
 function usePlayer() {
@@ -10,10 +11,11 @@ function usePlayer() {
   const client = useClient()
   const queryClient = useQueryClient()
 
+  const email = user && user.email
   const { data: player } = useQuery(
     "player",
     () => {
-      return client(`players/?email=${user.email}`).then((data) => {
+      return client(`players/?email=${email}`).then((data) => {
         return data[0]
       })
     },
@@ -21,6 +23,7 @@ function usePlayer() {
       initialData: () => {
         return queryClient.getQueryData("player")
       },
+      enabled: email !== undefined,
       cacheTime: 1000 * 60 * 60,
     },
   )
@@ -29,22 +32,31 @@ function usePlayer() {
 }
 
 function useMyEvents() {
+  const { user } = useAuth()
   const player = usePlayer()
   const client = useClient()
-  const playerId = player?.id
 
-  const { data: myEvents } = useQuery("my-events", () => {
-    return client(`registration-slots/?player_id=${playerId}`).then(
-      (data) => {
-        if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
-        return []
-      },
-      {
-        enabled: !!playerId,
-        cacheTime: 1000 * 60 * 5,
-      },
-    )
-  })
+  const playerId = player && player.id
+  const enable = user?.is_authenticated && playerId !== undefined
+  const { data: myEvents } = useQuery(
+    "my-events",
+    () => {
+      if (enable) {
+        return client(
+          `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${
+            config.currentSeason - 1
+          }`,
+        ).then((data) => {
+          if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
+          return []
+        })
+      }
+    },
+    {
+      enabled: enable,
+      cacheTime: 1000 * 60 * 5,
+    },
+  )
   return myEvents
 }
 
@@ -60,14 +72,22 @@ function useMyCards() {
   return myCards
 }
 
+function useRegistrationStatus(eventId) {
+  const { user } = useAuth()
+  const myEvents = useMyEvents()
+
+  if (user?.is_authenticated && myEvents && myEvents.length > 0) {
+    return myEvents?.indexOf(eventId) >= 0
+  }
+  return false
+}
+
 function useUpdatePlayer() {
   const client = useClient()
   const queryClient = useQueryClient()
 
   return useMutation(
     (updates) => {
-      // If I don't return the promise, onError and onSuccess don't work
-      // as expected.
       return client(`players/${updates.id}/`, {
         method: "PUT",
         data: updates,
@@ -100,4 +120,11 @@ function usePlayerProfilePic() {
   })
 }
 
-export { useMyCards, useMyEvents, usePlayer, usePlayerProfilePic, useUpdatePlayer }
+export {
+  useMyCards,
+  useMyEvents,
+  usePlayer,
+  usePlayerProfilePic,
+  useRegistrationStatus,
+  useUpdatePlayer,
+}

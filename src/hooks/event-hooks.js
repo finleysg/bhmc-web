@@ -9,7 +9,7 @@ function useClubEvents() {
   return useQuery(
     "club-events",
     () =>
-      client(`events/?year=${config.currentSeason}`).then((data) =>
+      client(`events/?season=${config.currentSeason}`).then((data) =>
         data.map((e) => new ClubEvent(e)),
       ),
     {

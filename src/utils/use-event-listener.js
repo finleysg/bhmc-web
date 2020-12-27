@@ -1,16 +1,16 @@
-import { useEffect, useRef } from "react"
+import React from "react"
 
 const useEventListener = (eventName, handler, element = window) => {
   // Create a ref that stores handler
-  const savedHandler = useRef()
+  const savedHandler = React.useRef()
 
   // Update ref.current value if handler changes.
   // You should memoize the handler with useCallback.
-  useEffect(() => {
+  React.useEffect(() => {
     savedHandler.current = handler
   }, [handler])
 
-  useEffect(
+  React.useLayoutEffect(
     () => {
       // Make sure element supports addEventListener
       // On

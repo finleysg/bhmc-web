@@ -18,13 +18,13 @@
   @include animate(fadeInUp, 300ms);
   @include card();
 
-  @include media-breakpoint-up(sm) {
-    &:hover {
-      .login__actions .dropdown {
-        display: block;
-      }
-    }
-  }
+  //   @include media-breakpoint-up(sm) {
+  //     &:hover {
+  //       .login__actions .dropdown {
+  //         display: block;
+  //       }
+  //     }
+  //   }
 }
 
 .login__header {
@@ -61,10 +61,10 @@
   position: absolute;
   top: 1rem;
   right: 0.75rem;
-
-  .dropdown:not(.show) {
-    display: none;
-  }
+  display: block;
+  //   .dropdown:not(.show) {
+  //     display: none;
+  //   }
 }
 
 .login__body {

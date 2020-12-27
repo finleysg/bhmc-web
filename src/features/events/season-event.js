@@ -2,20 +2,18 @@ import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
 import { RegistrationSteps, useEventRegistration } from "context/registration-context"
-import { useMyEvents, usePlayer } from "hooks/account-hooks"
+import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
 import * as config from "utils/app-config"
 
 function SeasonEvent() {
-  const myEvents = useMyEvents()
   const player = usePlayer()
-
+  const hasSignedUp = useRegistrationStatus(config.seasonEventId)
   const { clubEvent, currentStep, startRegistration } = useEventRegistration()
 
   const loading = clubEvent?.id === undefined
-  const hasSignedUp = myEvents?.indexOf(config.seasonEventId) >= 0
 
   return (
     <div className="card">

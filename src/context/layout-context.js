@@ -1,13 +1,24 @@
 import React from "react"
 
+import { isExtraLarge } from "styles/media-queries"
+import { useEventListener } from "utils/use-event-listener"
+
 const LayoutContext = React.createContext()
 LayoutContext.displayName = "LayoutContext"
 
 function LayoutProvider(props) {
-  const [sidebarOpen, setSidebarOpen] = React.useState(true)
+  const [sidebarOpen, setSidebarOpen] = React.useState(isExtraLarge() ? true : false)
+
+  const resizeHandler = React.useCallback((event) => {
+    if (event.target.innerWidth > 1200) {
+      setSidebarOpen(true)
+    }
+  }, [])
+
+  useEventListener("resize", resizeHandler)
 
   const closeSidebar = () => {
-    if (window.innerWidth < 1200) {
+    if (!isExtraLarge()) {
       setSidebarOpen(false)
     }
   }

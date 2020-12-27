@@ -1,4 +1,5 @@
-import { addDays, format, parseISO, parseJSON } from "date-fns"
+import { addDays, parseISO } from "date-fns"
+import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
 
 const mapRegistrationType = (code) => {
   switch (code) {
@@ -145,7 +146,7 @@ function ClubEvent(json) {
   this.minimumSignupGroupSize = json.minimum_signup_group_size
   this.name = json.name
   this.notes = json.notes
-  this.paymentsEnd = parseJSON(json.payements_end)
+  this.paymentsEnd = new Date(json.payements_end)
   this.portalUrl = json.portal_url
   this.registrationMaximum = json.registration_maximum
   this.registrationType = mapRegistrationType(json.registration_type)
@@ -153,8 +154,8 @@ function ClubEvent(json) {
   this.registrationWindow = json.registration_window
   this.rounds = json.rounds
   this.seasonPoints = json.season_points
-  this.signupStart = parseJSON(json.signup_start)
-  this.signupEnd = parseJSON(json.signup_end)
+  this.signupStart = new Date(json.signup_start)
+  this.signupEnd = new Date(json.signup_end)
   this.skinsType = mapSkinsType(json.skins_type)
   this.skinsTypeCode = json.skins_type
   this.startDate = parseISO(json.start_date)
@@ -172,12 +173,11 @@ function ClubEvent(json) {
     this.endDate = addDays(this.startDate, this.rounds - 1)
   }
   this.eventTypeClass = mapEventType(json.event_type).toLowerCase().replace(" ", "-")
-  this.eventUrl = `/event/${format(this.startDate, "yyyy-MM-dd")}/${slugify(json.name)}`
+  this.eventUrl = `/event/${isoDayFormat(this.startDate)}/${slugify(json.name)}`
   this.slugName = slugify(json.name)
-  this.slugDate = format(this.startDate, "yyyy-MM-dd")
-  this.signupWindow = `${format(this.startDate, "MMMM do yyyy")} to ${format(
-    this.endDate,
-    "MMMM do yyyy",
+  this.slugDate = isoDayFormat(this.startDate)
+  this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(
+    this.signupEnd,
   )}`
 
   /**
