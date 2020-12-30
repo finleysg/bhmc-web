@@ -1,7 +1,7 @@
 import React from "react"
 
 import { format, isAfter, isBefore } from "date-fns"
-import { usePlayers } from "hooks/registration-hooks"
+import { usePlayers } from "hooks/player-hooks"
 
 function SimpleRegistrationList({ registrations, sortBy }) {
   const players = usePlayers()

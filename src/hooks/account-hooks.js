@@ -95,7 +95,7 @@ function useUpdatePlayer() {
     },
     {
       onError: () => {
-        toast.error("💣 Aww, Snap!")
+        toast.error("💣 Aww, Snap! Failed to update your profile")
       },
       onSuccess: (data) => {
         queryClient.setQueryData("player", data)
@@ -110,7 +110,7 @@ function usePlayerProfilePic() {
 
   return useMutation((formData) => formClient(`photos/`, formData), {
     onError: () => {
-      toast.error("💣 Aww, Snap!")
+      toast.error("💣 Aww, Snap! Failed to update your profile pic.")
     },
     onSuccess: (data) => {
       const player = queryClient.getQueryData("player")
@@ -120,11 +120,65 @@ function usePlayerProfilePic() {
   })
 }
 
+function useFriends() {
+  const client = useClient()
+  const { data: players } = useQuery(
+    ["friends"],
+    () => client("friends").then((data) => data.map((p) => new Player(p))),
+    {
+      cacheTime: Infinity,
+    },
+  )
+
+  return players ?? []
+}
+
+function useAddFriend() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    (playerId) => {
+      return client(`friends/add/${playerId}/`, { method: "POST" })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to update your friends list.")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("friends")
+      },
+    },
+  )
+}
+
+function useRemoveFriend() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    (playerId) => {
+      return client(`friends/remove/${playerId}/`, { method: "DELETE" })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to update your friends list.")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("friends")
+      },
+    },
+  )
+}
+
 export {
+  useAddFriend,
+  useFriends,
   useMyCards,
   useMyEvents,
   usePlayer,
   usePlayerProfilePic,
   useRegistrationStatus,
+  useRemoveFriend,
   useUpdatePlayer,
 }

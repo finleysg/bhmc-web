@@ -13,6 +13,7 @@ function Player(json) {
   this.tee = json.tee
   this.age = differenceInYears(new Date(), this.birthDate)
   this.age2 = differenceInYears(lastDayOfYear(new Date()), this.birthDate) // age at the end of the year
+  this.isFriend = false
 
   this.profilePicture = () => {
     if (!json.profile_picture) {

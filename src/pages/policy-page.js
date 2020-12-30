@@ -1,6 +1,6 @@
-import PolicyList from "./policy-list"
+import PolicyList from "../features/policy/policy-list"
 
-function PolicyScreen() {
+function PolicyPage() {
   return (
     <div className="content__inner">
       {/* <header className="content__title">
@@ -11,4 +11,4 @@ function PolicyScreen() {
   )
 }
 
-export { PolicyScreen }
+export default PolicyPage

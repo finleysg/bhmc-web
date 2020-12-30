@@ -4,12 +4,13 @@ import gfm from "remark-gfm"
 import * as colors from "styles/colors"
 
 function CardContent(props) {
+  const { title } = props.title ?? true
   const pageContent = usePageContent(props.contentKey)
 
   return (
     <div className="card">
       <div className="card-body">
-        <h4 className="card-title">{pageContent.title}</h4>
+        {title && <h4 className="card-title">{pageContent.title}</h4>}
         <div className="card-text">
           <ReactMarkdown source={pageContent.content} plugins={[gfm]} escapeHtml={true} />
         </div>

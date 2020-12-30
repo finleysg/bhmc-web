@@ -6,7 +6,7 @@ import { EventFee } from "models/club-event"
 import { Payment } from "models/payment"
 import Player from "models/player"
 
-import { usePlayers } from "../../hooks/registration-hooks"
+import { usePlayers } from "../../hooks/player-hooks"
 
 function EventRegistrationConfirm(props) {
   const { onBack, onComplete, onCancel, onBusy } = props
