@@ -3,8 +3,10 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import React from "react"
 
 import { StandardConfirmDialog } from "components/confirm"
+import { CardContent } from "components/content"
 import { ManageCreditCards, StyledCardElement } from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
+import { LoadingSpinner } from "components/spinners"
 import { useAuth, useClient } from "context/auth-context"
 import { useMyCards } from "hooks/account-hooks"
 import { useQueryClient } from "react-query"
@@ -27,6 +29,7 @@ function MyCards() {
 
   const handleCardSetup = async () => {
     setIsBusy(true)
+    setSetupError(undefined)
 
     try {
       const intent = await client("save-card", { method: "POST" })
@@ -42,14 +45,14 @@ function MyCards() {
       })
 
       if (result.error) {
-        setSetupError(result.error)
+        handleError(result.error)
         toast.error("💣 Failed to save new card.")
       } else {
         queryClient.invalidateQueries("my-cards")
         toast.success("💳 Your card has been saved for future use.")
       }
     } catch (err) {
-      setSetupError(err)
+      handleError(err)
       toast.error("💣 Failed to save new card.")
     }
     setIsBusy(false)
@@ -68,12 +71,21 @@ function MyCards() {
     }
   }
 
+  const handleError = (err) => {
+    if (typeof err === "string") {
+      setSetupError(err)
+    } else if (err.message) {
+      setSetupError(err.message)
+    } else {
+      setSetupError(JSON.stringify(err))
+    }
+  }
+
   return (
     <React.Fragment>
-      <div className="card">
-        <div className="card-body">
-          <h4 className="card-title">Manage My Cards</h4>
-          <div className="row" style={{ marginBottom: "1rem" }}>
+      <CardContent contentKey="my-cards">
+        <React.Fragment>
+          <div className="row" style={{ marginBottom: "1rem", marginTop: "2rem" }}>
             <div className="col-12">
               <ManageCreditCards
                 cards={myCards}
@@ -94,6 +106,7 @@ function MyCards() {
           <div className="row">
             <div className="col-12">
               <ErrorDisplay error={setupError} isError={setupError !== undefined} />
+              <LoadingSpinner loading={isBusy} offset="10px" />
             </div>
           </div>
           <hr />
@@ -109,8 +122,8 @@ function MyCards() {
               </button>
             </div>
           </div>
-        </div>
-      </div>
+        </React.Fragment>
+      </CardContent>
       {showConfirm && (
         <StandardConfirmDialog
           confirmRef={removeRef}

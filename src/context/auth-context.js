@@ -55,10 +55,13 @@ function AuthProvider(props) {
   const logout = React.useCallback(async () => {
     return auth
       .logout()
-      .then(() => navigate("home"))
       .then(() => {
         queryClient.clear()
         setData(null)
+      })
+      .then(() => {
+        navigate("home")
+        window.location.assign(window.location)
       })
   }, [setData, navigate, queryClient])
 

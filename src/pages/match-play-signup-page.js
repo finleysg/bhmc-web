@@ -32,9 +32,6 @@ function MatchPlaySignupPage() {
 
   return (
     <div className="content__inner">
-      <header className="content__title">
-        <h1>{config.currentSeason} Season Long Match Play</h1>
-      </header>
       <div className="row">
         <div className="col-xl-7 col-lg-6 col-md-12">
           <MatchPlayEvent />

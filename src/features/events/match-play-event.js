@@ -18,11 +18,13 @@ function MatchPlayEvent() {
   return (
     <div className="card">
       <div className="card-body">
-        <h4 className="card-title">Match Play Rules and Information</h4>
+        <h4 className="card-title text-primary">Match Play Rules and Information</h4>
         <LoadingSpinner loading={loading} />
         {!loading && (
           <React.Fragment>
-            <h6 className="card-subtitle">Registration open: {clubEvent.signupWindow}</h6>
+            <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+              Registration open: {clubEvent.signupWindow}
+            </h6>
             <div className="card-text">
               <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
               <div className="row">

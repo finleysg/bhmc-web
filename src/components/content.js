@@ -1,19 +1,21 @@
+import { Children } from "react"
+
 import { usePageContent } from "hooks/use-page-content"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
 import * as colors from "styles/colors"
 
 function CardContent(props) {
-  const { title } = props.title ?? true
   const pageContent = usePageContent(props.contentKey)
 
   return (
     <div className="card">
       <div className="card-body">
-        {title && <h4 className="card-title">{pageContent.title}</h4>}
+        <h3 className="card-title text-primary">{pageContent.title}</h3>
         <div className="card-text">
           <ReactMarkdown source={pageContent.content} plugins={[gfm]} escapeHtml={true} />
         </div>
+        {props.children && Children.only(props.children)}
       </div>
     </div>
   )

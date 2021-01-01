@@ -44,6 +44,13 @@
   overflow: hidden;
   z-index: $sidebar-z-index;
 
+  @include media-breakpoint-up(xl) {
+    background-image: linear-gradient(to right bottom, rgba($green, 0.8), rgba($blue, 0.8)),
+      url(../assets/img/ThreeNorth.jpg);
+    background-size: cover;
+    background-position: left;
+  }
+
   @include media-breakpoint-down(xl) {
     @include sidebar-toggled();
   }
@@ -69,10 +76,15 @@
     &:not(.navigation__active) {
       a {
         color: $navigation-link-color;
-
+        @include media-breakpoint-up(xl) {
+          color: $white;
+        }
         &:hover {
           background-color: $navigation-link-hover-bg;
           color: darken($navigation-link-color, 10%);
+          @include media-breakpoint-up(xl) {
+            color: darken($white, 10%);
+          }
         }
       }
     }

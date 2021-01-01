@@ -10,7 +10,7 @@ function PolicyDetail({ policy }) {
   return (
     <div className="card">
       <div className="card-body">
-        <h4 className="card-title">{title}</h4>
+        <h4 className="card-title text-primary">{title}</h4>
         <div className="card-text">
           <ReactMarkdown source={description} plugins={[gfm]} escapeHtml={true} />
         </div>

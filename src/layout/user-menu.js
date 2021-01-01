@@ -34,7 +34,7 @@ function UserMenu() {
             My Account
           </Link>
           <Link onClick={() => setShowMenu(false)} to="settings" className="dropdown-item">
-            My Events
+            My Activity
           </Link>
           <div className="dropdown-divider"></div>
           <button onClick={handleLogout} className="dropdown-item">

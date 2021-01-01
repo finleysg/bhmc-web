@@ -15,16 +15,15 @@ function MembershipScreen() {
 
   return (
     <div className="content__inner">
-      <header className="content__title">
-        <h1>{config.currentSeason} Season Registration</h1>
-      </header>
       <div className="row">
         <div className="col-lg-6">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">Membership Policies</h4>
+              <h3 className="card-title text-success">Membership Policies</h3>
               <React.Fragment>
-                <h6 className="card-subtitle">Registration open: {clubEvent.signupWindow}</h6>
+                <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+                  Registration open: {clubEvent.signupWindow}
+                </h6>
                 <div className="card-text">
                   <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
 

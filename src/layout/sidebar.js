@@ -2,7 +2,6 @@ import React from "react"
 
 import { useAuth } from "context/auth-context"
 import { useLayout } from "context/layout-context"
-import { useRegistrationStatus } from "hooks/account-hooks"
 import { useSelectedMonth } from "hooks/calendar-hooks"
 import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
 import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
@@ -17,14 +16,17 @@ import { MenuItem } from "./menu-item"
 function Sidebar() {
   const { sidebarOpen } = useLayout()
   const { user } = useAuth()
-  const isMember = useRegistrationStatus(config.seasonEventId)
   const [selectedMonth] = useSelectedMonth()
 
   return (
     <aside className={sidebarOpen ? "sidebar toggled" : "sidebar"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
-        {!isMember && <MenuItem path="membership" icon={<GoPlus />} name="Sign Up for 2021" />}
+        <MenuItem
+          path="membership"
+          icon={<GoPlus />}
+          name={`${config.currentSeason} Signup Page`}
+        />
         <MenuItem
           path={`calendar/${selectedMonth.year}/${selectedMonth.monthName.toLowerCase()}`}
           icon={<GoCalendar />}

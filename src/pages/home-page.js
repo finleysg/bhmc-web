@@ -9,14 +9,13 @@ import * as colors from "styles/colors"
 function HomePage() {
   return (
     <div className="content__inner">
-      <header className="content__title">
-        <h1>Home</h1>
-      </header>
       <div className="row">
         <div className="col-xl-6 col-lg-8">
           <div className="card">
             <div className="card-body">
-              <h3 className="card-title text-success">Club News and Announcements</h3>
+              <h3 className="text-success" style={{ marginBottom: "1rem" }}>
+                Club News and Announcements
+              </h3>
               <AnnouncementList />
             </div>
           </div>

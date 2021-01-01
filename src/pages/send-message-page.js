@@ -18,9 +18,6 @@ function SendMessagePage() {
 
   return (
     <div className="content__inner">
-      {/* <header className="content__title">
-        <h1>Send Us a Message</h1>
-      </header> */}
       <div className="row">
         <div className="col-lg-6 col-md-8 col-sm-10 col-12">
           <div className="card">

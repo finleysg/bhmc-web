@@ -128,4 +128,4 @@ function PlayerSearch(props) {
   )
 }
 
-export { PlayerSearch }
+export { PlayerRow, PlayerSearch }

@@ -124,7 +124,14 @@ function useFriends() {
   const client = useClient()
   const { data: players } = useQuery(
     ["friends"],
-    () => client("friends").then((data) => data.map((p) => new Player(p))),
+    () =>
+      client("friends").then((data) =>
+        data.map((p) => {
+          const player = new Player(p)
+          player.isFriend = true
+          return player
+        }),
+      ),
     {
       cacheTime: Infinity,
     },

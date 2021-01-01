@@ -15,14 +15,34 @@ function Player(json) {
   this.age2 = differenceInYears(lastDayOfYear(new Date()), this.birthDate) // age at the end of the year
   this.isFriend = false
 
-  this.profilePicture = () => {
+  this.imageUrl = () => {
     if (!json.profile_picture) {
       return undefined
     }
-    if (json.profile_picture.thumbnail_url.startsWith("http")) {
-      return json.profile_picture.thumbnail_url // production (from Amazon storage)
+    if (json.profile_picture.image_url.startsWith("http")) {
+      return json.profile_picture.image_url // production (from Amazon storage)
     }
-    return `${serverUrl}${json.profile_picture.thumbnail_url}`
+    return `${serverUrl}${json.profile_picture.image_url}`
+  }
+
+  this.webImageUrl = () => {
+    if (!json.profile_picture) {
+      return undefined
+    }
+    if (json.profile_picture.web_url.startsWith("http")) {
+      return json.profile_picture.web_url // production (from Amazon storage)
+    }
+    return `${serverUrl}${json.profile_picture.web_url}`
+  }
+
+  this.mobileImageUrl = () => {
+    if (!json.profile_picture) {
+      return undefined
+    }
+    if (json.profile_picture.mobile_url.startsWith("http")) {
+      return json.profile_picture.mobile_url // production (from Amazon storage)
+    }
+    return `${serverUrl}${json.profile_picture.mobile_url}`
   }
 }
 

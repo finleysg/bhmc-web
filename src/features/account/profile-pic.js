@@ -1,5 +1,6 @@
 import React from "react"
 
+import { LoadingSpinner } from "components/spinners"
 import { MdCameraAlt } from "react-icons/md"
 import { toast } from "react-toastify"
 
@@ -10,16 +11,16 @@ import { ProfilePicPicker } from "./profile-pic-picker"
 function ProfilePic() {
   const [mode, setMode] = React.useState("view")
   const player = usePlayer()
-  const { saveProfilePic } = usePlayerProfilePic()
+  const { mutate: saveProfilePic, isLoading } = usePlayerProfilePic()
 
-  async function handleSelectedFile(file) {
+  const handleSelectedFile = (file) => {
     const form = new FormData()
     form.append("player_id", player.id)
     form.append("year", 0)
     form.append("caption", player.name)
     form.append("raw_image", file, file.name)
 
-    await saveProfilePic(form, {
+    saveProfilePic(form, {
       onSuccess: () => {
         toast.success("📸 Your profile picture has been updated")
         setMode("view")
@@ -33,10 +34,14 @@ function ProfilePic() {
         <div className="pmo-pic">
           <div className="p-relative">
             <span>
-              {player && player.profilePicture() ? (
-                <img className="img-responsive" src={player.profilePicture()} alt="Profile" />
+              {player && player.imageUrl() ? (
+                <picture>
+                  <source srcSet={player.mobileImageUrl()} media="(max-width: 600px)" />
+                  <source srcSet={player.webImageUrl()} media="(max-width: 1200px)" />
+                  <img src={player.imageUrl()} alt="Profile" />
+                </picture>
               ) : (
-                <img className="img-responsive" src={defaultProfilePic} alt="Profile" />
+                <img className="img-responsive" src={defaultProfilePic} alt="Default Profile" />
               )}
             </span>
             <button onClick={() => setMode("edit")} className="pmop-edit">
@@ -53,7 +58,14 @@ function ProfilePic() {
       </div>
     )
   } else {
-    return <ProfilePicPicker onSelect={handleSelectedFile} onCancel={() => setMode("view")} />
+    return (
+      <React.Fragment>
+        {isLoading && <LoadingSpinner loading={true} offset={90} />}
+        {isLoading || (
+          <ProfilePicPicker onSelect={handleSelectedFile} onCancel={() => setMode("view")} />
+        )}
+      </React.Fragment>
+    )
   }
 }
 

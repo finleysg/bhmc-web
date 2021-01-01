@@ -41,9 +41,6 @@ function SeasonSignupPage() {
 
   return (
     <div className="content__inner">
-      <header className="content__title">
-        <h1>{config.currentSeason} Season Registration</h1>
-      </header>
       <div className="row">
         <div className="col-lg-6">
           <SeasonEvent />

@@ -18,11 +18,13 @@ function SeasonEvent() {
   return (
     <div className="card">
       <div className="card-body">
-        <h4 className="card-title">Membership Policies</h4>
+        <h3 className="card-title text-primary">{config.currentSeason} Membership Policies</h3>
         <LoadingSpinner loading={loading} />
         {!loading && (
           <React.Fragment>
-            <h6 className="card-subtitle">Registration open: {clubEvent.signupWindow}</h6>
+            <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+              Registration open: {clubEvent.signupWindow}
+            </h6>
             <div className="card-text">
               <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
               <div className="row">

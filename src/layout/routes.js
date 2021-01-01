@@ -8,14 +8,13 @@ import EventDetailPage from "pages/event-detail-page"
 import HomePage from "pages/home-page"
 import MatchPlaySignupPage from "pages/match-play-signup-page"
 import { NotFoundScreen } from "pages/not-found"
-import PaymentTestPage from "pages/payment-test-page"
 import PlayerProfilePage from "pages/player-profile-page"
 import PolicyPage from "pages/policy-page"
 import SeasonSignupPage from "pages/season-signup-page"
 import SendMessagePage from "pages/send-message-page"
 import SettingsPage from "pages/settings-page"
 import SignupsPage from "pages/signups-page"
-import { TestingScreen } from "pages/testing"
+import { UnfinishedPage } from "pages/unfinished-page"
 
 // import { Navigate, Outlet} from "react-router-dom"
 
@@ -28,13 +27,13 @@ const mainRoutes = (user) => [
   },
   { path: "/calendar/:year/:monthName", element: <CalendarPage /> },
   { path: "/event/:eventDate/:eventName", element: <EventDetailPage /> },
-  { path: "/event/:eventDate/:eventName/register", element: <TestingScreen /> },
+  { path: "/event/:eventDate/:eventName/register", element: <UnfinishedPage /> },
   { path: "/event/:eventDate/:eventName/registrations", element: <SignupsPage /> },
-  { path: "/results/:eventType", element: <TestingScreen /> },
+  { path: "/results", element: <UnfinishedPage /> },
   { path: "/policies/:policyType", element: <PolicyPage /> },
   { path: "/match-play", element: <MatchPlaySignupPage /> },
-  { path: "/season-long-points", element: <PaymentTestPage /> },
-  { path: "/dam-cup", element: <TestingScreen /> },
+  { path: "/season-long-points", element: <UnfinishedPage /> },
+  { path: "/dam-cup", element: <UnfinishedPage /> },
   { path: "/directory", element: <DirectoryPage /> },
   { path: "/directory/:playerId", element: <PlayerProfilePage /> },
   { path: "/contact-us", element: <ContactPage /> },

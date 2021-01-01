@@ -10,7 +10,7 @@
   .navigation__sub--active > a,
   .navigation__active > a,
   .navigation__active:before {
-    color: $color !important;
+    color: $orange !important;
   }
 }
 
@@ -24,7 +24,7 @@ $themes: (
   green: $green,
   brown: $brown,
   orange: $orange,
-  blue-grey: $blue-grey
+  blue-grey: $blue-grey,
 );
 
 @each $theme, $value in $themes {

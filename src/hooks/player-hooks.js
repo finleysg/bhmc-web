@@ -32,9 +32,25 @@ function useMembers() {
 }
 
 function usePlayer(playerId) {
-  const players = usePlayers()
-  const player = players.find((p) => p.id === playerId)
-  return player
+  const client = useClient()
+  const { data: player } = useQuery(
+    ["players", playerId],
+    () => client(`players/${playerId}`).then((data) => new Player(data)),
+    {
+      cacheTime: Infinity,
+    },
+  )
+
+  return player ?? new Player({ last_name: "loading..." })
 }
 
-export { useMembers, usePlayer, usePlayers }
+function useBoardMembers() {
+  const client = useClient()
+  const { data: boardMembers } = useQuery(["board"], () => client("board").then((data) => data), {
+    cacheTime: Infinity,
+  })
+
+  return boardMembers ?? []
+}
+
+export { useBoardMembers, useMembers, usePlayer, usePlayers }

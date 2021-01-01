@@ -1,20 +1,33 @@
 import React from "react"
 
 import { Link } from "react-router-dom"
+import * as config from "utils/app-config"
 
 function CalendarEvent({ clubEvent }) {
-  const { name, eventTypeClass, externalUrl, eventUrl } = clubEvent
+  const { name, eventTypeClass, externalUrl } = clubEvent
+
+  const eventUrl = () => {
+    if (clubEvent.id === config.seasonEventId) {
+      return "/membership"
+    } else if (clubEvent.id === config.seasonMatchPlayId) {
+      return "/match-play"
+    } else {
+      return clubEvent.eventUrl
+    }
+  }
 
   return (
-    <div className={`calendar-event ${eventTypeClass}`}>
+    <React.Fragment>
       {externalUrl ? (
         <a target="_blank" rel="noreferrer" href={externalUrl}>
-          {name}
+          <div className={`calendar-event ${eventTypeClass}`}>{name}</div>
         </a>
       ) : (
-        <Link to={eventUrl}>{name}</Link>
+        <Link to={eventUrl()}>
+          <div className={`calendar-event ${eventTypeClass}`}>{name}</div>
+        </Link>
       )}
-    </div>
+    </React.Fragment>
   )
 }
 

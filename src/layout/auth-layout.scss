@@ -20,6 +20,12 @@
     background-image: url(../assets/img/ThreeNorthTee.png);
     background-size: cover;
     background-position: center;
+
+    @include media-breakpoint-up(xl) {
+      background-image: url(../assets/img/Facility.jpg);
+      background-size: cover;
+      background-position: center;
+    }
   }
 }
 

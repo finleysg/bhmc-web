@@ -8,12 +8,9 @@ function SignupsPage() {
 
   return (
     <div className="content__inner">
-      <header className="content__title">
-        <h1>Event Sign Ups</h1>
-      </header>
       <div className="card">
         <div className="card-body">
-          <h4 className="card-title">{clubEvent.name}</h4>
+          <h3 className="card-title text-primary">{clubEvent.name}</h3>
           <div className="card-text">
             <div className="row">
               <SimpleRegistrationList registrations={registrations} sortBy="player" />
