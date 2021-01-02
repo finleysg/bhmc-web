@@ -1,11 +1,21 @@
+import {
+  EventDocuments,
+  EventPortalButton,
+  RegisterButton,
+  RegisteredButton,
+} from "components/registration"
+import { RegistrationSteps } from "context/registration-context"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
-import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
 import { dayAndDateFormat, dayDateAndTimeFormat } from "utils/event-utils"
 
 function EventDetail({ clubEvent }) {
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
+
+  const handleRegister = () => {
+    // no-op for now
+  }
 
   return (
     <div className="card">
@@ -23,34 +33,27 @@ function EventDetail({ clubEvent }) {
             <h3 className="text-primary">{clubEvent.name}</h3>
           </div>
           <div>
-            <button style={{ marginLeft: "1rem" }} className="btn btn-sm btn-info">
-              Tee Times
-            </button>
+            <EventPortalButton style={{ marginLeft: ".5rem" }} clubEvent={clubEvent} />
           </div>
           <div>
-            <button style={{ marginLeft: "1rem" }} className="btn btn-sm btn-info">
-              Results
-            </button>
+            <RegisteredButton style={{ marginLeft: ".5rem" }} clubEvent={clubEvent} />
           </div>
           <div>
-            <button style={{ marginLeft: "1rem" }} className="btn btn-sm btn-info">
-              Portal
-            </button>
+            <RegisterButton
+              style={{ marginLeft: ".5rem" }}
+              clubEvent={clubEvent}
+              currentStep={RegistrationSteps.Pending}
+              onClick={handleRegister}
+            />
           </div>
-          <div>
-            <Link
-              style={{ marginLeft: "1rem" }}
-              to={clubEvent.eventUrl + "/registrations"}
-              className="btn btn-sm btn-info"
-            >
-              Registered
-            </Link>
-          </div>
-          <div>
-            <button style={{ marginLeft: "1rem" }} className="btn btn-sm btn-warning">
-              Register Now
-            </button>
-          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+          }}
+        >
+          <EventDocuments clubEvent={clubEvent} />
         </div>
         <div className="card-text">
           <p style={{ marginBottom: ".5rem" }}>

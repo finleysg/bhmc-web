@@ -1,6 +1,5 @@
 import React from "react"
 
-import { LoadingSpinner } from "components/spinners"
 import { format } from "date-fns"
 import { usePlayer } from "hooks/account-hooks"
 import { useClubEvents, usePlayerRegistrations } from "hooks/event-hooks"
@@ -42,14 +41,14 @@ function EventView({ eventRegistration, ...rest }) {
 }
 
 function MyEvents() {
-  const { data: clubEvents, isLoading } = useClubEvents()
+  const events = useClubEvents()
   const player = usePlayer()
   const registrations = usePlayerRegistrations(player?.id)
 
   const eventList = () => {
-    if (clubEvents && registrations) {
+    if (events.length > 0 && registrations) {
       return registrations.map((r) => {
-        const clubEvent = clubEvents.find((e) => e.id === r.eventId)
+        const clubEvent = events.find((e) => e.id === r.eventId)
         if (clubEvent) {
           return {
             id: clubEvent.id,
@@ -70,7 +69,7 @@ function MyEvents() {
     <div className="card">
       <div className="card-body">
         <h4 className="card-title text-primary">My Events</h4>
-        <LoadingSpinner loading={isLoading} />
+        {/* <LoadingSpinner loading={isLoading} /> */}
         <div className="card-text">
           <div className="row" style={{ padding: "6px 0" }}>
             <div className="col-12">

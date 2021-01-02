@@ -45,13 +45,13 @@ function EventRegistrationProvider(props) {
   const [currentStep, changeCurrentStep] = React.useState(RegistrationSteps.Pending)
 
   const { user } = useAuth()
-  const { data: events } = useClubEvents()
+  const events = useClubEvents()
   const client = useClient()
   const queryClient = useQueryClient()
 
   const loadEvent = React.useCallback(
     (id) => {
-      const event = events?.find((evt) => evt.id === id)
+      const event = events.find((evt) => evt.id === id)
       if (event) {
         setClubEvent(event)
       }

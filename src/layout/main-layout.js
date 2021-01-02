@@ -2,10 +2,9 @@ import "./main-layout.scss"
 
 import React from "react"
 
+import { useAuth } from "context/auth-context"
 import { useLayout } from "context/layout-context"
-import { useRegistrationStatus } from "hooks/account-hooks"
 import { ToastContainer } from "react-toastify"
-import * as config from "utils/app-config"
 
 import BoundedRoutes from "./bounded-routes"
 import { Footer } from "./footer"
@@ -14,8 +13,8 @@ import { Sidebar } from "./sidebar"
 
 function MainLayout() {
   const { sidebarOpen, closeSidebar } = useLayout()
-  const isMember = useRegistrationStatus(config.seasonEventId)
-  const themeColor = isMember ? "green" : "blue"
+  const { user } = useAuth()
+  const themeColor = user?.is_authenticated ? "green" : "blue"
 
   return (
     <main className="main" data-ma-theme={themeColor}>

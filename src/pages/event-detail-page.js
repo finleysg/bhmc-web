@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns"
 import EventDetail from "features/events/event-detail"
 import FeesAndPoints from "features/events/fees-and-points"
 import { useClubEvent } from "hooks/event-hooks"
@@ -6,7 +7,8 @@ import * as config from "utils/app-config"
 
 function EventDetailPage() {
   const { eventDate, eventName } = useParams()
-  const clubEvent = useClubEvent({ eventDate, eventName })
+  const startDate = parseISO(eventDate)
+  const clubEvent = useClubEvent({ eventDate, eventName, season: startDate.getFullYear() })
   const navigate = useNavigate()
 
   if (clubEvent.id === config.seasonEventId) {

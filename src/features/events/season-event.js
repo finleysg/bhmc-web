@@ -1,7 +1,8 @@
 import React from "react"
 
+import { RegisterButton, RegisteredButton } from "components/registration"
 import { LoadingSpinner } from "components/spinners"
-import { RegistrationSteps, useEventRegistration } from "context/registration-context"
+import { useEventRegistration } from "context/registration-context"
 import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
@@ -77,23 +78,13 @@ function SeasonEvent() {
               </div>
               <div className="row">
                 <div className="col-12">
-                  {!hasSignedUp && (
-                    <button
-                      className="btn btn-primary"
-                      style={{ marginRight: ".5rem" }}
-                      disabled={currentStep !== RegistrationSteps.Pending}
-                      onClick={startRegistration}
-                    >
-                      Register Online
-                    </button>
-                  )}
-                  <Link
-                    className="btn btn-success"
-                    disabled={currentStep !== RegistrationSteps.Pending}
-                    to={clubEvent.eventUrl + "/registrations"}
-                  >
-                    See Who Signed Up
-                  </Link>
+                  <RegisterButton
+                    clubEvent={clubEvent}
+                    currentStep={currentStep}
+                    style={{ marginRight: ".5rem" }}
+                    onClick={startRegistration}
+                  />
+                  <RegisteredButton clubEvent={clubEvent} style={{ marginRight: ".5rem" }} />
                 </div>
               </div>
             </div>

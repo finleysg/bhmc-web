@@ -16,7 +16,7 @@ function UpcomingEvent({ event }) {
 }
 
 function UpcomingEvents() {
-  const { data: events } = useClubEvents()
+  const events = useClubEvents()
 
   const upcoming = () => {
     if (events && events.length > 0) {

@@ -1,7 +1,95 @@
 import React from "react"
 
+import { RegistrationSteps } from "context/registration-context"
 import { format, isAfter, isBefore } from "date-fns"
+import { useRegistrationStatus } from "hooks/account-hooks"
+import { useEventDocuments } from "hooks/document-hooks"
 import { usePlayers } from "hooks/player-hooks"
+import { FiFileText } from "react-icons/fi"
+import { Link } from "react-router-dom"
+import * as colors from "styles/colors"
+import * as config from "utils/app-config"
+
+function MemberOnlyRegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
+  const isMember = useRegistrationStatus(config.seasonEventId)
+  if (isMember) {
+    return (
+      <RegisterButton clubEvent={clubEvent} currentStep={currentStep} onClick={onClick} {...rest} />
+    )
+  }
+  return null
+}
+
+function RegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
+  const hasSignedUp = useRegistrationStatus(clubEvent?.id)
+
+  if (clubEvent?.registrationIsOpen && !hasSignedUp) {
+    return (
+      <button
+        className="btn btn-warning btn-sm"
+        disabled={currentStep !== RegistrationSteps.Pending}
+        onClick={onClick}
+        {...rest}
+      >
+        Register Now
+      </button>
+    )
+  }
+  return null
+}
+
+function RegisteredButton({ clubEvent, ...rest }) {
+  return (
+    <Link className="btn btn-info btn-sm" to={clubEvent?.eventUrl + "/registrations"} {...rest}>
+      Registered
+    </Link>
+  )
+}
+
+function EventPortalButton({ clubEvent, ...rest }) {
+  if (clubEvent?.portalUrl) {
+    return (
+      <a
+        className="btn btn-info btn-sm"
+        href={clubEvent.portalUrl}
+        target="_blank"
+        rel="noreferrer"
+        {...rest}
+      >
+        Event Portal
+      </a>
+    )
+  }
+  return null
+}
+
+function EventDocuments({ clubEvent }) {
+  const documents = useEventDocuments(clubEvent?.id)
+
+  if (documents && documents.length > 0) {
+    return documents.map((doc) => {
+      return <DocumentButton key={doc.id} document={doc} />
+    })
+  }
+  return null
+}
+
+function DocumentButton({ document }) {
+  return (
+    <div style={{ textAlign: "center", margin: "0 1rem" }}>
+      <a
+        href={document.file}
+        alt={document.title}
+        style={{ color: colors.teal }}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <FiFileText style={{ fontSize: "3rem" }} />
+        <p style={{ fontSize: ".8rem" }}>{document.title}</p>
+      </a>
+    </div>
+  )
+}
 
 function SimpleRegistrationList({ registrations, sortBy }) {
   const players = usePlayers()
@@ -79,4 +167,13 @@ function RegistrationSlotView({ playerRegistration, ...rest }) {
   )
 }
 
-export { RegistrationSlotView, SimpleRegistrationList }
+export {
+  DocumentButton,
+  EventDocuments,
+  EventPortalButton,
+  MemberOnlyRegisterButton,
+  RegisterButton,
+  RegisteredButton,
+  RegistrationSlotView,
+  SimpleRegistrationList,
+}

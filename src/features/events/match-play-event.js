@@ -1,16 +1,16 @@
 import React from "react"
 
+import {
+  EventPortalButton,
+  MemberOnlyRegisterButton,
+  RegisteredButton,
+} from "components/registration"
 import { LoadingSpinner } from "components/spinners"
-import { RegistrationSteps, useEventRegistration } from "context/registration-context"
-import { useRegistrationStatus } from "hooks/account-hooks"
+import { useEventRegistration } from "context/registration-context"
 import ReactMarkdown from "react-markdown"
-import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
-import * as config from "utils/app-config"
 
 function MatchPlayEvent() {
-  const isMember = useRegistrationStatus(config.seasonEventId)
-  const hasSignedUp = useRegistrationStatus(config.seasonMatchPlayId)
   const { clubEvent, currentStep, startRegistration } = useEventRegistration()
 
   const loading = clubEvent?.id === undefined
@@ -29,35 +29,14 @@ function MatchPlayEvent() {
               <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
               <div className="row">
                 <div className="col-12">
-                  {isMember && !hasSignedUp && (
-                    <button
-                      className="btn btn-primary"
-                      style={{ marginRight: ".5rem" }}
-                      disabled={currentStep !== RegistrationSteps.Pending}
-                      onClick={startRegistration}
-                    >
-                      Register Online
-                    </button>
-                  )}
-                  {clubEvent.portalUrl && (
-                    <a
-                      className="btn btn-success"
-                      style={{ marginRight: ".5rem" }}
-                      disabled={currentStep !== RegistrationSteps.Pending}
-                      href={clubEvent.portalUrl}
-                    >
-                      Match Play Portal
-                    </a>
-                  )}
-                  {isMember && (
-                    <Link
-                      className="btn btn-success"
-                      disabled={currentStep !== RegistrationSteps.Pending}
-                      to={clubEvent.eventUrl + "/registrations"}
-                    >
-                      See Who Signed Up
-                    </Link>
-                  )}
+                  <MemberOnlyRegisterButton
+                    clubEvent={clubEvent}
+                    currentStep={currentStep}
+                    style={{ marginRight: ".5rem" }}
+                    onClick={startRegistration}
+                  />
+                  <RegisteredButton clubEvent={clubEvent} style={{ marginRight: ".5rem" }} />
+                  <EventPortalButton clubEvent={clubEvent} style={{ marginRight: ".5rem" }} />
                 </div>
               </div>
             </div>

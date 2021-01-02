@@ -25,6 +25,7 @@ function usePlayer() {
       },
       enabled: email !== undefined,
       cacheTime: 1000 * 60 * 60,
+      staleTime: 1000 * 60 * 60,
     },
   )
 

@@ -9,13 +9,6 @@ Registration:
 Email:
 - style djoser emails (activation done)
 
-Settings:
-- Intro text
-- My Events (Add bg calls to get registration info, turn them into links)
-
-Mobile:
-- Buttons should stack if they don't fit horizontally
-
 General:
 - Handle cleanup on abandoned flows
 - Update expired card (https://stripe.com/docs/api/payment_methods/update)

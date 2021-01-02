@@ -4,28 +4,29 @@ import { Registration, RegistrationSlot } from "models/registration"
 import { useQuery } from "react-query"
 import * as config from "utils/app-config"
 
-function useClubEvents() {
+function useClubEvents(year) {
   const client = useClient()
-  return useQuery(
-    "club-events",
-    () =>
-      client(`events/?season=${config.currentSeason}`).then((data) =>
-        data.map((e) => new ClubEvent(e)),
-      ),
+  const season = !year ? config.currentSeason : year
+  const { data: events } = useQuery(
+    ["club-events", season],
+    () => client(`events/?season=${season}`).then((data) => data.map((e) => new ClubEvent(e))),
     {
       cacheTime: Infinity,
+      staleTime: Infinity,
     },
   )
+
+  return events ?? []
 }
 
-function useClubEvent({ eventId, eventDate, eventName }) {
-  const { data } = useClubEvents()
+function useClubEvent({ eventId, eventDate, eventName, season }) {
+  const events = useClubEvents(season)
   if (!eventId) {
     return (
-      data?.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
+      events.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
     )
   }
-  return data?.find((e) => e.id === eventId) ?? loadingEvent
+  return events.find((e) => e.id === eventId) ?? loadingEvent
 }
 
 function useEventRegistrations(eventId) {
@@ -48,12 +49,9 @@ function useEventRegistrations(eventId) {
 }
 
 function useEventWithRegistrations({ eventDate, eventName }) {
-  const { data: clubEvents } = useClubEvents()
+  const events = useClubEvents()
   const clubEvent =
-    (clubEvents &&
-      clubEvents.length > 0 &&
-      clubEvents.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName)) ??
-    loadingEvent
+    events.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
   const registrations = useEventRegistrations(clubEvent?.id)
   return {
     clubEvent,
@@ -95,7 +93,8 @@ function usePlayerRegistrationSlots(playerId) {
         return data.map((slot) => new RegistrationSlot(slot))
       }),
     {
-      cacheTime: 1000 * 60 * 60,
+      cacheTime: 1000 * 60 * 15,
+      staleTime: 1000 * 60 * 15,
     },
   )
 

@@ -8,15 +8,15 @@ import { EventCalendar } from "../features/calendar/event-calendar"
 
 function CalendarPage() {
   const { year, monthName } = useParams()
-  const { data, isLoading } = useClubEvents()
+  const events = useClubEvents(year)
 
   const month = getMonth(monthName)
-  const events = data?.filter((evt) => evt.isCurrent(+year, month))
+  const currentEvents = events.filter((evt) => evt.isCurrent(+year, month))
 
   return (
     <div className="row" style={{ minHeight: "calc(100vh - 216px)" }}>
       <div className="col-md-12">
-        <EventCalendar year={year} monthName={monthName} events={events} loading={isLoading} />
+        <EventCalendar year={year} monthName={monthName} events={currentEvents} loading={false} />
       </div>
     </div>
   )

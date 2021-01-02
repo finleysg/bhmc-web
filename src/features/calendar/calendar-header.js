@@ -23,6 +23,7 @@ function MonthMenu() {
           {months.map((m) => {
             return (
               <Link
+                key={m}
                 to={`/calendar/${config.currentSeason}/${getMonthName(m).toLowerCase()}`}
                 className="nav-link"
                 style={{ padding: ".5rem 1rem" }}
