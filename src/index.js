@@ -17,6 +17,7 @@ Sentry.init({
   dsn: config.sentryApiKey,
   autoSessionTracking: true,
   tracesSampleRate: 0.0,
+  release: "bhmc-web@" + process.env.npm_package_version,
 })
 
 ReactDOM.render(
