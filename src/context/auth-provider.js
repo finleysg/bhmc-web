@@ -22,9 +22,11 @@ async function login(email, password) {
 
 async function logout() {
   const token = window.localStorage.getItem(localStorageKey)
-  return client("token/logout", {}, token).then(() =>
-    window.localStorage.removeItem(localStorageKey),
-  )
+  try {
+    return client("token/logout", {}, token)
+  } finally {
+    window.localStorage.removeItem(localStorageKey)
+  }
 }
 
 async function register(first_name, last_name, email, ghin, password, re_password) {

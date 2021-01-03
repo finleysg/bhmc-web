@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react"
+
 import React from "react"
 
 import { RegistrationErrorFallback } from "components/errors"
@@ -5,7 +7,6 @@ import { useEventRegistration } from "context/registration-context"
 import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
 import SeasonEvent from "features/events/season-event"
 import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
-import { ErrorBoundary } from "react-error-boundary"
 import * as config from "utils/app-config"
 
 function SeasonSignupPage() {
@@ -46,12 +47,12 @@ function SeasonSignupPage() {
           <SeasonEvent />
         </div>
         <div className="col-lg-6">
-          <ErrorBoundary FallbackComponent={RegistrationErrorFallback} onReset={handleReset}>
+          <Sentry.ErrorBoundary fallback={RegistrationErrorFallback} onReset={handleReset}>
             <SimpleSignupFlow
               feeFilter={seasonEventFeeFilter}
               getNotificationType={getNotificationType}
             />
-          </ErrorBoundary>
+          </Sentry.ErrorBoundary>
         </div>
       </div>
     </div>

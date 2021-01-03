@@ -19,9 +19,8 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
 
   return window.fetch(url, config).then(async (response) => {
     if (response.status === 401) {
-      queryCache.clear()
+      queryCache?.clear()
       await auth.logout()
-      // refresh the page for them
       window.location.assign(window.location)
       return Promise.reject({ message: "Please re-authenticate." })
     }

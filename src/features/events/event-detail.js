@@ -1,3 +1,5 @@
+import React from "react"
+
 import {
   EventDocuments,
   EventPortalButton,
@@ -60,14 +62,19 @@ function EventDetail({ clubEvent }) {
             <strong>Event date:</strong> {dayAndDateFormat(clubEvent.startDate)}
           </p>
           <p>
-            <strong>Start:</strong> {clubEvent.startTime} {clubEvent.startType}
+            <strong>Start:</strong> {clubEvent.startTime}{" "}
+            {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
           </p>
-          <p style={{ marginBottom: ".5rem" }}>
-            <strong>Registration opens: </strong> {dayDateAndTimeFormat(clubEvent.signupStart)}
-          </p>
-          <p style={{ marginBottom: ".5rem" }}>
-            <strong>Registration closes: </strong> {dayDateAndTimeFormat(clubEvent.signupEnd)}
-          </p>
+          {clubEvent.registrationType !== "None" && (
+            <React.Fragment>
+              <p style={{ marginBottom: ".5rem" }}>
+                <strong>Registration opens: </strong> {dayDateAndTimeFormat(clubEvent.signupStart)}
+              </p>
+              <p style={{ marginBottom: ".5rem" }}>
+                <strong>Registration closes: </strong> {dayDateAndTimeFormat(clubEvent.signupEnd)}
+              </p>
+            </React.Fragment>
+          )}
           <p style={{ marginBottom: ".5rem" }}>
             <strong>Registration type: </strong> {clubEvent.registrationType}
           </p>
@@ -77,7 +84,7 @@ function EventDetail({ clubEvent }) {
             </p>
           )}
           <h5 className="text-success" style={{ marginTop: "2rem" }}>
-            Format and Notes
+            Notes
           </h5>
           <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
         </div>

@@ -37,7 +37,9 @@ function Sidebar() {
         <MenuItem path="match-play" icon={<MdPeopleOutline />} name="Match Play" />
         <MenuItem path="season-long-points" icon={<GiGolfFlag />} name="Season Long Points" />
         <MenuItem path="dam-cup" icon={<GiTrophyCup />} name="Dam Cup" />
-        <MenuItem path="directory" icon={<TiContacts />} name="Member Directory" />
+        {user && user.is_authenticated && (
+          <MenuItem path="directory" icon={<TiContacts />} name="Member Directory" />
+        )}
         <MenuItem path="contact-us" icon={<BiEnvelope />} name="Contact Us" />
         <MenuItem path="about-us" icon={<GoQuestion />} name="About Us" />
         {user && !user.is_authenticated && (

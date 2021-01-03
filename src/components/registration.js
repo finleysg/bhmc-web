@@ -31,7 +31,7 @@ function RegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
         onClick={onClick}
         {...rest}
       >
-        Register Now
+        🖊️ Sign Up Now
       </button>
     )
   }
@@ -41,7 +41,7 @@ function RegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
 function RegisteredButton({ clubEvent, ...rest }) {
   return (
     <Link className="btn btn-info btn-sm" to={clubEvent?.eventUrl + "/registrations"} {...rest}>
-      Registered
+      👀 Registered
     </Link>
   )
 }
@@ -56,7 +56,7 @@ function EventPortalButton({ clubEvent, ...rest }) {
         rel="noreferrer"
         {...rest}
       >
-        Event Portal
+        🌐 Event Portal
       </a>
     )
   }

@@ -1,9 +1,10 @@
 import "./main-layout.scss"
 
+import * as Sentry from "@sentry/react"
+
 import React from "react"
 
 import { useAuth } from "context/auth-context"
-import { ErrorBoundary } from "react-error-boundary"
 import { useRoutes } from "react-router-dom"
 
 import { mainRoutes } from "./routes"
@@ -12,15 +13,9 @@ function BoundedRoutes() {
   const { user } = useAuth()
   const routing = useRoutes(mainRoutes(user))
 
-  const errorHandler = (error, info) => {
-    console.error(error)
-    console.info(info)
-  }
-
   return (
-    <ErrorBoundary
-      onError={errorHandler}
-      fallbackRender={({ error, resetErrorBoundary }) => (
+    <Sentry.ErrorBoundary
+      fallback={({ error, resetError }) => (
         <div className="card border border-danger">
           <div className="card-header text-white bg-danger">Network or Server Failure</div>
           <div className="card-body">
@@ -36,7 +31,7 @@ function BoundedRoutes() {
                   className="btn btn-danger"
                   style={{ marginLeft: ".5rem" }}
                   onClick={() => {
-                    resetErrorBoundary()
+                    resetError()
                     window.location.assign(window.location)
                   }}
                 >
@@ -49,7 +44,7 @@ function BoundedRoutes() {
       )}
     >
       {routing}
-    </ErrorBoundary>
+    </Sentry.ErrorBoundary>
   )
 }
 

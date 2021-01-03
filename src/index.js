@@ -1,15 +1,23 @@
 import "./bootstrap"
 
+import * as Sentry from "@sentry/react"
+
 import React from "react"
 import ReactDOM from "react-dom"
 
 import { AppProviders } from "context"
 import { Route, Routes } from "react-router-dom"
+import * as config from "utils/app-config"
 
 import AuthLayout from "./layout/auth-layout"
 import MainLayout from "./layout/main-layout"
 
 // import reportWebVitals from "./reportWebVitals"
+Sentry.init({
+  dsn: config.sentryApiKey,
+  autoSessionTracking: true,
+  tracesSampleRate: 0.0,
+})
 
 ReactDOM.render(
   <React.StrictMode>
