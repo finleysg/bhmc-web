@@ -19,13 +19,14 @@ function EventDetail({ clubEvent }) {
     // no-op for now
   }
 
+  // TODO: separate line for action buttons on mobile
   return (
     <div className="card">
       <div className="card-body">
         <div
           style={{
             display: "flex",
-            flexWrap: "wrap",
+            // flexWrap: "wrap",
             justifyContent: "right",
             marginBottom: "1.5rem",
             borderBottom: "2px solid #e9ecef",

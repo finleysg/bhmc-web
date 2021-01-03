@@ -61,7 +61,7 @@ const mapEventType = (code) => {
     case "E":
       return "External Event"
     case "R":
-      return "Open Registration Period"
+      return "Open Registration"
     case "D":
       return "Deadline"
     case "P":
