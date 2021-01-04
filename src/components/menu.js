@@ -16,7 +16,7 @@ function RoutingMenu({ links }) {
         <div className={`dropdown-menu dropdown-menu-right ${showMenu ? "show" : ""}`}>
           {links.map((link) => {
             return (
-              <Link to={link.to} className="dropdown-item">
+              <Link key={link.name} to={link.to} className="dropdown-item">
                 {link.name}
               </Link>
             )

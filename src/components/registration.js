@@ -91,6 +91,58 @@ function DocumentButton({ document }) {
   )
 }
 
+function DocumentCard({ document, ...rest }) {
+  const cardColor = (documentType) => {
+    switch (documentType) {
+      case "R":
+        return "text-indigo"
+      case "T":
+        return "text-teal"
+      case "F":
+        return "text-green"
+      case "P":
+      case "D":
+        return "text-light-blue"
+      default:
+        return "text-blue-gray"
+    }
+  }
+
+  return (
+    <a href={document.file} target="_blank" rel="noreferrer" alt={document.title}>
+      <div
+        style={{
+          border: `1px solid ${colors.gray300}`,
+          display: "flex",
+          alignItems: "center",
+          padding: "1rem",
+          margin: "1rem",
+          minWidth: "300px",
+          maxWidth: "420px",
+        }}
+        {...rest}
+      >
+        <div className={cardColor(document.documentType)} style={{ marginRight: "1rem" }}>
+          <FiFileText style={{ fontSize: "3rem" }} />
+        </div>
+        <div>
+          <p
+            className={cardColor(document.documentType)}
+            style={{ marginBottom: ".3rem", fontWeight: "bold" }}
+          >
+            {document.title}
+          </p>
+          <p style={{ marginBottom: 0 }}>
+            <small className="text-muted">
+              Updated: {format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}
+            </small>
+          </p>
+        </div>
+      </div>
+    </a>
+  )
+}
+
 function SimpleRegistrationList({ registrations, sortBy }) {
   const players = usePlayers()
 
@@ -169,6 +221,7 @@ function RegistrationSlotView({ playerRegistration, ...rest }) {
 
 export {
   DocumentButton,
+  DocumentCard,
   EventDocuments,
   EventPortalButton,
   MemberOnlyRegisterButton,

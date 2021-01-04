@@ -10,6 +10,7 @@ function usePlayers() {
     () => client("players").then((data) => data.map((p) => new Player(p))),
     {
       cacheTime: Infinity,
+      staleTime: Infinity,
     },
   )
 
@@ -24,7 +25,8 @@ function useMembers() {
     ["members"],
     () => client(`players/?event_id=${eventId}`).then((data) => data.map((p) => new Player(p))),
     {
-      cacheTime: 1000 * 60 * 5,
+      cacheTime: 1000 * 60 * 15,
+      staleTime: 1000 * 60 * 15,
     },
   )
 
@@ -38,6 +40,7 @@ function usePlayer(playerId) {
     () => client(`players/${playerId}`).then((data) => new Player(data)),
     {
       cacheTime: Infinity,
+      staleTime: Infinity,
     },
   )
 
@@ -48,9 +51,105 @@ function useBoardMembers() {
   const client = useClient()
   const { data: boardMembers } = useQuery(["board"], () => client("board").then((data) => data), {
     cacheTime: Infinity,
+    staleTime: Infinity,
   })
 
   return boardMembers ?? []
 }
 
-export { useBoardMembers, useMembers, usePlayer, usePlayers }
+function useChampions(season) {
+  const client = useClient()
+  const { data: champions } = useQuery(
+    ["champions", season],
+    () => client(`champions/?season=${season}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return champions ?? []
+}
+
+function usePlayerChampionships(playerId) {
+  const client = useClient()
+  const { data: champions } = useQuery(
+    ["champions", playerId],
+    () => client(`champions/?player_id=${playerId}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return champions ?? []
+}
+
+function useLowScores(season) {
+  const client = useClient()
+  const { data: lowScores } = useQuery(
+    ["low-scores", season],
+    () => client(`low-scores/?season=${season}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return lowScores ?? []
+}
+
+function usePlayerLowScores(playerId) {
+  const client = useClient()
+  const { data: lowScores } = useQuery(
+    ["low-scores", playerId],
+    () => client(`low-scores/?player_id=${playerId}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return lowScores ?? []
+}
+
+function useAces(season) {
+  const client = useClient()
+  const { data: lowScores } = useQuery(
+    ["aces", season],
+    () => client(`aces/?season=${season}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return lowScores ?? []
+}
+
+function usePlayerAces(playerId) {
+  const client = useClient()
+  const { data: lowScores } = useQuery(
+    ["aces", playerId],
+    () => client(`aces/?player_id=${playerId}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return lowScores ?? []
+}
+
+export {
+  useAces,
+  useBoardMembers,
+  useChampions,
+  useLowScores,
+  useMembers,
+  usePlayer,
+  usePlayerAces,
+  usePlayerChampionships,
+  usePlayerLowScores,
+  usePlayers,
+}

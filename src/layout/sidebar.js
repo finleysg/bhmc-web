@@ -32,7 +32,11 @@ function Sidebar() {
           icon={<GoCalendar />}
           name="Event Calendar"
         />
-        <MenuItem path="results" icon={<GrOrderedList />} name="Event Results" />
+        <MenuItem
+          path={`results/weeknight-events/${config.currentSeason}`}
+          icon={<GrOrderedList />}
+          name="Event Results"
+        />
         <MenuItem path="policies/policies-and-procedures" icon={<GoInfo />} name="Policies" />
         <MenuItem path="match-play" icon={<MdPeopleOutline />} name="Match Play" />
         <MenuItem path="season-long-points" icon={<GiGolfFlag />} name="Season Long Points" />

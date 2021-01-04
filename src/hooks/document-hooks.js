@@ -1,5 +1,5 @@
 import { useClient } from "context/auth-context"
-import { Registration } from "models/registration"
+import BhmcDocument from "models/document"
 import { useQuery } from "react-query"
 
 function useEventDocuments(eventId) {
@@ -23,7 +23,10 @@ function useDocuments(documentType, year) {
     ["documents", documentType, year],
     () =>
       client(`documents/?type=${documentType}&year=${year}`).then((data) => {
-        return data.map((reg) => new Registration(reg))
+        if (data && data.length > 0) {
+          return data.map((doc) => new BhmcDocument(doc))
+        }
+        return []
       }),
     {
       cacheTime: Infinity,

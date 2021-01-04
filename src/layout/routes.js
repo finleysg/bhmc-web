@@ -10,6 +10,7 @@ import MatchPlaySignupPage from "pages/match-play-signup-page"
 import { NotFoundScreen } from "pages/not-found"
 import PlayerProfilePage from "pages/player-profile-page"
 import PolicyPage from "pages/policy-page"
+import ResultsPage from "pages/results-page"
 import SeasonSignupPage from "pages/season-signup-page"
 import SendMessagePage from "pages/send-message-page"
 import SettingsPage from "pages/settings-page"
@@ -29,7 +30,7 @@ const mainRoutes = (user) => [
   { path: "/event/:eventDate/:eventName", element: <EventDetailPage /> },
   { path: "/event/:eventDate/:eventName/register", element: <UnfinishedPage /> },
   { path: "/event/:eventDate/:eventName/registrations", element: <SignupsPage /> },
-  { path: "/results", element: <UnfinishedPage /> },
+  { path: "/results/:eventType/:season", element: <ResultsPage /> },
   { path: "/policies/:policyType", element: <PolicyPage /> },
   { path: "/match-play", element: <MatchPlaySignupPage /> },
   { path: "/season-long-points", element: <UnfinishedPage /> },

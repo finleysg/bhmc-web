@@ -1,23 +1,34 @@
 import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
+import { useAuth } from "context/auth-context"
 import { useBoardMembers } from "hooks/player-hooks"
 import { Link } from "react-router-dom"
 
 function Officer(props) {
   const { officer } = props
+  const { user } = useAuth()
 
   return (
     <div>
       <h6>{officer.role}</h6>
       <p style={{ marginBottom: ".5rem" }}>
-        <Link className="text-success" to={`/directory/${officer.player.id}`}>
-          {officer.player.first_name} {officer.player.last_name}{" "}
-          <span>({officer.term_expires})</span>
-        </Link>
+        {user?.is_authenticated ? (
+          <Link className="text-success" to={`/directory/${officer.player.id}`}>
+            {officer.player.first_name} {officer.player.last_name}{" "}
+            <span>({officer.term_expires})</span>
+          </Link>
+        ) : (
+          <React.Fragment>
+            {officer.player.first_name} {officer.player.last_name}{" "}
+            <span>({officer.term_expires})</span>
+          </React.Fragment>
+        )}
       </p>
       <p>
-        <a href={`mailto: ${officer.player.email}`}>{officer.player.email}</a>
+        <a href={`mailto: ${officer.role.toLowerCase().replace(" ", "-")}@bhmc.org`}>
+          {officer.role.toLowerCase().replace(" ", "-")}@bhmc.org
+        </a>
       </p>
     </div>
   )
@@ -25,15 +36,25 @@ function Officer(props) {
 
 function BoardMember(props) {
   const { boardMember } = props
+  const { user } = useAuth()
 
-  return (
-    <p>
-      <Link className="text-success" to={`/directory/${boardMember.player.id}`}>
+  if (user?.is_authenticated) {
+    return (
+      <p>
+        <Link className="text-success" to={`/directory/${boardMember.player.id}`}>
+          {boardMember.player.first_name} {boardMember.player.last_name}{" "}
+          <span>({boardMember.term_expires ? boardMember.term_expires : "Honorary"})</span>
+        </Link>
+      </p>
+    )
+  } else {
+    return (
+      <p>
         {boardMember.player.first_name} {boardMember.player.last_name}{" "}
         <span>({boardMember.term_expires ? boardMember.term_expires : "Honorary"})</span>
-      </Link>
-    </p>
-  )
+      </p>
+    )
+  }
 }
 
 function Officers() {
