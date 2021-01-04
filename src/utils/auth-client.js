@@ -21,6 +21,10 @@ async function client(endpoint, data, token) {
       return null
     } else {
       const data = await response.json()
+      if (data?.detail === "Invalid token.") {
+        window.localStorage.removeItem("__bhmc_token__")
+        window.location.assign(window.location) // force refresh
+      }
       return Promise.reject(parseError(data))
     }
   })
