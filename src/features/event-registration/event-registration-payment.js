@@ -97,7 +97,9 @@ function EventRegistrationPayment(props) {
   return (
     <div className="card-body">
       <h4 className="card-title">{clubEvent.name}</h4>
-      <h6 className="card-subtitle">{formattedPaymentAmount(payment)}</h6>
+      <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+        {formattedPaymentAmount(payment)}
+      </h6>
       <div className="row" style={{ marginBottom: "1rem" }}>
         <div className="col-12">
           {myCards && myCards[0] && (

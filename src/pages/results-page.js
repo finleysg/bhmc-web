@@ -18,7 +18,7 @@ function ResultSeasonMenu({ eventType, season }) {
   return (
     <div
       className="actions login__actions"
-      style={{ zIndex: 1000 }}
+      style={{ zIndex: 10 }}
       onClick={() => setShowMenu(!showMenu)}
     >
       <div className="dropdown">

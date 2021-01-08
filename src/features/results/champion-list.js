@@ -10,8 +10,8 @@ function ChampionRow({ champion }) {
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>{flight}</div>
-      <div style={{ minWidth: "200px" }}>
+      <div style={{ flex: "1 1 50%" }}>{flight}</div>
+      <div style={{ flex: "1 1 35%" }}>
         {user?.is_authenticated ? (
           <Link to={`/directory/${player.id}`}>
             {player.first_name} {player.last_name}
@@ -22,7 +22,7 @@ function ChampionRow({ champion }) {
           </span>
         )}
       </div>
-      <div>{score}</div>
+      <div style={{ flex: "1 1 15%" }}>{score}</div>
     </div>
   )
 }
@@ -33,7 +33,7 @@ function NoChampions(props) {
     <div className="card">
       <div className="card-body">
         <h4 className="card-title text-primary">{season} Major Champions</h4>
-        <p>No events yet for this season.</p>
+        <p>No information for this season.</p>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 import React from "react"
 
 import { LoadingSpinner } from "components/spinners"
-import { useBoardMembers, useMembers, usePlayer } from "hooks/player-hooks"
+import { useBoardMembers, useMembers, usePlayer, usePlayerChampionships } from "hooks/player-hooks"
 import { MdPerson } from "react-icons/md"
 import * as colors from "styles/colors"
 import * as config from "utils/app-config"
@@ -12,6 +12,7 @@ function PlayerProfile({ playerId }) {
   const player = usePlayer(playerId)
   const members = useMembers()
   const boardMembers = useBoardMembers()
+  const championships = usePlayerChampionships(playerId)
 
   const isMember = members.findIndex((m) => m.id === playerId) >= 0
   const boardMember = boardMembers.find((m) => m.player.id === playerId)
@@ -70,12 +71,22 @@ function PlayerProfile({ playerId }) {
                 <strong>Tees:</strong> {player.tee}
               </p>
               {boardMember && (
-                <h6 className="text-indigo" style={{ marginBottom: "10px" }}>
+                <h6 className="text-light-blue" style={{ marginBottom: "10px" }}>
                   ⭐ Board Member
                 </h6>
               )}
-              {isMember && <h6 className="text-teal">🏌️‍♂️ {config.currentSeason} Member</h6>}
-              {/* TODO: Add champion badge 🏆 */}
+              {isMember && (
+                <h6 className="text-teal" style={{ marginBottom: "10px" }}>
+                  🏌️‍♂️ {config.currentSeason} Member
+                </h6>
+              )}
+              {championships
+                .filter((c) => c.season >= config.currentSeason - 1)
+                .map((c) => (
+                  <h6 className="text-indigo" style={{ marginBottom: "10px" }}>
+                    🏆 {c.season} {c.event_name}
+                  </h6>
+                ))}
             </div>
           </div>
         </div>

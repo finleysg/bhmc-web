@@ -40,7 +40,9 @@ function EventRegistrationConfirm(props) {
   return (
     <div className="card-body">
       <h4 className="card-title">{clubEvent.name}</h4>
-      <h6 className="card-subtitle">{format(clubEvent.startDate, "MMMM d, yyyy")}</h6>
+      <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+        {format(clubEvent.startDate, "MMMM d, yyyy")}
+      </h6>
       {registration.slots.map((slot) => {
         return (
           <div key={slot.id} className="row" style={{ marginBottom: "1rem" }}>
