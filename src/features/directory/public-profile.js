@@ -1,3 +1,7 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+
 import React from "react"
 
 import clsx from "clsx"
@@ -14,11 +18,13 @@ function ProfileImage({ player }) {
 
   if (player.imageUrl()) {
     return (
-      <picture>
-        <source srcSet={player.mobileImageUrl()} media="(max-width: 600px)" />
-        <source srcSet={player.webImageUrl()} media="(max-width: 1200px)" />
-        <img className="img-responsive" src={player.imageUrl()} css={profileCss} alt="Profile" />
-      </picture>
+      <div style={{ position: "relative" }}>
+        <picture>
+          <source srcSet={player.mobileImageUrl()} media="(max-width: 600px)" />
+          <source srcSet={player.webImageUrl()} media="(max-width: 1200px)" />
+          <img className="img-responsive" src={player.imageUrl()} css={profileCss} alt="Profile" />
+        </picture>
+      </div>
     )
   }
   return <img className="img-responsive" css={profileCss} src={defaultProfilePic} alt="Profile" />
@@ -60,7 +66,7 @@ function ChampionshipBadges({ championships }) {
       {championships
         .filter((c) => c.season >= config.currentSeason - 1)
         .map((c) => (
-          <h6 className="text-indigo" style={{ marginBottom: ".8rem" }}>
+          <h6 key={c.id} className="text-indigo" style={{ marginBottom: ".8rem" }}>
             🏆 {c.season} {c.event_name}
           </h6>
         ))}
