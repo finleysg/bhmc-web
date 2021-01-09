@@ -44,7 +44,7 @@ function SeasonSignupPage() {
     <div className="content__inner">
       <div className="row">
         <div className="col-lg-6">
-          <SeasonEvent />
+          <SeasonEvent returningMember={isReturning} />
         </div>
         <div className="col-lg-6">
           <Sentry.ErrorBoundary fallback={RegistrationErrorFallback} onReset={handleReset}>

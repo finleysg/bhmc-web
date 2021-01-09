@@ -60,7 +60,7 @@ function EventRegistrationPayment(props) {
         setPaymentError(error.message)
         publishBusyFeedback(false)
       } else {
-        if (paymentMethod !== undefined) {
+        if (Boolean(paymentMethod)) {
           submitPayment(paymentMethod)
         } else {
           setPaymentError("No payment method was created!")
@@ -145,7 +145,7 @@ function EventRegistrationPayment(props) {
           </button>
           <button
             className="btn btn-light"
-            disabled={isBusy}
+            // disabled={isBusy}
             style={{ marginLeft: ".5rem" }}
             onClick={onCancel}
           >

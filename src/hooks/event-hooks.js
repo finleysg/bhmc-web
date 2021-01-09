@@ -36,7 +36,7 @@ function useEventRegistrations(eventId) {
     ["event-registrations", eventId],
     () =>
       client(`registration/?event_id=${eventId}`).then((data) => {
-        return data.map((reg) => new Registration(reg))
+        return data.map((reg) => new Registration(reg)).filter((r) => r.slots[0].status === "R")
       }),
     {
       enabled: !!eventId,

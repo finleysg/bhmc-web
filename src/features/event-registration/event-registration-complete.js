@@ -1,6 +1,7 @@
 import React from "react"
 
 import { RandomGif } from "components/random"
+import { RegisteredButton } from "components/registration"
 import { useAuth } from "context/auth-context"
 import { useEventRegistration } from "context/registration-context"
 import { format } from "date-fns"
@@ -13,7 +14,9 @@ function EventRegistrationComplete() {
   return (
     <div className="card-body">
       <h4 className="card-title">{clubEvent?.name}</h4>
-      <h6 className="card-subtitle">{format(clubEvent.startDate, "MMMM d, yyyy")}</h6>
+      <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+        {format(clubEvent.startDate, "MMMM d, yyyy")}
+      </h6>
       <div className="row" style={{ marginBottom: "1rem" }}>
         <div className="col-12">
           <h3 className="text-success">You're In!</h3>
@@ -21,21 +24,15 @@ function EventRegistrationComplete() {
             A confirmation email will be sent to {user?.email}, as well as a receipt from our
             payment provider.
           </p>
-          <RandomGif tag="golf" enabled={true} />
+          <RandomGif enabled={true} />
         </div>
       </div>
       <hr />
       <div className="row" style={{ textAlign: "right" }}>
         <div className="col-12">
+          <RegisteredButton clubEvent={clubEvent} style={{ marginRight: ".5rem" }} />
           <Link to="/home" className="btn btn-light">
             Home
-          </Link>
-          <Link
-            to={clubEvent.eventUrl + "/registrations"}
-            className="btn btn-success"
-            style={{ marginLeft: "1rem" }}
-          >
-            Who Else Signed Up?
           </Link>
         </div>
       </div>

@@ -3,9 +3,49 @@ import React from "react"
 import * as config from "utils/app-config"
 import { useAsync } from "utils/use-async"
 
-const giphy = async (tag) => {
+const gifs = [
+  "akiHW8qDydkm4",
+  "F0HQQ0p3Mp8QM",
+  "dOdfxZkkKFgOc",
+  "bSuWe6oHfDh28S9hop",
+  "uudzUtVcsLAoo",
+  "j1gDGxFWrAaRbzbMx5",
+  "lsAWu6CohyfS9JpSBh",
+  "lP4e1a0tMGKfRdJIuc",
+  "ixCowpFMOukIRT0aoU",
+  "3oEjHJZT3q9EdNEnAY",
+  "xT0GqK04xsopWbJKFi",
+  "xT5LMAdfzp0iSqyGFq",
+  "fnEgBnP4laVzUj37Js",
+  "eNJWU4RPE0W76",
+  "xUOwG43OJ9Mzf4exQQ",
+  "bIWZ66ltn2DyE",
+  "xT0GqHz7dP8eJW8f28",
+  "146YfoNq3cuM7u",
+  "OPl1CmAfplB1C",
+  "jc9oQKgNskjba",
+  "QJiuU3d3gvf1u",
+  "ZfORfp3xtFL6E",
+  "1rPSYA7TX5wyBpwQl8",
+  "2XflxzFnvKAN1YVrGmc",
+  "2pcoCqjPdQwAU",
+  "zz4wwa2Sjpi6s",
+  "j1gDGxFWrAaRbzbMx5",
+  "ixCowkCVasW8d7YmMo",
+  "fxOkhf5sUiK5ST3gWC",
+  "S8NJU0joXkkrFw49Gr",
+]
+
+const getRandomGif = () => {
+  const min = 0
+  const max = gifs.length - 1
+  const gifIndex = Math.floor(Math.random() * (max - min + 1) + min)
+  return gifs[gifIndex]
+}
+
+const giphy = async () => {
   const response = await window.fetch(
-    `https://api.giphy.com/v1/gifs/random?api_key=${config.giphyApiKey}&tag=${tag}&rating=pg`,
+    `https://api.giphy.com/v1/gifs/${getRandomGif()}?api_key=${config.giphyApiKey}`,
   )
   const result = await response.json()
   if (result && result.data) {
@@ -18,22 +58,12 @@ const giphy = async (tag) => {
 }
 
 function RandomGif(props) {
-  const { tag, enabled } = props
+  const { enabled } = props
   const { run, data } = useAsync()
-  //  const [randomGiphy, setRandomGiphy] = React.useState()
-
-  //   const getRandomGif = React.useCallback(async () => {
-  //     if (enabled) {
-  //       const gif = await giphy(tag)
-  //       if (gif) {
-  //         setRandomGiphy(gif)
-  //       }
-  //     }
-  //   }, [tag, enabled])
 
   React.useEffect(() => {
-    run(giphy(tag))
-  }, [run, tag])
+    run(giphy())
+  }, [run])
 
   return (
     <div style={{ textAlign: "center" }}>

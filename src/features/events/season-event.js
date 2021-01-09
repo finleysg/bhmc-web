@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
 import * as config from "utils/app-config"
 
-function SeasonEvent() {
+function SeasonEvent({ returningMember }) {
   const player = usePlayer()
   const hasSignedUp = useRegistrationStatus(config.seasonEventId)
   const { clubEvent, currentStep, startRegistration } = useEventRegistration()
@@ -73,6 +73,14 @@ function SeasonEvent() {
                       It looks like you have already signed up for the {config.currentSeason}{" "}
                       season.
                     </p>
+                  </div>
+                )}
+                {!hasSignedUp && !returningMember && (
+                  <div className="col-12">
+                    <h6 className="text-danger">
+                      As a new member, please indicate your former club (if any) in the notes
+                      section when you register.
+                    </h6>
                   </div>
                 )}
               </div>

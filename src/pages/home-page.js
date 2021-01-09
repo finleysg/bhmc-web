@@ -7,6 +7,12 @@ import { UpcomingEvents } from "features/calendar/upcoming-events"
 import * as colors from "styles/colors"
 
 function HomePage() {
+  const scrollToTop = () => window.scrollTo(0, 0)
+
+  React.useLayoutEffect(() => {
+    scrollToTop()
+  }, [])
+
   return (
     <div className="content__inner">
       <div className="row">

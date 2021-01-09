@@ -2,7 +2,7 @@ import React from "react"
 
 import { RegistrationSteps } from "context/registration-context"
 import { format, isAfter, isBefore } from "date-fns"
-import { useRegistrationStatus } from "hooks/account-hooks"
+import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import { useEventDocuments } from "hooks/document-hooks"
 import { usePlayers } from "hooks/player-hooks"
 import { FiFileText } from "react-icons/fi"
@@ -21,9 +21,15 @@ function MemberOnlyRegisterButton({ clubEvent, currentStep, onClick, ...rest }) 
 }
 
 function RegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
+  const player = usePlayer()
   const hasSignedUp = useRegistrationStatus(clubEvent?.id)
 
-  if (clubEvent?.registrationIsOpen && !hasSignedUp) {
+  const canRegister =
+    clubEvent?.registrationIsOpen &&
+    !hasSignedUp &&
+    (clubEvent.ghinRequired ? Boolean(player.ghin) : true)
+
+  if (canRegister) {
     return (
       <button
         className="btn btn-warning btn-sm"

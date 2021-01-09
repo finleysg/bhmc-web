@@ -9,7 +9,7 @@ function ChampionRow({ champion }) {
   const { flight, player, score } = champion
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: ".5rem" }}>
       <div style={{ flex: "1 1 50%" }}>{flight}</div>
       <div style={{ flex: "1 1 35%" }}>
         {user?.is_authenticated ? (
