@@ -7,7 +7,7 @@ import TestEvent from "features/events/test-event"
 import { ErrorBoundary } from "react-error-boundary"
 
 function PaymentTestPage() {
-  const eventId = 5
+  const eventId = 336
   const { loadEvent, cancelRegistration, registration } = useEventRegistration()
 
   React.useEffect(() => {

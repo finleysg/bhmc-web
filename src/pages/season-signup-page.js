@@ -47,7 +47,9 @@ function SeasonSignupPage() {
           <SeasonEvent returningMember={isReturning} />
         </div>
         <div className="col-lg-6">
-          <Sentry.ErrorBoundary fallback={RegistrationErrorFallback} onReset={handleReset}>
+          <Sentry.ErrorBoundary
+            fallback={<RegistrationErrorFallback resetErrorBoundary={handleReset} />}
+          >
             <SimpleSignupFlow
               feeFilter={seasonEventFeeFilter}
               getNotificationType={getNotificationType}

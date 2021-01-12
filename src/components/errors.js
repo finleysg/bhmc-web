@@ -2,8 +2,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 
-import React from "react"
-
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
 
@@ -52,26 +50,21 @@ function ErrorDisplay({ isError, error, variant = "stacked", ...props }) {
 }
 
 function RegistrationErrorFallback({ error, resetErrorBoundary }) {
-  const scrollRef = React.useRef()
-
-  React.useLayoutEffect(() => {
-    scrollRef.current.scrollIntoView()
-  }, [])
-
   return (
-    <div ref={scrollRef} className="card border border-danger">
+    <div className="card border border-danger">
       <div className="card-header text-white bg-danger">Registration Failure</div>
       <div className="card-body">
         <p>
           An error occurred and we cannot continue the registration process. This may be temporary.
           Click the Reset button to start over. If this problem persists, please contact{" "}
-          <a href="mailto:admin@bhmc.org">admin@bhmc.org</a>.
+          <a href="mailto:admin@bhmc.org">admin@bhmc.org</a> or use the{" "}
+          <Link to="/contact-us/message">contact us</Link> form.
         </p>
         <div
           role="alert"
           css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants.stacked]}
         >
-          <span>Error detail: </span>
+          {/* <span>Error detail: </span>
           <pre
             css={[
               { whiteSpace: "break-spaces", margin: "0", marginBottom: -5 },
@@ -79,7 +72,7 @@ function RegistrationErrorFallback({ error, resetErrorBoundary }) {
             ]}
           >
             {error}
-          </pre>
+          </pre> */}
           <div className="row" style={{ marginTop: "1rem", textAlign: "right" }}>
             <div className="col-12">
               <button

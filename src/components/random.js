@@ -3,6 +3,8 @@ import React from "react"
 import * as config from "utils/app-config"
 import { useAsync } from "utils/use-async"
 
+import poweredBy from "../assets/img/Poweredby_100px-White_VertLogo.png"
+
 const gifs = [
   "akiHW8qDydkm4",
   "F0HQQ0p3Mp8QM",
@@ -68,12 +70,20 @@ function RandomGif(props) {
   return (
     <div style={{ textAlign: "center" }}>
       {data && enabled && (
-        <img
-          style={{ maxWidth: "100%", objectFit: "contain" }}
-          src={data.url}
-          title={data.title}
-          alt="Random golf gif"
-        />
+        <>
+          <img
+            style={{ maxWidth: "100%", objectFit: "contain" }}
+            src={data.url}
+            title={data.title}
+            alt="Random golf gif"
+          />
+          <img
+            style={{ display: "block", margin: "1rem auto 0 auto" }}
+            src={poweredBy}
+            alt="Powered By Giphy"
+            title="Powered By Giphy"
+          />
+        </>
       )}
     </div>
   )

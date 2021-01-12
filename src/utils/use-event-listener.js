@@ -12,6 +12,8 @@ const useEventListener = (eventName, handler, element = window) => {
 
   React.useLayoutEffect(
     () => {
+      if (!Boolean(savedHandler)) return
+
       // Make sure element supports addEventListener
       // On
       const isSupported = element && element.addEventListener
