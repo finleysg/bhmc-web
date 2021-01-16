@@ -1,5 +1,6 @@
 import React from "react"
 
+import { useAuth } from "context/auth-context"
 import { RegistrationSteps } from "context/registration-context"
 import { format, isAfter, isBefore } from "date-fns"
 import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
@@ -122,23 +123,34 @@ function DocumentCard({ document, ...rest }) {
           display: "flex",
           alignItems: "center",
           padding: "1rem",
-          margin: "1rem",
-          minWidth: "300px",
+          margin: "1rem 0",
+          minWidth: "240px",
           maxWidth: "420px",
+          overflow: "hidden",
         }}
         {...rest}
       >
         <div className={cardColor(document.documentType)} style={{ marginRight: "1rem" }}>
           <FiFileText style={{ fontSize: "3rem" }} />
         </div>
-        <div>
+        <div style={{ overflow: "hidden" }}>
           <p
             className={cardColor(document.documentType)}
-            style={{ marginBottom: ".3rem", fontWeight: "bold" }}
+            title={document.title}
+            style={{
+              marginBottom: ".3rem",
+              fontWeight: "bold",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
             {document.title}
           </p>
-          <p style={{ marginBottom: 0 }}>
+          <p
+            style={{ marginBottom: 0, whiteSpace: "nowrap", textOverflow: "ellipsis" }}
+            title={format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}
+          >
             <small className="text-muted">
               Updated: {format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}
             </small>
@@ -151,6 +163,7 @@ function DocumentCard({ document, ...rest }) {
 
 function SimpleRegistrationList({ registrations, sortBy }) {
   const players = usePlayers()
+  const { user } = useAuth()
 
   const getPlayers = React.useCallback(() => {
     const registered = []
@@ -196,33 +209,43 @@ function SimpleRegistrationList({ registrations, sortBy }) {
   return (
     <div>
       {getPlayers().map((p) => {
-        return <RegistrationSlotView key={p.id} playerRegistration={p} />
+        return (
+          <RegistrationSlotView key={p.id} playerRegistration={p} isLink={user?.is_authenticated} />
+        )
       })}
     </div>
   )
 }
 
-function RegistrationSlotView({ playerRegistration, ...rest }) {
-  return (
-    <div
-      style={{
-        border: "1px solid #495057",
-        padding: "5px",
-        margin: "5px",
-        width: "160px",
-        display: "inline-block",
-      }}
-      {...rest}
-    >
-      <p className="text-success" style={{ margin: 0, padding: "5px 0", fontWeight: "bold" }}>
-        {playerRegistration.name}
-      </p>
-      <p className="text-muted" style={{ fontSize: ".8rem", margin: 0 }}>
-        Signed up by {playerRegistration.signedUpBy} on{" "}
-        {format(playerRegistration.signupDate, "MM/dd/yyyy h:mm aaaa")}
-      </p>
-    </div>
-  )
+function RegistrationSlotView({ playerRegistration, isLink, ...rest }) {
+  const slot = () => {
+    return (
+      <div
+        style={{
+          border: `1px solid ${colors.gray300}`,
+          borderRadius: "5px",
+          padding: "5px",
+          margin: "5px",
+          width: "160px",
+          display: "inline-block",
+        }}
+        {...rest}
+      >
+        <p className="text-success" style={{ margin: 0, padding: "5px 0", fontWeight: "bold" }}>
+          {playerRegistration.name}
+        </p>
+        <p className="text-muted" style={{ fontSize: ".75rem", margin: 0 }}>
+          Signed up by {playerRegistration.signedUpBy} on{" "}
+          {format(playerRegistration.signupDate, "MM/dd/yyyy h:mm aaaa")}
+        </p>
+      </div>
+    )
+  }
+
+  if (Boolean(isLink)) {
+    return <Link to={`/directory/${playerRegistration.id}`}>{slot()}</Link>
+  }
+  return slot()
 }
 
 export {

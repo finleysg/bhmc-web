@@ -36,4 +36,24 @@ function useDocuments(documentType, year) {
   return documents ?? []
 }
 
-export { useDocuments, useEventDocuments }
+function useDocumentTypes(documentType) {
+  const client = useClient()
+
+  const { data: documents } = useQuery(
+    ["documents", documentType],
+    () =>
+      client(`documents/?type=${documentType}`).then((data) => {
+        if (data && data.length > 0) {
+          return data.map((doc) => new BhmcDocument(doc))
+        }
+        return []
+      }),
+    {
+      cacheTime: Infinity,
+    },
+  )
+
+  return documents ?? []
+}
+
+export { useDocuments, useDocumentTypes, useEventDocuments }
