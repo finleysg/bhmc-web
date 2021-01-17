@@ -3,8 +3,8 @@ import React from "react"
 import { useClubEvents } from "hooks/event-hooks"
 import { useParams } from "react-router-dom"
 
-import { getMonth } from "../features/calendar/calendar-utils"
-import { EventCalendar } from "../features/calendar/event-calendar"
+import { getMonth } from "../components/calendar/calendar-utils"
+import { EventCalendar } from "../components/calendar/event-calendar"
 
 function CalendarPage() {
   const { year, monthName } = useParams()

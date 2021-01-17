@@ -1,8 +1,8 @@
 import React from "react"
 
-import { CardContent } from "components/content"
+import { CardContent } from "components/card/content"
+import { PlayerSearch } from "components/directory/search"
 import { useAuth } from "context/auth-context"
-import { PlayerSearch } from "features/directory/search"
 import { useNavigate } from "react-router-dom"
 
 function DirectoryPage() {

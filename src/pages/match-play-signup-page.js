@@ -3,9 +3,9 @@ import * as Sentry from "@sentry/react"
 import React from "react"
 
 import { RegistrationErrorFallback } from "components/errors"
+import SimpleSignupFlow from "components/event-registration/simple-signup-flow"
+import MatchPlayEvent from "components/events/match-play-event"
 import { useEventRegistration } from "context/registration-context"
-import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
-import MatchPlayEvent from "features/events/match-play-event"
 import * as config from "utils/app-config"
 
 function MatchPlaySignupPage() {

@@ -2,8 +2,12 @@ import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing
 
 import { AuthProvider } from "context/auth-context"
 import { EventRegistrationProvider } from "context/registration-context"
+import { QueryCache, QueryClient, QueryClientProvider } from "react-query"
 import { MemoryRouter as Router } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
+
+const testingQueryCache = new QueryCache()
+const testingQueryClient = new QueryClient({ queryCache: testingQueryCache })
 
 function deferred() {
   let resolve, reject
@@ -22,54 +26,68 @@ const waitForLoadingToFinish = () =>
 
 function render(ui, { user = null, ...options } = {}) {
   const Wrapper = ({ children }) => (
-    <Router>
-      <AuthProvider value={{ user }}>
-        <div>
-          <ToastContainer />
-          {children}
-        </div>
-      </AuthProvider>
-    </Router>
-  )
-  return rtlRender(ui, { wrapper: Wrapper, ...options })
-}
-
-function renderForEventRegistration(ui, { user = null, ...options } = {}) {
-  const Wrapper = ({ children }) => (
-    <Router>
-      <AuthProvider value={{ user }}>
-        <EventRegistrationProvider>
+    <QueryClientProvider client={testingQueryClient}>
+      <Router>
+        <AuthProvider value={{ user }}>
           <div>
             <ToastContainer />
             {children}
           </div>
-        </EventRegistrationProvider>
-      </AuthProvider>
-    </Router>
+        </AuthProvider>
+      </Router>
+    </QueryClientProvider>
   )
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-function renderWithRouter(ui, { ...options } = {}) {
+function renderWithEventRegistration(ui, { user = null, ...options } = {}) {
+  const Wrapper = ({ children }) => (
+    <QueryClientProvider client={testingQueryClient}>
+      <Router>
+        <AuthProvider value={{ user }}>
+          <EventRegistrationProvider>
+            <div>
+              <ToastContainer />
+              {children}
+            </div>
+          </EventRegistrationProvider>
+        </AuthProvider>
+      </Router>
+    </QueryClientProvider>
+  )
+  return rtlRender(ui, { wrapper: Wrapper, ...options })
+}
+
+function renderSession(ui, { ...options } = {}) {
+  const Wrapper = ({ children }) => (
+    <QueryClientProvider client={testingQueryClient}>
+      <Router>
+        <AuthProvider>
+          <div>
+            <ToastContainer />
+            {children}
+          </div>
+        </AuthProvider>
+      </Router>
+    </QueryClientProvider>
+  )
+  return rtlRender(ui, { wrapper: Wrapper, ...options })
+}
+
+function simpleRender(ui, { user = null, ...options } = {}) {
   const Wrapper = ({ children }) => <Router>{children}</Router>
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-function AuthWrapper({ children }) {
-  return (
-    <Router>
-      <AuthProvider>{children}</AuthProvider>
-    </Router>
-  )
-}
-
 export * from "@testing-library/react"
-// override React Testing Library's render with our own
+
 export {
-  AuthWrapper,
   deferred,
   render,
-  renderForEventRegistration,
-  renderWithRouter,
+  renderSession,
+  renderWithEventRegistration,
+  simpleRender,
+  testingQueryCache,
+  testingQueryClient,
   waitForLoadingToFinish,
 }

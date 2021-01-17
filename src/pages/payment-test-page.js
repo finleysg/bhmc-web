@@ -1,9 +1,9 @@
 import React from "react"
 
 import { RegistrationErrorFallback } from "components/errors"
+import SimpleSignupFlow from "components/event-registration/simple-signup-flow"
+import TestEvent from "components/events/test-event"
 import { useEventRegistration } from "context/registration-context"
-import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
-import TestEvent from "features/events/test-event"
 import { ErrorBoundary } from "react-error-boundary"
 
 function PaymentTestPage() {

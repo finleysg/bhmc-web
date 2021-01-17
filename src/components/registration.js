@@ -1,74 +1,12 @@
 import React from "react"
 
 import { useAuth } from "context/auth-context"
-import { RegistrationSteps } from "context/registration-context"
 import { format, isAfter, isBefore } from "date-fns"
-import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import { useEventDocuments } from "hooks/document-hooks"
 import { usePlayers } from "hooks/player-hooks"
 import { FiFileText } from "react-icons/fi"
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
-
-function MemberOnlyRegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
-  const isMember = useRegistrationStatus(config.seasonEventId)
-  if (isMember) {
-    return (
-      <RegisterButton clubEvent={clubEvent} currentStep={currentStep} onClick={onClick} {...rest} />
-    )
-  }
-  return null
-}
-
-function RegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
-  const player = usePlayer()
-  const hasSignedUp = useRegistrationStatus(clubEvent?.id)
-
-  const canRegister =
-    clubEvent?.registrationIsOpen &&
-    !hasSignedUp &&
-    (clubEvent.ghinRequired ? Boolean(player.ghin) : true)
-
-  if (canRegister) {
-    return (
-      <button
-        className="btn btn-warning btn-sm"
-        disabled={currentStep !== RegistrationSteps.Pending}
-        onClick={onClick}
-        {...rest}
-      >
-        🖊️ Sign Up Now
-      </button>
-    )
-  }
-  return null
-}
-
-function RegisteredButton({ clubEvent, ...rest }) {
-  return (
-    <Link className="btn btn-info btn-sm" to={clubEvent?.eventUrl + "/registrations"} {...rest}>
-      👀 Registered
-    </Link>
-  )
-}
-
-function EventPortalButton({ clubEvent, ...rest }) {
-  if (clubEvent?.portalUrl) {
-    return (
-      <a
-        className="btn btn-info btn-sm"
-        href={clubEvent.portalUrl}
-        target="_blank"
-        rel="noreferrer"
-        {...rest}
-      >
-        🌐 Event Portal
-      </a>
-    )
-  }
-  return null
-}
 
 function EventDocuments({ clubEvent }) {
   const documents = useEventDocuments(clubEvent?.id)
@@ -95,69 +33,6 @@ function DocumentButton({ document }) {
         <p style={{ fontSize: ".8rem" }}>{document.title}</p>
       </a>
     </div>
-  )
-}
-
-function DocumentCard({ document, ...rest }) {
-  const cardColor = (documentType) => {
-    switch (documentType) {
-      case "R":
-        return "text-indigo"
-      case "T":
-        return "text-teal"
-      case "F":
-        return "text-green"
-      case "P":
-      case "D":
-        return "text-light-blue"
-      default:
-        return "text-blue-gray"
-    }
-  }
-
-  return (
-    <a href={document.file} target="_blank" rel="noreferrer" alt={document.title}>
-      <div
-        style={{
-          border: `1px solid ${colors.gray300}`,
-          display: "flex",
-          alignItems: "center",
-          padding: "1rem",
-          margin: "1rem 0",
-          minWidth: "240px",
-          maxWidth: "420px",
-          overflow: "hidden",
-        }}
-        {...rest}
-      >
-        <div className={cardColor(document.documentType)} style={{ marginRight: "1rem" }}>
-          <FiFileText style={{ fontSize: "3rem" }} />
-        </div>
-        <div style={{ overflow: "hidden" }}>
-          <p
-            className={cardColor(document.documentType)}
-            title={document.title}
-            style={{
-              marginBottom: ".3rem",
-              fontWeight: "bold",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {document.title}
-          </p>
-          <p
-            style={{ marginBottom: 0, whiteSpace: "nowrap", textOverflow: "ellipsis" }}
-            title={format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}
-          >
-            <small className="text-muted">
-              Updated: {format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}
-            </small>
-          </p>
-        </div>
-      </div>
-    </a>
   )
 }
 
@@ -248,14 +123,4 @@ function RegistrationSlotView({ playerRegistration, isLink, ...rest }) {
   return slot()
 }
 
-export {
-  DocumentButton,
-  DocumentCard,
-  EventDocuments,
-  EventPortalButton,
-  MemberOnlyRegisterButton,
-  RegisterButton,
-  RegisteredButton,
-  RegistrationSlotView,
-  SimpleRegistrationList,
-}
+export { DocumentButton, EventDocuments, RegistrationSlotView, SimpleRegistrationList }

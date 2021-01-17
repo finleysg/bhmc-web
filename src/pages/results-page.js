@@ -1,7 +1,7 @@
 import React from "react"
 
+import ResultDetail from "components/results/result-detail"
 import { Tab, Tabs } from "components/tabs"
-import ResultDetail from "features/results/result-detail"
 import { FaCalendarAlt } from "react-icons/fa"
 import { Link, useParams } from "react-router-dom"
 import * as config from "utils/app-config"

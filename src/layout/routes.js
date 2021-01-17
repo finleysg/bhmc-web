@@ -1,5 +1,4 @@
-import { AccountScreen } from "features/account/account-screen"
-import MembershipScreen from "features/session/membership-screen"
+import { AccountScreen } from "components/account/account-screen"
 import AboutPage from "pages/about-page"
 import CalendarPage from "pages/calendar-page"
 import ContactPage from "pages/contact-page"
@@ -19,6 +18,7 @@ import SendMessagePage from "pages/send-message-page"
 import SettingsPage from "pages/settings-page"
 import SignupsPage from "pages/signups-page"
 import { UnfinishedPage } from "pages/unfinished-page"
+import MembershipScreen from "session/membership-screen"
 
 const mainRoutes = (user) => [
   { path: "/", element: <HomePage /> },

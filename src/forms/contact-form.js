@@ -1,8 +1,8 @@
 import React from "react"
 
-import { SubmitButton } from "components/buttons"
+import { SubmitButton } from "components/button/buttons"
 import { ErrorDisplay } from "components/errors"
-import { FormGroup, FormGroupAsTextarea } from "components/forms"
+import { FormGroup, FormGroupAsTextarea } from "components/field/forms"
 import { useAuth } from "context/auth-context"
 import { Form, Formik } from "formik"
 import { MdEmail } from "react-icons/md"

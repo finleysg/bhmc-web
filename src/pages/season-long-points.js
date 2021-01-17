@@ -1,8 +1,9 @@
 import React from "react"
 
-import { CardContent } from "components/content"
-import { HistoricalDocuments, NoStandings } from "features/points/points-documents"
-import PointsTable from "features/points/points-table"
+import { CardContent } from "components/card/content"
+import { HistoricalDocuments } from "components/document/historical-documents"
+import { NoStandings } from "components/points/points-documents"
+import PointsTable from "components/points/points-table"
 import * as colors from "styles/colors"
 
 function SeasonLongPointsPage() {

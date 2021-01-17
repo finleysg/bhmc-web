@@ -7,7 +7,12 @@ function useEventDocuments(eventId) {
   const hasEventId = eventId !== undefined
   const { data: documents } = useQuery(
     ["documents", eventId],
-    () => client(`documents/?event_id=${eventId}`).then((data) => data),
+    () =>
+      client(`documents/?event_id=${eventId}`).then((data) => {
+        if (data && data.length > 0) {
+          return data.map((doc) => new BhmcDocument(doc))
+        }
+      }),
     {
       enabled: hasEventId,
       cacheTime: Infinity,

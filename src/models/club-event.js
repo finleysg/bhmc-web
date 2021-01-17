@@ -179,10 +179,13 @@ function ClubEvent(json) {
   this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(
     this.signupEnd,
   )}`
-  this.registrationIsOpen = isWithinInterval(new Date(), {
-    start: this.signupStart,
-    end: this.signupEnd,
-  })
+  this.registrationIsOpen =
+    this.registrationTypeCode === "N"
+      ? false
+      : isWithinInterval(new Date(), {
+          start: this.signupStart,
+          end: this.signupEnd,
+        })
 
   /**
    * Returns true if this event starts in the given year and (0-based) month

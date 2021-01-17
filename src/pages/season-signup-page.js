@@ -3,9 +3,9 @@ import * as Sentry from "@sentry/react"
 import React from "react"
 
 import { RegistrationErrorFallback } from "components/errors"
+import SimpleSignupFlow from "components/event-registration/simple-signup-flow"
+import SeasonEvent from "components/events/season-event"
 import { useEventRegistration } from "context/registration-context"
-import SimpleSignupFlow from "features/event-registration/simple-signup-flow"
-import SeasonEvent from "features/events/season-event"
 import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import * as config from "utils/app-config"
 

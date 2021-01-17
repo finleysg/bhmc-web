@@ -1,7 +1,7 @@
 import React from "react"
 
+import { PlayerProfile } from "components/directory/public-profile"
 import { useAuth } from "context/auth-context"
-import { PlayerProfile } from "features/directory/public-profile"
 import { useNavigate, useParams } from "react-router-dom"
 
 function PlayerProfilePage() {

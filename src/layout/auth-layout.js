@@ -2,6 +2,9 @@ import "./auth-layout.scss"
 
 import React from "react"
 
+import { NotFoundScreen } from "pages/not-found"
+import { Route, Routes } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 import {
   AccountActivateScreen,
   AccountConfirmScreen,
@@ -11,10 +14,7 @@ import {
   ResetPasswordConfirmScreen,
   ResetPasswordScreen,
   ResetPasswordSentScreen,
-} from "features/session/index"
-import { NotFoundScreen } from "pages/not-found"
-import { Route, Routes } from "react-router-dom"
-import { ToastContainer } from "react-toastify"
+} from "session/index"
 
 import { AuthHeader } from "./auth-header"
 

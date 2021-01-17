@@ -1,7 +1,8 @@
 import React from "react"
 
-import { DamCupResults } from "features/damcup/dam-cup-results"
-import { HistoricalDocuments, NoStandings } from "features/points/points-documents"
+import { DamCupResults } from "components/damcup/dam-cup-results"
+import { HistoricalDocuments } from "components/document/historical-documents"
+import { NoStandings } from "components/points/points-documents"
 import * as colors from "styles/colors"
 
 import DamCupLogo from "../assets/img/DamCup.png"

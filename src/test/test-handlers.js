@@ -2,9 +2,9 @@ import * as faker from "faker"
 import { rest } from "msw"
 import { apiUrl, authUrl } from "utils/client-utils"
 
-import { buildPlayer } from "./generate/account"
-import { buildUser } from "./generate/auth"
-import { testSeasonRegistrationEvent } from "./generate/season-registration"
+import { buildPlayer } from "./data/account"
+import { buildUser } from "./data/auth"
+import { getTestEvent, getTestEvents } from "./data/test-events"
 
 const delay = process.env.NODE_ENV === "test" ? 0 : 1500
 
@@ -51,16 +51,23 @@ const handlers = [
   rest.get(apiUrl("players/"), async (req, res, ctx) => {
     const email = req.url.searchParams.get("email")
     console.log(`In handler with email: ${email}`)
-    return res(ctx.delay(delay), ctx.json(buildPlayer()))
+    return res(ctx.delay(delay), ctx.json(buildPlayer({ email: email })))
   }),
   rest.put(apiUrl("players/:playerId/"), async (req, res, ctx) => {
     return res(ctx.delay(delay), ctx.status(204))
   }),
 
   // season registration handlers
-  rest.get("http://test/api/events/1/", async (req, res, ctx) => {
-    console("fetching event")
-    return res(ctx.delay(delay), ctx.json(testSeasonRegistrationEvent))
+  rest.get(apiUrl("events"), async (req, res, ctx) => {
+    return res(ctx.delay(delay), ctx.json([getTestEvents()]))
+  }),
+
+  rest.get(apiUrl("events/:eventId"), async (req, res, ctx) => {
+    const eventId = req.url.params.get("eventId")
+    return res(
+      ctx.delay(delay),
+      ctx.json(getTestEvent({ eventType: eventId, state: "registration" })),
+    )
   }),
   rest.get(apiUrl("registration/"), async (req, res, ctx) => {
     return res(ctx.delay(delay), [])

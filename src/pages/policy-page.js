@@ -1,4 +1,4 @@
-import PolicyList from "../features/policy/policy-list"
+import PolicyList from "../components/policy/policy-list"
 
 function PolicyPage() {
   return (

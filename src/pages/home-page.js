@@ -1,9 +1,9 @@
 import React from "react"
 
-import { CardContentSolid } from "components/content"
-import AnnouncementList from "features/announcements/announcement-list"
-import { QuickLinks } from "features/announcements/quick-links"
-import { UpcomingEvents } from "features/calendar/upcoming-events"
+import AnnouncementList from "components/announcements/announcement-list"
+import { QuickLinks } from "components/announcements/quick-links"
+import { UpcomingEvents } from "components/calendar/upcoming-events"
+import { CardContentSolid } from "components/card/content"
 import * as colors from "styles/colors"
 
 function HomePage() {

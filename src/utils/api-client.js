@@ -1,5 +1,4 @@
 import * as auth from "context/auth-provider"
-import { queryCache } from "react-query"
 
 import { apiUrl, parseError } from "./client-utils"
 
@@ -19,7 +18,6 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
 
   return window.fetch(url, config).then(async (response) => {
     if (response.status === 401) {
-      queryCache?.clear()
       await auth.logout()
       window.location.assign(window.location)
       return Promise.reject({ message: "Please re-authenticate." })

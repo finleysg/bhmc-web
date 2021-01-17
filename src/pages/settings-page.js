@@ -1,9 +1,9 @@
 import React from "react"
 
-import MyCards from "features/account/my-cards"
-import MyEvents from "features/account/my-events"
-import { MyFriends } from "features/account/my-friends"
-import { PlayerProfile } from "features/directory/public-profile"
+import MyCards from "components/account/my-cards"
+import MyEvents from "components/account/my-events"
+import { MyFriends } from "components/account/my-friends"
+import { PlayerProfile } from "components/directory/public-profile"
 
 function SettingsPage() {
   const [selectedId, setSelectedId] = React.useState()

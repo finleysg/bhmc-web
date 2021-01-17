@@ -1,6 +1,6 @@
 import React from "react"
 
-import { CardContent } from "components/content"
+import { CardContent } from "components/card/content"
 
 import SeriousGolf from "../assets/img/FiveNorthGreen.jpg"
 import SeriousFun from "../assets/img/NateAndBill.jpeg"

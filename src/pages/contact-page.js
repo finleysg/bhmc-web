@@ -1,7 +1,7 @@
 import React from "react"
 
-import { CardContent } from "components/content"
-import { Board, Officers } from "features/directory/board"
+import { CardContent } from "components/card/content"
+import { Board, Officers } from "components/directory/board"
 import { Link } from "react-router-dom"
 
 function ContactPage() {

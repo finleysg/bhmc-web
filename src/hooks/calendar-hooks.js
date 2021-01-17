@@ -1,6 +1,6 @@
 import React from "react"
 
-import { getMonthName } from "features/calendar/calendar-utils"
+import { getMonthName } from "components/calendar/calendar-utils"
 
 function useSelectedMonth() {
   const [selectedMonth, setSelectedMonth] = React.useState(() => {
