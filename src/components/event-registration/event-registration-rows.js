@@ -1,30 +1,28 @@
 import React from "react"
 
-import { TooltipButton } from "components/button/buttons"
-import { FaMinusCircle, FaPlusCircle } from "react-icons/fa"
+import { CheckBox } from "components/field/check-box"
 import * as colors from "styles/colors"
 
-function AddRegistrationItem(props) {
-  const { onClick } = props
-  return (
-    <TooltipButton
-      label="Add to registration"
-      highlight={colors.success}
-      onClick={onClick}
-      icon={<FaPlusCircle />}
-    />
-  )
-}
+function RegistrationItemCheckbox(props) {
+  const { isRequired, isSelected, onChange } = props
 
-function RemoveRegistrationItem(props) {
-  const { isRequired, onClick } = props
+  const handleChange = () => {
+    onChange(!isSelected)
+  }
+
+  const getTitle = () => {
+    if (isSelected) {
+      return "Remove from registration"
+    }
+    return "Add to registration"
+  }
+
   return (
-    <TooltipButton
-      label="Remove from registration"
-      highlight={isRequired ? colors.gray300 : colors.warning}
+    <CheckBox
+      title={getTitle()}
+      checked={isSelected}
+      onChange={handleChange}
       disabled={isRequired}
-      onClick={onClick}
-      icon={<FaMinusCircle />}
     />
   )
 }
@@ -52,14 +50,11 @@ function RegistrationItemRow(props) {
         <div className="col-md-3 hidden-sm-down my-auto"></div>
       )}
       <div className="col-md-1 col-2 my-auto">
-        {isSelected ? (
-          <RemoveRegistrationItem
-            isRequired={fee.isRequired}
-            onClick={() => handleItemSelection(false)}
-          />
-        ) : (
-          <AddRegistrationItem onClick={() => handleItemSelection(true)} />
-        )}
+        <RegistrationItemCheckbox
+          isRequired={fee.isRequired}
+          isSelected={isSelected}
+          onChange={handleItemSelection}
+        />
       </div>
       <div className="col-md-5 col-7 my-auto">
         {fee.name} (${fee.amount})

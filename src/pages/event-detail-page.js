@@ -1,6 +1,5 @@
-import { EventDocuments } from "components/document/event-documents"
-import EventDetail from "components/events/event-detail"
-import FeesAndPoints from "components/events/fees-and-points"
+import EventRegistrationManager from "components/event-registration/event-registration-manager"
+import { EventView } from "components/events/event-view"
 import { parseISO } from "date-fns"
 import { useClubEvent } from "hooks/event-hooks"
 import { useNavigate, useParams } from "react-router-dom"
@@ -20,15 +19,11 @@ function EventDetailPage() {
 
   return (
     <div className="content__inner">
-      <div className="row">
-        <div className="col-md-8">
-          <EventDetail clubEvent={clubEvent} />
-        </div>
-        <div className="col-md-4">
-          <FeesAndPoints clubEvent={clubEvent} />
-          <EventDocuments clubEvent={clubEvent} />
-        </div>
-      </div>
+      {clubEvent.registrationIsOpen ? (
+        <EventRegistrationManager clubEvent={clubEvent} />
+      ) : (
+        <EventView clubEvent={clubEvent} />
+      )}
     </div>
   )
 }

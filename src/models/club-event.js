@@ -117,6 +117,19 @@ const loadingEvent = {
   fees: [],
 }
 
+function Hole(json) {
+  this.id = +json.id
+  this.holeNumber = json.hole_number
+  this.par = +json.par
+}
+
+function Course(json) {
+  this.id = +json.id
+  this.name = json.name
+  this.numberOfHoles = +json.number_of_holes
+  this.holes = json.holes.map((h) => new Hole(h))
+}
+
 function EventFee(json) {
   this.id = +json.id
   this.amount = +json.amount
@@ -134,6 +147,7 @@ function EventFee(json) {
 function ClubEvent(json) {
   this.id = json.id
   this.canChoose = json.can_choose
+  this.courses = json.can_choose ? json.courses.map((c) => new Course(c)) : []
   this.eventType = mapEventType(json.event_type)
   this.eventTypeCode = json.event_type
   this.externalUrl = json.external_url

@@ -1,3 +1,4 @@
+export const currentEnvironment = +process.env.REACT_APP_CURRENT_ENVIRONMENT
 export const currentSeason = +process.env.REACT_APP_CURRENT_SEASON
 export const previousSeasonEventId = +process.env.REACT_APP_PREVIOUS_SEASON_EVENT_ID
 export const seasonEventId = +process.env.REACT_APP_SEASON_EVENT_ID

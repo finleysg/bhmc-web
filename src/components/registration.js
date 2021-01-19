@@ -3,7 +3,6 @@ import React from "react"
 import { useAuth } from "context/auth-context"
 import { format, isAfter, isBefore } from "date-fns"
 import { useEventDocuments } from "hooks/document-hooks"
-import { usePlayers } from "hooks/player-hooks"
 import { FiFileText } from "react-icons/fi"
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
@@ -37,49 +36,45 @@ function DocumentButton({ document }) {
 }
 
 function SimpleRegistrationList({ registrations, sortBy }) {
-  const players = usePlayers()
   const { user } = useAuth()
 
   const getPlayers = React.useCallback(() => {
+    // TODO: don't do this - map to ReserveSlot
     const registered = []
-    if (players && players.length > 0) {
-      registrations.forEach((r) => {
-        r.slots.forEach((s) => {
-          const player = players.find((p) => p.id === s.playerId)
-          registered.push({
-            id: player.id,
-            name: player.name,
-            sortName: `${player.obj.last_name}${player.obj.first_name}`.toUpperCase(),
-            signedUpBy: r.signedUpBy,
-            signupDate: r.createdDate,
-          })
+    registrations.forEach((r) => {
+      r.slots.forEach((s) => {
+        registered.push({
+          id: s.playerId,
+          name: s.playerName,
+          sortName: s.playerName.toUpperCase(),
+          signedUpBy: r.signedUpBy,
+          signupDate: r.createdDate,
         })
       })
+    })
 
-      if (sortBy === "player") {
-        return registered.sort((a, b) => {
-          if (a.sortName < b.sortName) {
-            return -1
-          }
-          if (a.sortName > b.sortName) {
-            return 1
-          }
-          return 0
-        })
-      } else {
-        return registered.sort((a, b) => {
-          if (isBefore(a.signupDate, b.signupDate)) {
-            return -1
-          }
-          if (isAfter(a.signupDate, b.signupDate)) {
-            return 1
-          }
-          return 0
-        })
-      }
+    if (sortBy === "player") {
+      return registered.sort((a, b) => {
+        if (a.sortName < b.sortName) {
+          return -1
+        }
+        if (a.sortName > b.sortName) {
+          return 1
+        }
+        return 0
+      })
+    } else {
+      return registered.sort((a, b) => {
+        if (isBefore(a.signupDate, b.signupDate)) {
+          return -1
+        }
+        if (isAfter(a.signupDate, b.signupDate)) {
+          return 1
+        }
+        return 0
+      })
     }
-    return registered
-  }, [registrations, players, sortBy])
+  }, [registrations, sortBy])
 
   return (
     <div>
@@ -93,6 +88,7 @@ function SimpleRegistrationList({ registrations, sortBy }) {
 }
 
 function RegistrationSlotView({ playerRegistration, isLink, ...rest }) {
+  // TODO: render reserve slot
   const slot = () => {
     return (
       <div

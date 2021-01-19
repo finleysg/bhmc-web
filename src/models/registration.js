@@ -22,7 +22,8 @@ function RegistrationSlot(json) {
   this.eventId = json.event
   this.registrationId = json.registration
   this.holeId = json.hole
-  this.playerId = json.player
+  this.playerId = json.player?.id
+  this.playerName = `${json.player?.first_name} ${json.player?.last_name}`
   this.startingOrder = json.starting_order
   this.slot = json.slot
   this.status = json.status

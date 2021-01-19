@@ -19,10 +19,9 @@ Public profile:
 - Link to all championships
 
 Account registration:
-- Handle a new account matching existing player record
+* Handle a new account matching existing player record
 
 Event:
-- Move documents off to the right
 
 Results:
 - Import all major data
@@ -41,25 +40,24 @@ Season Long Points:
 - Need the rounding rules from Nate
 
 Registration:
-- Enforce require ghin
+- Enforce require ghin at the server level
 - Use a reducer within registration context to manage state
 - Don't show the register now button right away
-- Weeknight registration flow (reserve screen)
+* Weeknight registration flow (reserve screen)
 - Major registration flow
 - Add player during registration flow (open events)
-- Enforce age rules
+- Enforce age rules 
 - Handle team skins
-- Render shotgun vs tee times
-- Flexible number of tee times
-- View registration (for can_choose events)
+* Render shotgun vs tee times
+* Flexible number of tee times
+* View registration (for can_choose events)
 
 General:
-- Handle cleanup on abandoned flows
+* Handle cleanup on abandoned flows
 - Lazy loading
 - Image optimization
 - Performance review / optimization in Django
 - Giphy production api key
-- Code re-org
 - Don't constrain width (as much, at least)
 - Policy review
 - Review and fix issues captured by sentry
