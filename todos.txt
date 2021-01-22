@@ -2,8 +2,6 @@ Home page:
 - Hole in one control with explanation of the pool
 
 Calendar:
-- Keep the current year when using the month menu
-- Change year
 
 Account / profile:
 - Update expired card (https://stripe.com/docs/api/payment_methods/update)
@@ -22,7 +20,6 @@ Account registration:
 - Handle a new account matching existing player record
 
 Event:
-- Move documents off to the right
 
 Results:
 - Import all major data
@@ -41,7 +38,6 @@ Season Long Points:
 - Need the rounding rules from Nate
 
 Registration:
-- Enforce require ghin
 - Use a reducer within registration context to manage state
 - Don't show the register now button right away
 - Weeknight registration flow (reserve screen)
@@ -59,10 +55,10 @@ General:
 - Image optimization
 - Performance review / optimization in Django
 - Giphy production api key
-- Code re-org
 - Don't constrain width (as much, at least)
 - Policy review
 - Review and fix issues captured by sentry
+- Review and fix rendering issues (polypane)
 
 Administration:
 - Add announcement
