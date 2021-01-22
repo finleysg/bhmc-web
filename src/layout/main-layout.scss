@@ -41,7 +41,8 @@
   left: 0;
   padding: $header-height 2rem 0.5rem 2rem;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   z-index: $sidebar-z-index;
 
   @include media-breakpoint-up(xl) {
