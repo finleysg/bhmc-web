@@ -1,6 +1,7 @@
 import React from "react"
 
 import { useClubEvents } from "hooks/event-hooks"
+import cloneDeep from "lodash/cloneDeep"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
 import { useMutation, useQuery, useQueryClient } from "react-query"
@@ -281,6 +282,32 @@ function EventRegistrationProvider(props) {
     setError(undefined)
   }, [queryClient])
 
+  const addPlayer = React.useCallback(
+    (player) => {
+      const copy = cloneDeep(registration)
+      const index = copy.slots.findIndex((slot) => !Boolean(slot.playerId))
+      if (index >= 0) {
+        copy.slots[index].playerId = player.id
+        copy.slots[index].playerName = player.name
+      }
+      setRegistration(copy)
+    },
+    [registration],
+  )
+
+  const removePlayer = React.useCallback(
+    (playerId) => {
+      const copy = cloneDeep(registration)
+      const index = copy.slots.findIndex((slot) => slot.playerId === playerId)
+      if (index >= 0) {
+        copy.slots[index].playerId = 0
+        copy.slots[index].playerName = undefined
+      }
+      setRegistration(copy)
+    },
+    [registration],
+  )
+
   const value = React.useMemo(
     () => ({
       clubEvent,
@@ -298,6 +325,8 @@ function EventRegistrationProvider(props) {
       updatePayment,
       deletePayment,
       updateStep,
+      addPlayer,
+      removePlayer,
     }),
     [
       clubEvent,
@@ -315,6 +344,8 @@ function EventRegistrationProvider(props) {
       updatePayment,
       deletePayment,
       updateStep,
+      addPlayer,
+      removePlayer,
     ],
   )
 

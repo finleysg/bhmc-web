@@ -6,7 +6,7 @@ function Player(json) {
   this.obj = json
   this.id = json.id
   this.email = json.email
-  this.name = `${json.first_name} ${json.last_name}`
+  this.name = Boolean(json.id) ? `${json.first_name} ${json.last_name}` : ""
   this.ghin = json.ghin
   this.birthDate = parseISO(json.birth_date)
   this.phoneNumber = json.phone_number

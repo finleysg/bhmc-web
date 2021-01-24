@@ -1,18 +1,20 @@
 import React from "react"
 
 import { useFriends } from "hooks/account-hooks"
+import * as colors from "styles/colors"
 
-function FriendPicker({ slots, onSelect }) {
+function FriendPicker({ alreadyRegistered, onSelect }) {
   const friends = useFriends()
-
   const isRegistered = (friend) => {
-    return slots.some((slot) => slot?.player.id === friend.id)
+    return alreadyRegistered.some((id) => friend.id === id)
   }
 
   return (
-    <div className="card">
-      <div className="card-header">
-        <h2>Friends</h2>
+    <div className="card card border border-primary">
+      <div className="card-header bg-primary">
+        <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+          Friends
+        </span>
       </div>
       <div className="card-body">
         {Boolean(friends?.length) || (
@@ -30,9 +32,14 @@ function FriendPicker({ slots, onSelect }) {
                     className="list-group-item list-group-item-action"
                     disabled={isRegistered(f)}
                     onClick={() => onSelect(f)}
+                    key={f.id}
                   >
                     {f.name}
-                    {isRegistered(f) && <span>registered</span>}
+                    {isRegistered(f) && (
+                      <span className="text-primary" style={{ fontSize: ".8rem" }}>
+                        registered
+                      </span>
+                    )}
                   </button>
                 )
               })}

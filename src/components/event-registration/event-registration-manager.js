@@ -29,6 +29,10 @@ function EventRegistrationManager({ clubEvent }) {
 
   const handleStart = () => {
     if (clubEvent.canChoose) {
+      // If something went wrong earlier, we need to clean up
+      if (registration && registration.id) {
+        cancelRegistration(registration.id)
+      }
       setCurrentView("reserve-view")
     } else {
       startRegistration()

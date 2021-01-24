@@ -28,8 +28,16 @@ function RegistrationItemCheckbox(props) {
 }
 
 function RegistrationItemRow(props) {
-  const { index, player, fee, selected, onAdd, onRemove } = props
-  const [isSelected, setIsSelected] = React.useState(fee.isRequired || selected)
+  const { index, slot, fee, selected, onAdd, onRemove, onRemovePlayer } = props
+  const [isSelected, setIsSelected] = React.useState(selected)
+
+  React.useEffect(() => {
+    if (slot.playerId === 0) {
+      setIsSelected(false)
+    } else if (fee.isRequired) {
+      setIsSelected(true)
+    }
+  }, [fee, slot])
 
   const handleItemSelection = (value) => {
     setIsSelected(value)
@@ -44,7 +52,15 @@ function RegistrationItemRow(props) {
     <div className="row" style={{ minHeight: "32px" }}>
       {index === 0 ? (
         <div className="col-md-3 col-12 my-auto">
-          <strong>{player?.name}</strong>
+          {slot.playerId === 0 && <strong>Add a player</strong>}
+          {slot.playerId !== 0 && (
+            <>
+              <strong>{slot.playerName}</strong>
+              <button className="btn btn-link text-danger" onClick={() => onRemovePlayer(slot)}>
+                (remove)
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <div className="col-md-3 hidden-sm-down my-auto"></div>

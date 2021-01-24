@@ -1,15 +1,10 @@
 import React from "react"
 
 import { useEventRegistration } from "context/registration-context"
-import Player from "models/player"
 
-import { usePlayers } from "../../hooks/player-hooks"
 import { RegistrationItemRow } from "./event-registration-rows"
 
-function RegistrationSlots(props) {
-  const { registration, payment } = useEventRegistration()
-  const players = usePlayers()
-
+function RegistrationSlot({ slot, payment, eventFees, onRemovePlayer, ...rest }) {
   // If there is a payment object created, has a given fee been selected?
   const hasPaymentDetail = (eventFee) => {
     if (payment && payment.details) {
@@ -19,31 +14,41 @@ function RegistrationSlots(props) {
     return false
   }
 
-  const findPlayer = (id) => {
-    const index = players.findIndex((p) => p.id === id)
-    if (index >= 0) {
-      return players[index]
-    }
-    return new Player({})
+  return eventFees.map((eventFee, index) => {
+    return (
+      <RegistrationItemRow
+        key={eventFee.id}
+        index={index}
+        slot={slot}
+        fee={eventFee}
+        selected={hasPaymentDetail(eventFee)}
+        onRemovePlayer={onRemovePlayer}
+        {...rest}
+      />
+    )
+  })
+}
+
+function RegistrationSlots({ eventFees, ...rest }) {
+  const { registration, payment, removePlayer } = useEventRegistration()
+
+  const handleRemovePlayer = (slot) => {
+    // TODO: fees must be removed
+    removePlayer(slot.playerId)
   }
 
   return (
     <React.Fragment>
-      {registration.slots.map((slot) =>
-        props.eventFees.map((eventFee, index) => {
-          return (
-            <RegistrationItemRow
-              key={eventFee.id}
-              index={index}
-              player={findPlayer(slot.playerId)}
-              fee={eventFee}
-              selected={hasPaymentDetail(eventFee)}
-              onAdd={props.onAdd}
-              onRemove={props.onRemove}
-            />
-          )
-        }),
-      )}
+      {registration.slots.map((slot) => (
+        <RegistrationSlot
+          key={slot.id}
+          slot={slot}
+          payment={payment}
+          eventFees={eventFees}
+          onRemovePlayer={handleRemovePlayer}
+          {...rest}
+        />
+      ))}
     </React.Fragment>
   )
 }

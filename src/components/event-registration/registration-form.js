@@ -18,6 +18,7 @@ function RegistrationForm(props) {
     updatePayment,
   } = useEventRegistration()
 
+  // TODO: move this state to registration context
   const [selections, updateSelections] = React.useState(() => clubEvent.selectedFees(payment))
 
   const isBusy = registration === undefined || registration.id === undefined
