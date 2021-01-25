@@ -1,4 +1,5 @@
 import { addDays, isWithinInterval, parseISO } from "date-fns"
+import { immerable } from "immer"
 import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
 
 const mapRegistrationType = (code) => {
@@ -131,6 +132,7 @@ function Course(json) {
 }
 
 function EventFee(json) {
+  this[immerable] = true
   this.id = +json.id
   this.amount = +json.amount
   this.displayOrder = +json.displayOrder
@@ -145,6 +147,7 @@ function EventFee(json) {
  * @param {object} json - An event from the api.
  */
 function ClubEvent(json) {
+  this[immerable] = true
   this.id = json.id
   this.canChoose = json.can_choose
   this.courses = json.can_choose ? json.courses.map((c) => new Course(c)) : []
@@ -154,6 +157,7 @@ function ClubEvent(json) {
   this.fees = json.fees
     ? json.fees.sort((a, b) => (a.display_order = b.display_order)).map((f) => new EventFee(f))
     : []
+  this.feeMap = new Map(this.fees.map((f) => [f.id, f]))
   this.ghinRequired = json.ghin_required
   this.groupSize = json.group_size
   this.maximumSignupGroupSize = json.maximum_signup_group_size
@@ -210,22 +214,22 @@ function ClubEvent(json) {
     return this.startDate.getFullYear() === year && this.startDate.getMonth() === month
   }
 
-  /**
-   * Returns the event fees that match the given payment record
-   * @param {Payment} payment
-   * @param {boolean} optional - Return only optional fees
-   */
-  this.selectedFees = (payment, optional = true) => {
-    if (this.fees) {
-      const selectedIds = payment?.details.map((p) => p.eventFeeId)
-      if (!selectedIds || selectedIds.length === 0) return []
-      return this.fees
-        .filter((fee) => selectedIds.indexOf(fee.id) >= 0)
-        .filter((fee) => fee.isRequired === !optional)
-    } else {
-      return []
-    }
-  }
+  //   /**
+  //    * Returns the event fees that match the given payment record
+  //    * @param {Payment} payment
+  //    * @param {boolean} optional - Return only optional fees
+  //    */
+  //   this.selectedFees = (payment, optional = true) => {
+  //     if (this.fees) {
+  //       const selectedIds = payment?.details.map((p) => p.eventFeeId)
+  //       if (!selectedIds || selectedIds.length === 0) return []
+  //       return this.fees
+  //         .filter((fee) => selectedIds.indexOf(fee.id) >= 0)
+  //         .filter((fee) => fee.isRequired === !optional)
+  //     } else {
+  //       return []
+  //     }
+  //   }
 }
 
 export { ClubEvent, EventFee, loadingEvent, sampleEvent }

@@ -1,4 +1,7 @@
+import { immerable } from "immer"
+
 function Registration(json) {
+  this[immerable] = true
   this.obj = json
   this.id = json.id
   this.eventId = json.event
@@ -17,6 +20,7 @@ function Registration(json) {
 }
 
 function RegistrationSlot(json) {
+  this[immerable] = true
   this.obj = json
   this.id = json.id
   this.eventId = json.event

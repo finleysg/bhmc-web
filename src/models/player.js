@@ -1,8 +1,10 @@
 import { differenceInYears, lastDayOfYear, parseISO } from "date-fns"
+import { immerable } from "immer"
 
 const serverUrl = process.env.REACT_APP_SERVER_URL
 
 function Player(json) {
+  this[immerable] = true
   this.obj = json
   this.id = json.id
   this.email = json.email

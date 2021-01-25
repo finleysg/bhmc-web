@@ -1,5 +1,5 @@
 import { addDays, isBefore, isEqual, subDays } from "date-fns"
-import { Payment } from "models/payment"
+import { getTestEvent, TestEventType } from "test/data/test-events"
 
 import { ClubEvent } from "../club-event"
 
@@ -68,107 +68,117 @@ test("spreads multi-day events by determining an end date", () => {
   expect(isBefore(event2.startDate, event2.endDate)).toBe(true)
 })
 
-test("selectedFees: returns no fees when payment is undefined", () => {
-  const event1 = new ClubEvent({
-    id: 1,
-    name: "Test Event",
-    start_date: "2020-10-03",
-    signup_start: subDays(new Date("2020-10-03"), 1).toISOString(),
-    signup_end: addDays(new Date("2020-10-03"), 7).toISOString(),
-    rounds: 1,
-    fees: [
-      {
-        id: 1,
-        fee_type: { id: 1, name: "Fee 1" },
-        is_required: true,
-      },
-      {
-        id: 2,
-        fee_type: { id: 2, name: "Fee 2" },
-        is_required: false,
-      },
-      {
-        id: 3,
-        fee_type: { id: 3, name: "Fee 3" },
-        is_required: false,
-      },
-    ],
-  })
-  const result = event1.selectedFees(undefined)
-  expect(result).toEqual([])
+test("converts event fee array into a map", () => {
+  const event = new ClubEvent(getTestEvent({ eventType: TestEventType.major }))
+  expect(typeof event.feeMap).toBe("object")
+  expect(event.feeMap.get(5).amount).toBe(10)
+  expect(event.feeMap.get(8).amount).toBe(10)
+  expect(event.feeMap.get(9).amount).toBe(10)
+  expect(event.feeMap.get(10).amount).toBe(40)
+  expect(event.feeMap.get(11).amount).toBe(20)
 })
 
-test("selectedFees: returns no fees when payment has no fees", () => {
-  const event1 = new ClubEvent({
-    id: 1,
-    name: "Test Event",
-    start_date: "2020-10-03",
-    signup_start: subDays(new Date("2020-10-03"), 1).toISOString(),
-    signup_end: addDays(new Date("2020-10-03"), 7).toISOString(),
-    rounds: 1,
-    fees: [
-      {
-        id: 1,
-        fee_type: { id: 1, name: "Fee 1" },
-        is_required: true,
-      },
-      {
-        id: 2,
-        fee_type: { id: 2, name: "Fee 2" },
-        is_required: false,
-      },
-      {
-        id: 3,
-        fee_type: { id: 3, name: "Fee 3" },
-        is_required: false,
-      },
-    ],
-  })
-  const payment = new Payment({})
-  const result = event1.selectedFees(payment)
-  expect(result).toEqual([])
-})
+// test("selectedFees: returns no fees when payment is undefined", () => {
+//   const event1 = new ClubEvent({
+//     id: 1,
+//     name: "Test Event",
+//     start_date: "2020-10-03",
+//     signup_start: subDays(new Date("2020-10-03"), 1).toISOString(),
+//     signup_end: addDays(new Date("2020-10-03"), 7).toISOString(),
+//     rounds: 1,
+//     fees: [
+//       {
+//         id: 1,
+//         fee_type: { id: 1, name: "Fee 1" },
+//         is_required: true,
+//       },
+//       {
+//         id: 2,
+//         fee_type: { id: 2, name: "Fee 2" },
+//         is_required: false,
+//       },
+//       {
+//         id: 3,
+//         fee_type: { id: 3, name: "Fee 3" },
+//         is_required: false,
+//       },
+//     ],
+//   })
+//   const result = event1.selectedFees(undefined)
+//   expect(result).toEqual([])
+// })
 
-test("selectedFees: returns selected optional fees", () => {
-  const event1 = new ClubEvent({
-    id: 1,
-    name: "Test Event",
-    start_date: "2020-10-03",
-    signup_start: subDays(new Date("2020-10-03"), 1).toISOString(),
-    signup_end: addDays(new Date("2020-10-03"), 7).toISOString(),
-    rounds: 1,
-    fees: [
-      {
-        id: 1,
-        fee_type: { id: 1, name: "Fee 1" },
-        is_required: true,
-      },
-      {
-        id: 2,
-        fee_type: { id: 2, name: "Fee 2" },
-        is_required: false,
-      },
-      {
-        id: 3,
-        fee_type: { id: 3, name: "Fee 3" },
-        is_required: false,
-      },
-    ],
-  })
-  const payment = new Payment({
-    id: 1,
-    event: 1,
-    user: 1,
-    payment_code: "pi_1HsE0uG3m1mtgUwuU9qyr4q3",
-    payment_key: "pi_1HsE0uG3m1mtgUwuU9qyr4q3_secret_OO2OZ0x0Vri8Y9d87AxRVY7VO",
-    notification_type: "R",
-    confirmed: false,
-    payment_details: [
-      { id: 1, event_fee: 1, registration_slot: 511, payment: 1 },
-      { id: 2, event_fee: 3, registration_slot: 511, payment: 1 },
-    ],
-  })
-  const result = event1.selectedFees(payment)
-  expect(result.length).toEqual(1)
-  expect(result[0].id).toEqual(3)
-})
+// test("selectedFees: returns no fees when payment has no fees", () => {
+//   const event1 = new ClubEvent({
+//     id: 1,
+//     name: "Test Event",
+//     start_date: "2020-10-03",
+//     signup_start: subDays(new Date("2020-10-03"), 1).toISOString(),
+//     signup_end: addDays(new Date("2020-10-03"), 7).toISOString(),
+//     rounds: 1,
+//     fees: [
+//       {
+//         id: 1,
+//         fee_type: { id: 1, name: "Fee 1" },
+//         is_required: true,
+//       },
+//       {
+//         id: 2,
+//         fee_type: { id: 2, name: "Fee 2" },
+//         is_required: false,
+//       },
+//       {
+//         id: 3,
+//         fee_type: { id: 3, name: "Fee 3" },
+//         is_required: false,
+//       },
+//     ],
+//   })
+//   const payment = new Payment({})
+//   const result = event1.selectedFees(payment)
+//   expect(result).toEqual([])
+// })
+
+// test("selectedFees: returns selected optional fees", () => {
+//   const event1 = new ClubEvent({
+//     id: 1,
+//     name: "Test Event",
+//     start_date: "2020-10-03",
+//     signup_start: subDays(new Date("2020-10-03"), 1).toISOString(),
+//     signup_end: addDays(new Date("2020-10-03"), 7).toISOString(),
+//     rounds: 1,
+//     fees: [
+//       {
+//         id: 1,
+//         fee_type: { id: 1, name: "Fee 1" },
+//         is_required: true,
+//       },
+//       {
+//         id: 2,
+//         fee_type: { id: 2, name: "Fee 2" },
+//         is_required: false,
+//       },
+//       {
+//         id: 3,
+//         fee_type: { id: 3, name: "Fee 3" },
+//         is_required: false,
+//       },
+//     ],
+//   })
+//   const payment = new Payment({
+//     id: 1,
+//     event: 1,
+//     user: 1,
+//     payment_code: "pi_1HsE0uG3m1mtgUwuU9qyr4q3",
+//     payment_key: "pi_1HsE0uG3m1mtgUwuU9qyr4q3_secret_OO2OZ0x0Vri8Y9d87AxRVY7VO",
+//     notification_type: "R",
+//     confirmed: false,
+//     payment_details: [
+//       { id: 1, event_fee: 1, registration_slot: 511, payment: 1 },
+//       { id: 2, event_fee: 3, registration_slot: 511, payment: 1 },
+//     ],
+//   })
+//   const result = event1.selectedFees(payment)
+//   expect(result.length).toEqual(1)
+//   expect(result[0].id).toEqual(3)
+// })

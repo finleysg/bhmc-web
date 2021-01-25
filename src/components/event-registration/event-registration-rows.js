@@ -28,25 +28,25 @@ function RegistrationItemCheckbox(props) {
 }
 
 function RegistrationItemRow(props) {
-  const { index, slot, fee, selected, onAdd, onRemove, onRemovePlayer } = props
-  const [isSelected, setIsSelected] = React.useState(selected)
+  const { index, slot, fee, selected, onToggleFee, onRemovePlayer } = props
+  // const [isSelected, setIsSelected] = React.useState(selected)
 
-  React.useEffect(() => {
-    if (slot.playerId === 0) {
-      setIsSelected(false)
-    } else if (fee.isRequired) {
-      setIsSelected(true)
-    }
-  }, [fee, slot])
+  //   React.useEffect(() => {
+  //     if (slot.playerId === 0) {
+  //       setIsSelected(false)
+  //     } else if (fee.isRequired) {
+  //       setIsSelected(true)
+  //     }
+  //   }, [fee, slot])
 
-  const handleItemSelection = (value) => {
-    setIsSelected(value)
-    if (value) {
-      onAdd(fee)
-    } else {
-      onRemove(fee)
-    }
-  }
+  //   const handleItemSelection = (value) => {
+  //     // setIsSelected(value)
+  //     if (value) {
+  //       onAddFee(slot, fee)
+  //     } else {
+  //       onRemoveFee(slot, fee)
+  //     }
+  //   }
 
   return (
     <div className="row" style={{ minHeight: "32px" }}>
@@ -68,15 +68,15 @@ function RegistrationItemRow(props) {
       <div className="col-md-1 col-2 my-auto">
         <RegistrationItemCheckbox
           isRequired={fee.isRequired}
-          isSelected={isSelected}
-          onChange={handleItemSelection}
+          isSelected={selected}
+          onChange={() => onToggleFee({ fee })}
         />
       </div>
       <div className="col-md-5 col-7 my-auto">
         {fee.name} (${fee.amount})
       </div>
       <div className="col-md-3 col-3 my-auto" style={{ textAlign: "right" }}>
-        ${isSelected ? fee.amount.toFixed(2) : "0.00"}
+        ${selected ? fee.amount.toFixed(2) : "0.00"}
       </div>
     </div>
   )

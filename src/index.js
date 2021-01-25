@@ -6,6 +6,7 @@ import React from "react"
 import ReactDOM from "react-dom"
 
 import { AppProviders } from "context"
+import { enableMapSet } from "immer"
 import { Route, Routes } from "react-router-dom"
 import * as config from "utils/app-config"
 
@@ -21,6 +22,8 @@ if (config.currentEnvironment === "production") {
     release: "bhmc-web@" + process.env.npm_package_version,
   })
 }
+
+enableMapSet()
 
 ReactDOM.render(
   <React.StrictMode>

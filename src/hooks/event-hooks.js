@@ -66,7 +66,7 @@ function useEventRegistrationSlots(eventId) {
     () => client(`registration-slots/?event_id=${eventId}`).then((data) => data),
     {
       enabled: !!eventId,
-      refetchInterval: 1000 * 30,
+      // refetchInterval: 1000 * 30,
       cacheTime: 1000 * 60 * 5,
     },
   )

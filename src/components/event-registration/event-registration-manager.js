@@ -13,14 +13,8 @@ import { RegisterView } from "./register-view"
 
 function EventRegistrationManager({ clubEvent }) {
   const [currentView, setCurrentView] = React.useState("event-view")
-  const { data: slots, status } = useEventRegistrationSlots(clubEvent.id)
-  const {
-    cancelRegistration,
-    createRegistration,
-    loadEvent,
-    registration,
-    startRegistration,
-  } = useEventRegistration()
+  const { data: slots } = useEventRegistrationSlots(clubEvent.id)
+  const { cancelRegistration, loadEvent, registration, startRegistration } = useEventRegistration()
   const reserveTables = LoadReserveTables(clubEvent, slots)
 
   React.useEffect(() => {
@@ -35,7 +29,11 @@ function EventRegistrationManager({ clubEvent }) {
       }
       setCurrentView("reserve-view")
     } else {
-      startRegistration()
+      const reg = {
+        eventId: clubEvent.id,
+        slots: [],
+      }
+      startRegistration(reg)
       setCurrentView("register-view")
     }
   }
@@ -46,7 +44,7 @@ function EventRegistrationManager({ clubEvent }) {
       courseId: course.id,
       slots: slots.map((slot) => slot.toRegistrationSlot()),
     }
-    createRegistration(reg)
+    startRegistration(reg)
     setCurrentView("register-view")
   }
 

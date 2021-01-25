@@ -3,6 +3,7 @@ import React from "react"
 import { EventPortalButton } from "components/button/portal-button"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
+import { OverlaySpinner } from "components/spinners"
 import { RegistrationSteps } from "context/registration-context"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
@@ -48,6 +49,7 @@ function EventDetail({ clubEvent, onRegister }) {
   return (
     <div className="card">
       <div className="card-body">
+        <OverlaySpinner loading={!clubEvent?.id} />
         <EventActionButtons clubEvent={clubEvent} onRegister={onRegister} />
         <div className="card-text">
           <p style={{ marginBottom: ".5rem" }}>

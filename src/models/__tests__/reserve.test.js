@@ -18,10 +18,10 @@ test("builds teetime tables for weeknight event", () => {
   expect(tables[0].groups.length).toBe(5)
   expect(tables[0].groups[0].slots.length).toBe(5)
   expect(tables[0].groups[0].name).toEqual("2:30 PM")
-  expect(tables[0].groups[1].name).toEqual("2:39 PM")
-  expect(tables[0].groups[2].name).toEqual("2:48 PM")
-  expect(tables[0].groups[3].name).toEqual("2:57 PM")
-  expect(tables[0].groups[4].name).toEqual("3:06 PM")
+  expect(tables[0].groups[1].name).toEqual("2:38 PM")
+  expect(tables[0].groups[2].name).toEqual("2:46 PM")
+  expect(tables[0].groups[3].name).toEqual("2:54 PM")
+  expect(tables[0].groups[4].name).toEqual("3:02 PM")
 })
 
 test("builds shotgun tables for weeknight event", () => {

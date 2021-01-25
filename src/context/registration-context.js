@@ -1,12 +1,16 @@
 import React from "react"
 
 import { useClubEvents } from "hooks/event-hooks"
-import cloneDeep from "lodash/cloneDeep"
-import { Payment } from "models/payment"
+import { Payment, paymentPlaceholder } from "models/payment"
 import { Registration } from "models/registration"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 
 import { useAuth, useClient } from "./auth-context"
+import {
+  EventRegistrationActions,
+  eventRegistrationReducer,
+  EventRegistrationSteps,
+} from "./registration-reducer"
 
 const RegistrationSteps = {
   Pending: {
@@ -38,13 +42,9 @@ const EventRegistrationContext = React.createContext()
 EventRegistrationContext.displayName = "EventRegistrationContext"
 
 function EventRegistrationProvider(props) {
-  // TODO: use a reducer
-  const [clubEvent, setClubEvent] = React.useState()
-  const [registration, setRegistration] = React.useState()
-  const [payment, setPayment] = React.useState()
-  const [error, setError] = React.useState()
-  const [currentStep, changeCurrentStep] = React.useState(RegistrationSteps.Pending)
+  const [state, dispatch] = React.useReducer(eventRegistrationReducer)
 
+  const eventId = state?.clubEvent?.id
   const { user } = useAuth()
   const events = useClubEvents()
   const client = useClient()
@@ -54,17 +54,21 @@ function EventRegistrationProvider(props) {
     (id) => {
       const event = events.find((evt) => evt.id === id)
       if (event) {
-        setClubEvent(event)
+        dispatch({ type: EventRegistrationActions.LoadEvent, payload: event })
       }
     },
     [events],
   )
 
+  const updateStep = React.useCallback((step) => {
+    dispatch({ type: EventRegistrationActions.UpdateStep, payload: step })
+  }, [])
+
   useQuery(
-    ["registration", clubEvent?.id],
+    ["registration", eventId],
     () => {
-      if (user && user.is_authenticated && clubEvent && clubEvent.id) {
-        return client(`registration/?event_id=${clubEvent.id}&player=me`).then((data) => data[0])
+      if (user && user.is_authenticated && eventId) {
+        return client(`registration/?event_id=${eventId}&player=me`).then((data) => data[0])
       }
     },
     {
@@ -72,7 +76,7 @@ function EventRegistrationProvider(props) {
         const queryData = queryClient.getQueryData("registration")
         if (queryData !== undefined) {
           if (Array.isArray(queryData)) {
-            return queryData.find((r) => r.event === clubEvent.id)
+            return queryData.find((r) => r.event === eventId)
           }
           return queryData
         }
@@ -81,18 +85,21 @@ function EventRegistrationProvider(props) {
       cacheTime: 1000 * 60 * 15,
       onSuccess: (data) => {
         if (data) {
-          setRegistration(new Registration(data))
+          dispatch({
+            type: EventRegistrationActions.UpdateRegistration,
+            payload: new Registration(data),
+          })
         }
       },
-      onError: (error) => setError(error),
+      onError: (error) => dispatch({ type: EventRegistrationActions.UpdateError, payload: error }),
     },
   )
 
   useQuery(
-    ["payment", clubEvent?.id],
+    ["payment", eventId],
     () => {
-      if (user && user.is_authenticated && clubEvent && clubEvent.id) {
-        return client(`payments/?event=${clubEvent.id}&player=me`).then((data) => data[0])
+      if (user && user.is_authenticated && eventId) {
+        return client(`payments/?event=${eventId}&player=me`).then((data) => data[0])
       }
     },
     {
@@ -100,7 +107,7 @@ function EventRegistrationProvider(props) {
         const queryData = queryClient.getQueryData("payment")
         if (queryData !== undefined) {
           if (Array.isArray(queryData)) {
-            return queryData.find((r) => r.event === clubEvent.id)
+            return queryData.find((r) => r.event === eventId)
           }
           return queryData
         }
@@ -109,12 +116,12 @@ function EventRegistrationProvider(props) {
       cacheTime: 1000 * 60 * 15,
       onSuccess: (data) => {
         if (data) {
-          setPayment(new Payment(data))
+          dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
         } else {
-          setPayment(undefined)
+          dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
         }
       },
-      onError: (error) => setError(error),
+      onError: (error) => dispatch({ type: EventRegistrationActions.UpdateError, payload: error }),
     },
   )
 
@@ -122,7 +129,7 @@ function EventRegistrationProvider(props) {
     (registration) => {
       return client("registration", {
         data: {
-          event: clubEvent.id,
+          event: eventId,
           course: registration.courseId,
           slots: registration.slots.map((s) => s.obj),
         },
@@ -130,14 +137,31 @@ function EventRegistrationProvider(props) {
     },
     {
       onSuccess: (data, variables) => {
-        setRegistration(new Registration(data))
-        changeCurrentStep(RegistrationSteps.Register)
+        dispatch({
+          type: EventRegistrationActions.CreateRegistration,
+          payload: {
+            registration: new Registration(data),
+            payment: paymentPlaceholder(eventId, user.id),
+          },
+        })
         queryClient.setQueryData(["registration", variables.eventId], data)
       },
-      onError: (error) => {
-        setError(error)
-      },
+      onError: (error) => dispatch({ type: EventRegistrationActions.UpdateError, payload: error }),
     },
+  )
+
+  const startRegistration = React.useCallback(
+    (registration) => {
+      if (state.registration?.id) {
+        dispatch({
+          type: EventRegistrationActions.UpdateStep,
+          payload: EventRegistrationSteps.Register,
+        })
+      } else {
+        createRegistration(registration)
+      }
+    },
+    [state, createRegistration],
   )
 
   const { mutate: updateRegistration } = useMutation(
@@ -145,7 +169,7 @@ function EventRegistrationProvider(props) {
       return client(`registration/${registration.id}`, {
         method: "PUT",
         data: {
-          event: clubEvent.id,
+          event: eventId,
           course: registration.courseId,
           notes: registration.notes,
           slots: registration.slots.map((s) => s.obj),
@@ -154,11 +178,14 @@ function EventRegistrationProvider(props) {
     },
     {
       onSuccess: (data, variables) => {
-        setRegistration(new Registration(data))
+        dispatch({
+          type: EventRegistrationActions.UpdateRegistration,
+          payload: new Registration(data),
+        })
         queryClient.setQueryData(["registration", variables.eventId], data)
       },
       onError: (error) => {
-        setError(error)
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
       },
     },
   )
@@ -172,23 +199,24 @@ function EventRegistrationProvider(props) {
     {
       onSettled: () => {
         queryClient.invalidateQueries("registration", { refetchActive: false })
-        if (payment && payment.id) {
-          queryClient.invalidateQueries("payment", { refetchActive: false })
-          deletePayment(payment.id)
+        if (state.payment?.id) {
+          deletePayment(state.payment.id)
         }
-        changeCurrentStep(RegistrationSteps.Pending)
-        setPayment(undefined)
-        setRegistration(undefined)
-        setError(undefined)
+        dispatch({ type: EventRegistrationActions.CancelRegistration })
       },
     },
   )
+
+  const completeRegistration = React.useCallback(() => {
+    queryClient.invalidateQueries("my-events", { refetchInactive: true })
+    dispatch({ type: EventRegistrationActions.LoadEvent, payload: null })
+  }, [queryClient])
 
   const { mutate: createPayment } = useMutation(
     (payment) => {
       return client("payments", {
         data: {
-          event: clubEvent.id,
+          event: eventId,
           user: user.id,
           notification_type: payment.notificationType,
           payment_details: payment.details.map((f) => {
@@ -202,11 +230,11 @@ function EventRegistrationProvider(props) {
     },
     {
       onSuccess: (data, variables) => {
-        setPayment(new Payment(data))
         queryClient.setQueryData(["payment", variables.eventId], data)
+        dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
       },
       onError: (error) => {
-        setError(error)
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
       },
     },
   )
@@ -216,7 +244,7 @@ function EventRegistrationProvider(props) {
       return client(`payments/${payment.id}`, {
         method: "PUT",
         data: {
-          event: clubEvent.id,
+          event: eventId,
           user: user.id,
           notification_type: payment.notificationType,
           payment_details: payment.details.map((f) => {
@@ -230,14 +258,27 @@ function EventRegistrationProvider(props) {
     },
     {
       onSuccess: (data, variables) => {
-        setPayment(new Payment(data))
         queryClient.setQueryData(["payment", variables.eventId], data)
+        dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
       },
       onError: (error) => {
-        setError(error)
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
       },
     },
   )
+
+  const savePayment = React.useContext((notificationType, callback) => {
+    if (state.payment?.id) {
+      updatePayment(state.payment, {
+        onSuccess: () => callback(),
+      })
+    } else {
+      state.payment.notificationType = notificationType
+      createPayment(state.payment, {
+        onSuccess: () => callback(),
+      })
+    }
+  })
 
   const { mutate: deletePayment } = useMutation(
     (paymentId) => {
@@ -248,106 +289,47 @@ function EventRegistrationProvider(props) {
     {
       onSettled: () => {
         queryClient.invalidateQueries("payment", { refetchActive: false })
+        dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
       },
       onError: (error) => {
         // Clear this error, otherwise we will be stuck in an unrecoverable state.
         // Most likely, we don't have a payment to delete.
         console.error(error)
-        setError(undefined)
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: null })
       },
     },
   )
 
-  const startRegistration = React.useCallback(() => {
-    if (registration && registration.id) {
-      changeCurrentStep(RegistrationSteps.Register)
-    } else {
-      const reg = {
-        slots: [],
-      }
-      createRegistration(reg)
-    }
-  }, [registration, createRegistration])
-
-  const updateStep = React.useCallback((step) => {
-    changeCurrentStep(step)
+  const addPlayer = React.useCallback((player) => {
+    dispatch({ type: EventRegistrationActions.AddPlayer, payload: player })
   }, [])
 
-  const completeRegistration = React.useCallback(() => {
-    queryClient.invalidateQueries("my-events", { refetchInactive: true })
-    changeCurrentStep(RegistrationSteps.Pending)
-    setClubEvent(undefined)
-    setPayment(undefined)
-    setRegistration(undefined)
-    setError(undefined)
-  }, [queryClient])
+  const removePlayer = React.useCallback((playerId) => {
+    dispatch({ type: EventRegistrationActions.RemovePlayer, payload: playerId })
+  }, [])
 
-  const addPlayer = React.useCallback(
-    (player) => {
-      const copy = cloneDeep(registration)
-      const index = copy.slots.findIndex((slot) => !Boolean(slot.playerId))
-      if (index >= 0) {
-        copy.slots[index].playerId = player.id
-        copy.slots[index].playerName = player.name
-      }
-      setRegistration(copy)
-    },
-    [registration],
-  )
+  const addFee = React.useCallback(({ eventFeeId, slotId }) => {
+    dispatch({ type: EventRegistrationActions.AddFee, payload: { eventFeeId, slotId } })
+  }, [])
 
-  const removePlayer = React.useCallback(
-    (playerId) => {
-      const copy = cloneDeep(registration)
-      const index = copy.slots.findIndex((slot) => slot.playerId === playerId)
-      if (index >= 0) {
-        copy.slots[index].playerId = 0
-        copy.slots[index].playerName = undefined
-      }
-      setRegistration(copy)
-    },
-    [registration],
-  )
+  const removeFee = React.useCallback(({ eventFeeId, slotId }) => {
+    dispatch({ type: EventRegistrationActions.RemoveFee, payload: { eventFeeId, slotId } })
+  }, [])
 
-  const value = React.useMemo(
-    () => ({
-      clubEvent,
-      registration,
-      payment,
-      error,
-      currentStep,
-      loadEvent,
-      startRegistration,
-      createRegistration,
-      updateRegistration,
-      cancelRegistration,
-      completeRegistration,
-      createPayment,
-      updatePayment,
-      deletePayment,
-      updateStep,
-      addPlayer,
-      removePlayer,
-    }),
-    [
-      clubEvent,
-      registration,
-      payment,
-      error,
-      currentStep,
-      loadEvent,
-      startRegistration,
-      createRegistration,
-      updateRegistration,
-      cancelRegistration,
-      completeRegistration,
-      createPayment,
-      updatePayment,
-      deletePayment,
-      updateStep,
-      addPlayer,
-      removePlayer,
-    ],
-  )
+  const value = {
+    ...state,
+    loadEvent,
+    startRegistration,
+    updateRegistration,
+    cancelRegistration,
+    completeRegistration,
+    savePayment,
+    updateStep,
+    addPlayer,
+    removePlayer,
+    addFee,
+    removeFee,
+  }
 
   return <EventRegistrationContext.Provider value={value} {...props} />
 }

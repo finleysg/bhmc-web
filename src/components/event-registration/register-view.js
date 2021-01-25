@@ -1,14 +1,14 @@
+import "./register.scss"
 import "../reserve/reserve.scss"
 
 import React from "react"
 
 import { StandardConfirmDialog } from "components/dialog/confirm"
 import { FriendPicker } from "components/directory/friend-picker"
-import { Spinner } from "components/spinners"
-import { RegistrationSteps, useEventRegistration } from "context/registration-context"
+import { useEventRegistration } from "context/registration-context"
+import { EventRegistrationSteps } from "context/registration-reducer"
 import { useEventRegistrations } from "hooks/event-hooks"
 import { useErrorHandler } from "react-error-boundary"
-import * as colors from "styles/colors"
 
 import EventRegistrationComplete from "./event-registration-complete"
 import EventRegistrationConfirm from "./event-registration-confirm"
@@ -25,13 +25,11 @@ function RegisterView({ onCancel }) {
     updateStep,
     completeRegistration,
     addPlayer,
-    removePlayer,
   } = useEventRegistration()
   const registrations = useEventRegistrations(clubEvent?.id)
   const handleError = useErrorHandler()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
-  const [isBusy, setIsBusy] = React.useState(false)
   const cancelRef = React.useRef()
 
   const playerIdsAlreadyRegistered = registrations.flatMap((r) =>
@@ -58,50 +56,35 @@ function RegisterView({ onCancel }) {
   }
 
   const handleRegistrationComplete = () => {
-    updateStep(RegistrationSteps.Complete)
+    updateStep(EventRegistrationSteps.Complete)
   }
 
   return (
     <div className="row">
-      <div className="col-md-8">
-        <div className="card border border-success">
-          <div className="card-header bg-success">
-            <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
-              {currentStep.title}
-            </span>
-            {isBusy && (
-              <span>
-                <Spinner style={{ fontSize: "2rem", color: colors.white }} />
-              </span>
-            )}
-          </div>
-          {currentStep === RegistrationSteps.Register && (
-            <RegistrationForm
-              // feeFilter={props.feeFilter}
-              // getNotificationType={props.getNotificationType}
-              onBusy={(busy) => setIsBusy(busy)}
-              onCancel={setShowConfirm}
-              onComplete={() => updateStep(RegistrationSteps.Review)}
-            />
-          )}
-          {currentStep === RegistrationSteps.Review && (
-            <EventRegistrationConfirm
-              onBack={() => updateStep(RegistrationSteps.Register)}
-              onBusy={(busy) => setIsBusy(busy)}
-              onCancel={setShowConfirm}
-              onComplete={() => updateStep(RegistrationSteps.Payment)}
-            />
-          )}
-          {currentStep === RegistrationSteps.Payment && (
-            <EventRegistrationPayment
-              onBack={() => updateStep(RegistrationSteps.Review)}
-              onBusy={(busy) => setIsBusy(busy)}
-              onCancel={setShowConfirm}
-              onComplete={handleRegistrationComplete}
-            />
-          )}
-          {currentStep === RegistrationSteps.Complete && <EventRegistrationComplete />}
-        </div>
+      <div className="col-md-6">
+        {currentStep === EventRegistrationSteps.Register && (
+          <RegistrationForm
+            title={currentStep.title}
+            onCancel={setShowConfirm}
+            onComplete={() => updateStep(EventRegistrationSteps.Review)}
+          />
+        )}
+        {currentStep === EventRegistrationSteps.Review && (
+          <EventRegistrationConfirm
+            onBack={() => updateStep(EventRegistrationSteps.Register)}
+            onCancel={setShowConfirm}
+            onComplete={() => updateStep(EventRegistrationSteps.Payment)}
+          />
+        )}
+        {currentStep === EventRegistrationSteps.Payment && (
+          <EventRegistrationPayment
+            onBack={() => updateStep(EventRegistrationSteps.Review)}
+            onCancel={setShowConfirm}
+            onComplete={handleRegistrationComplete}
+          />
+        )}
+        {currentStep === EventRegistrationSteps.Complete && <EventRegistrationComplete />}
+
         {showConfirm && (
           <StandardConfirmDialog
             confirmRef={cancelRef}
@@ -110,7 +93,7 @@ function RegisterView({ onCancel }) {
           />
         )}
       </div>
-      <div className="col-md-4">
+      <div className="col-md-3">
         <FriendPicker
           alreadyRegistered={playerIdsAlreadyRegistered}
           onSelect={handleFriendSelect}
