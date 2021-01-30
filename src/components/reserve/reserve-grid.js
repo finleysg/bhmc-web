@@ -34,9 +34,9 @@ function ReserveGrid({ table, onReserve, ...rest }) {
     }
   }
 
-  const handleReserve = () => {
+  const handleReserve = (groupName) => {
     if (selectedSlots?.length > 0) {
-      onReserve(table.course, selectedSlots)
+      onReserve(table.course, groupName, selectedSlots)
     }
   }
 

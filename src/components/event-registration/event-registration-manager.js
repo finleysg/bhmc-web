@@ -13,8 +13,10 @@ import { RegisterView } from "./register-view"
 
 function EventRegistrationManager({ clubEvent }) {
   const [currentView, setCurrentView] = React.useState("event-view")
-  const { data: slots } = useEventRegistrationSlots(clubEvent.id)
+  const [selectedStart, setSelectedStart] = React.useState("")
+
   const { cancelRegistration, loadEvent, registration, startRegistration } = useEventRegistration()
+  const { data: slots } = useEventRegistrationSlots(clubEvent.id)
   const reserveTables = LoadReserveTables(clubEvent, slots)
 
   React.useEffect(() => {
@@ -34,17 +36,19 @@ function EventRegistrationManager({ clubEvent }) {
         slots: [],
       }
       startRegistration(reg)
+      setSelectedStart(clubEvent.name)
       setCurrentView("register-view")
     }
   }
 
-  const handleReserve = (course, slots) => {
+  const handleReserve = (course, groupName, slots) => {
     const reg = {
       eventId: clubEvent.id,
       courseId: course.id,
       slots: slots.map((slot) => slot.toRegistrationSlot()),
     }
     startRegistration(reg)
+    setSelectedStart(`${course.name} ${groupName}`)
     setCurrentView("register-view")
   }
 
@@ -68,7 +72,7 @@ function EventRegistrationManager({ clubEvent }) {
       <Sentry.ErrorBoundary
         fallback={<RegistrationErrorFallback resetErrorBoundary={handleReset} />}
       >
-        <RegisterView onCancel={handleCancel} />
+        <RegisterView registrationSlots={slots} title={selectedStart} onCancel={handleCancel} />
       </Sentry.ErrorBoundary>
     )
   }

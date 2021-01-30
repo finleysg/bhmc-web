@@ -3,10 +3,12 @@ import React from "react"
 import { useFriends } from "hooks/account-hooks"
 import * as colors from "styles/colors"
 
-function FriendPicker({ alreadyRegistered, onSelect }) {
+import FriendCard from "./friend-card"
+
+function FriendPicker({ slots, onSelect }) {
   const friends = useFriends()
   const isRegistered = (friend) => {
-    return alreadyRegistered.some((id) => friend.id === id)
+    return slots.some((slot) => friend.id === slot?.player?.id)
   }
 
   return (
@@ -25,30 +27,17 @@ function FriendPicker({ alreadyRegistered, onSelect }) {
         )}
         {Boolean(friends?.length) && (
           <React.Fragment>
-            <div className="list-group">
-              {friends.map((f) => {
-                return (
-                  <button
-                    className="list-group-item list-group-item-action"
-                    disabled={isRegistered(f)}
-                    onClick={() => onSelect(f)}
-                    key={f.id}
-                  >
-                    {f.name}
-                    {isRegistered(f) && (
-                      <span className="text-primary" style={{ fontSize: ".8rem" }}>
-                        registered
-                      </span>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-            <div>
-              <p>
-                Anyone you sign up for an event will automatically be added to your Friends list.
-              </p>
-            </div>
+            {friends.map((f) => {
+              return (
+                <FriendCard
+                  key={f.id}
+                  friend={f}
+                  registered={isRegistered(f)}
+                  onSelect={onSelect}
+                />
+              )
+            })}
+            <p>Anyone you sign up for an event will automatically be added to your Friends list.</p>
           </React.Fragment>
         )}
       </div>

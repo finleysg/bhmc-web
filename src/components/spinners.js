@@ -27,7 +27,7 @@ const overlayCss = {
   left: 0,
   width: "100%",
   height: "100%",
-  backgroundColor: rgba(colors.teal, 0.3),
+  backgroundColor: rgba(colors.white, 0.5),
 }
 
 const spin = keyframes({

@@ -5,11 +5,11 @@ import { useEventRegistration } from "context/registration-context"
 import debounceFn from "debounce-fn"
 import { getAmountDue } from "utils/payment-utils"
 
-import { RegistrationAmountDueRow, RegistrationTransactionFeeRow } from "./event-registration-rows"
-import { RegistrationSlots } from "./event-registration-slots"
+import RegistrationAmountDue from "./registration-amount-due"
+import RegistrationGroup from "./registration-group"
 
 function RegistrationForm(props) {
-  const { onCancel, onComplete, title } = props
+  const { onCancel, onComplete, title, layout } = props
   const {
     clubEvent,
     registration,
@@ -45,9 +45,8 @@ function RegistrationForm(props) {
       </div>
       <div className="card-body">
         <OverlaySpinner loading={isBusy} />
-        <RegistrationSlots eventFees={clubEvent.fees} />
-        <RegistrationTransactionFeeRow amountDue={amountDue} />
-        <RegistrationAmountDueRow amountDue={amountDue} />
+        <RegistrationGroup eventFees={clubEvent.fees} layout={layout} />
+        <RegistrationAmountDue amountDue={amountDue} />
         <hr />
         <div className="row">
           <div className="col-12">
@@ -85,4 +84,4 @@ function RegistrationForm(props) {
   )
 }
 
-export { RegistrationForm }
+export default RegistrationForm

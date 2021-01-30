@@ -5,17 +5,17 @@ import React from "react"
 
 import { StandardConfirmDialog } from "components/dialog/confirm"
 import { FriendPicker } from "components/directory/friend-picker"
+import PeoplePicker from "components/directory/people-picker"
 import { useEventRegistration } from "context/registration-context"
 import { EventRegistrationSteps } from "context/registration-reducer"
-import { useEventRegistrations } from "hooks/event-hooks"
 import { useErrorHandler } from "react-error-boundary"
 
 import EventRegistrationComplete from "./event-registration-complete"
 import EventRegistrationConfirm from "./event-registration-confirm"
 import EventRegistrationPayment from "./event-registration-payment"
-import { RegistrationForm } from "./registration-form"
+import RegistrationForm from "./registration-form"
 
-function RegisterView({ onCancel }) {
+function RegisterView({ registrationSlots, title, onCancel }) {
   const {
     clubEvent,
     error,
@@ -26,15 +26,12 @@ function RegisterView({ onCancel }) {
     completeRegistration,
     addPlayer,
   } = useEventRegistration()
-  const registrations = useEventRegistrations(clubEvent?.id)
   const handleError = useErrorHandler()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
   const cancelRef = React.useRef()
 
-  const playerIdsAlreadyRegistered = registrations.flatMap((r) =>
-    r.slots.filter((s) => s.status === "R").map((s) => s.playerId),
-  )
+  const layout = clubEvent?.maximumSignupGroupSize === 1 ? "vertical" : "horizontal"
 
   React.useEffect(() => {
     if (error) {
@@ -46,7 +43,18 @@ function RegisterView({ onCancel }) {
   }, [completeRegistration, error, handleError])
 
   const handleFriendSelect = (friend) => {
-    addPlayer(friend)
+    const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
+    if (Boolean(slot)) {
+      addPlayer(slot, friend)
+    }
+  }
+
+  const handlePlayerSelect = (player) => {
+    const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
+    if (Boolean(slot)) {
+      // TODO: add to friends list
+      addPlayer(slot, player)
+    }
   }
 
   const handleCancel = () => {
@@ -61,13 +69,17 @@ function RegisterView({ onCancel }) {
 
   return (
     <div className="row">
-      <div className="col-md-6">
+      <div className="col-12 col-md-6">
         {currentStep === EventRegistrationSteps.Register && (
-          <RegistrationForm
-            title={currentStep.title}
-            onCancel={setShowConfirm}
-            onComplete={() => updateStep(EventRegistrationSteps.Review)}
-          />
+          <>
+            <PeoplePicker allowNew={false} onSelect={handlePlayerSelect} />
+            <RegistrationForm
+              layout={layout}
+              title={title}
+              onCancel={setShowConfirm}
+              onComplete={() => updateStep(EventRegistrationSteps.Review)}
+            />
+          </>
         )}
         {currentStep === EventRegistrationSteps.Review && (
           <EventRegistrationConfirm
@@ -93,11 +105,8 @@ function RegisterView({ onCancel }) {
           />
         )}
       </div>
-      <div className="col-md-3">
-        <FriendPicker
-          alreadyRegistered={playerIdsAlreadyRegistered}
-          onSelect={handleFriendSelect}
-        />
+      <div className="col-12 col-md-3">
+        <FriendPicker slots={registrationSlots} onSelect={handleFriendSelect} />
       </div>
     </div>
   )

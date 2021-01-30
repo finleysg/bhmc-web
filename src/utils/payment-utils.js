@@ -8,6 +8,7 @@ const transactionPercentage = 0.029
 const calculateFees = (subtotal) => {
   if (subtotal === 0) {
     return {
+      subtotal: 0,
       transactionFee: 0,
       total: 0,
     }

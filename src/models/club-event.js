@@ -135,7 +135,7 @@ function EventFee(json) {
   this[immerable] = true
   this.id = +json.id
   this.amount = +json.amount
-  this.displayOrder = +json.displayOrder
+  this.displayOrder = +json.display_order
   this.name = json.fee_type.name
   this.code = json.fee_type.code
   this.isRequired = !!json.is_required

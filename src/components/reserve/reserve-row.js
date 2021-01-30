@@ -8,7 +8,7 @@ function ReserveRow({ courseName, group, onSelect, onReserve, ...rest }) {
         <button
           className="btn btn-sm btn-warning"
           disabled={group.isDisabled()}
-          onClick={onReserve}
+          onClick={() => onReserve(group.name)}
         >
           Register
         </button>

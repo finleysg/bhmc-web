@@ -100,31 +100,27 @@ const eventRegistrationReducer = produce((draft, action) => {
       return
     }
     case EventRegistrationActions.AddPlayer: {
-      // const index = draft.registration.slots.findIndex((slot) => !Boolean(slot.playerId))
-      const slot = draft.registration.slots.find((slot) => !Boolean(slot.playerId))
-      if (Boolean(slot)) {
-        slot.playerId = payload.id
-        slot.playerName = payload.name
-        // add required fees
-        draft.clubEvent.fees
-          .filter((f) => f.isRequired)
-          .forEach((fee) => {
-            draft.payment.details.push({
-              eventFeeId: fee.id,
-              slotId: slot.id,
-            })
+      const { slot, player } = payload
+      const slotToUpdate = draft.registration.slots.find((s) => s.id === slot.id)
+      slotToUpdate.playerId = player.id
+      slotToUpdate.playerName = player.name
+      // add required fees
+      draft.clubEvent.fees
+        .filter((f) => f.isRequired)
+        .forEach((fee) => {
+          draft.payment.details.push({
+            eventFeeId: fee.id,
+            slotId: slot.id,
           })
-      }
+        })
       return
     }
     case EventRegistrationActions.RemovePlayer: {
-      const slot = draft.registration.slots.find((slot) => slot.playerId === payload)
-      if (Boolean(slot)) {
-        slot.playerId = 0
-        slot.playerName = undefined
-        // remove fees for slot
-        draft.payment.details = draft.payment.details.filter((d) => d.slotId !== slot.id)
-      }
+      const slot = draft.registration.slots.find((slot) => slot.id === payload)
+      slot.playerId = 0
+      slot.playerName = undefined
+      // remove fees for slot
+      draft.payment.details = draft.payment.details.filter((d) => d.slotId !== slot.id)
       return
     }
     case EventRegistrationActions.AddFee: {

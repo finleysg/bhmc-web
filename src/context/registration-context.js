@@ -190,6 +190,25 @@ function EventRegistrationProvider(props) {
     },
   )
 
+  const { mutate: updateRegistrationSlotPlayer } = useMutation(
+    ({ slotId, playerId }) => {
+      return client(`registration-slots/${slotId}`, {
+        method: "PATCH",
+        data: {
+          player: playerId,
+        },
+      })
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["event-registration-slots", eventId])
+      },
+      onError: (error) => {
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
+      },
+    },
+  )
+
   const { mutate: cancelRegistration } = useMutation(
     (registrationId) => {
       return client(`registration/${registrationId}/cancel`, {
@@ -267,18 +286,21 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const savePayment = React.useContext((notificationType, callback) => {
-    if (state.payment?.id) {
-      updatePayment(state.payment, {
-        onSuccess: () => callback(),
-      })
-    } else {
-      state.payment.notificationType = notificationType
-      createPayment(state.payment, {
-        onSuccess: () => callback(),
-      })
-    }
-  })
+  const savePayment = React.useCallback(
+    (notificationType, callback) => {
+      if (state.payment?.id) {
+        updatePayment(state.payment, {
+          onSuccess: () => callback(),
+        })
+      } else {
+        state.payment.notificationType = notificationType
+        createPayment(state.payment, {
+          onSuccess: () => callback(),
+        })
+      }
+    },
+    [state?.payment, createPayment, updatePayment],
+  )
 
   const { mutate: deletePayment } = useMutation(
     (paymentId) => {
@@ -300,13 +322,33 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const addPlayer = React.useCallback((player) => {
-    dispatch({ type: EventRegistrationActions.AddPlayer, payload: player })
-  }, [])
+  const addPlayer = React.useCallback(
+    (slot, player) => {
+      updateRegistrationSlotPlayer(
+        { slotId: slot.id, playerId: player.id },
+        {
+          onSettled: () => {
+            dispatch({ type: EventRegistrationActions.AddPlayer, payload: { slot, player } })
+          },
+        },
+      )
+    },
+    [updateRegistrationSlotPlayer],
+  )
 
-  const removePlayer = React.useCallback((playerId) => {
-    dispatch({ type: EventRegistrationActions.RemovePlayer, payload: playerId })
-  }, [])
+  const removePlayer = React.useCallback(
+    (slot) => {
+      updateRegistrationSlotPlayer(
+        { slotId: slot.id, playerId: null },
+        {
+          onSettled: () => {
+            dispatch({ type: EventRegistrationActions.RemovePlayer, payload: slot.id })
+          },
+        },
+      )
+    },
+    [updateRegistrationSlotPlayer],
+  )
 
   const addFee = React.useCallback(({ eventFeeId, slotId }) => {
     dispatch({ type: EventRegistrationActions.AddFee, payload: { eventFeeId, slotId } })
