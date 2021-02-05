@@ -107,17 +107,4 @@ function Payment(json) {
   }
 }
 
-/**
- * Creates an empty payment object to enable gathering fees
- * @param {number} eventId
- * @param {number} userId
- */
-const paymentPlaceholder = (eventId, userId) => {
-  return new Payment({
-    id: 0,
-    event: eventId,
-    user: userId,
-  })
-}
-
-export { Payment, PaymentDetail, paymentPlaceholder, SavedCard }
+export { Payment, PaymentDetail, SavedCard }

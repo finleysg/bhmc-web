@@ -2,26 +2,26 @@ import React from "react"
 
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
-import { LoadingSpinner } from "components/spinners"
-import { useEventRegistration } from "context/registration-context"
+import { OverlaySpinner } from "components/spinners"
+import { RegistrationSteps } from "context/registration-context"
 import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
 import * as config from "utils/app-config"
 
-function SeasonEvent({ returningMember }) {
+function SeasonEventDetail({ clubEvent, onRegister }) {
   const player = usePlayer()
   const hasSignedUp = useRegistrationStatus(config.seasonEventId)
-  const { clubEvent, currentStep, startRegistration } = useEventRegistration()
+  const isReturning = useRegistrationStatus(config.previousSeasonEventId)
 
   const loading = clubEvent?.id === undefined
 
   return (
     <div className="card">
       <div className="card-body">
+        <OverlaySpinner loading={loading} />
         <h3 className="card-title text-primary">{config.currentSeason} Membership Policies</h3>
-        <LoadingSpinner loading={loading} />
         {!loading && (
           <React.Fragment>
             <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
@@ -76,7 +76,7 @@ function SeasonEvent({ returningMember }) {
                     </p>
                   </div>
                 )}
-                {!hasSignedUp && !returningMember && (
+                {!hasSignedUp && !isReturning && (
                   <div className="col-12">
                     <h6 className="text-danger">
                       As a new member, please indicate your former club (if any) in the notes
@@ -89,9 +89,9 @@ function SeasonEvent({ returningMember }) {
                 <div className="col-12">
                   <RegisterButton
                     clubEvent={clubEvent}
-                    currentStep={currentStep}
+                    currentStep={RegistrationSteps.Pending}
                     style={{ marginRight: ".5rem" }}
-                    onClick={startRegistration}
+                    onClick={onRegister}
                   />
                   <RegisteredButton clubEvent={clubEvent} style={{ marginRight: ".5rem" }} />
                 </div>
@@ -104,4 +104,4 @@ function SeasonEvent({ returningMember }) {
   )
 }
 
-export default SeasonEvent
+export default SeasonEventDetail

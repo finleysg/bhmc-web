@@ -14,7 +14,7 @@ import {
   waitForLoadingToFinish,
 } from "test/test-utils"
 
-import SeasonEvent from "../season-event"
+import SeasonEvent from "../season-event-detail"
 
 // Our authenticated user/player
 const user = buildUserWithToken({ id: 1 })

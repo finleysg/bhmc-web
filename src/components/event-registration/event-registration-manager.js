@@ -8,20 +8,33 @@ import { ReserveView } from "components/reserve/reserve-view"
 import { useEventRegistration } from "context/registration-context"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
+import { useErrorHandler } from "react-error-boundary"
 
 import { RegisterView } from "./register-view"
 
 function EventRegistrationManager({ clubEvent }) {
   const [currentView, setCurrentView] = React.useState("event-view")
   const [selectedStart, setSelectedStart] = React.useState("")
-
-  const { cancelRegistration, loadEvent, registration, startRegistration } = useEventRegistration()
+  const errorHandler = useErrorHandler()
+  const {
+    error,
+    cancelRegistration,
+    completeRegistration,
+    loadEvent,
+    registration,
+    startRegistration,
+  } = useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
-  const reserveTables = LoadReserveTables(clubEvent, slots)
+
+  const reserveTables = clubEvent.canChoose ? LoadReserveTables(clubEvent, slots) : []
 
   React.useEffect(() => {
+    if (Boolean(error)) {
+      errorHandler(error)
+    }
     loadEvent(clubEvent.id)
-  }, [loadEvent, clubEvent])
+    return () => completeRegistration()
+  }, [loadEvent, clubEvent, error, errorHandler, completeRegistration])
 
   const handleStart = () => {
     if (clubEvent.canChoose) {
@@ -48,7 +61,7 @@ function EventRegistrationManager({ clubEvent }) {
       slots: slots.map((slot) => slot.toRegistrationSlot()),
     }
     startRegistration(reg)
-    setSelectedStart(`${course.name} ${groupName}`)
+    setSelectedStart(`${clubEvent.name}: ${course.name} ${groupName}`)
     setCurrentView("register-view")
   }
 
@@ -72,7 +85,11 @@ function EventRegistrationManager({ clubEvent }) {
       <Sentry.ErrorBoundary
         fallback={<RegistrationErrorFallback resetErrorBoundary={handleReset} />}
       >
-        <RegisterView registrationSlots={slots} title={selectedStart} onCancel={handleCancel} />
+        <RegisterView
+          registrationSlots={slots}
+          selectedStart={selectedStart}
+          onCancel={handleCancel}
+        />
       </Sentry.ErrorBoundary>
     )
   }

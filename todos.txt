@@ -1,9 +1,14 @@
+stripe listen --forward-to localhost:8000/api/hooks/stripe/
+
 Home page:
 - Hole in one control with explanation of the pool
 
 Calendar:
 - Keep the current year when using the month menu
 - Change year
+
+Directory:
+- Use the player search control (retire usePlayers)
 
 Account / profile:
 - Update expired card (https://stripe.com/docs/api/payment_methods/update)

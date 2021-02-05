@@ -6,8 +6,8 @@ import { OverlaySpinner } from "components/spinners"
 import { useClubEvent } from "hooks/event-hooks"
 import * as config from "utils/app-config"
 
-function SeasonSignupPage() {
-  const clubEvent = useClubEvent({ eventId: config.seasonEventId })
+function MatchPlayPage() {
+  const clubEvent = useClubEvent({ eventId: config.seasonMatchPlayId })
   const isLoading = !Boolean(clubEvent.id)
 
   return (
@@ -21,4 +21,4 @@ function SeasonSignupPage() {
   )
 }
 
-export default SeasonSignupPage
+export default MatchPlayPage

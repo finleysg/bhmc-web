@@ -45,4 +45,4 @@ function FriendPicker({ slots, onSelect }) {
   )
 }
 
-export { FriendPicker }
+export default FriendPicker

@@ -1,9 +1,11 @@
 import React from "react"
 
+import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
-import { Payment, paymentPlaceholder } from "models/payment"
+import { Payment } from "models/payment"
 import { Registration } from "models/registration"
 import { useMutation, useQuery, useQueryClient } from "react-query"
+import * as config from "utils/app-config"
 
 import { useAuth, useClient } from "./auth-context"
 import {
@@ -49,6 +51,18 @@ function EventRegistrationProvider(props) {
   const events = useClubEvents()
   const client = useClient()
   const queryClient = useQueryClient()
+
+  // TODO: generalize (some day)
+  const isReturning = useRegistrationStatus(config.previousSeasonEventId)
+
+  const paymentPlaceholder = () => {
+    const placeholder = new Payment({
+      id: 0,
+      event: eventId,
+      user: user.id,
+    })
+    return placeholder
+  }
 
   const loadEvent = React.useCallback(
     (id) => {
@@ -137,11 +151,37 @@ function EventRegistrationProvider(props) {
     },
     {
       onSuccess: (data, variables) => {
+        // Filling in required fees
+        const placeholder = paymentPlaceholder()
+        if (state.clubEvent.id === config.seasonEventId) {
+          state.clubEvent.fees
+            .filter((f) => f.isRequired)
+            .filter((f) =>
+              isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members",
+            )
+            .forEach((fee) => {
+              console.log(`adding required fee ${fee.name}`)
+              placeholder.details.push({
+                eventFeeId: fee.id,
+                slotId: data.slots[0].id,
+              })
+            })
+        } else {
+          state.clubEvent.fees
+            .filter((f) => f.isRequired)
+            .forEach((fee) => {
+              placeholder.details.push({
+                eventFeeId: fee.id,
+                slotId: data.slots[0].id,
+              })
+            })
+        }
+
         dispatch({
           type: EventRegistrationActions.CreateRegistration,
           payload: {
             registration: new Registration(data),
-            payment: paymentPlaceholder(eventId, user.id),
+            payment: placeholder,
           },
         })
         queryClient.setQueryData(["registration", variables.eventId], data)
@@ -293,8 +333,8 @@ function EventRegistrationProvider(props) {
           onSuccess: () => callback(),
         })
       } else {
-        state.payment.notificationType = notificationType
-        createPayment(state.payment, {
+        const payment = { ...state.payment, notificationType }
+        createPayment(payment, {
           onSuccess: () => callback(),
         })
       }

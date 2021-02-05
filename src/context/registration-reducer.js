@@ -70,15 +70,6 @@ const eventRegistrationReducer = produce((draft, action) => {
       draft.registration = payload.registration
       draft.payment = payload.payment
       draft.currentStep = EventRegistrationSteps.Register
-      // add required fees
-      draft.clubEvent.fees
-        .filter((f) => f.isRequired)
-        .forEach((fee) => {
-          draft.payment.details.push({
-            eventFeeId: fee.id,
-            slotId: draft.registration.slots[0].id,
-          })
-        })
       return
     }
     case EventRegistrationActions.UpdateRegistration: {
@@ -104,7 +95,7 @@ const eventRegistrationReducer = produce((draft, action) => {
       const slotToUpdate = draft.registration.slots.find((s) => s.id === slot.id)
       slotToUpdate.playerId = player.id
       slotToUpdate.playerName = player.name
-      // add required fees
+      // TODO: this is not pure
       draft.clubEvent.fees
         .filter((f) => f.isRequired)
         .forEach((fee) => {

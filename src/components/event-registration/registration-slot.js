@@ -47,6 +47,7 @@ function RegistrationSlot({
             <EventFeeItem
               key={eventFee.id * slot.id}
               fee={eventFee}
+              playerId={slot.playerId}
               selected={hasPaymentDetail(eventFee)}
               disabled={slot.playerId === 0}
               onToggleFee={handleToggleFee}

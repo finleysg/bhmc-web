@@ -51,6 +51,29 @@ function usePlayer(playerId) {
   return player ?? new Player({ last_name: "loading..." })
 }
 
+function usePlayerEvents(playerId) {
+  const client = useClient()
+
+  const { data: playerEvents } = useQuery(
+    ["player-events", playerId],
+    () => {
+      return client(
+        `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${
+          config.currentSeason - 1
+        }`,
+      ).then((data) => {
+        if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
+        return []
+      })
+    },
+    {
+      cacheTime: 1000 * 60 * 15,
+      staleTime: 1000 * 60 * 15,
+    },
+  )
+  return playerEvents
+}
+
 function useBoardMembers() {
   const client = useClient()
   const { data: boardMembers } = useQuery(["board"], () => client("board").then((data) => data), {
@@ -171,6 +194,7 @@ export {
   usePlayer,
   usePlayerAces,
   usePlayerChampionships,
+  usePlayerEvents,
   usePlayerLowScores,
   usePlayers,
   usePlayerSearch,

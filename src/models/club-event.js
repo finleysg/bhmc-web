@@ -112,6 +112,7 @@ const sampleEvent = {
 }
 
 const loadingEvent = {
+  id: 0,
   name: "loading...",
   notes: "loading...",
   signupWindow: "loading...",
@@ -139,6 +140,7 @@ function EventFee(json) {
   this.name = json.fee_type.name
   this.code = json.fee_type.code
   this.isRequired = !!json.is_required
+  this.restriction = json.fee_type.restriction
 }
 
 /**
