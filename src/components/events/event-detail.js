@@ -2,7 +2,6 @@ import React from "react"
 
 import { EventPortalButton } from "components/button/portal-button"
 import { RegisterButton } from "components/button/register-button"
-import { RegisteredButton } from "components/button/registered-button"
 import { RegistrationSteps } from "context/registration-context"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
@@ -35,9 +34,9 @@ function EventDetail({ clubEvent }) {
           <div>
             <EventPortalButton style={{ marginLeft: ".5rem" }} clubEvent={clubEvent} />
           </div>
-          <div>
+          {/* <div>
             <RegisteredButton style={{ marginLeft: ".5rem" }} clubEvent={clubEvent} />
-          </div>
+          </div> */}
           <div>
             <RegisterButton
               style={{ marginLeft: ".5rem" }}
