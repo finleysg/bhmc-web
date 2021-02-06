@@ -251,7 +251,7 @@ function Calendar(year, monthName) {
   }
 
   this.monthNumber = getMonth(monthName)
-  this.firstDay = new Date([year, getMonth(monthName, false), 1])
+  this.firstDay = new Date(year, getMonth(monthName, true), 1)
   this.sunday = startOfWeek(this.firstDay)
   this.weeks = this.buildMonth(this.sunday, this.firstDay)
 }

@@ -42,21 +42,21 @@ const isoDayFormat = (dt) => {
   if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "yyyy-MM-dd")
   }
-  return ""
+  return "--"
 }
 
 const dayAndDateFormat = (dt) => {
   if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "iii, MMMM do")
   }
-  return ""
+  return "--"
 }
 
 const dayDateAndTimeFormat = (dt) => {
   if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "iii, MMMM do h:mm aaaa")
   }
-  return ""
+  return "--"
 }
 
 const dayNameFormat = (dt) => {
@@ -65,7 +65,7 @@ const dayNameFormat = (dt) => {
       return format(dt, "iiii")
     }
     console.log(`invalid date: ${dt}`)
-    return ""
+    return "--"
   } catch (error) {
     console.log(error)
     return getDayName(dt)
@@ -78,7 +78,7 @@ const shortDayNameFormat = (dt) => {
       return format(dt, "iii")
     }
     console.log(`invalid date: ${dt}`)
-    return ""
+    return "--"
   } catch (error) {
     console.log(error)
     return getShortDayName(dt)
@@ -89,14 +89,14 @@ const monthNameFormat = (dt) => {
   if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "MMMM")
   }
-  return ""
+  return "--"
 }
 
 const shortMonthNameFormat = (dt) => {
   if (dt && isDate(dt) && isValid(dt)) {
     return format(dt, "MMM")
   }
-  return ""
+  return "--"
 }
 
 export {
