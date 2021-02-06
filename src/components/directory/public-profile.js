@@ -5,8 +5,13 @@ import { jsx } from "@emotion/core"
 import React from "react"
 
 import clsx from "clsx"
-import { LoadingSpinner } from "components/spinners"
-import { useBoardMembers, useMembers, usePlayer, usePlayerChampionships } from "hooks/player-hooks"
+import { OverlaySpinner } from "components/spinners"
+import {
+  useBoardMembers,
+  usePlayer,
+  usePlayerChampionships,
+  usePlayerEvents,
+} from "hooks/player-hooks"
 import { MdPerson } from "react-icons/md"
 import * as colors from "styles/colors"
 import * as config from "utils/app-config"
@@ -76,11 +81,11 @@ function ChampionshipBadges({ championships }) {
 
 function PlayerProfile({ playerId }) {
   const player = usePlayer(playerId)
-  const members = useMembers()
+  const events = usePlayerEvents(playerId)
   const boardMembers = useBoardMembers()
   const championships = usePlayerChampionships(playerId)
 
-  const isMember = members.findIndex((m) => m.id === playerId) >= 0
+  const isMember = events.indexOf(config.seasonEventId) >= 0
   const boardMember = boardMembers.find((m) => m.player.id === playerId)
 
   const cardBorder = clsx({
@@ -96,42 +101,39 @@ function PlayerProfile({ playerId }) {
     "bg-blue": !isMember,
   })
 
-  if (player) {
-    return (
-      <div className={cardBorder} style={{ margin: "auto", maxWidth: "600px" }}>
-        <div className={cardHeader} style={{ display: "flex" }}>
-          <div style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem", flex: 1 }}>
-            <MdPerson style={{ fontSize: "2rem", marginRight: "1rem" }} />
-            <span>{player.name}</span>
-          </div>
-          <div style={{ color: colors.white, fontSize: "1rem" }}>
-            {boardMember && <span>{boardMember.role}</span>}
-          </div>
+  return (
+    <div className={cardBorder} style={{ margin: "auto", maxWidth: "600px" }}>
+      <OverlaySpinner loading={player.id === 0} />
+      <div className={cardHeader} style={{ display: "flex" }}>
+        <div style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem", flex: 1 }}>
+          <MdPerson style={{ fontSize: "2rem", marginRight: "1rem" }} />
+          <span>{player.name}</span>
         </div>
-        <div className="card-body">
-          <div className="row">
-            <div className="col-sm-6 col-12" style={{ marginBottom: "20px" }}>
-              <ProfileImage player={player} />
-            </div>
-            <div className="col-sm-6 col-12">
-              <PlayerDetail label="Email">
-                <a href={`mailto: ${player.email}`}>{player.email}</a>
-              </PlayerDetail>
-              <PlayerDetail label="Phone">
-                <a href={`tel: ${player.phoneNumber}`}>{player.phoneNumber}</a>
-              </PlayerDetail>
-              <PlayerDetail label="Tees">{player.tee}</PlayerDetail>
-              <BoardBadge boardMember={boardMember} />
-              <MemberBadge isMember={isMember} />
-              <ChampionshipBadges championships={championships} />
-            </div>
+        <div style={{ color: colors.white, fontSize: "1rem" }}>
+          {boardMember && <span>{boardMember.role}</span>}
+        </div>
+      </div>
+      <div className="card-body">
+        <div className="row">
+          <div className="col-sm-6 col-12" style={{ marginBottom: "20px" }}>
+            <ProfileImage player={player} />
+          </div>
+          <div className="col-sm-6 col-12">
+            <PlayerDetail label="Email">
+              <a href={`mailto: ${player.email}`}>{player.email}</a>
+            </PlayerDetail>
+            <PlayerDetail label="Phone">
+              <a href={`tel: ${player.phoneNumber}`}>{player.phoneNumber}</a>
+            </PlayerDetail>
+            <PlayerDetail label="Tees">{player.tee}</PlayerDetail>
+            <BoardBadge boardMember={boardMember} />
+            <MemberBadge isMember={isMember} />
+            <ChampionshipBadges championships={championships} />
           </div>
         </div>
       </div>
-    )
-  } else {
-    return <LoadingSpinner loading={true} />
-  }
+    </div>
+  )
 }
 
 export { PlayerProfile }

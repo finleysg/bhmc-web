@@ -17,6 +17,12 @@ function Player(json) {
   this.age2 = differenceInYears(lastDayOfYear(new Date()), this.birthDate) // age at the end of the year
   this.isFriend = false
 
+  // Available from the search endpoint and friends endpoint
+  this.canRegister = !Boolean(json.event_status) // depends on event id passed on api request
+  this.isMember = json.member_status === "R"
+  this.isReturningMember = json.returning_member_status === "R"
+
+  // Available only on the players endpoint
   this.imageUrl = () => {
     if (!json.profile_picture) {
       return undefined

@@ -22,7 +22,6 @@ function RegisterView({ registrationSlots, selectedStart, onCancel }) {
     currentStep,
     cancelRegistration,
     updateStep,
-    completeRegistration,
     addPlayer,
   } = useEventRegistration()
 
@@ -66,8 +65,7 @@ function RegisterView({ registrationSlots, selectedStart, onCancel }) {
     <div className="row">
       <div className="col-12 col-md-6">
         {currentStep === EventRegistrationSteps.Register && (
-          <React.Fragment>
-            {showPickers && <PeoplePicker allowNew={false} onSelect={handlePlayerSelect} />}
+          <div>
             <RegistrationForm
               layout={layout}
               title={EventRegistrationSteps.Register.title}
@@ -75,7 +73,15 @@ function RegisterView({ registrationSlots, selectedStart, onCancel }) {
               onCancel={setShowConfirm}
               onComplete={() => updateStep(EventRegistrationSteps.Review)}
             />
-          </React.Fragment>
+            {showPickers && (
+              <PeoplePicker
+                style={{ position: "absolute", top: "12px", right: "30px" }}
+                allowNew={false}
+                clubEvent={clubEvent}
+                onSelect={handlePlayerSelect}
+              />
+            )}
+          </div>
         )}
         {currentStep === EventRegistrationSteps.Review && (
           <RegistrationConfirm

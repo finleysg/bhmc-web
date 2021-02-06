@@ -9,8 +9,7 @@ import { getAmountDue } from "utils/payment-utils"
 import RegistrationAmountDue from "./registration-amount-due"
 import RegistrationGroup from "./registration-group"
 
-function RegistrationForm(props) {
-  const { onCancel, onComplete, selectedStart, title, layout } = props
+function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, ...rest }) {
   const {
     clubEvent,
     error,
@@ -41,7 +40,7 @@ function RegistrationForm(props) {
   }
 
   return (
-    <div className="card border border-success">
+    <div className="card border border-success" {...rest}>
       <div className="card-header bg-success">
         <span className="registration-title">{title}</span>
       </div>
