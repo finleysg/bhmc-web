@@ -30,7 +30,7 @@ function AuthProvider(props) {
   const loadUser = React.useCallback(async () => {
     const user = await auth.getUser()
     if (user.token) {
-      const players = await client(`players/?email=${user.email}`)
+      const players = await client(`players/?email=${user.email}`, { token: user.token })
       queryClient.setQueryData("player", players[0])
     }
     return user

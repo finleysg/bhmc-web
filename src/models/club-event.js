@@ -1,4 +1,4 @@
-import { addDays, isWithinInterval, parseISO } from "date-fns"
+import { addDays, isWithinInterval, parse } from "date-fns"
 import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
 
 const mapRegistrationType = (code) => {
@@ -158,7 +158,7 @@ function ClubEvent(json) {
   this.signupEnd = new Date(json.signup_end)
   this.skinsType = mapSkinsType(json.skins_type)
   this.skinsTypeCode = json.skins_type
-  this.startDate = parseISO(json.start_date)
+  this.startDate = parse(json.start_date, "yyyy-MM-dd", new Date())
   this.startTime = json.start_time
   this.startType = mapStartType(json.start_type)
   this.startTypeCode = json.start_type
@@ -168,7 +168,7 @@ function ClubEvent(json) {
 
   // derived properties
   if (this.rounds <= 1) {
-    this.endDate = parseISO(json.start_date)
+    this.endDate = parse(json.start_date, "yyyy-MM-dd", new Date())
   } else {
     this.endDate = addDays(this.startDate, this.rounds - 1)
   }
