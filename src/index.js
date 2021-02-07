@@ -6,11 +6,11 @@ import React from "react"
 import ReactDOM from "react-dom"
 
 import { AppProviders } from "context"
+import AdminLayout from "layout/admin-layout"
+import AuthLayout from "layout/auth-layout"
+import MainLayout from "layout/main-layout"
 import { Route, Routes } from "react-router-dom"
 import * as config from "utils/app-config"
-
-import AuthLayout from "./layout/auth-layout"
-import MainLayout from "./layout/main-layout"
 
 // import reportWebVitals from "./reportWebVitals"
 Sentry.init({
@@ -25,6 +25,7 @@ ReactDOM.render(
     <AppProviders>
       <Routes>
         <Route path="*" element={<MainLayout />} />
+        <Route path="admin/*" element={<AdminLayout />} />
         <Route path="session/*" element={<AuthLayout />} />
       </Routes>
     </AppProviders>

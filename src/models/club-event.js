@@ -214,4 +214,4 @@ function ClubEvent(json) {
   }
 }
 
-export { ClubEvent, EventFee, loadingEvent, sampleEvent }
+export { ClubEvent, EventFee, loadingEvent, sampleEvent, slugify }

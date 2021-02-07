@@ -8,7 +8,6 @@ import EventDetailPage from "pages/event-detail-page"
 import HomePage from "pages/home-page"
 import MatchPlaySignupPage from "pages/match-play-signup-page"
 import { NotFoundScreen } from "pages/not-found"
-import PaymentTestPage from "pages/payment-test-page"
 import PlayerProfilePage from "pages/player-profile-page"
 import PolicyPage from "pages/policy-page"
 import ResultsPage from "pages/results-page"
@@ -43,7 +42,6 @@ const mainRoutes = (user) => [
   { path: "/about-us", element: <AboutPage /> },
   { path: "/my-account", element: <AccountScreen /> },
   { path: "/settings", element: <SettingsPage /> },
-  { path: "/payment-test", element: <PaymentTestPage /> },
   { path: "*", element: <NotFoundScreen /> },
 ]
 
