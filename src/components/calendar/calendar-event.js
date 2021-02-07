@@ -16,6 +16,8 @@ function CalendarEvent({ clubEvent }) {
     }
   }
 
+  const showStartType = startType === "Shotgun" || startType === "Tee Times"
+
   return (
     <React.Fragment>
       {externalUrl ? (
@@ -27,7 +29,7 @@ function CalendarEvent({ clubEvent }) {
           <div className={`calendar-event ${eventTypeClass}`}>
             <p>{name}</p>
             <p>
-              {startTime} {startType}
+              {startTime} {showStartType && startType}
             </p>
           </div>
         </Link>
