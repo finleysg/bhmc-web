@@ -91,7 +91,7 @@ function PlayerRow(props) {
 
 function PlayerSearch(props) {
   const [results, updateResults] = React.useState([])
-  const friends = useFriends()
+  const friends = useFriends({ eventId: 0 })
   const client = useClient()
 
   const searchPlayers = React.useCallback(

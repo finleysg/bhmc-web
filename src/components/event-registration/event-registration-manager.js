@@ -85,11 +85,7 @@ function EventRegistrationManager({ clubEvent }) {
       <Sentry.ErrorBoundary
         fallback={<RegistrationErrorFallback resetErrorBoundary={handleReset} />}
       >
-        <RegisterView
-          registrationSlots={slots}
-          selectedStart={selectedStart}
-          onCancel={handleCancel}
-        />
+        <RegisterView selectedStart={selectedStart} onCancel={handleCancel} />
       </Sentry.ErrorBoundary>
     )
   }

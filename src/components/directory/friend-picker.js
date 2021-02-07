@@ -5,11 +5,8 @@ import * as colors from "styles/colors"
 
 import FriendCard from "./friend-card"
 
-function FriendPicker({ slots, onSelect }) {
-  const friends = useFriends()
-  const isRegistered = (friend) => {
-    return slots.some((slot) => friend.id === slot?.player?.id)
-  }
+function FriendPicker({ clubEvent, onSelect }) {
+  const friends = useFriends({ eventId: clubEvent.id })
 
   return (
     <div className="card card border border-primary">
@@ -27,12 +24,12 @@ function FriendPicker({ slots, onSelect }) {
         )}
         {Boolean(friends?.length) && (
           <React.Fragment>
-            {friends.map((f) => {
+            {friends.map((friend) => {
               return (
                 <FriendCard
-                  key={f.id}
-                  friend={f}
-                  registered={isRegistered(f)}
+                  key={friend.id}
+                  friend={friend}
+                  clubEvent={clubEvent}
                   onSelect={onSelect}
                 />
               )

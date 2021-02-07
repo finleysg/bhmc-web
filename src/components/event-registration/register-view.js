@@ -8,13 +8,14 @@ import FriendPicker from "components/directory/friend-picker"
 import PeoplePicker from "components/directory/people-picker"
 import { useEventRegistration } from "context/registration-context"
 import { EventRegistrationSteps } from "context/registration-reducer"
+import { useAddFriend } from "hooks/account-hooks"
 
 import RegistrationComplete from "./registration-complete"
 import RegistrationConfirm from "./registration-confirm"
 import RegistrationForm from "./registration-form"
 import RegistrationPayment from "./registration-payment"
 
-function RegisterView({ registrationSlots, selectedStart, onCancel }) {
+function RegisterView({ selectedStart, onCancel }) {
   const {
     clubEvent,
     error, // TODO: add conflict object for 409s
@@ -24,6 +25,7 @@ function RegisterView({ registrationSlots, selectedStart, onCancel }) {
     updateStep,
     addPlayer,
   } = useEventRegistration()
+  const { mutate: addFriend } = useAddFriend()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
   const cancelRef = React.useRef()
@@ -46,8 +48,8 @@ function RegisterView({ registrationSlots, selectedStart, onCancel }) {
   const handlePlayerSelect = (player) => {
     const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
     if (Boolean(slot)) {
-      // TODO: add to friends list
       addPlayer(slot, player)
+      addFriend(player.id)
     }
   }
 
@@ -118,7 +120,7 @@ function RegisterView({ registrationSlots, selectedStart, onCancel }) {
       </div>
       {showPickers && (
         <div className="col-12 col-md-3">
-          <FriendPicker slots={registrationSlots} onSelect={handleFriendSelect} />
+          <FriendPicker clubEvent={clubEvent} onSelect={handleFriendSelect} />
         </div>
       )}
     </div>

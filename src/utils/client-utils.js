@@ -36,6 +36,9 @@ const parseError = (error) => {
   if (error.non_field_errors) {
     return error.non_field_errors[0]
   }
+  if (error.detail) {
+    return error.detail
+  }
   return JSON.stringify(error)
 }
 

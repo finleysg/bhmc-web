@@ -7,7 +7,7 @@ import { AsyncTypeahead } from "react-bootstrap-typeahead"
 const playerFilter = (clubEvent, players) => {
   if (clubEvent && clubEvent.id) {
     return players
-      .filter((p) => p.event_status !== null)
+      .filter((p) => p.event_status === null)
       .filter((p) =>
         clubEvent.registrationType === "Members Only" ? p.member_status === "R" : true,
       )

@@ -257,11 +257,14 @@ function EventRegistrationProvider(props) {
     },
     {
       onSettled: () => {
-        queryClient.invalidateQueries("registration", { refetchActive: false })
         if (state.payment?.id) {
           deletePayment(state.payment.id)
         }
         dispatch({ type: EventRegistrationActions.CancelRegistration })
+        queryClient.invalidateQueries("registration", { refetchActive: false })
+        queryClient.invalidateQueries(["event-registrations", eventId])
+        queryClient.invalidateQueries(["event-registration-slots", eventId])
+        queryClient.invalidateQueries(["friends", eventId])
       },
     },
   )
@@ -369,11 +372,12 @@ function EventRegistrationProvider(props) {
         {
           onSettled: () => {
             dispatch({ type: EventRegistrationActions.AddPlayer, payload: { slot, player } })
+            queryClient.invalidateQueries(["friends", eventId])
           },
         },
       )
     },
-    [updateRegistrationSlotPlayer],
+    [updateRegistrationSlotPlayer, queryClient, eventId],
   )
 
   const removePlayer = React.useCallback(

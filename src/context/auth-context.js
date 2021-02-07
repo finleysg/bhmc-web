@@ -53,16 +53,6 @@ function AuthProvider(props) {
   )
 
   const logout = React.useCallback(async () => {
-    // return auth
-    //   .logout()
-    //   .then(() => {
-    //     queryClient.clear()
-    //     setData(null)
-    //   })
-    //   .then(() => {
-    //     navigate("home")
-    //     window.location.assign(window.location)
-    //   })
     await auth.logout()
     queryClient.clear()
     setData({ is_authenticated: false })

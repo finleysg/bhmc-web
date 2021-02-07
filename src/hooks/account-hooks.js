@@ -121,15 +121,19 @@ function usePlayerProfilePic() {
   })
 }
 
-function useFriends() {
+function useFriends({ eventId }) {
   const client = useClient()
   const player = usePlayer()
 
   const { data: players } = useQuery(
-    ["friends"],
-    () => client(`friends/${player.id}`).then((data) => data.map((p) => new Player(p))),
+    ["friends", eventId],
+    () =>
+      client(`friends/${player.id}/?event_id=${eventId}`).then((data) =>
+        data.map((p) => new Player(p)),
+      ),
     {
-      cacheTime: Infinity,
+      cacheTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 5,
     },
   )
 
@@ -149,7 +153,7 @@ function useAddFriend() {
         toast.error("💣 Aww, Snap! Failed to update your friends list.")
       },
       onSuccess: () => {
-        queryClient.invalidateQueries("friends")
+        queryClient.invalidateQueries(["friends"])
       },
     },
   )
@@ -168,7 +172,7 @@ function useRemoveFriend() {
         toast.error("💣 Aww, Snap! Failed to update your friends list.")
       },
       onSuccess: () => {
-        queryClient.invalidateQueries("friends")
+        queryClient.invalidateQueries(["friends"])
       },
     },
   )

@@ -20,10 +20,10 @@ function RegistrationSlotReview({ slot, paymentDetails, fees }) {
         display: "flex",
         marginBottom: ".5rem",
         padding: ".5rem",
-        backgroundColor: colors.gray100,
+        borderBottom: `1px dotted ${colors.gray200}`,
       }}
     >
-      <div style={{ flex: 1, fontWeight: "bold" }}>{slot.playerName}</div>
+      <div style={{ flex: 1, color: colors.teal }}>{slot.playerName}</div>
       <div style={{ flex: 1, textAlign: "right" }}>
         {paymentDetails &&
           paymentDetails
