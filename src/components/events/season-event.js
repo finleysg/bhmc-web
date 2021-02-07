@@ -1,5 +1,6 @@
 import React from "react"
 
+import { AdminLink } from "components/button/admin-button"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
 import { LoadingSpinner } from "components/spinners"
@@ -19,6 +20,7 @@ function SeasonEvent({ returningMember }) {
 
   return (
     <div className="card">
+      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
       <div className="card-body">
         <h3 className="card-title text-primary">{config.currentSeason} Membership Policies</h3>
         <LoadingSpinner loading={loading} />

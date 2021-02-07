@@ -174,6 +174,7 @@ function ClubEvent(json) {
   }
   this.eventTypeClass = mapEventType(json.event_type).toLowerCase().replace(" ", "-")
   this.eventUrl = `/event/${isoDayFormat(this.startDate)}/${slugify(json.name)}`
+  this.adminUrl = `/admin/event/${this.id}`
   this.slugName = slugify(json.name)
   this.slugDate = isoDayFormat(this.startDate)
   this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(

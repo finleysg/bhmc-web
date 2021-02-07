@@ -1,5 +1,6 @@
 import React from "react"
 
+import { AdminLink } from "components/button/admin-button"
 import { Link } from "react-router-dom"
 import * as config from "utils/app-config"
 
@@ -31,6 +32,7 @@ function CalendarEvent({ clubEvent }) {
             <p>
               {startTime} {showStartType && startType}
             </p>
+            <AdminLink to={clubEvent.adminUrl} label="Event administration home" />
           </div>
         </Link>
       )}

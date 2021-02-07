@@ -1,5 +1,6 @@
 import React from "react"
 
+import { AdminLink } from "components/button/admin-button"
 import { EventPortalButton } from "components/button/portal-button"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
@@ -15,6 +16,7 @@ function MatchPlayEvent() {
 
   return (
     <div className="card">
+      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
       <div className="card-body">
         <h4 className="card-title text-primary">Match Play Rules and Information</h4>
         <LoadingSpinner loading={loading} />
