@@ -1,4 +1,4 @@
-import { addDays, isWithinInterval, parseISO } from "date-fns"
+import { addDays, isWithinInterval, parse } from "date-fns"
 import { immerable } from "immer"
 import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
 
@@ -178,7 +178,7 @@ function ClubEvent(json) {
   this.signupEnd = new Date(json.signup_end)
   this.skinsType = mapSkinsType(json.skins_type)
   this.skinsTypeCode = json.skins_type
-  this.startDate = parseISO(json.start_date)
+  this.startDate = parse(json.start_date, "yyyy-MM-dd", new Date())
   this.startTime = json.start_time
   this.startType = mapStartType(json.start_type)
   this.startTypeCode = json.start_type
@@ -188,12 +188,13 @@ function ClubEvent(json) {
 
   // derived properties
   if (this.rounds <= 1) {
-    this.endDate = parseISO(json.start_date)
+    this.endDate = parse(json.start_date, "yyyy-MM-dd", new Date())
   } else {
     this.endDate = addDays(this.startDate, this.rounds - 1)
   }
   this.eventTypeClass = mapEventType(json.event_type).toLowerCase().replace(" ", "-")
   this.eventUrl = `/event/${isoDayFormat(this.startDate)}/${slugify(json.name)}`
+  this.adminUrl = `/admin/event/${this.id}`
   this.slugName = slugify(json.name)
   this.slugDate = isoDayFormat(this.startDate)
   this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(
@@ -234,4 +235,4 @@ function ClubEvent(json) {
   //   }
 }
 
-export { ClubEvent, EventFee, loadingEvent, sampleEvent }
+export { ClubEvent, EventFee, loadingEvent, sampleEvent, slugify }

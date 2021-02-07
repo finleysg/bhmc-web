@@ -1,5 +1,6 @@
 import React from "react"
 
+import { AdminLink } from "components/button/admin-button"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
 import { OverlaySpinner } from "components/spinners"
@@ -19,6 +20,7 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
 
   return (
     <div className="card">
+      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
       <div className="card-body">
         <OverlaySpinner loading={loading} />
         <h3 className="card-title text-primary">{config.currentSeason} Membership Policies</h3>

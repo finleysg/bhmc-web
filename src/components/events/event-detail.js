@@ -1,5 +1,6 @@
 import React from "react"
 
+import { AdminLink } from "components/button/admin-button"
 import { EventPortalButton } from "components/button/portal-button"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
@@ -48,6 +49,7 @@ function EventDetail({ clubEvent, onRegister }) {
   // TODO: separate line for action buttons on mobile
   return (
     <div className="card">
+      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
       <div className="card-body">
         <OverlaySpinner loading={!clubEvent?.id} />
         <EventActionButtons clubEvent={clubEvent} onRegister={onRegister} />

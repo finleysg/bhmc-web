@@ -1,10 +1,11 @@
 import React from "react"
 
+import { AdminLink } from "components/button/admin-button"
 import { Link } from "react-router-dom"
 import * as config from "utils/app-config"
 
 function CalendarEvent({ clubEvent }) {
-  const { name, eventTypeClass, externalUrl } = clubEvent
+  const { name, eventTypeClass, externalUrl, startTime, startType } = clubEvent
 
   const eventUrl = () => {
     if (clubEvent.id === config.seasonEventId) {
@@ -16,6 +17,8 @@ function CalendarEvent({ clubEvent }) {
     }
   }
 
+  const showStartType = startType === "Shotgun" || startType === "Tee Times"
+
   return (
     <React.Fragment>
       {externalUrl ? (
@@ -24,7 +27,13 @@ function CalendarEvent({ clubEvent }) {
         </a>
       ) : (
         <Link to={eventUrl()}>
-          <div className={`calendar-event ${eventTypeClass}`}>{name}</div>
+          <div className={`calendar-event ${eventTypeClass}`}>
+            <p>{name}</p>
+            <p>
+              {startTime} {showStartType && startType}
+            </p>
+            <AdminLink to={clubEvent.adminUrl} label="Event administration home" />
+          </div>
         </Link>
       )}
     </React.Fragment>

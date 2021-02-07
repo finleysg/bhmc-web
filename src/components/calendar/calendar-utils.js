@@ -1,13 +1,13 @@
 import {
   addDays,
   addMonths,
-  format,
   isSameDay,
   isSameMonth,
   isWithinInterval,
   startOfWeek,
   subMonths,
 } from "date-fns"
+import { dayNameFormat, monthNameFormat, shortDayNameFormat } from "utils/event-utils"
 
 function getMonth(name, zeroBased = true) {
   let m = 0
@@ -124,8 +124,8 @@ function getMonthName(nbr, zeroBased = true) {
  * @param {Date} date - The date as a javascript date.
  */
 function Day(date) {
-  this.name = format(date, "iiii")
-  this.shortName = format(date, "iii")
+  this.name = dayNameFormat(date)
+  this.shortName = shortDayNameFormat(date)
   this.day = date.getDate() // parseInt(date.format("D"), 10)
   //   this.isCurrentMonth = date.month() === currentMonthNumber
   this.isToday = isSameDay(date, new Date())
@@ -224,7 +224,7 @@ function Calendar(year, monthName) {
   this.thisMonth = () => {
     return {
       year: this.firstDay.getFullYear(),
-      month: format(this.firstDay, "MMMM"),
+      month: monthNameFormat(this.firstDay),
     }
   }
 
@@ -235,7 +235,7 @@ function Calendar(year, monthName) {
     const nextMonth = addMonths(this.firstDay, 1)
     return {
       year: nextMonth.getFullYear(),
-      month: format(nextMonth, "MMMM"),
+      month: monthNameFormat(nextMonth),
     }
   }
 
@@ -246,12 +246,12 @@ function Calendar(year, monthName) {
     const lastMonth = subMonths(this.firstDay, 1)
     return {
       year: lastMonth.getFullYear(),
-      month: format(lastMonth, "MMMM"),
+      month: monthNameFormat(lastMonth),
     }
   }
 
   this.monthNumber = getMonth(monthName)
-  this.firstDay = new Date([year, getMonth(monthName, false), 1])
+  this.firstDay = new Date(year, getMonth(monthName, true), 1)
   this.sunday = startOfWeek(this.firstDay)
   this.weeks = this.buildMonth(this.sunday, this.firstDay)
 }

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { format } from "date-fns"
+import { dayDateAndTimeFormat } from "utils/event-utils"
 
 import { CalendarEvent } from "./calendar-event"
 
@@ -16,7 +16,7 @@ function CalendarDay({ day, currentMonthNbr }) {
   return (
     <li className={dayClasses()}>
       <div className="date hidden-xs-down">{day.day}</div>
-      <div className="date hidden-sm-up">{format(day.date, "iiii, MMMM do")}</div>
+      <div className="date hidden-sm-up">{dayDateAndTimeFormat(day.date)}</div>
       {day.hasEvents() &&
         day.events.map((evt) => {
           return <CalendarEvent key={evt.id} clubEvent={evt} />

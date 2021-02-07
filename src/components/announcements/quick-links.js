@@ -5,7 +5,7 @@ function QuickLinks() {
     <div className="listview listview--hover">
       <a
         className="listview__item"
-        href="https://bookit.activegolf.com/book-bunker-hills-gc-tee-times/1114"
+        href="https://foreupsoftware.com/index.php/booking/20252/4106#/teetimes"
         rel="noreferrer"
         target="_blank"
       >

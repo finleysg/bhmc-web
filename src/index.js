@@ -2,16 +2,18 @@ import "./bootstrap"
 
 import * as Sentry from "@sentry/react"
 
-import React from "react"
+import React, { Suspense } from "react"
 import ReactDOM from "react-dom"
 
+import { FullPageSpinner } from "components/spinners"
 import { AppProviders } from "context"
 import { enableMapSet } from "immer"
 import { Route, Routes } from "react-router-dom"
 import * as config from "utils/app-config"
 
-import AuthLayout from "./layout/auth-layout"
-import MainLayout from "./layout/main-layout"
+const MainLayout = React.lazy(() => import("./layout/main-layout"))
+const AdminLayout = React.lazy(() => import("./layout/admin-layout"))
+const AuthLayout = React.lazy(() => import("./layout/auth-layout"))
 
 // import reportWebVitals from "./reportWebVitals"
 if (config.currentEnvironment === "production") {
@@ -28,10 +30,13 @@ enableMapSet()
 ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
-      <Routes>
-        <Route path="*" element={<MainLayout />} />
-        <Route path="session/*" element={<AuthLayout />} />
-      </Routes>
+      <Suspense fallback={<FullPageSpinner />}>
+        <Routes>
+          <Route path="*" element={<MainLayout />} />
+          <Route path="admin/*" element={<AdminLayout />} />
+          <Route path="session/*" element={<AuthLayout />} />
+        </Routes>
+      </Suspense>
     </AppProviders>
   </React.StrictMode>,
   document.getElementById("root"),

@@ -12,7 +12,7 @@
 
   header {
     height: 180px;
-    background-image: url("../../assets/img/ThreeNorthTee.png");
+    background-image: url("../../assets/img/ThreeNorthTee.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
@@ -90,6 +90,7 @@
 
 .calendar-event {
   clear: both;
+  position: relative;
   display: block;
   font-size: 0.9rem;
   padding: 0.4rem;
@@ -121,10 +122,10 @@
     color: $indigo;
   }
   &.external-event {
-    background-color: $light-green;
-    a {
-      color: $gray-700;
-    }
+    background-color: $blue-grey;
+  }
+  &.invitational {
+    background-color: $green;
   }
   &.other {
     background-color: $light-blue;
@@ -134,6 +135,9 @@
   }
   a {
     text-decoration: none;
+  }
+  p {
+    margin: 0;
   }
 }
 

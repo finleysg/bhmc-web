@@ -4,8 +4,6 @@ Home page:
 - Hole in one control with explanation of the pool
 
 Calendar:
-- Keep the current year when using the month menu
-- Change year
 
 Directory:
 - Use the player search control (retire usePlayers)
@@ -66,6 +64,7 @@ General:
 - Don't constrain width (as much, at least)
 - Policy review
 - Review and fix issues captured by sentry
+- Review and fix rendering issues (polypane)
 
 Administration:
 - Add announcement
