@@ -5,7 +5,14 @@ import * as config from "utils/app-config"
 
 import SeasonEventDetail from "./season-event-detail"
 
-function EventView({ clubEvent, onRegister }) {
+function EventView({ clubEvent, openings, onRegister }) {
+  const getOpenings = () => {
+    if (openings === undefined) {
+      return clubEvent.availableSpots()
+    }
+    return openings
+  }
+
   return (
     <div className="row">
       <div className="col-md-8">
@@ -17,7 +24,7 @@ function EventView({ clubEvent, onRegister }) {
         )}
       </div>
       <div className="col-md-4">
-        <FeesAndPoints clubEvent={clubEvent} />
+        <FeesAndPoints clubEvent={clubEvent} openings={getOpenings()} />
         <EventDocuments clubEvent={clubEvent} />
       </div>
     </div>

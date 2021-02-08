@@ -23,6 +23,16 @@ function EventRegistrationManager({ clubEvent }) {
   } = useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
 
+  const openings = () => {
+    if (clubEvent.canChoose) {
+      const filled = slots?.filter((s) => s.status !== "A")?.length ?? 0
+      return slots?.length - filled
+    } else {
+      const filled = slots?.filter((s) => s.status === "R")?.length ?? 0
+      return clubEvent.registrationMaximum - filled
+    }
+  }
+
   const reserveTables = clubEvent.canChoose ? LoadReserveTables(clubEvent, slots) : []
 
   React.useEffect(() => {
@@ -81,7 +91,7 @@ function EventRegistrationManager({ clubEvent }) {
   }
 
   if (currentView === "event-view") {
-    return <EventView clubEvent={clubEvent} onRegister={handleStart} />
+    return <EventView clubEvent={clubEvent} openings={openings()} onRegister={handleStart} />
   } else if (currentView === "reserve-view") {
     return <ReserveView reserveTables={reserveTables} onReserve={handleReserve} />
   } else if (currentView === "register-view") {

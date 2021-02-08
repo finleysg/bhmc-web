@@ -1,4 +1,7 @@
-function FeesAndPoints({ clubEvent }) {
+function FeesAndPoints({ clubEvent, openings }) {
+  const showAvailableSpots =
+    clubEvent.registrationType !== "None" && clubEvent.registrationWindow !== "past"
+
   return (
     <div className="card">
       <div className="card-body">
@@ -17,6 +20,11 @@ function FeesAndPoints({ clubEvent }) {
           <p>
             <strong>Season long points:</strong> {clubEvent.seasonPoints ?? 0}
           </p>
+          {showAvailableSpots && (
+            <p style={{ marginTop: "1rem" }}>
+              <strong>Spots available:</strong> {openings}
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -67,6 +67,8 @@ const mapEventType = (code) => {
       return "Deadline"
     case "P":
       return "Open Event"
+    case "I":
+      return "Invitational"
     default:
       return "Unknown"
   }
@@ -217,22 +219,25 @@ function ClubEvent(json) {
     return this.startDate.getFullYear() === year && this.startDate.getMonth() === month
   }
 
-  //   /**
-  //    * Returns the event fees that match the given payment record
-  //    * @param {Payment} payment
-  //    * @param {boolean} optional - Return only optional fees
-  //    */
-  //   this.selectedFees = (payment, optional = true) => {
-  //     if (this.fees) {
-  //       const selectedIds = payment?.details.map((p) => p.eventFeeId)
-  //       if (!selectedIds || selectedIds.length === 0) return []
-  //       return this.fees
-  //         .filter((fee) => selectedIds.indexOf(fee.id) >= 0)
-  //         .filter((fee) => fee.isRequired === !optional)
-  //     } else {
-  //       return []
-  //     }
-  //   }
+  /**
+   * Returns the number of available spots, without
+   * regard to existing or ongoinng registrations.
+   */
+  this.availableSpots = () => {
+    if (this.registrationType === "None") {
+      return null
+    }
+    if (this.canChoose) {
+      if (this.startType === "Shotgun") {
+        const holes = this.courses[0]?.numberOfHoles
+        return 2 * this.groupSize * (this.courses.length * holes)
+      } else {
+        return this.groupSize * this.totalGroups * this.courses.length
+      }
+    } else {
+      return this.registrationMaximum
+    }
+  }
 }
 
 export { ClubEvent, EventFee, loadingEvent, sampleEvent, slugify }
