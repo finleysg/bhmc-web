@@ -8,11 +8,7 @@ function EventDocuments({ clubEvent }) {
   const documents = useEventDocuments(clubEvent?.id)
 
   return (
-    <DocumentList
-      documents={documents}
-      title="Event Documents"
-      noResultMessage="No tee times or results have been uploaded."
-    />
+    <DocumentList documents={documents} title="Event Documents" noResultMessage="No files yet." />
   )
 }
 

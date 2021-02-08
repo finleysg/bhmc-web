@@ -18,7 +18,6 @@ import RegistrationPayment from "./registration-payment"
 function RegisterView({ selectedStart, onCancel }) {
   const {
     clubEvent,
-    error, // TODO: add conflict object for 409s
     registration,
     currentStep,
     cancelRegistration,
@@ -109,7 +108,6 @@ function RegisterView({ selectedStart, onCancel }) {
             selectedStart={selectedStart}
           />
         )}
-
         {showConfirm && (
           <StandardConfirmDialog
             confirmRef={cancelRef}

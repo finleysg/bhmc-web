@@ -1,40 +1,45 @@
-import * as Sentry from "@sentry/react"
-
 import React from "react"
 
-import { RegistrationErrorFallback } from "components/errors"
 import { EventView } from "components/events/event-view"
 import { ReserveView } from "components/reserve/reserve-view"
 import { useEventRegistration } from "context/registration-context"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
-import { useErrorHandler } from "react-error-boundary"
+import { toast } from "react-toastify"
 
 import { RegisterView } from "./register-view"
 
 function EventRegistrationManager({ clubEvent }) {
   const [currentView, setCurrentView] = React.useState("event-view")
   const [selectedStart, setSelectedStart] = React.useState("")
-  const errorHandler = useErrorHandler()
   const {
     error,
     cancelRegistration,
     completeRegistration,
+    createRegistration,
+    resetRegistration,
     loadEvent,
     registration,
-    startRegistration,
   } = useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
 
   const reserveTables = clubEvent.canChoose ? LoadReserveTables(clubEvent, slots) : []
 
   React.useEffect(() => {
-    if (Boolean(error)) {
-      errorHandler(error)
-    }
     loadEvent(clubEvent.id)
     return () => completeRegistration()
-  }, [loadEvent, clubEvent, error, errorHandler, completeRegistration])
+  }, [loadEvent, clubEvent, completeRegistration])
+
+  React.useEffect(() => {
+    if (Boolean(error)) {
+      toast.error(`💥 Aww, snap! ${error}`, {
+        position: "top-right",
+        closeOnClick: true,
+        autoClose: 5000,
+      })
+      resetRegistration()
+    }
+  }, [error, resetRegistration])
 
   const handleStart = () => {
     if (clubEvent.canChoose) {
@@ -48,9 +53,12 @@ function EventRegistrationManager({ clubEvent }) {
         eventId: clubEvent.id,
         slots: [],
       }
-      startRegistration(reg)
-      setSelectedStart(clubEvent.name)
-      setCurrentView("register-view")
+      createRegistration(reg, {
+        onSuccess: () => {
+          setSelectedStart(clubEvent.name)
+          setCurrentView("register-view")
+        },
+      })
     }
   }
 
@@ -60,20 +68,16 @@ function EventRegistrationManager({ clubEvent }) {
       courseId: course.id,
       slots: slots.map((slot) => slot.toRegistrationSlot()),
     }
-    startRegistration(reg)
-    setSelectedStart(`${clubEvent.name}: ${course.name} ${groupName}`)
-    setCurrentView("register-view")
+    createRegistration(reg, {
+      onSuccess: () => {
+        setSelectedStart(`${clubEvent.name}: ${course.name} ${groupName}`)
+        setCurrentView("register-view")
+      },
+    })
   }
 
   const handleCancel = () => {
     setCurrentView("event-view")
-  }
-
-  const handleReset = () => {
-    if (registration && registration.id) {
-      cancelRegistration(registration.id)
-    }
-    window.location.assign(window.location)
   }
 
   if (currentView === "event-view") {
@@ -81,13 +85,7 @@ function EventRegistrationManager({ clubEvent }) {
   } else if (currentView === "reserve-view") {
     return <ReserveView reserveTables={reserveTables} onReserve={handleReserve} />
   } else if (currentView === "register-view") {
-    return (
-      <Sentry.ErrorBoundary
-        fallback={<RegistrationErrorFallback resetErrorBoundary={handleReset} />}
-      >
-        <RegisterView selectedStart={selectedStart} onCancel={handleCancel} />
-      </Sentry.ErrorBoundary>
-    )
+    return <RegisterView selectedStart={selectedStart} onCancel={handleCancel} />
   }
 }
 

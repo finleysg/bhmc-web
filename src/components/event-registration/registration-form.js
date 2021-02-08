@@ -1,6 +1,5 @@
 import React from "react"
 
-import { ErrorDisplay } from "components/errors"
 import { OverlaySpinner } from "components/spinners"
 import { useEventRegistration } from "context/registration-context"
 import debounceFn from "debounce-fn"
@@ -12,7 +11,6 @@ import RegistrationGroup from "./registration-group"
 function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, ...rest }) {
   const {
     clubEvent,
-    error,
     registration,
     payment,
     updateRegistration,
@@ -49,9 +47,9 @@ function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, 
         <h4 className="card-title text-success">{selectedStart}</h4>
         <RegistrationGroup eventFees={clubEvent.fees} layout={layout} />
         <RegistrationAmountDue amountDue={amountDue} />
-        <div>
+        {/* <div>
           <ErrorDisplay error={error} isError={Boolean(error)} />
-        </div>
+        </div> */}
         <hr />
         <div className="row">
           <div className="col-12">

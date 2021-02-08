@@ -39,7 +39,11 @@ const parseError = (error) => {
   if (error.detail) {
     return error.detail
   }
-  return JSON.stringify(error)
+  try {
+    return JSON.stringify(error)
+  } catch (err) {
+    return "Server error"
+  }
 }
 
 export { apiUrl, authUrl, parseError, serverUrl }

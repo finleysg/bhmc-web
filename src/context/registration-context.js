@@ -8,11 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import * as config from "utils/app-config"
 
 import { useAuth, useClient } from "./auth-context"
-import {
-  EventRegistrationActions,
-  eventRegistrationReducer,
-  EventRegistrationSteps,
-} from "./registration-reducer"
+import { EventRegistrationActions, eventRegistrationReducer } from "./registration-reducer"
 
 const RegistrationSteps = {
   Pending: {
@@ -105,7 +101,8 @@ function EventRegistrationProvider(props) {
           })
         }
       },
-      onError: (error) => dispatch({ type: EventRegistrationActions.UpdateError, payload: error }),
+      onError: (error) =>
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
     },
   )
 
@@ -135,7 +132,8 @@ function EventRegistrationProvider(props) {
           dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
         }
       },
-      onError: (error) => dispatch({ type: EventRegistrationActions.UpdateError, payload: error }),
+      onError: (error) =>
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
     },
   )
 
@@ -186,23 +184,18 @@ function EventRegistrationProvider(props) {
         })
         queryClient.setQueryData(["registration", variables.eventId], data)
       },
-      onError: (error) => dispatch({ type: EventRegistrationActions.UpdateError, payload: error }),
+      onError: (error) =>
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
     },
   )
 
-  const startRegistration = React.useCallback(
-    (registration) => {
-      if (state.registration?.id) {
-        dispatch({
-          type: EventRegistrationActions.UpdateStep,
-          payload: EventRegistrationSteps.Register,
-        })
-      } else {
-        createRegistration(registration)
-      }
-    },
-    [state, createRegistration],
-  )
+  const resetRegistration = React.useCallback(() => {
+    dispatch({ type: EventRegistrationActions.UpdateError, payload: null })
+    queryClient.invalidateQueries("registration")
+    queryClient.invalidateQueries(["event-registrations", eventId])
+    queryClient.invalidateQueries(["event-registration-slots", eventId])
+    queryClient.invalidateQueries(["friends", eventId])
+  }, [queryClient, eventId])
 
   const { mutate: updateRegistration } = useMutation(
     (registration) => {
@@ -225,7 +218,7 @@ function EventRegistrationProvider(props) {
         queryClient.setQueryData(["registration", variables.eventId], data)
       },
       onError: (error) => {
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
       },
     },
   )
@@ -244,7 +237,8 @@ function EventRegistrationProvider(props) {
         queryClient.invalidateQueries(["event-registration-slots", eventId])
       },
       onError: (error) => {
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
+        return
       },
     },
   )
@@ -265,6 +259,9 @@ function EventRegistrationProvider(props) {
         queryClient.invalidateQueries(["event-registrations", eventId])
         queryClient.invalidateQueries(["event-registration-slots", eventId])
         queryClient.invalidateQueries(["friends", eventId])
+      },
+      onError: (error) => {
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
       },
     },
   )
@@ -296,7 +293,7 @@ function EventRegistrationProvider(props) {
         dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
       },
       onError: (error) => {
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
       },
     },
   )
@@ -324,7 +321,7 @@ function EventRegistrationProvider(props) {
         dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
       },
       onError: (error) => {
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error })
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
       },
     },
   )
@@ -370,9 +367,13 @@ function EventRegistrationProvider(props) {
       updateRegistrationSlotPlayer(
         { slotId: slot.id, playerId: player.id },
         {
-          onSettled: () => {
+          onSuccess: () => {
             dispatch({ type: EventRegistrationActions.AddPlayer, payload: { slot, player } })
             queryClient.invalidateQueries(["friends", eventId])
+          },
+          onError: (error) => {
+            dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
+            return
           },
         },
       )
@@ -385,8 +386,11 @@ function EventRegistrationProvider(props) {
       updateRegistrationSlotPlayer(
         { slotId: slot.id, playerId: null },
         {
-          onSettled: () => {
+          onSuccess: () => {
             dispatch({ type: EventRegistrationActions.RemovePlayer, payload: slot.id })
+          },
+          onError: (error) => {
+            dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
           },
         },
       )
@@ -405,10 +409,11 @@ function EventRegistrationProvider(props) {
   const value = {
     ...state,
     loadEvent,
-    startRegistration,
+    createRegistration,
     updateRegistration,
     cancelRegistration,
     completeRegistration,
+    resetRegistration,
     savePayment,
     updateStep,
     addPlayer,

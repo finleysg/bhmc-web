@@ -29,13 +29,9 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
       }
       return null
     } else {
-      try {
-        const data = await response.json()
-        return Promise.reject(parseError(data))
-      } catch {
-        // probably html from django
-        return Promise.reject("django server error: check the server logs for details")
-      }
+      // react-query needs us to throw, not just reject the promis
+      const data = await response.json()
+      throw new Error(parseError(data))
     }
   })
 }
