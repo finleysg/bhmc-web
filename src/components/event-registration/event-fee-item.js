@@ -1,22 +1,22 @@
 import React from "react"
 
-import { usePlayer, usePlayerEvents } from "hooks/player-hooks"
+import { usePlayer } from "hooks/player-hooks"
 import * as config from "utils/app-config"
 
 import EventFeeCheckbox from "./event-fee-checkbox"
 
-const evaluateRestriction = (fee, player, playerEvents) => {
+const evaluateRestriction = (fee, player) => {
   switch (fee.restriction) {
     case "Seniors":
       return player.age >= config.seniorRateAge
     case "Non-Seniors":
-      return player.age < config.seniorRateAge
+      return isNaN(player.age) || player.age < config.seniorRateAge
     case "New Members":
-      return playerEvents.indexOf(config.previousSeasonEventId) < 0
+      return !player.isReturningMember
     case "Returning Members":
-      return playerEvents.indexOf(config.previousSeasonEventId) >= 0
+      return player.isReturningMember
     case "Members":
-      return playerEvents.indexOf(config.seasonEventId) >= 0
+      return player.isMember
     default:
       return false
   }
@@ -26,14 +26,13 @@ function RestrictedEventFeeItem(props) {
   const { playerId, fee } = props
   const [visible, setVisible] = React.useState(false)
   const player = usePlayer(playerId)
-  const playerEvents = usePlayerEvents(playerId)
 
   React.useEffect(() => {
-    if (Boolean(player.id) && Boolean(playerEvents)) {
-      const isVisible = evaluateRestriction(fee, player, playerEvents)
+    if (Boolean(player.id)) {
+      const isVisible = evaluateRestriction(fee, player)
       setVisible(isVisible)
     }
-  }, [fee, player, playerEvents])
+  }, [fee, player])
 
   if (visible) {
     return UnrestrictedEventFeeItem(props)

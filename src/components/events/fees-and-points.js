@@ -6,24 +6,28 @@ function FeesAndPoints({ clubEvent, openings }) {
     <div className="card">
       <div className="card-body">
         <h5 className="card-title text-success">Fees and Points</h5>
-        <div className="card-text">
+        <div className="fees-points">
           {clubEvent.fees.map((eventFee) => {
             return (
-              <p key={eventFee.id} style={{ marginBottom: ".5rem" }}>
-                <strong>{eventFee.name}:</strong> ${eventFee.amount.toFixed(2)}
-              </p>
+              <div key={eventFee.id} className="fees-points-item">
+                <span className="label">{eventFee.name}</span>
+                <span className="value">${eventFee.amount.toFixed(2)}</span>
+              </div>
             )
           })}
-          <p style={{ marginTop: "1rem" }}>
-            <strong>Group size:</strong> {clubEvent.groupSize ?? "N/A"}
-          </p>
-          <p>
-            <strong>Season long points:</strong> {clubEvent.seasonPoints ?? 0}
-          </p>
+          <div className="fees-points-item" style={{ marginTop: "1rem" }}>
+            <span className="label">Season long points</span>
+            <span className="value">{clubEvent.seasonPoints ?? 0}</span>
+          </div>
+          <div className="fees-points-item">
+            <span className="label">Group size</span>
+            <span className="value">{clubEvent.groupSize ?? "N/A"}</span>
+          </div>
           {showAvailableSpots && (
-            <p style={{ marginTop: "1rem" }}>
-              <strong>Spots available:</strong> {openings}
-            </p>
+            <div className="fees-points-item">
+              <span className="label">Spots available</span>
+              <span className="value">{openings}</span>
+            </div>
           )}
         </div>
       </div>

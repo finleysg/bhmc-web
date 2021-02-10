@@ -20,11 +20,7 @@ Public profile:
 * Truncate champion list
 - Link to all championships for a player, or just spill the list down
 
-Account registration:
-* Handle a new account matching existing player record
-
 Event:
-* Mobile: the buttons should flow under the event name
 
 Results:
 - Import all major data

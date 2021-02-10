@@ -362,24 +362,27 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const addPlayer = React.useCallback(
-    (slot, player) => {
-      updateRegistrationSlotPlayer(
-        { slotId: slot.id, playerId: player.id },
-        {
-          onSuccess: () => {
-            dispatch({ type: EventRegistrationActions.AddPlayer, payload: { slot, player } })
-            queryClient.invalidateQueries(["friends", eventId])
-          },
-          onError: (error) => {
-            dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
-            return
-          },
+  const addPlayer = (slot, player) => {
+    // React.useCallback(
+    updateRegistrationSlotPlayer(
+      { slotId: slot.id, playerId: player.id },
+      {
+        onSuccess: () => {
+          dispatch({
+            type: EventRegistrationActions.AddPlayer,
+            payload: { slot, player },
+          })
+          queryClient.invalidateQueries(["friends", eventId])
         },
-      )
-    },
-    [updateRegistrationSlotPlayer, queryClient, eventId],
-  )
+        onError: (error) => {
+          dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
+          return
+        },
+      },
+    )
+  }
+  //     [updateRegistrationSlotPlayer, queryClient, eventId, state.clubEvent.fees, state.payment],
+  //   )
 
   const removePlayer = React.useCallback(
     (slot) => {

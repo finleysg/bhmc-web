@@ -90,6 +90,8 @@ function EventRegistrationManager({ clubEvent }) {
     setCurrentView("event-view")
   }
 
+  // TODO: if there are no slots created and the event is a can_choose event, we cannot
+  // continue. What to do?
   if (currentView === "event-view") {
     return <EventView clubEvent={clubEvent} openings={openings()} onRegister={handleStart} />
   } else if (currentView === "reserve-view") {

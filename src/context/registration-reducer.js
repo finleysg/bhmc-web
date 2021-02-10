@@ -95,7 +95,6 @@ const eventRegistrationReducer = produce((draft, action) => {
       const slotToUpdate = draft.registration.slots.find((s) => s.id === slot.id)
       slotToUpdate.playerId = player.id
       slotToUpdate.playerName = player.name
-      // TODO: this is not pure
       draft.clubEvent.fees
         .filter((f) => f.isRequired)
         .forEach((fee) => {

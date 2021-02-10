@@ -1,3 +1,5 @@
+import "./events.scss"
+
 import React from "react"
 
 import { AdminLink } from "components/button/admin-button"
@@ -13,27 +15,14 @@ import { dayAndDateFormat, dayDateAndTimeFormat } from "utils/event-utils"
 
 function EventActionButtons({ clubEvent, onRegister }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        // flexWrap: "wrap",
-        justifyContent: "right",
-        marginBottom: "1.5rem",
-        borderBottom: "2px solid #e9ecef",
-      }}
-    >
-      <div style={{ flex: "1 0 35%", justifySelf: "left" }}>
+    <div className="event-header">
+      <div className="event-header--title">
         <h3 className="text-primary">{clubEvent.name}</h3>
       </div>
-      <div>
-        <EventPortalButton style={{ marginLeft: ".5rem" }} clubEvent={clubEvent} />
-      </div>
-      <div>
-        <RegisteredButton style={{ marginLeft: ".5rem" }} clubEvent={clubEvent} />
-      </div>
-      <div>
+      <div className="event-header--actions">
+        <EventPortalButton clubEvent={clubEvent} />
+        <RegisteredButton clubEvent={clubEvent} />
         <RegisterButton
-          style={{ marginLeft: ".5rem" }}
           clubEvent={clubEvent}
           currentStep={RegistrationSteps.Pending}
           onClick={onRegister}
@@ -46,7 +35,6 @@ function EventActionButtons({ clubEvent, onRegister }) {
 function EventDetail({ clubEvent, onRegister }) {
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
 
-  // TODO: separate line for action buttons on mobile
   return (
     <div className="card">
       <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
@@ -54,26 +42,33 @@ function EventDetail({ clubEvent, onRegister }) {
         <OverlaySpinner loading={!clubEvent?.id} />
         <EventActionButtons clubEvent={clubEvent} onRegister={onRegister} />
         <div className="card-text">
-          <p style={{ marginBottom: ".5rem" }}>
-            <strong>Event date:</strong> {dayAndDateFormat(clubEvent.startDate)}
-          </p>
-          <p>
-            <strong>Start:</strong> {clubEvent.startTime}{" "}
-            {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
-          </p>
+          <div className="registration-start-item">
+            <div className="label">Event date:</div>
+            <div className="value">{dayAndDateFormat(clubEvent.startDate)}</div>
+          </div>
+          <div className="registration-start-item">
+            <div className="label">Start:</div>
+            <div className="value">
+              {clubEvent.startTime}{" "}
+              {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
+            </div>
+          </div>
           {clubEvent.registrationType !== "None" && (
             <React.Fragment>
-              <p style={{ marginBottom: ".5rem" }}>
-                <strong>Registration opens: </strong> {dayDateAndTimeFormat(clubEvent.signupStart)}
-              </p>
-              <p style={{ marginBottom: ".5rem" }}>
-                <strong>Registration closes: </strong> {dayDateAndTimeFormat(clubEvent.signupEnd)}
-              </p>
+              <div className="registration-start-item">
+                <div className="label">Registration opens:</div>
+                <div className="value">{dayDateAndTimeFormat(clubEvent.signupStart)}</div>
+              </div>
+              <div className="registration-start-item">
+                <div className="label">Registration closes:</div>
+                <div className="value">{dayDateAndTimeFormat(clubEvent.signupEnd)}</div>
+              </div>
             </React.Fragment>
           )}
-          <p style={{ marginBottom: ".5rem" }}>
-            <strong>Registration type: </strong> {clubEvent.registrationType}
-          </p>
+          <div className="registration-start-item">
+            <div className="label">Registration type:</div>
+            <div className="value">{clubEvent.registrationType}</div>
+          </div>
           {hasSignedUp && (
             <p className="text-danger">
               <strong>You are registered for this event.</strong>

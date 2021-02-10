@@ -7,8 +7,10 @@ import SeasonEventDetail from "./season-event-detail"
 
 function EventView({ clubEvent, openings, onRegister }) {
   const getOpenings = () => {
-    if (openings === undefined) {
+    if (openings === undefined && Boolean(clubEvent.id)) {
       return clubEvent.availableSpots()
+    } else if (isNaN(openings)) {
+      return 0
     }
     return openings
   }
