@@ -12,7 +12,7 @@ const useEventListener = (eventName, handler, element = window) => {
 
   React.useLayoutEffect(
     () => {
-      if (!Boolean(savedHandler)) return
+      if (!Boolean(savedHandler?.current) || typeof savedHandler.current !== "function") return
 
       // Make sure element supports addEventListener
       // On

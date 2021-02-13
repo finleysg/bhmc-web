@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import * as constants from "utils/app-config"
 
 function Footer() {
   return (
@@ -22,6 +23,8 @@ function Footer() {
         <Link className="nav-link" to="/about-us">
           About Us
         </Link>
+
+        <span className="nav-link">v{constants.version}</span>
       </ul>
     </footer>
   )
