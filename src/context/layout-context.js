@@ -10,7 +10,8 @@ function LayoutProvider(props) {
   const [sidebarOpen, setSidebarOpen] = React.useState(isExtraLarge() ? true : false)
 
   const resizeHandler = React.useCallback((event) => {
-    if (event.target.innerWidth > 1200) {
+    // console.log(event.target.innerWidth)
+    if (event.target.innerWidth >= 1200) {
       setSidebarOpen(true)
     }
   }, [])
