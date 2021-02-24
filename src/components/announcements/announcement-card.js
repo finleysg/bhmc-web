@@ -1,6 +1,6 @@
 import React from "react"
 
-import { DocumentButton } from "components/registration"
+import { DocumentCard } from "components/document/document-card"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
@@ -25,10 +25,10 @@ function AnnouncementCard(props) {
       <div style={{ marginBottom: "2rem" }}>
         <h4 className="text-primary">{announcement.title}</h4>
         <ReactMarkdown source={announcement.text} plugins={[gfm]} escapeHtml={true} />
-        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+        <div>
           {announcement.documents &&
             announcement.documents.map((doc) => {
-              return <DocumentButton document={doc} />
+              return <DocumentCard key={doc.id} document={doc} />
             })}
         </div>
       </div>

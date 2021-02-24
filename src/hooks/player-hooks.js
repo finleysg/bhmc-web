@@ -17,6 +17,26 @@ function usePlayer(playerId) {
   return player ?? new Player({ id: 0, last_name: "loading..." })
 }
 
+function usePlayerSearch(eventId, playerId) {
+  const client = useClient()
+  const { data: player } = useQuery(
+    ["players", playerId, eventId],
+    () =>
+      client(`player-search/?event_id=${eventId}&player_id=${playerId}`).then((data) => {
+        if (Boolean(data) && data.length === 1) {
+          return new Player(data[0])
+        }
+        return null
+      }),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return player ?? new Player({ id: 0, last_name: "loading..." })
+}
+
 function usePlayerEvents(playerId) {
   const client = useClient()
 
@@ -144,4 +164,5 @@ export {
   usePlayerChampionships,
   usePlayerEvents,
   usePlayerLowScores,
+  usePlayerSearch,
 }

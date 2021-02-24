@@ -61,6 +61,7 @@ General:
 - Review and fix rendering issues (polypane)
 * Document mgmt button with spots on the site for specific docs
 - Markdown edit in website
+- Logout should not result in a 401
 
 Administration:
 - Add announcement

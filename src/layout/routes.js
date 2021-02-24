@@ -10,12 +10,12 @@ import MatchPlayPage from "pages/match-play--page"
 import { NotFoundScreen } from "pages/not-found"
 import PlayerProfilePage from "pages/player-profile-page"
 import PolicyPage from "pages/policy-page"
+import ReservedPage from "pages/reserved-page"
 import ResultsPage from "pages/results-page"
 import SeasonLongPointsPage from "pages/season-long-points"
 import SeasonSignupPage from "pages/season-signup-page"
 import SendMessagePage from "pages/send-message-page"
 import SettingsPage from "pages/settings-page"
-import SignupsPage from "pages/signups-page"
 import { UnfinishedPage } from "pages/unfinished-page"
 import MembershipScreen from "session/membership-screen"
 
@@ -29,7 +29,7 @@ const mainRoutes = (user) => [
   { path: "/calendar/:year/:monthName", element: <CalendarPage /> },
   { path: "/event/:eventDate/:eventName", element: <EventDetailPage /> },
   { path: "/event/:eventDate/:eventName/register", element: <UnfinishedPage /> },
-  { path: "/event/:eventDate/:eventName/registrations", element: <SignupsPage /> },
+  { path: "/event/:eventDate/:eventName/registrations", element: <ReservedPage /> },
   { path: "/results/:eventType/:season", element: <ResultsPage /> },
   { path: "/policies/:policyType", element: <PolicyPage /> },
   { path: "/match-play", element: <MatchPlayPage /> },

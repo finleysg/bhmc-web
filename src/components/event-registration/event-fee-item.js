@@ -1,6 +1,6 @@
 import React from "react"
 
-import { usePlayer } from "hooks/player-hooks"
+import { usePlayerSearch } from "hooks/player-hooks"
 import * as config from "utils/app-config"
 
 import EventFeeCheckbox from "./event-fee-checkbox"
@@ -25,7 +25,7 @@ const evaluateRestriction = (fee, player) => {
 function RestrictedEventFeeItem(props) {
   const { playerId, fee } = props
   const [visible, setVisible] = React.useState(false)
-  const player = usePlayer(playerId)
+  const player = usePlayerSearch(fee.eventId, playerId)
 
   React.useEffect(() => {
     if (Boolean(player.id)) {
@@ -41,12 +41,13 @@ function RestrictedEventFeeItem(props) {
 }
 
 function UnrestrictedEventFeeItem({ fee, selected, disabled, onToggleFee }) {
+  const isSelected = selected || fee.isRequired
   return (
     <div className="fee">
       <div className="fee-item fee-item--select">
         <EventFeeCheckbox
           isRequired={fee.isRequired}
-          isSelected={selected}
+          isSelected={isSelected}
           onChange={() => onToggleFee({ fee })}
           disabled={disabled || fee.isRequired}
         />

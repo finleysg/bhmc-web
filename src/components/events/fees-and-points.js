@@ -1,6 +1,8 @@
 function FeesAndPoints({ clubEvent, openings }) {
   const showAvailableSpots =
-    clubEvent.registrationType !== "None" && clubEvent.registrationWindow !== "past"
+    clubEvent.registrationType !== "None" &&
+    clubEvent.registrationWindow !== "past" &&
+    clubEvent.startType !== "Not Applicable"
 
   return (
     <div className="card">

@@ -1,45 +1,56 @@
 import React from "react"
 
 import { useAuth } from "context/auth-context"
-import { format, isAfter, isBefore } from "date-fns"
-import { useEventDocuments } from "hooks/document-hooks"
-import { FiFileText } from "react-icons/fi"
+import {
+  format,
+  isAfter,
+  isBefore,
+} from "date-fns"
 import { Link } from "react-router-dom"
-import * as colors from "styles/colors"
 
-function EventDocuments({ clubEvent }) {
-  const documents = useEventDocuments(clubEvent?.id)
-
-  if (documents && documents.length > 0) {
-    return documents.map((doc) => {
-      return <DocumentButton key={doc.id} document={doc} />
-    })
-  }
-  return null
-}
-
-function DocumentButton({ document }) {
+function ReservedGrid({ table, ...rest }) {
   return (
-    <div style={{ textAlign: "center", margin: "0 1rem" }}>
-      <a
-        href={document.file}
-        alt={document.title}
-        style={{ color: colors.teal }}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <FiFileText style={{ fontSize: "3rem" }} />
-        <p style={{ fontSize: ".8rem" }}>{document.title}</p>
-      </a>
+    <div className="card" style={{ padding: "1rem" }} {...rest}>
+      {table.groups.map((group) => (
+        <ReservedRow key={group.name} courseName={table.course.name} group={group} />
+      ))}
     </div>
   )
 }
 
-function SimpleRegistrationList({ registrations, sortBy }) {
+function ReservedRow({ courseName, group, onSelect, onReserve, ...rest }) {
+  return (
+    <div className={`reserve-group reserve-group__${courseName.toLowerCase()}`} {...rest}>
+      <div className="reserved-group-name">
+        <span>{group.name}</span>
+      </div>
+      {group.slots.map((slot) => (
+        <ReservedSlot key={slot.id} reserveSlot={slot} />
+      ))}
+    </div>
+  )
+}
+
+function ReservedSlot({ reserveSlot, isLink, ...rest }) {
+  const deriveClasses = () => {
+    const className = "reserve-slot"
+    if (reserveSlot.selected) {
+      return className + " reserve-slot__selected"
+    }
+    return className + ` reserve-slot__${reserveSlot.statusName.toLowerCase()}`
+  }
+
+  return (
+    <div className={deriveClasses()} {...rest}>
+      <span>{reserveSlot.displayText()}</span>
+    </div>
+  )
+}
+
+function ReservedList({ registrations, sortBy }) {
   const { user } = useAuth()
 
   const getPlayers = React.useCallback(() => {
-    // TODO: don't do this - map to ReserveSlot
     const registered = []
     registrations.forEach((r) => {
       r.slots.forEach((s) => {
@@ -79,29 +90,16 @@ function SimpleRegistrationList({ registrations, sortBy }) {
   return (
     <div>
       {getPlayers().map((p) => {
-        return (
-          <RegistrationSlotView key={p.id} playerRegistration={p} isLink={user?.is_authenticated} />
-        )
+        return <ReservedPlayer key={p.id} playerRegistration={p} isLink={user?.is_authenticated} />
       })}
     </div>
   )
 }
 
-function RegistrationSlotView({ playerRegistration, isLink, ...rest }) {
-  // TODO: render reserve slot
+function ReservedPlayer({ playerRegistration, isLink, ...rest }) {
   const slot = () => {
     return (
-      <div
-        style={{
-          border: `1px solid ${colors.gray300}`,
-          borderRadius: "5px",
-          padding: "5px",
-          margin: "5px",
-          width: "160px",
-          display: "inline-block",
-        }}
-        {...rest}
-      >
+      <div className="reserve-player" {...rest}>
         <p className="text-success" style={{ margin: 0, padding: "5px 0", fontWeight: "bold" }}>
           {playerRegistration.name}
         </p>
@@ -119,4 +117,4 @@ function RegistrationSlotView({ playerRegistration, isLink, ...rest }) {
   return slot()
 }
 
-export { DocumentButton, EventDocuments, RegistrationSlotView, SimpleRegistrationList }
+export { ReservedGrid, ReservedList }

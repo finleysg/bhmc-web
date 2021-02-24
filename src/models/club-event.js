@@ -137,6 +137,7 @@ function Course(json) {
 function EventFee(json) {
   this[immerable] = true
   this.id = +json.id
+  this.eventId = +json.event
   this.amount = +json.amount
   this.displayOrder = +json.display_order
   this.name = json.fee_type.name
