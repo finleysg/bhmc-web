@@ -53,15 +53,17 @@ function ReservedList({ registrations, sortBy }) {
   const getPlayers = React.useCallback(() => {
     const registered = []
     registrations.forEach((r) => {
-      r.slots.forEach((s) => {
-        registered.push({
-          id: s.playerId,
-          name: s.playerName,
-          sortName: s.playerName.toUpperCase(),
-          signedUpBy: r.signedUpBy,
-          signupDate: r.createdDate,
+      r.slots
+        .filter((r) => r.status === "R")
+        .forEach((s) => {
+          registered.push({
+            id: s.playerId,
+            name: s.playerName,
+            sortName: s.playerName.toUpperCase(),
+            signedUpBy: r.signedUpBy,
+            signupDate: r.createdDate,
+          })
         })
-      })
     })
 
     if (sortBy === "player") {

@@ -46,9 +46,8 @@ Registration:
 - Add player during registration flow (open events)
 - Enforce age rules 
 * Handle team skins
-* View registration (for can_choose events)
-* Reserve grid on Mobile
 * Refresh and Back on the reserve page
+- Sort by widget (player or date)
 
 General:
 * Handle cleanup on abandoned flows
