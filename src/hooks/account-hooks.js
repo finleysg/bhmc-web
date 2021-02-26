@@ -29,7 +29,7 @@ function usePlayer() {
     },
   )
 
-  return new Player(player ?? {})
+  return new Player(player ?? { id: 0 })
 }
 
 function useMyEvents() {
@@ -121,20 +121,19 @@ function usePlayerProfilePic() {
   })
 }
 
-function useFriends() {
+function useFriends({ eventId }) {
   const client = useClient()
+  const player = usePlayer()
+
   const { data: players } = useQuery(
-    ["friends"],
+    ["friends", eventId],
     () =>
-      client("friends").then((data) =>
-        data.map((p) => {
-          const player = new Player(p)
-          player.isFriend = true
-          return player
-        }),
+      client(`friends/${player.id}/?event_id=${eventId}`).then((data) =>
+        data.map((p) => new Player(p)),
       ),
     {
-      cacheTime: Infinity,
+      cacheTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 5,
     },
   )
 
@@ -154,7 +153,7 @@ function useAddFriend() {
         toast.error("💣 Aww, Snap! Failed to update your friends list.")
       },
       onSuccess: () => {
-        queryClient.invalidateQueries("friends")
+        queryClient.invalidateQueries(["friends"])
       },
     },
   )
@@ -173,7 +172,7 @@ function useRemoveFriend() {
         toast.error("💣 Aww, Snap! Failed to update your friends list.")
       },
       onSuccess: () => {
-        queryClient.invalidateQueries("friends")
+        queryClient.invalidateQueries(["friends"])
       },
     },
   )

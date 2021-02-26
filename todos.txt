@@ -1,10 +1,14 @@
+stripe listen --forward-to localhost:8000/api/hooks/stripe/
+
 Home page:
 - Hole in one control with explanation of the pool
 
 Calendar:
 
+Directory:
+
 Account / profile:
-- Update expired card (https://stripe.com/docs/api/payment_methods/update)
+* Update expired card (https://stripe.com/docs/api/payment_methods/update)
 - Save image in a separate folder
 - Remove images no longer selected
 - Figure out what is going on with Jim McAllister / Doug Wolfe
@@ -13,18 +17,16 @@ Public profile:
 - Ace badge
 - Dam cup badge
 - Last season person was a member (if any)
-- Truncate champion list
-- Link to all championships
-
-Account registration:
-- Handle a new account matching existing player record
+* Truncate champion list
+- Link to all championships for a player, or just spill the list down
 
 Event:
 
 Results:
 - Import all major data
 - Gather and import low scores
-- Random image component
+- Random image component and/or champion images on results
+- Champion images on event detail?
 - Link to gallery
 
 Gallery:
@@ -38,27 +40,27 @@ Season Long Points:
 - Need the rounding rules from Nate
 
 Registration:
-- Use a reducer within registration context to manage state
+- Enforce require ghin at the server level
 - Don't show the register now button right away
-- Weeknight registration flow (reserve screen)
-- Major registration flow
+* Validate registration flow for all event types
 - Add player during registration flow (open events)
-- Enforce age rules
-- Handle team skins
-- Render shotgun vs tee times
-- Flexible number of tee times
-- View registration (for can_choose events)
+- Enforce age rules 
+* Handle team skins
+* Refresh and Back on the reserve page
+- Sort by widget (player or date)
 
 General:
-- Handle cleanup on abandoned flows
-- Lazy loading
+* Handle cleanup on abandoned flows
 - Image optimization
-- Performance review / optimization in Django
+* Performance review / optimization in Django
 - Giphy production api key
 - Don't constrain width (as much, at least)
 - Policy review
 - Review and fix issues captured by sentry
 - Review and fix rendering issues (polypane)
+* Document mgmt button with spots on the site for specific docs
+- Markdown edit in website
+- Logout should not result in a 401
 
 Administration:
 - Add announcement
@@ -67,10 +69,10 @@ Administration:
 - Edit page content
 - Edit page content title
 - Edit event notes
-- Edit event portal url
+* Edit event portal url
 - Clone event
-- Post results
-- Post tee times
+* Post results
+* Post tee times
 - Post general doc (like pin locations)
 - Move player
 - Add player
@@ -86,12 +88,13 @@ Administration:
 - Replace / place financial documents
 - Replace / place by-laws
 - Maybe a document library?
-- Link to admin website
+- More contextual links to admin website
 
 Reports:
-- Membership report
-- Event report for export to GG
+* Membership report
+* Event report for export to GG (half done)
 - Season long points report
+- Payment details report
 
 Testing:
 - Organize test utilities and test data

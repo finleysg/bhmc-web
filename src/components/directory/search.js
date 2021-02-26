@@ -1,9 +1,10 @@
 import React from "react"
 
 import { Spinner } from "components/spinners"
+import { useClient } from "context/auth-context"
 import debounceFn from "debounce-fn"
 import { useAddFriend, useFriends, useRemoveFriend } from "hooks/account-hooks"
-import { usePlayers } from "hooks/player-hooks"
+import Player from "models/player"
 import { MdStar, MdStarBorder } from "react-icons/md"
 import { toast } from "react-toastify"
 import * as colors from "styles/colors"
@@ -69,49 +70,58 @@ function PlayerRow(props) {
   }
 
   return (
-    <div className="row" style={{ marginBottom: "8px" }}>
-      <div className="col-lg-6 col-md-12">
+    <div style={{ marginBottom: ".5rem" }}>
+      <div>
         <StarToggle player={player} />
         <h6
           className="text-success"
-          style={{ display: "inline-block", cursor: "pointer" }}
+          style={{ display: "inline-block", cursor: "pointer", marginRight: "2rem" }}
           onClick={handleSelect}
         >
           {player.name}
         </h6>
-      </div>
-      <div className="col-lg-6 col-md-12">
         <a href={`mailto: ${player.email}`}>{player.email}</a>
       </div>
+      {/* <div>
+        <a href={`mailto: ${player.email}`}>{player.email}</a>
+      </div> */}
     </div>
   )
 }
 
 function PlayerSearch(props) {
   const [results, updateResults] = React.useState([])
-  const players = usePlayers()
-  const friends = useFriends()
+  const friends = useFriends({ eventId: 0 })
+  const client = useClient()
 
   const searchPlayers = React.useCallback(
-    (pattern) => {
-      const filtered = players.filter((p) => p.name.toLowerCase().includes(pattern))
-      filtered.forEach((p) => (p.isFriend = friends.findIndex((f) => f.id === p.id) >= 0))
-      updateResults(filtered)
+    async (pattern) => {
+      const results = await client(`player-search/?pattern=${pattern}`)
+      const players = results.map((obj) => new Player(obj))
+      players.forEach((p) => (p.isFriend = friends.findIndex((f) => f.id === p.id) >= 0))
+      updateResults(players)
     },
-    [players, friends],
+    [client, friends],
   )
 
   const doSearch = React.useMemo(() => debounceFn(searchPlayers, { wait: 500 }), [searchPlayers])
 
   const handleSearch = (e) => {
     const pattern = e.target.value?.toLowerCase()
-    doSearch(pattern)
+    if (pattern.length >= 3) {
+      doSearch(pattern)
+    }
   }
 
   return (
     <div>
       <div style={{ marginBottom: "20px" }}>
-        <input type="text" className="form-control" placeholder="Search" onChange={handleSearch} />
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search for players..."
+          onChange={handleSearch}
+        />
       </div>
       <div>
         {results.map((player) => {

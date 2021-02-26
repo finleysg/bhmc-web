@@ -7,6 +7,7 @@ import ReactDOM from "react-dom"
 
 import { FullPageSpinner } from "components/spinners"
 import { AppProviders } from "context"
+import { enableMapSet } from "immer"
 import { Route, Routes } from "react-router-dom"
 import * as config from "utils/app-config"
 
@@ -15,12 +16,16 @@ const AdminLayout = React.lazy(() => import("./layout/admin-layout"))
 const AuthLayout = React.lazy(() => import("./layout/auth-layout"))
 
 // import reportWebVitals from "./reportWebVitals"
-Sentry.init({
-  dsn: config.sentryApiKey,
-  autoSessionTracking: true,
-  tracesSampleRate: 0.0,
-  release: "bhmc-web@" + process.env.npm_package_version,
-})
+if (config.currentEnvironment === "production") {
+  Sentry.init({
+    dsn: config.sentryApiKey,
+    autoSessionTracking: true,
+    tracesSampleRate: 0.0,
+    release: "bhmc-web@" + process.env.npm_package_version,
+  })
+}
+
+enableMapSet()
 
 ReactDOM.render(
   <React.StrictMode>

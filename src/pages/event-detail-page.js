@@ -1,6 +1,6 @@
-import { EventDocuments } from "components/document/event-documents"
-import EventDetail from "components/events/event-detail"
-import FeesAndPoints from "components/events/fees-and-points"
+import EventRegistrationManager from "components/event-registration/event-registration-manager"
+import { EventView } from "components/events/event-view"
+import { OverlaySpinner } from "components/spinners"
 import { parse } from "date-fns"
 import { useClubEvent } from "hooks/event-hooks"
 import { useNavigate, useParams } from "react-router-dom"
@@ -11,6 +11,7 @@ function EventDetailPage() {
   const startDate = parse(eventDate, "yyyy-MM-dd", new Date())
   const clubEvent = useClubEvent({ eventDate, eventName, season: startDate.getFullYear() })
   const navigate = useNavigate()
+  const isLoading = !Boolean(clubEvent.id)
 
   if (clubEvent.id === config.seasonEventId) {
     navigate("/membership")
@@ -20,15 +21,11 @@ function EventDetailPage() {
 
   return (
     <div className="content__inner">
-      <div className="row">
-        <div className="col-md-8">
-          <EventDetail clubEvent={clubEvent} />
-        </div>
-        <div className="col-md-4">
-          <FeesAndPoints clubEvent={clubEvent} />
-          <EventDocuments clubEvent={clubEvent} />
-        </div>
-      </div>
+      <OverlaySpinner loading={isLoading} />
+      {!isLoading && clubEvent.registrationIsOpen && (
+        <EventRegistrationManager clubEvent={clubEvent} />
+      )}
+      {(!isLoading && clubEvent.registrationIsOpen) || <EventView clubEvent={clubEvent} />}
     </div>
   )
 }

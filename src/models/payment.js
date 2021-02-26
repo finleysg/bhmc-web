@@ -1,3 +1,5 @@
+import { immerable } from "immer"
+
 // eslint-disable-next-line
 const examplePaymentJson = {
   id: 1,
@@ -69,6 +71,7 @@ function SavedCard(json) {
 }
 
 function PaymentDetail(json) {
+  this[immerable] = true
   this.obj = json
   this.id = json.id
   this.eventFeeId = json.event_fee
@@ -77,6 +80,7 @@ function PaymentDetail(json) {
 }
 
 function Payment(json) {
+  this[immerable] = true
   this.obj = json
   this.id = json.id
   this.eventId = json.event

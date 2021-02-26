@@ -36,7 +36,14 @@ const parseError = (error) => {
   if (error.non_field_errors) {
     return error.non_field_errors[0]
   }
-  return JSON.stringify(error)
+  if (error.detail) {
+    return error.detail
+  }
+  try {
+    return JSON.stringify(error)
+  } catch (err) {
+    return "Server error"
+  }
 }
 
 export { apiUrl, authUrl, parseError, serverUrl }

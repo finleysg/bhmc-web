@@ -64,7 +64,7 @@ function RegistrationErrorFallback({ error, resetErrorBoundary }) {
           role="alert"
           css={[{ color: colors.danger, marginTop: "1rem" }, errorMessageVariants.stacked]}
         >
-          {/* <span>Error detail: </span>
+          <span>Error detail: </span>
           <pre
             css={[
               { whiteSpace: "break-spaces", margin: "0", marginBottom: -5 },
@@ -72,7 +72,7 @@ function RegistrationErrorFallback({ error, resetErrorBoundary }) {
             ]}
           >
             {error}
-          </pre> */}
+          </pre>
           <div className="row" style={{ marginTop: "1rem", textAlign: "right" }}>
             <div className="col-12">
               <button

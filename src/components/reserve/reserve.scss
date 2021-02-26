@@ -1,0 +1,91 @@
+@import "../../assets/scss/variables";
+
+.reserve-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  &__east {
+    color: $red;
+  }
+
+  &__north {
+    color: $blue;
+  }
+
+  &__west {
+    color: $amber;
+  }
+
+  .reserve-group-name {
+    flex: 1.5;
+    min-width: 220px;
+    color: $green;
+
+    > span {
+      font-weight: bold;
+      margin-right: 2rem;
+    }
+    > button {
+      margin-right: 1rem;
+
+      &:disabled {
+        background-color: $gray-400;
+      }
+    }
+  }
+  .reserved-group-name {
+    flex: 1 1 10%;
+    min-width: 80px;
+    color: $green;
+    > span {
+      font-weight: bold;
+      margin-right: 2rem;
+    }
+  }
+  .reserve-slot {
+    flex: 1 1 20%;
+    text-align: center;
+    border: 1px solid $gray-300;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px;
+
+    &__available {
+      cursor: pointer;
+    }
+
+    &__pending {
+      color: $white;
+      background-color: $gray-200;
+    }
+
+    &__reserved {
+      font-weight: 400;
+      color: $green;
+    }
+
+    &__selected {
+      cursor: pointer;
+      color: $white;
+      background-color: $orange;
+    }
+  }
+}
+
+.reserve-player {
+  border: 1px solid $gray-300;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  width: 160px;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 480px) {
+  .reserve-group {
+    flex-direction: column;
+    align-items: unset;
+  }
+}

@@ -3,36 +3,6 @@ import Player from "models/player"
 import { useQuery } from "react-query"
 import * as config from "utils/app-config"
 
-function usePlayers() {
-  const client = useClient()
-  const { data: players } = useQuery(
-    ["players"],
-    () => client("players").then((data) => data.map((p) => new Player(p))),
-    {
-      cacheTime: Infinity,
-      staleTime: Infinity,
-    },
-  )
-
-  return players ?? []
-}
-
-function useMembers() {
-  const client = useClient()
-  const eventId = config.seasonEventId
-
-  const { data: members } = useQuery(
-    ["members"],
-    () => client(`players/?event_id=${eventId}`).then((data) => data.map((p) => new Player(p))),
-    {
-      cacheTime: 1000 * 60 * 15,
-      staleTime: 1000 * 60 * 15,
-    },
-  )
-
-  return members ?? []
-}
-
 function usePlayer(playerId) {
   const client = useClient()
   const { data: player } = useQuery(
@@ -44,7 +14,50 @@ function usePlayer(playerId) {
     },
   )
 
-  return player ?? new Player({ last_name: "loading..." })
+  return player ?? new Player({ id: 0, last_name: "loading..." })
+}
+
+function usePlayerSearch(eventId, playerId) {
+  const client = useClient()
+  const { data: player } = useQuery(
+    ["players", playerId, eventId],
+    () =>
+      client(`player-search/?event_id=${eventId}&player_id=${playerId}`).then((data) => {
+        if (Boolean(data) && data.length === 1) {
+          return new Player(data[0])
+        }
+        return null
+      }),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+
+  return player ?? new Player({ id: 0, last_name: "loading..." })
+}
+
+function usePlayerEvents(playerId) {
+  const client = useClient()
+
+  const { data: playerEvents } = useQuery(
+    ["player-events", playerId],
+    () => {
+      return client(
+        `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${
+          config.currentSeason - 1
+        }`,
+      ).then((data) => {
+        if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
+        return []
+      })
+    },
+    {
+      cacheTime: 1000 * 60 * 15,
+      staleTime: 1000 * 60 * 15,
+    },
+  )
+  return playerEvents ?? []
 }
 
 function useBoardMembers() {
@@ -146,10 +159,10 @@ export {
   useBoardMembers,
   useChampions,
   useLowScores,
-  useMembers,
   usePlayer,
   usePlayerAces,
   usePlayerChampionships,
+  usePlayerEvents,
   usePlayerLowScores,
-  usePlayers,
+  usePlayerSearch,
 }

@@ -7,6 +7,7 @@ const TestEventType = {
   weeknight: 4,
   open: 5,
   guest: 6,
+  shotgun: 7,
 }
 
 const SeasonRegistrationEvent = {
@@ -185,9 +186,193 @@ const MajorEvent = {
   total_groups: null,
 }
 
-const WeeknightEvent = {
+const WeeknightTeetimeEvent = {
   can_choose: true,
-  courses: [1, 4, 9],
+  courses: [
+    {
+      id: 1,
+      name: "East",
+      number_of_holes: 9,
+      holes: [
+        {
+          id: 1,
+          course: 1,
+          hole_number: 1,
+          par: 4,
+        },
+        {
+          id: 2,
+          course: 1,
+          hole_number: 2,
+          par: 4,
+        },
+        {
+          id: 3,
+          course: 1,
+          hole_number: 3,
+          par: 3,
+        },
+        {
+          id: 4,
+          course: 1,
+          hole_number: 4,
+          par: 5,
+        },
+        {
+          id: 5,
+          course: 1,
+          hole_number: 5,
+          par: 4,
+        },
+        {
+          id: 6,
+          course: 1,
+          hole_number: 6,
+          par: 5,
+        },
+        {
+          id: 7,
+          course: 1,
+          hole_number: 7,
+          par: 3,
+        },
+        {
+          id: 8,
+          course: 1,
+          hole_number: 8,
+          par: 4,
+        },
+        {
+          id: 9,
+          course: 1,
+          hole_number: 9,
+          par: 4,
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "North",
+      number_of_holes: 9,
+      holes: [
+        {
+          id: 10,
+          course: 2,
+          hole_number: 1,
+          par: 4,
+        },
+        {
+          id: 11,
+          course: 2,
+          hole_number: 2,
+          par: 4,
+        },
+        {
+          id: 12,
+          course: 2,
+          hole_number: 3,
+          par: 4,
+        },
+        {
+          id: 13,
+          course: 2,
+          hole_number: 4,
+          par: 5,
+        },
+        {
+          id: 14,
+          course: 2,
+          hole_number: 5,
+          par: 4,
+        },
+        {
+          id: 15,
+          course: 2,
+          hole_number: 6,
+          par: 3,
+        },
+        {
+          id: 16,
+          course: 2,
+          hole_number: 7,
+          par: 4,
+        },
+        {
+          id: 17,
+          course: 2,
+          hole_number: 8,
+          par: 3,
+        },
+        {
+          id: 18,
+          course: 2,
+          hole_number: 9,
+          par: 5,
+        },
+      ],
+    },
+    {
+      id: 3,
+      name: "West",
+      number_of_holes: 9,
+      holes: [
+        {
+          id: 19,
+          course: 3,
+          hole_number: 1,
+          par: 4,
+        },
+        {
+          id: 20,
+          course: 3,
+          hole_number: 2,
+          par: 5,
+        },
+        {
+          id: 21,
+          course: 3,
+          hole_number: 3,
+          par: 3,
+        },
+        {
+          id: 22,
+          course: 3,
+          hole_number: 4,
+          par: 4,
+        },
+        {
+          id: 23,
+          course: 3,
+          hole_number: 5,
+          par: 5,
+        },
+        {
+          id: 24,
+          course: 3,
+          hole_number: 6,
+          par: 4,
+        },
+        {
+          id: 25,
+          course: 3,
+          hole_number: 7,
+          par: 4,
+        },
+        {
+          id: 26,
+          course: 3,
+          hole_number: 8,
+          par: 3,
+        },
+        {
+          id: 27,
+          course: 3,
+          hole_number: 9,
+          par: 4,
+        },
+      ],
+    },
+  ],
   event_type: "N",
   external_url: null,
   fees: [
@@ -390,6 +575,276 @@ const MemberGuestEvent = {
   total_groups: null,
 }
 
+const WeeknightShotgunEvent = {
+  id: TestEventType.shotgun,
+  name: "Individual LG/LN",
+  rounds: 1,
+  ghin_required: true,
+  total_groups: 20,
+  minimum_signup_group_size: 1,
+  maximum_signup_group_size: 5,
+  group_size: 5,
+  start_type: "SG",
+  can_choose: true,
+  registration_window: "registration",
+  external_url: null,
+  season: 2021,
+  notes: "Test event",
+  event_type: "N",
+  skins_type: "I",
+  season_points: 30,
+  portal_url: null,
+  start_date: "2021-02-01",
+  start_time: "3:00 PM",
+  registration_type: "M",
+  signup_start: "2021-01-17T16:00:00-06:00",
+  signup_end: "2021-01-31T18:00:00-06:00",
+  payments_end: "2021-01-31T18:00:00-06:00",
+  registration_maximum: null,
+  courses: [
+    {
+      id: 1,
+      name: "East",
+      number_of_holes: 9,
+      holes: [
+        {
+          id: 1,
+          course: 1,
+          hole_number: 1,
+          par: 4,
+        },
+        {
+          id: 2,
+          course: 1,
+          hole_number: 2,
+          par: 4,
+        },
+        {
+          id: 3,
+          course: 1,
+          hole_number: 3,
+          par: 3,
+        },
+        {
+          id: 4,
+          course: 1,
+          hole_number: 4,
+          par: 5,
+        },
+        {
+          id: 5,
+          course: 1,
+          hole_number: 5,
+          par: 4,
+        },
+        {
+          id: 6,
+          course: 1,
+          hole_number: 6,
+          par: 5,
+        },
+        {
+          id: 7,
+          course: 1,
+          hole_number: 7,
+          par: 3,
+        },
+        {
+          id: 8,
+          course: 1,
+          hole_number: 8,
+          par: 4,
+        },
+        {
+          id: 9,
+          course: 1,
+          hole_number: 9,
+          par: 4,
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "North",
+      number_of_holes: 9,
+      holes: [
+        {
+          id: 10,
+          course: 2,
+          hole_number: 1,
+          par: 4,
+        },
+        {
+          id: 11,
+          course: 2,
+          hole_number: 2,
+          par: 4,
+        },
+        {
+          id: 12,
+          course: 2,
+          hole_number: 3,
+          par: 4,
+        },
+        {
+          id: 13,
+          course: 2,
+          hole_number: 4,
+          par: 5,
+        },
+        {
+          id: 14,
+          course: 2,
+          hole_number: 5,
+          par: 4,
+        },
+        {
+          id: 15,
+          course: 2,
+          hole_number: 6,
+          par: 3,
+        },
+        {
+          id: 16,
+          course: 2,
+          hole_number: 7,
+          par: 4,
+        },
+        {
+          id: 17,
+          course: 2,
+          hole_number: 8,
+          par: 3,
+        },
+        {
+          id: 18,
+          course: 2,
+          hole_number: 9,
+          par: 5,
+        },
+      ],
+    },
+    {
+      id: 3,
+      name: "West",
+      number_of_holes: 9,
+      holes: [
+        {
+          id: 19,
+          course: 3,
+          hole_number: 1,
+          par: 4,
+        },
+        {
+          id: 20,
+          course: 3,
+          hole_number: 2,
+          par: 5,
+        },
+        {
+          id: 21,
+          course: 3,
+          hole_number: 3,
+          par: 3,
+        },
+        {
+          id: 22,
+          course: 3,
+          hole_number: 4,
+          par: 4,
+        },
+        {
+          id: 23,
+          course: 3,
+          hole_number: 5,
+          par: 5,
+        },
+        {
+          id: 24,
+          course: 3,
+          hole_number: 6,
+          par: 4,
+        },
+        {
+          id: 25,
+          course: 3,
+          hole_number: 7,
+          par: 4,
+        },
+        {
+          id: 26,
+          course: 3,
+          hole_number: 8,
+          par: 3,
+        },
+        {
+          id: 27,
+          course: 3,
+          hole_number: 9,
+          par: 4,
+        },
+      ],
+    },
+  ],
+  fees: [
+    {
+      id: 37,
+      fee_type: {
+        id: 5,
+        name: "Event Fee",
+        code: "E",
+      },
+      amount: "5.00",
+      is_required: true,
+      display_order: 1,
+    },
+    {
+      id: 38,
+      fee_type: {
+        id: 6,
+        name: "Gross Skins",
+        code: "S",
+      },
+      amount: "5.00",
+      is_required: false,
+      display_order: 2,
+    },
+    {
+      id: 39,
+      fee_type: {
+        id: 7,
+        name: "Net Skins",
+        code: "S",
+      },
+      amount: "5.00",
+      is_required: false,
+      display_order: 3,
+    },
+    {
+      id: 40,
+      fee_type: {
+        id: 8,
+        name: "Greens Fee",
+        code: "G",
+      },
+      amount: "19.00",
+      is_required: false,
+      display_order: 4,
+    },
+    {
+      id: 41,
+      fee_type: {
+        id: 9,
+        name: "Cart Fee",
+        code: "C",
+      },
+      amount: "12.00",
+      is_required: false,
+      display_order: 5,
+    },
+  ],
+}
+
 const getEvent = (eventType) => {
   switch (eventType) {
     case TestEventType.season:
@@ -399,11 +854,13 @@ const getEvent = (eventType) => {
     case TestEventType.major:
       return MajorEvent
     case TestEventType.weeknight:
-      return WeeknightEvent
+      return WeeknightTeetimeEvent
     case TestEventType.open:
       return OpenEvent
     case TestEventType.guest:
       return MemberGuestEvent
+    case TestEventType.shotgun:
+      return WeeknightShotgunEvent
     default:
       return null
   }
@@ -436,6 +893,7 @@ const getTestEvents = () => {
     getTestEvent({ eventType: TestEventType.weeknight, state: "future" }),
     getTestEvent({ eventType: TestEventType.open, state: "future" }),
     getTestEvent({ eventType: TestEventType.guest, state: "future" }),
+    getTestEvent({ eventType: TestEventType.shotgun, state: "future" }),
   ]
 }
 

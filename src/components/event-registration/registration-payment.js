@@ -4,13 +4,16 @@ import React from "react"
 
 import { CreditCardList, StyledCardElement } from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
+import { CheckBox } from "components/field/check-box"
+import { OverlaySpinner } from "components/spinners"
 import { useAuth } from "context/auth-context"
 import { useEventRegistration } from "context/registration-context"
 import { useMyCards } from "hooks/account-hooks"
 import { toast } from "react-toastify"
+import { getAmountDue } from "utils/payment-utils"
 
-function EventRegistrationPayment(props) {
-  const { onBack, onComplete, onCancel, onBusy } = props
+function RegistrationPayment(props) {
+  const { onBack, onComplete, onCancel, selectedStart, title } = props
   const [paymentError, setPaymentError] = React.useState()
   const [paymentMethod, setPaymentMethod] = React.useState()
   const [isBusy, setIsBusy] = React.useState(false)
@@ -29,14 +32,10 @@ function EventRegistrationPayment(props) {
     }
   }, [myCards])
 
-  const formattedPaymentAmount = (payment) => {
-    const amt = Number(payment?.paymentAmount || 0)
-    return `$${amt.toFixed(2)}`
-  }
+  const amountDue = getAmountDue(payment, clubEvent.feeMap)
 
   const publishBusyFeedback = (busy) => {
     setIsBusy(busy)
-    onBusy(busy)
   }
 
   const handleSaveCard = (evt) => {
@@ -95,60 +94,44 @@ function EventRegistrationPayment(props) {
   }
 
   return (
-    <div className="card-body">
-      <h4 className="card-title">{clubEvent.name}</h4>
-      <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
-        {formattedPaymentAmount(payment)}
-      </h6>
-      <div className="row" style={{ marginBottom: "1rem" }}>
-        <div className="col-12">
+    <div className="card border border-success">
+      <div className="card-header bg-success">
+        <span className="registration-title">{title}</span>
+      </div>
+      <div className="card-body">
+        <OverlaySpinner loading={isBusy} />
+        <h4 className="card-title text-success">{selectedStart}</h4>
+        <h6 className="card-subtitle" style={{ marginTop: "1rem" }}>
+          Amount due: ${amountDue.total.toFixed(2)}
+        </h6>
+        <div style={{ marginBottom: "1rem" }}>
           {myCards && myCards[0] && (
             <CreditCardList cards={myCards} onSelected={(pm) => setPaymentMethod(pm)} />
           )}
         </div>
-      </div>
-      {paymentMethod === "new" && (
-        <React.Fragment>
-          <div className="row" style={{ marginBottom: "1rem" }}>
-            <div className="col-12">
+        {paymentMethod === "new" && (
+          <React.Fragment>
+            <div style={{ marginBottom: "1rem" }}>
               <StyledCardElement />
             </div>
-          </div>
-          <div className="row">
-            <div className="col-12">
-              <div className="checkbox">
-                <input
-                  id="saveCard"
-                  type="checkbox"
-                  value={saveCard}
-                  checked={saveCard}
-                  onChange={handleSaveCard}
-                />
-                <label className="checkbox__label" htmlFor="saveCard">
-                  Save this card for future payments
-                </label>
-              </div>
+            <div>
+              <CheckBox
+                label="Save this card for future payments"
+                checked={saveCard}
+                onChange={handleSaveCard}
+              />
             </div>
-          </div>
-        </React.Fragment>
-      )}
-      <div className="row">
-        <div className="col-12">
+          </React.Fragment>
+        )}
+        <div>
           <ErrorDisplay error={paymentError} isError={paymentError !== undefined} />
         </div>
-      </div>
-      <hr />
-      <div className="row" style={{ textAlign: "right" }}>
-        <div className="col-12">
+        <hr />
+        <div style={{ textAlign: "right" }}>
           <button className="btn btn-light" disabled={isBusy} onClick={onBack}>
             Back
           </button>
-          <button
-            className="btn btn-light"
-            // disabled={isBusy}
-            style={{ marginLeft: ".5rem" }}
-            onClick={onCancel}
-          >
+          <button className="btn btn-light" style={{ marginLeft: ".5rem" }} onClick={onCancel}>
             Cancel
           </button>
           <button
@@ -165,4 +148,4 @@ function EventRegistrationPayment(props) {
   )
 }
 
-export default EventRegistrationPayment
+export default RegistrationPayment

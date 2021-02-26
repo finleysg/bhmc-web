@@ -40,8 +40,7 @@ function useEventRegistrations(eventId) {
       }),
     {
       enabled: !!eventId,
-      refetchInterval: 1000 * 15,
-      cacheTime: 1000 * 60,
+      cacheTime: 1000 * 60 * 5,
     },
   )
 
@@ -62,13 +61,15 @@ function useEventWithRegistrations({ eventDate, eventName }) {
 function useEventRegistrationSlots(eventId) {
   const client = useClient()
 
-  const { data: registrationSlots } = useQuery(["event-registration-slots", eventId], () =>
-    client(`registration-slots/?event_id=${eventId}`).then((data) => {
-      return data.map((slot) => new RegistrationSlot(slot))
-    }),
+  return useQuery(
+    ["event-registration-slots", eventId],
+    () => client(`registration-slots/?event_id=${eventId}`).then((data) => data),
+    {
+      enabled: !!eventId,
+      // refetchInterval: 1000 * 30,
+      cacheTime: 1000 * 60 * 5,
+    },
   )
-
-  return registrationSlots ?? []
 }
 
 function usePlayerRegistrations(playerId) {

@@ -9,7 +9,7 @@ function CheckBox({ label, ...rest }) {
           <GiCheckMark />
         </span>
       </span>
-      {Boolean(label) && <span className="checkbox__label">{label}</span>}
+      {Boolean(label) && <span className="checkbox__text">{label}</span>}
     </label>
   )
 }

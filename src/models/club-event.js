@@ -1,4 +1,5 @@
 import { addDays, isWithinInterval, parse } from "date-fns"
+import { immerable } from "immer"
 import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
 
 const mapRegistrationType = (code) => {
@@ -66,6 +67,8 @@ const mapEventType = (code) => {
       return "Deadline"
     case "P":
       return "Open Event"
+    case "I":
+      return "Invitational"
     default:
       return "Unknown"
   }
@@ -111,19 +114,36 @@ const sampleEvent = {
 }
 
 const loadingEvent = {
+  id: 0,
   name: "loading...",
   notes: "loading...",
   signupWindow: "loading...",
   fees: [],
 }
 
-function EventFee(json) {
+function Hole(json) {
   this.id = +json.id
+  this.holeNumber = json.hole_number
+  this.par = +json.par
+}
+
+function Course(json) {
+  this.id = +json.id
+  this.name = json.name
+  this.numberOfHoles = +json.number_of_holes
+  this.holes = json.holes.map((h) => new Hole(h))
+}
+
+function EventFee(json) {
+  this[immerable] = true
+  this.id = +json.id
+  this.eventId = +json.event
   this.amount = +json.amount
-  this.displayOrder = +json.displayOrder
+  this.displayOrder = +json.display_order
   this.name = json.fee_type.name
   this.code = json.fee_type.code
   this.isRequired = !!json.is_required
+  this.restriction = json.fee_type.restriction
 }
 
 /**
@@ -132,14 +152,17 @@ function EventFee(json) {
  * @param {object} json - An event from the api.
  */
 function ClubEvent(json) {
+  this[immerable] = true
   this.id = json.id
   this.canChoose = json.can_choose
+  this.courses = json.can_choose ? json.courses.map((c) => new Course(c)) : []
   this.eventType = mapEventType(json.event_type)
   this.eventTypeCode = json.event_type
   this.externalUrl = json.external_url
   this.fees = json.fees
     ? json.fees.sort((a, b) => (a.display_order = b.display_order)).map((f) => new EventFee(f))
     : []
+  this.feeMap = new Map(this.fees.map((f) => [f.id, f]))
   this.ghinRequired = json.ghin_required
   this.groupSize = json.group_size
   this.maximumSignupGroupSize = json.maximum_signup_group_size
@@ -198,19 +221,22 @@ function ClubEvent(json) {
   }
 
   /**
-   * Returns the event fees that match the given payment record
-   * @param {Payment} payment
-   * @param {boolean} optional - Return only optional fees
+   * Returns the number of available spots, without
+   * regard to existing or ongoinng registrations.
    */
-  this.selectedFees = (payment, optional = true) => {
-    if (this.fees) {
-      const selectedIds = payment?.details.map((p) => p.eventFeeId)
-      if (!selectedIds || selectedIds.length === 0) return []
-      return this.fees
-        .filter((fee) => selectedIds.indexOf(fee.id) >= 0)
-        .filter((fee) => fee.isRequired === !optional)
+  this.availableSpots = () => {
+    if (this.registrationType === "None") {
+      return null
+    }
+    if (this.canChoose) {
+      if (this.startType === "Shotgun") {
+        const holes = this.courses[0]?.numberOfHoles
+        return 2 * this.groupSize * (this.courses.length * holes)
+      } else {
+        return this.groupSize * this.totalGroups * this.courses.length
+      }
     } else {
-      return []
+      return this.registrationMaximum
     }
   }
 }
