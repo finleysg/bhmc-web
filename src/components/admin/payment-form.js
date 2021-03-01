@@ -22,10 +22,15 @@ function PaymentForm({ amountDue, isBusy, onSubmit, onCancel, onBack }) {
         <FormGroup name="paymentCode" type="text" label="Payment Code (cash, check, waived...)" />
         <hr />
         <div style={{ textAlign: "right" }}>
-          <button className="btn btn-light" disabled={isBusy} onClick={onBack}>
+          <button className="btn btn-light" type="button" disabled={isBusy} onClick={onBack}>
             Back
           </button>
-          <button className="btn btn-light" style={{ marginLeft: ".5rem" }} onClick={onCancel}>
+          <button
+            className="btn btn-light"
+            type="button"
+            style={{ marginLeft: ".5rem" }}
+            onClick={onCancel}
+          >
             Cancel
           </button>
           <button

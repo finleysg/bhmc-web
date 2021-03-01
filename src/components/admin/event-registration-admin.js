@@ -4,6 +4,7 @@ import { ReserveView } from "components/reserve/reserve-view"
 import { useEventAdmin } from "context/admin-context"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 
 import { RegisterAdmin } from "./register-admin"
@@ -11,6 +12,7 @@ import { RegisterAdmin } from "./register-admin"
 function EventRegistrationAdmin({ clubEvent }) {
   const [currentView, setCurrentView] = React.useState("")
   const [selectedStart, setSelectedStart] = React.useState("")
+  const navigate = useNavigate()
   const { error, completeRegistration, createRegistration } = useEventAdmin()
 
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
@@ -66,7 +68,7 @@ function EventRegistrationAdmin({ clubEvent }) {
   }
 
   const handleCancel = () => {
-    setCurrentView("event-view")
+    navigate(`/admin/event/${clubEvent.id}`)
   }
 
   if (currentView === "reserve-view") {
