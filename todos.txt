@@ -42,7 +42,6 @@ Season Long Points:
 Registration:
 - Enforce require ghin at the server level
 - Don't show the register now button right away
-* Validate registration flow for all event types
 - Add player during registration flow (open events)
 - Enforce age rules 
 * Handle team skins
@@ -61,6 +60,7 @@ General:
 * Document mgmt button with spots on the site for specific docs
 - Markdown edit in website
 - Logout should not result in a 401
+* Confirmation emails for weeknights and majors
 
 Administration:
 - Add announcement
@@ -75,7 +75,6 @@ Administration:
 * Post tee times
 - Post general doc (like pin locations)
 - Move player
-- Add player
 - Drop player (w/ optional refund)
 - Move group
 - Drop group (w/ optional refund)
@@ -98,7 +97,7 @@ Reports:
 
 Testing:
 - Organize test utilities and test data
-- 
+
 Styling:
 - Move to classes as much as possible
 - Consistency in the box display

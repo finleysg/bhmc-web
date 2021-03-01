@@ -5,7 +5,7 @@ function Logo() {
   return (
     <div className="header__logo">
       <h1>
-        <Link to="home">{isMobile() ? "BHMC" : "Bunker Hills Men's Golf Club"}</Link>
+        <Link to="/home">{isMobile() ? "BHMC" : "Bunker Hills Men's Golf Club"}</Link>
       </h1>
     </div>
   )

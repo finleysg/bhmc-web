@@ -1,12 +1,19 @@
 import React from "react"
 
-import { useEventRegistration } from "context/registration-context"
-
 import EventFeeHeader from "./event-fee-header"
 import RegistrationSlot from "./registration-slot"
 
-function RegistrationGroup({ eventFees, layout, ...rest }) {
-  const { registration, payment, removePlayer, addFee, removeFee } = useEventRegistration()
+function RegistrationGroup({
+  eventFees,
+  layout,
+  registration,
+  payment,
+  removePlayer,
+  addFee,
+  removeFee,
+  ...rest
+}) {
+  // const { registration, payment, removePlayer, addFee, removeFee } = useEventRegistration()
 
   const handleRemovePlayer = (slot) => {
     removePlayer(slot)

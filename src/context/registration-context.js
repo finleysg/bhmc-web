@@ -4,11 +4,21 @@ import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
-import { useMutation, useQuery, useQueryClient } from "react-query"
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query"
 import * as config from "utils/app-config"
 
-import { useAuth, useClient } from "./auth-context"
-import { EventRegistrationActions, eventRegistrationReducer } from "./registration-reducer"
+import {
+  useAuth,
+  useClient,
+} from "./auth-context"
+import {
+  EventRegistrationActions,
+  eventRegistrationReducer,
+} from "./registration-reducer"
 
 const RegistrationSteps = {
   Pending: {
@@ -327,13 +337,13 @@ function EventRegistrationProvider(props) {
   )
 
   const savePayment = React.useCallback(
-    (notificationType, callback) => {
+    (callback) => {
       if (state.payment?.id) {
         updatePayment(state.payment, {
           onSuccess: () => callback(),
         })
       } else {
-        const payment = { ...state.payment, notificationType }
+        const payment = { ...state.payment }
         createPayment(payment, {
           onSuccess: () => callback(),
         })
@@ -358,6 +368,35 @@ function EventRegistrationProvider(props) {
         // Most likely, we don't have a payment to delete.
         console.error(error)
         dispatch({ type: EventRegistrationActions.UpdateError, payload: null })
+      },
+    },
+  )
+
+  const { mutate: adminPayment } = useMutation(
+    (payment, player) => {
+      return client(`payments/?player=${player.email}`, {
+        data: {
+          event: eventId,
+          user: user.id,
+          notification_type: "A",
+          payment_code: payment.paymentCode,
+          payment_amount: payment.paymentAmount,
+          payment_details: payment.details.map((f) => {
+            return {
+              event_fee: f.eventFeeId,
+              registration_slot: f.slotId,
+            }
+          }),
+        },
+      })
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.setQueryData(["payment", variables.eventId], data)
+        dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
+      },
+      onError: (error) => {
+        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
       },
     },
   )
@@ -418,6 +457,7 @@ function EventRegistrationProvider(props) {
     completeRegistration,
     resetRegistration,
     savePayment,
+    adminPayment,
     updateStep,
     addPlayer,
     removePlayer,

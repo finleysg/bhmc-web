@@ -4,13 +4,13 @@ import {
   IndexTab,
   Tabs,
 } from "components/tabs"
-import { useEventRegistration } from "context/registration-context"
+import { useEventAdmin } from "context/admin-context"
 
 import { ReserveGrid } from "./reserve-grid"
 
-function ReserveView({ reserveTables, onReserve }) {
+function ReserveAdmin({ reserveTables, onReserve }) {
   const [selectedTableIndex, updateSelectedTableIndex] = React.useState(0)
-  const { error } = useEventRegistration()
+  const { error } = useEventAdmin()
 
   return (
     <div className="row">
@@ -41,4 +41,4 @@ function ReserveView({ reserveTables, onReserve }) {
   )
 }
 
-export { ReserveView }
+export { ReserveAdmin }

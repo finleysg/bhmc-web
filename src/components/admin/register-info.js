@@ -1,32 +1,22 @@
 import React from "react"
 
+import RegistrationAmountDue from "components/event-registration/registration-amount-due"
+import RegistrationGroup from "components/event-registration/registration-group"
 import { OverlaySpinner } from "components/spinners"
-import { useEventRegistration } from "context/registration-context"
+import { useEventAdmin } from "context/admin-context"
 import debounceFn from "debounce-fn"
 import { getAmountDue } from "utils/payment-utils"
 
-import RegistrationAmountDue from "./registration-amount-due"
-import RegistrationGroup from "./registration-group"
-
-function RegistrationForm({
-  onCancel,
-  onComplete,
-  selectedStart,
-  title,
-  layout,
-  isAdmin,
-  ...rest
-}) {
+function RegisterInfo({ onCancel, onComplete, selectedStart, title, layout, ...rest }) {
   const {
     clubEvent,
     registration,
     payment,
     updateRegistration,
-    savePayment,
     removePlayer,
     addFee,
     removeFee,
-  } = useEventRegistration()
+  } = useEventAdmin()
 
   const isBusy = registration === undefined || registration.id === undefined
 
@@ -40,12 +30,10 @@ function RegistrationForm({
     updateNotes(reg)
   }
 
-  const amountDue = getAmountDue(payment, clubEvent.feeMap)
+  const amountDue = getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
 
   const confirm = () => {
-    savePayment(() => {
-      onComplete()
-    })
+    onComplete()
   }
 
   return (
@@ -66,13 +54,10 @@ function RegistrationForm({
           layout={layout}
         />
         <RegistrationAmountDue amountDue={amountDue} />
-        {/* <div>
-          <ErrorDisplay error={error} isError={Boolean(error)} />
-        </div> */}
         <hr />
         <div className="row">
           <div className="col-12">
-            <label>Notes / Special Requests</label>
+            <label>Notes</label>
             <textarea
               className="form-control fc-alt"
               defaultValue={registration.notes}
@@ -97,7 +82,7 @@ function RegistrationForm({
               style={{ marginLeft: ".5rem" }}
               onClick={confirm}
             >
-              Confirm & Pay
+              Payment Info
             </button>
           </div>
         </div>
@@ -106,4 +91,4 @@ function RegistrationForm({
   )
 }
 
-export default RegistrationForm
+export default RegisterInfo

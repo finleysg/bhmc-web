@@ -1,12 +1,11 @@
 import React from "react"
 
-import { useEventRegistration } from "context/registration-context"
-
+// import { useEventRegistration } from "context/registration-context"
 import { ReserveRow } from "./reserve-row"
 
-function ReserveGrid({ table, onReserve, ...rest }) {
+function ReserveGrid({ table, error, onReserve, ...rest }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])
-  const { error } = useEventRegistration()
+  // const { error } = useEventRegistration()
 
   // TODO: make sure we don't need to actually check the error.
   // I'm assuming it means the selected slots have already been taken.
