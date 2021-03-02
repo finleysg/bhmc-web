@@ -190,4 +190,17 @@ const calculateTeetime = (startingTime, startingOrder) => {
   return format(addMinutes(startingTime, offset), "h:mm a")
 }
 
-export { LoadReserveTables, ReserveGroup, ReserveSlot, ReserveTable }
+const calculateStartingHole = (holeNumber, startingOrder) => {
+  return `${holeNumber}${startingOrder === 0 ? "A" : "B"}`
+}
+
+const GetGroupStartName = (clubEvent, startingHole, startingOrder) => {
+  if (clubEvent.startType === "Shotgun") {
+    return calculateStartingHole(startingHole, startingOrder)
+  } else {
+    const startingTime = parse(clubEvent.startTime, "h:mm a", clubEvent.startDate)
+    return calculateTeetime(startingTime, startingOrder)
+  }
+}
+
+export { GetGroupStartName, LoadReserveTables, ReserveGroup, ReserveSlot, ReserveTable }

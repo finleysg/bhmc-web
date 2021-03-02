@@ -3,7 +3,10 @@ import React from "react"
 import { LoadingSpinner } from "components/spinners"
 import { useClient } from "context/auth-context"
 import { slugify } from "models/club-event"
-import { getPaymentReportHeader, getPaymentReportRows } from "utils/report-utils"
+import {
+  getPaymentReportHeader,
+  getPaymentReportRows,
+} from "utils/report-utils"
 import { useAsync } from "utils/use-async"
 
 import DownloadButton from "./download-button"
@@ -28,41 +31,54 @@ function PaymentReport({ eventId, clubEvent }) {
   }
 
   return (
-    <div style={{ width: "60vw", height: "75vh", overflowY: "auto" }}>
-      <DownloadButton data={getDownloadFile()} filename={reportName} />
-      <table className="table table-striped table-sm">
-        <thead>
-          <tr>
-            {reportHeader.map((h) => (
-              <th key={h.replace(" ", "-").toLowerCase()}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {!isLoading &&
-            reportData.map((row, rx) => {
-              return (
-                <tr key={rx}>
-                  {row.map((cell, cx) => {
+    <div className="card">
+      <div className="card-body">
+        <h4 className="card-title text-success">{clubEvent.name} Payment Report</h4>
+        <DownloadButton data={getDownloadFile()} filename={reportName} />
+        <div className="card-text">
+          <div style={{ overflowY: "auto", overflowX: "auto" }}>
+            <table className="table table-striped table-sm">
+              <thead>
+                <tr>
+                  {reportHeader.map((h, hx) => (
+                    <th
+                      key={h.replace(" ", "-").toLowerCase()}
+                      style={{ textAlign: hx < 3 ? "left" : "right" }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {!isLoading &&
+                  reportData.map((row, rx) => {
                     return (
-                      <td
-                        key={`${cx}-${cell}`}
-                        style={{
-                          fontSize: ".9rem",
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {cell}
-                      </td>
+                      <tr key={rx}>
+                        {row.map((cell, cx) => {
+                          return (
+                            <td
+                              key={`${cx}-${cell}`}
+                              style={{
+                                fontSize: ".9rem",
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                                textAlign: cx < 3 ? "left" : "right",
+                              }}
+                            >
+                              {cell}
+                            </td>
+                          )
+                        })}
+                      </tr>
                     )
                   })}
-                </tr>
-              )
-            })}
-        </tbody>
-      </table>
-      <LoadingSpinner loading={isLoading} />
+              </tbody>
+            </table>
+            <LoadingSpinner loading={isLoading} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
