@@ -15,7 +15,7 @@ import RegistrationConfirm from "./registration-confirm"
 import RegistrationForm from "./registration-form"
 import RegistrationPayment from "./registration-payment"
 
-function RegisterView({ selectedStart, onCancel }) {
+function RegisterView({ selectedStart, mode, onCancel }) {
   const {
     clubEvent,
     registration,
@@ -35,7 +35,7 @@ function RegisterView({ selectedStart, onCancel }) {
       : clubEvent?.fees.length > 5
       ? "vertical"
       : "horizontal"
-  const showPickers = clubEvent?.maximumSignupGroupSize > 1
+  const showPickers = mode === "new" && clubEvent?.maximumSignupGroupSize > 1
 
   const handleFriendSelect = (friend) => {
     const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
@@ -54,7 +54,9 @@ function RegisterView({ selectedStart, onCancel }) {
 
   const handleCancel = () => {
     setShowConfirm(false)
-    cancelRegistration(registration.id)
+    if (mode === "new") {
+      cancelRegistration(registration.id)
+    }
     onCancel()
   }
 
@@ -69,6 +71,7 @@ function RegisterView({ selectedStart, onCancel }) {
           <div>
             <RegistrationForm
               layout={layout}
+              mode={mode}
               title={EventRegistrationSteps.Register.title}
               selectedStart={selectedStart}
               onCancel={setShowConfirm}

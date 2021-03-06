@@ -3,7 +3,10 @@ import { EventView } from "components/events/event-view"
 import { OverlaySpinner } from "components/spinners"
 import { parse } from "date-fns"
 import { useClubEvent } from "hooks/event-hooks"
-import { useNavigate, useParams } from "react-router-dom"
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom"
 import * as config from "utils/app-config"
 
 function EventDetailPage() {
@@ -22,10 +25,10 @@ function EventDetailPage() {
   return (
     <div className="content__inner">
       <OverlaySpinner loading={isLoading} />
-      {!isLoading && clubEvent.registrationIsOpen && (
+      {!isLoading && clubEvent.paymentsAreOpen && (
         <EventRegistrationManager clubEvent={clubEvent} />
       )}
-      {(!isLoading && clubEvent.registrationIsOpen) || <EventView clubEvent={clubEvent} />}
+      {(!isLoading && clubEvent.paymentsAreOpen) || <EventView clubEvent={clubEvent} />}
     </div>
   )
 }

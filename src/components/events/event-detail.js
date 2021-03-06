@@ -3,6 +3,7 @@ import "./events.scss"
 import React from "react"
 
 import { AdminLink } from "components/button/admin-button"
+import { EditRegistrationButton } from "components/button/edit-registration-button"
 import { EventPortalButton } from "components/button/portal-button"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
@@ -11,9 +12,12 @@ import { RegistrationSteps } from "context/registration-context"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
-import { dayAndDateFormat, dayDateAndTimeFormat } from "utils/event-utils"
+import {
+  dayAndDateFormat,
+  dayDateAndTimeFormat,
+} from "utils/event-utils"
 
-function EventActionButtons({ clubEvent, onRegister }) {
+function EventActionButtons({ clubEvent, onRegister, onEditRegistration }) {
   return (
     <div className="event-header">
       <div className="event-header--title">
@@ -22,6 +26,11 @@ function EventActionButtons({ clubEvent, onRegister }) {
       <div className="event-header--actions">
         <EventPortalButton clubEvent={clubEvent} />
         <RegisteredButton clubEvent={clubEvent} />
+        <EditRegistrationButton
+          clubEvent={clubEvent}
+          currentStep={RegistrationSteps.Pending}
+          onClick={onEditRegistration}
+        />
         <RegisterButton
           clubEvent={clubEvent}
           currentStep={RegistrationSteps.Pending}
@@ -32,7 +41,7 @@ function EventActionButtons({ clubEvent, onRegister }) {
   )
 }
 
-function EventDetail({ clubEvent, onRegister }) {
+function EventDetail({ clubEvent, onRegister, onEditRegistration }) {
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
 
   return (
@@ -40,7 +49,11 @@ function EventDetail({ clubEvent, onRegister }) {
       <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
       <div className="card-body">
         <OverlaySpinner loading={!clubEvent?.id} />
-        <EventActionButtons clubEvent={clubEvent} onRegister={onRegister} />
+        <EventActionButtons
+          clubEvent={clubEvent}
+          onRegister={onRegister}
+          onEditRegistration={onEditRegistration}
+        />
         <div className="card-text">
           <div className="registration-start-item">
             <div className="label">Event date:</div>

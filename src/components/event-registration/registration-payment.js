@@ -1,8 +1,15 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import {
+  CardElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js"
 
 import React from "react"
 
-import { CreditCardList, StyledCardElement } from "components/credit-card"
+import {
+  CreditCardList,
+  StyledCardElement,
+} from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
 import { CheckBox } from "components/field/check-box"
 import { OverlaySpinner } from "components/spinners"
@@ -72,24 +79,28 @@ function RegistrationPayment(props) {
   }
 
   const submitPayment = async (method) => {
-    // The setup_future_usage defaults to "on_session", unless this is a new card
-    // and the player has not elected to save it.
-    const thisPaymentMethod = {
-      payment_method: method.id,
-    }
-    if (paymentMethod === "new" && saveCard) {
-      thisPaymentMethod.setup_future_usage = "on_session"
-    }
-    const result = await stripe.confirmCardPayment(payment.paymentKey, thisPaymentMethod)
-    if (result.error) {
+    try {
+      // The setup_future_usage defaults to "on_session", unless this is a new card
+      // and the player has not elected to save it.
+      const thisPaymentMethod = {
+        payment_method: method.id,
+      }
+      if (paymentMethod === "new" && saveCard) {
+        thisPaymentMethod.setup_future_usage = "on_session"
+      }
+      const result = await stripe.confirmCardPayment(payment.paymentKey, thisPaymentMethod)
+      if (result.error) {
+        // publishBusyFeedback(false)
+        toast.error("😟 Something went wrong.")
+        const message = result.error.message
+        setPaymentError(message)
+      } else if (result.paymentIntent) {
+        // publishBusyFeedback(false)
+        toast.success("💸 Your payment has been accepted.")
+        onComplete()
+      }
+    } finally {
       publishBusyFeedback(false)
-      toast.error("😟 Something went wrong.")
-      const message = result.error.message
-      setPaymentError(message)
-    } else if (result.paymentIntent) {
-      publishBusyFeedback(false)
-      toast.success("💸 Your payment has been accepted.")
-      onComplete()
     }
   }
 

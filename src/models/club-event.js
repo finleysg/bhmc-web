@@ -1,6 +1,13 @@
-import { addDays, isWithinInterval, parse } from "date-fns"
+import {
+  addDays,
+  isWithinInterval,
+  parse,
+} from "date-fns"
 import { immerable } from "immer"
-import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
+import {
+  dayDateAndTimeFormat,
+  isoDayFormat,
+} from "utils/event-utils"
 
 const mapRegistrationType = (code) => {
   switch (code) {
@@ -169,7 +176,9 @@ function ClubEvent(json) {
   this.minimumSignupGroupSize = json.minimum_signup_group_size
   this.name = json.name
   this.notes = json.notes
-  this.paymentsEnd = new Date(json.payements_end)
+  this.paymentsEnd = Boolean(json.payments_end)
+    ? new Date(json.payments_end)
+    : new Date(json.signup_end)
   this.portalUrl = json.portal_url
   this.registrationMaximum = json.registration_maximum
   this.registrationType = mapRegistrationType(json.registration_type)
@@ -203,6 +212,13 @@ function ClubEvent(json) {
   this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(
     this.signupEnd,
   )}`
+  this.paymentsAreOpen =
+    this.registrationTypeCode === "N"
+      ? false
+      : isWithinInterval(new Date(), {
+          start: this.signupStart,
+          end: this.paymentsEnd,
+        })
   this.registrationIsOpen =
     this.registrationTypeCode === "N"
       ? false

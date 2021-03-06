@@ -11,10 +11,9 @@ function RegistrationGroup({
   removePlayer,
   addFee,
   removeFee,
+  mode,
   ...rest
 }) {
-  // const { registration, payment, removePlayer, addFee, removeFee } = useEventRegistration()
-
   const handleRemovePlayer = (slot) => {
     removePlayer(slot)
   }
@@ -34,6 +33,7 @@ function RegistrationGroup({
         <RegistrationSlot
           key={slot.id}
           slot={slot}
+          mode={mode}
           payment={payment}
           eventFees={eventFees}
           onRemovePlayer={handleRemovePlayer}

@@ -6,7 +6,6 @@ import { Payment } from "models/payment"
 import { Registration } from "models/registration"
 import {
   useMutation,
-  useQuery,
   useQueryClient,
 } from "react-query"
 import * as config from "utils/app-config"
@@ -61,14 +60,14 @@ function EventRegistrationProvider(props) {
   // TODO: generalize (some day)
   const isReturning = useRegistrationStatus(config.previousSeasonEventId)
 
-  const paymentPlaceholder = () => {
+  const paymentPlaceholder = React.useCallback(() => {
     const placeholder = new Payment({
       id: 0,
       event: eventId,
       user: user.id,
     })
     return placeholder
-  }
+  }, [eventId, user])
 
   const loadEvent = React.useCallback(
     (id) => {
@@ -84,67 +83,89 @@ function EventRegistrationProvider(props) {
     dispatch({ type: EventRegistrationActions.UpdateStep, payload: step })
   }, [])
 
-  useQuery(
-    ["registration", eventId],
-    () => {
-      if (user && user.is_authenticated && eventId) {
-        return client(`registration/?event_id=${eventId}&player=me`).then((data) => data[0])
-      }
-    },
-    {
-      initialData: () => {
-        const queryData = queryClient.getQueryData("registration")
-        if (queryData !== undefined) {
-          if (Array.isArray(queryData)) {
-            return queryData.find((r) => r.event === eventId)
-          }
-          return queryData
-        }
-      },
-      staleTime: 1000 * 60 * 15,
-      cacheTime: 1000 * 60 * 15,
-      onSuccess: (data) => {
-        if (data) {
-          dispatch({
-            type: EventRegistrationActions.UpdateRegistration,
-            payload: new Registration(data),
-          })
-        }
-      },
-      onError: (error) =>
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
-    },
-  )
+  //   useQuery(
+  //     ["registration", eventId],
+  //     () => {
+  //       if (user && user.is_authenticated && eventId) {
+  //         return client(`registration/?event_id=${eventId}&player=me`).then((data) => data[0])
+  //       }
+  //     },
+  //     {
+  //       initialData: () => {
+  //         const queryData = queryClient.getQueryData("registration")
+  //         if (queryData !== undefined) {
+  //           if (Array.isArray(queryData)) {
+  //             return queryData.find((r) => r.event === eventId)
+  //           }
+  //           return queryData
+  //         }
+  //       },
+  //       staleTime: 1000 * 60 * 15,
+  //       cacheTime: 1000 * 60 * 15,
+  //       onSuccess: (data) => {
+  //         if (data) {
+  //           dispatch({
+  //             type: EventRegistrationActions.UpdateRegistration,
+  //             payload: new Registration(data),
+  //           })
+  //         }
+  //       },
+  //       onError: (error) =>
+  //         dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
+  //     },
+  //   )
 
-  useQuery(
-    ["payment", eventId],
-    () => {
-      if (user && user.is_authenticated && eventId) {
-        return client(`payments/?event=${eventId}&player=me`).then((data) => data[0])
-      }
+  //   useQuery(
+  //     ["payment", eventId],
+  //     () => {
+  //       if (user && user.is_authenticated && eventId) {
+  //         return client(`payments/?event=${eventId}&player=me`).then((data) => data[0])
+  //       }
+  //     },
+  //     {
+  //       initialData: () => {
+  //         const queryData = queryClient.getQueryData("payment")
+  //         if (queryData !== undefined) {
+  //           if (Array.isArray(queryData)) {
+  //             return queryData.find((r) => r.event === eventId)
+  //           }
+  //           return queryData
+  //         }
+  //       },
+  //       staleTime: 1000 * 60 * 15,
+  //       cacheTime: 1000 * 60 * 15,
+  //       onSuccess: (data) => {
+  //         if (data) {
+  //           dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
+  //         } else {
+  //           dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
+  //         }
+  //       },
+  //       onError: (error) =>
+  //         dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
+  //     },
+  //   )
+
+  const loadRegistration = React.useCallback(
+    (playerId) => {
+      return client(`registration/?event_id=${eventId}&player_id=${playerId}`).then((data) => {
+        const registration = new Registration(data[0])
+        return client(`registration-fees/?registration_id=${registration.id}&confirmed=true`).then(
+          (fees) => {
+            dispatch({
+              type: EventRegistrationActions.LoadRegistration,
+              payload: {
+                registration: registration,
+                payment: paymentPlaceholder(),
+                existingFees: fees,
+              },
+            })
+            queryClient.setQueryData(["registration", eventId], data[0])
+          },
+        )
+      })
     },
-    {
-      initialData: () => {
-        const queryData = queryClient.getQueryData("payment")
-        if (queryData !== undefined) {
-          if (Array.isArray(queryData)) {
-            return queryData.find((r) => r.event === eventId)
-          }
-          return queryData
-        }
-      },
-      staleTime: 1000 * 60 * 15,
-      cacheTime: 1000 * 60 * 15,
-      onSuccess: (data) => {
-        if (data) {
-          dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
-        } else {
-          dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
-        }
-      },
-      onError: (error) =>
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
-    },
+    [client, eventId, queryClient, paymentPlaceholder],
   )
 
   const { mutate: createRegistration } = useMutation(
@@ -451,6 +472,7 @@ function EventRegistrationProvider(props) {
   const value = {
     ...state,
     loadEvent,
+    loadRegistration,
     createRegistration,
     updateRegistration,
     cancelRegistration,

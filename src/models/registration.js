@@ -33,6 +33,7 @@ function RegistrationSlot(json) {
   this.startingOrder = json.starting_order
   this.slot = json.slot
   this.status = json.status
+  this.paidFeeIds = []
 }
 
 export { Registration, RegistrationSlot }

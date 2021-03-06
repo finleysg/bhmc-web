@@ -3,6 +3,7 @@ import React from "react"
 import { EventView } from "components/events/event-view"
 import { ReserveView } from "components/reserve/reserve-view"
 import { useEventRegistration } from "context/registration-context"
+import { usePlayer } from "hooks/account-hooks"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
 import { toast } from "react-toastify"
@@ -11,12 +12,16 @@ import { RegisterView } from "./register-view"
 
 function EventRegistrationManager({ clubEvent }) {
   const [currentView, setCurrentView] = React.useState("event-view")
+  const [mode, setMode] = React.useState("new")
   const [selectedStart, setSelectedStart] = React.useState("")
+
+  const player = usePlayer()
   const {
     error,
     cancelRegistration,
     completeRegistration,
     createRegistration,
+    loadRegistration,
     resetRegistration,
     loadEvent,
     registration,
@@ -52,7 +57,7 @@ function EventRegistrationManager({ clubEvent }) {
   }, [error, resetRegistration])
 
   const handleStart = () => {
-    // If something went wrong earlier, we need to clean up
+    // If something went wrong earlier, clean up
     if (registration && registration.id) {
       cancelRegistration(registration.id)
     }
@@ -70,6 +75,13 @@ function EventRegistrationManager({ clubEvent }) {
         },
       })
     }
+  }
+
+  const handleEdit = () => {
+    loadRegistration(player.id).then(() => {
+      setMode("edit")
+      setCurrentView("register-view")
+    })
   }
 
   const handleReserve = (course, groupName, slots) => {
@@ -91,13 +103,20 @@ function EventRegistrationManager({ clubEvent }) {
   }
 
   // TODO: if there are no slots created and the event is a can_choose event, we cannot
-  // continue. What to do?
+  // continue. Throw a big fat warning --> admin needs to fix this scenario.
   if (currentView === "event-view") {
-    return <EventView clubEvent={clubEvent} openings={openings()} onRegister={handleStart} />
+    return (
+      <EventView
+        clubEvent={clubEvent}
+        openings={openings()}
+        onRegister={handleStart}
+        onEditRegistration={handleEdit}
+      />
+    )
   } else if (currentView === "reserve-view") {
     return <ReserveView reserveTables={reserveTables} onReserve={handleReserve} />
   } else if (currentView === "register-view") {
-    return <RegisterView selectedStart={selectedStart} onCancel={handleCancel} />
+    return <RegisterView selectedStart={selectedStart} onCancel={handleCancel} mode={mode} />
   }
 }
 

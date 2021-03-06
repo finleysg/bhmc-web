@@ -8,6 +8,7 @@ import RegistrationSlotPlayer from "./registration-slot-player"
 function RegistrationSlot({
   layout,
   slot,
+  mode,
   payment,
   eventFees,
   onRemovePlayer,
@@ -40,16 +41,17 @@ function RegistrationSlot({
 
   return (
     <div className="slot" style={{ backgroundColor: colors.gray50 }}>
-      <RegistrationSlotPlayer slot={slot} onRemovePlayer={onRemovePlayer} />
+      <RegistrationSlotPlayer slot={slot} onRemovePlayer={onRemovePlayer} mode={mode} />
       <div className="fees">
         {eventFees.map((eventFee) => {
+          const existing = slot.paidFeeIds.indexOf(eventFee.id) >= 0
           return (
             <EventFeeItem
               key={eventFee.id * slot.id}
               fee={eventFee}
               playerId={slot.playerId}
-              selected={hasPaymentDetail(eventFee)}
-              disabled={slot.playerId === 0}
+              selected={hasPaymentDetail(eventFee) || existing}
+              disabled={slot.playerId === 0 || existing}
               onToggleFee={handleToggleFee}
               {...rest}
             />

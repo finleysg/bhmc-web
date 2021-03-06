@@ -8,15 +8,7 @@ import { getAmountDue } from "utils/payment-utils"
 import RegistrationAmountDue from "./registration-amount-due"
 import RegistrationGroup from "./registration-group"
 
-function RegistrationForm({
-  onCancel,
-  onComplete,
-  selectedStart,
-  title,
-  layout,
-  isAdmin,
-  ...rest
-}) {
+function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, mode, ...rest }) {
   const {
     clubEvent,
     registration,
@@ -64,6 +56,7 @@ function RegistrationForm({
           addFee={addFee}
           removeFee={removeFee}
           layout={layout}
+          mode={mode}
         />
         <RegistrationAmountDue amountDue={amountDue} />
         {/* <div>
@@ -79,6 +72,7 @@ function RegistrationForm({
               onChange={handleNotesChange}
               rows="4"
               name="notes"
+              readOnly={mode === "edit"}
             ></textarea>
           </div>
         </div>

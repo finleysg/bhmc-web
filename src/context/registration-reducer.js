@@ -28,6 +28,7 @@ const EventRegistrationSteps = {
 
 const EventRegistrationActions = {
   LoadEvent: "load-event",
+  LoadRegistration: "load-registration",
   CreateRegistration: "create-registration",
   UpdateRegistration: "update-registration",
   CancelRegistration: "cancel-registration",
@@ -41,7 +42,13 @@ const EventRegistrationActions = {
   RemoveFee: "remove-fee",
 }
 
+const EventRegistrationModes = {
+  New: "new",
+  Edit: "edit",
+}
+
 const initialEventRegistrationState = {
+  mode: EventRegistrationModes.New,
   clubEvent: null,
   registration: null,
   payment: null,
@@ -66,7 +73,21 @@ const eventRegistrationReducer = produce((draft, action) => {
       draft.currentStep = payload
       return
     }
+    case EventRegistrationActions.LoadRegistration: {
+      draft.mode = EventRegistrationModes.Edit
+      draft.currentStep = EventRegistrationSteps.Register
+      draft.registration = payload.registration
+      draft.registration.slots.forEach((slot) => {
+        // The event_fee_ids already paid
+        payload.existingFees
+          .filter((f) => f.registration_slot === slot.id)
+          .forEach((f) => slot.paidFeeIds.push(f.event_fee))
+      })
+      draft.payment = payload.payment
+      return
+    }
     case EventRegistrationActions.CreateRegistration: {
+      draft.mode = EventRegistrationModes.New
       draft.registration = payload.registration
       draft.payment = payload.payment
       draft.currentStep = EventRegistrationSteps.Register
