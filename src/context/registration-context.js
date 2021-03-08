@@ -60,6 +60,9 @@ function EventRegistrationProvider(props) {
   // TODO: generalize (some day)
   const isReturning = useRegistrationStatus(config.previousSeasonEventId)
 
+  /**
+   * Creates an empty payment object, used to collect payment details.
+   */
   const paymentPlaceholder = React.useCallback(() => {
     const placeholder = new Payment({
       id: 0,
@@ -69,6 +72,10 @@ function EventRegistrationProvider(props) {
     return placeholder
   }, [eventId, user])
 
+  /**
+   * Loads the given event into state and resets all other state.
+   * @param {number} id - The event id to load.
+   */
   const loadEvent = React.useCallback(
     (id) => {
       const event = events.find((evt) => evt.id === id)
@@ -276,15 +283,12 @@ function EventRegistrationProvider(props) {
 
   const { mutate: cancelRegistration } = useMutation(
     (registrationId) => {
-      return client(`registration/${registrationId}/cancel`, {
+      return client(`registration/${registrationId}/cancel/?payment_id=${state.payment?.id ?? 0}`, {
         method: "PUT",
       })
     },
     {
       onSettled: () => {
-        if (state.payment?.id) {
-          deletePayment(state.payment.id)
-        }
         dispatch({ type: EventRegistrationActions.CancelRegistration })
         queryClient.invalidateQueries("registration", { refetchActive: false })
         queryClient.invalidateQueries(["event-registrations", eventId])
@@ -373,26 +377,6 @@ function EventRegistrationProvider(props) {
     [state?.payment, createPayment, updatePayment],
   )
 
-  const { mutate: deletePayment } = useMutation(
-    (paymentId) => {
-      return client(`payments/${paymentId}`, {
-        method: "DELETE",
-      })
-    },
-    {
-      onSettled: () => {
-        queryClient.invalidateQueries("payment", { refetchActive: false })
-        dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
-      },
-      onError: (error) => {
-        // Clear this error, otherwise we will be stuck in an unrecoverable state.
-        // Most likely, we don't have a payment to delete.
-        console.error(error)
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: null })
-      },
-    },
-  )
-
   const { mutate: adminPayment } = useMutation(
     (payment, player) => {
       return client(`payments/?player=${player.email}`, {
@@ -422,27 +406,27 @@ function EventRegistrationProvider(props) {
     },
   )
 
-  const addPlayer = (slot, player) => {
-    // React.useCallback(
-    updateRegistrationSlotPlayer(
-      { slotId: slot.id, playerId: player.id },
-      {
-        onSuccess: () => {
-          dispatch({
-            type: EventRegistrationActions.AddPlayer,
-            payload: { slot, player },
-          })
-          queryClient.invalidateQueries(["friends", eventId])
+  const addPlayer = React.useCallback(
+    (slot, player) => {
+      updateRegistrationSlotPlayer(
+        { slotId: slot.id, playerId: player.id },
+        {
+          onSuccess: () => {
+            dispatch({
+              type: EventRegistrationActions.AddPlayer,
+              payload: { slot, player },
+            })
+            queryClient.invalidateQueries(["friends", eventId])
+          },
+          onError: (error) => {
+            dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
+            return
+          },
         },
-        onError: (error) => {
-          dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
-          return
-        },
-      },
-    )
-  }
-  //     [updateRegistrationSlotPlayer, queryClient, eventId, state.clubEvent.fees, state.payment],
-  //   )
+      )
+    },
+    [updateRegistrationSlotPlayer, queryClient, eventId],
+  )
 
   const removePlayer = React.useCallback(
     (slot) => {

@@ -47,13 +47,14 @@ Registration:
 * Handle team skins
 * Refresh and Back on the reserve page
 - Sort by widget (player or date)
-* Confirmation emails for weeknights and majors
 - Don't leave pending spots on admin signup
 - Selected start is missing on Skins payment flow
 - Intermittent bomb: payment-reducer.js ln 82
+- On database conflict - issue a expired cleanup call?
+- Validate required fees
+- Reload on /registrations seems to have a problem
 
 General:
-* Handle cleanup on abandoned flows
 - Image optimization
 * Performance review / optimization in Django
 - Giphy production api key
@@ -64,6 +65,7 @@ General:
 * Document mgmt button with spots on the site for specific docs
 - Markdown edit in website
 - Logout should not result in a 401
+- React unmount warning: RegisterButton and EventDetail
 
 Administration:
 - Add announcement
