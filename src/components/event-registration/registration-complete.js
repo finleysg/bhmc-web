@@ -6,7 +6,7 @@ import { useAuth } from "context/auth-context"
 import { useEventRegistration } from "context/registration-context"
 import { Link } from "react-router-dom"
 
-function RegistrationComplete({ selectedStart, title }) {
+function RegistrationComplete({ selectedStart, title, mode }) {
   const { user } = useAuth()
   const { clubEvent } = useEventRegistration()
 
@@ -19,12 +19,22 @@ function RegistrationComplete({ selectedStart, title }) {
         <h4 className="card-title text-success">{selectedStart}</h4>
         <div className="row" style={{ marginBottom: "1rem" }}>
           <div className="col-12">
-            <h3 className="text-success">You're In!</h3>
-            <p>
-              A confirmation email will be sent to {user?.email}, as well as a receipt from our
-              payment provider.
-            </p>
-            <RandomGif enabled={true} />
+            {mode === "edit" && (
+              <p>
+                Your registration has been updated. You should receive an email receipt from our
+                payment provider.
+              </p>
+            )}
+            {mode === "new" && (
+              <>
+                <h3 className="text-success">You're In!</h3>
+                <p>
+                  A confirmation email will be sent to {user?.email}, as well as a receipt from our
+                  payment provider.
+                </p>
+                <RandomGif enabled={true} />
+              </>
+            )}
           </div>
         </div>
         <hr />

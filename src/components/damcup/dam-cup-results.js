@@ -27,7 +27,7 @@ function DamCupResults() {
           <tbody>
             {results.map((r) => {
               return (
-                <tr>
+                <tr key={r.season}>
                   <td>
                     <span title={`Played at ${r.site}`}>{r.season}</span>
                   </td>

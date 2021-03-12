@@ -66,6 +66,7 @@ General:
 - Markdown edit in website
 - Logout should not result in a 401
 - React unmount warning: RegisterButton and EventDetail
+- Load event by id when necessary (reports, for example)
 
 Administration:
 - Add announcement
@@ -79,8 +80,8 @@ Administration:
 * Post results
 * Post tee times
 - Post general doc (like pin locations)
-- Move player
-- Drop player (w/ optional refund)
+* Move player
+* Drop player (w/ optional refund)
 - Move group
 - Drop group (w/ optional refund)
 - Remove group slots

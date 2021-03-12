@@ -47,20 +47,24 @@ function EventRegistrationManager({ clubEvent }) {
 
   React.useEffect(() => {
     if (Boolean(error)) {
-      toast.error(`💥 Aww, snap! ${error}`, {
-        position: "top-right",
-        closeOnClick: true,
-        autoClose: 5000,
-      })
+      if (error.indexOf("Please try again") >= 0) {
+        toast.warning(`🧹 Oops! ${error}`, {
+          position: "top-right",
+          closeOnClick: true,
+          autoClose: 5000,
+        })
+      } else {
+        toast.error(`💥 Aww, snap! ${error}`, {
+          position: "top-right",
+          closeOnClick: true,
+          autoClose: 5000,
+        })
+      }
       resetRegistration()
     }
   }, [error, resetRegistration])
 
   const handleStart = () => {
-    // If something went wrong earlier, clean up
-    if (registration && registration.id) {
-      cancelRegistration(registration.id)
-    }
     if (clubEvent.canChoose) {
       setCurrentView("reserve-view")
     } else {

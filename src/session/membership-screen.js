@@ -3,13 +3,23 @@ import React from "react"
 import { CreateAccountButton } from "components/button/create-account-button"
 import { LoginButton } from "components/button/login-button"
 import { RegisteredButton } from "components/button/registered-button"
-import { useClubEvent } from "hooks/event-hooks"
+import { useClubEvents } from "hooks/event-hooks"
+import { loadingEvent } from "models/club-event"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
 import * as config from "utils/app-config"
+import { getClubEvent } from "utils/event-utils"
 
 function MembershipScreen() {
-  const clubEvent = useClubEvent({ eventId: config.seasonEventId, season: config.currentSeason })
+  const [clubEvent, setClubEvent] = React.useState(loadingEvent)
+  const clubEvents = useClubEvents(config.currentSeason)
+
+  React.useEffect(() => {
+    if (clubEvents && clubEvents.length > 0) {
+      const evt = getClubEvent({ events: clubEvents, eventId: config.seasonMatchPlayId })
+      setClubEvent(evt)
+    }
+  }, [clubEvents, setClubEvent])
 
   return (
     <div className="content__inner">

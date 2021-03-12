@@ -1,4 +1,8 @@
-import { format, isDate, isValid } from "date-fns"
+import {
+  format,
+  isDate,
+  isValid,
+} from "date-fns"
 
 const getDayName = (dt) => {
   const dow = dt.getDay()
@@ -99,10 +103,18 @@ const shortMonthNameFormat = (dt) => {
   return "--"
 }
 
+const getClubEvent = ({ events, eventId, eventDate, eventName }) => {
+  if (!eventId) {
+    return events.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName)
+  }
+  return events.find((e) => e.id === eventId)
+}
+
 export {
   dayAndDateFormat,
   dayDateAndTimeFormat,
   dayNameFormat,
+  getClubEvent,
   isoDayFormat,
   monthNameFormat,
   shortDayNameFormat,

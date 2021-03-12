@@ -19,6 +19,7 @@ function RegisterView({ selectedStart, mode, onCancel }) {
   const {
     clubEvent,
     registration,
+    payment,
     currentStep,
     cancelRegistration,
     updateStep,
@@ -55,7 +56,7 @@ function RegisterView({ selectedStart, mode, onCancel }) {
   const handleCancel = () => {
     setShowConfirm(false)
     if (mode === "new") {
-      cancelRegistration(registration.id)
+      cancelRegistration({ registrationId: registration.id, paymentId: payment?.id })
     }
     onCancel()
   }
@@ -108,6 +109,7 @@ function RegisterView({ selectedStart, mode, onCancel }) {
         {currentStep === EventRegistrationSteps.Complete && (
           <RegistrationComplete
             title={EventRegistrationSteps.Complete.title}
+            mode={mode}
             selectedStart={selectedStart}
           />
         )}

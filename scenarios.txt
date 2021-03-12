@@ -1,0 +1,25 @@
+single player signs up for non-wedn event
+single player signs up for wedn event
+
+player signs up group for non-wedn event
+player signs up group for wedn event
+
+player abandons a non-wedn event
+player abandons a wedn event
+
+player returns to an abandoned non-wedn event
+player returns to an abandoned wedn event
+
+player edits a non-wedn event
+player edits a wedn event
+
+player abandons an edit of a non-wedn event
+player abandons an edit of a wedn event
+
+player cancels a registration
+player cancels an edit
+
+
+remove unconfirmed payments (and cancel) when an event is closed
+    include fees and slots
+make pendings slots available for can_choose events when registration is expired

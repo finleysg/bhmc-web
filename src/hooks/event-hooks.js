@@ -25,16 +25,6 @@ function useClubEvents(year) {
   return events ?? []
 }
 
-function useClubEvent({ eventId, eventDate, eventName, season }) {
-  const events = useClubEvents(season)
-  if (!eventId) {
-    return (
-      events.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
-    )
-  }
-  return events.find((e) => e.id === eventId) ?? loadingEvent
-}
-
 function useEventRegistrations(eventId) {
   const client = useClient()
 
@@ -111,7 +101,6 @@ function usePlayerRegistrationSlots(playerId) {
 }
 
 export {
-  useClubEvent,
   useClubEvents,
   useEventRegistrations,
   useEventRegistrationSlots,

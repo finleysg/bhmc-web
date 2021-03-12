@@ -222,8 +222,13 @@ function EventRegistrationProvider(props) {
         })
         queryClient.setQueryData(["registration", variables.eventId], data)
       },
-      onError: (error) =>
-        dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
+      onError: (error) => {
+        if (error.message === "Database conflict") {
+          handleRegistrationConflict()
+        } else {
+          dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
+        }
+      },
     },
   )
 
@@ -282,8 +287,8 @@ function EventRegistrationProvider(props) {
   )
 
   const { mutate: cancelRegistration } = useMutation(
-    (registrationId) => {
-      return client(`registration/${registrationId}/cancel/?payment_id=${state.payment?.id ?? 0}`, {
+    ({ registrationId, paymentId }) => {
+      return client(`registration/${registrationId}/cancel/?payment_id=${paymentId ?? 0}`, {
         method: "PUT",
       })
     },
@@ -305,6 +310,32 @@ function EventRegistrationProvider(props) {
     queryClient.invalidateQueries("my-events", { refetchInactive: true })
     dispatch({ type: EventRegistrationActions.LoadEvent, payload: null })
   }, [queryClient])
+
+  const handleRegistrationConflict = () => {
+    Promise.all([
+      client(`registration/?event_id=${eventId}&player=me`),
+      client(`payments/?event=${eventId}&player=me`),
+    ]).then((results) => {
+      const reg = results[0]
+      const pmt = results[1]
+      if (!reg || reg.length !== 1) {
+        throw new Error(
+          `We expected a single registration for ${user.email} for event ${state.clubEvent.id}`,
+        )
+      }
+      const paymentId = pmt && pmt.length > 0 ? pmt[0].id : undefined
+      cancelRegistration(
+        { registrationId: reg[0].id, paymentId },
+        {
+          onSuccess: () => {
+            const message =
+              "We had to clean up a previous incomplete registration. Please try again."
+            dispatch({ type: EventRegistrationActions.UpdateError, payload: message })
+          },
+        },
+      )
+    })
+  }
 
   const { mutate: createPayment } = useMutation(
     (payment) => {
