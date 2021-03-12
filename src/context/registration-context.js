@@ -90,69 +90,6 @@ function EventRegistrationProvider(props) {
     dispatch({ type: EventRegistrationActions.UpdateStep, payload: step })
   }, [])
 
-  //   useQuery(
-  //     ["registration", eventId],
-  //     () => {
-  //       if (user && user.is_authenticated && eventId) {
-  //         return client(`registration/?event_id=${eventId}&player=me`).then((data) => data[0])
-  //       }
-  //     },
-  //     {
-  //       initialData: () => {
-  //         const queryData = queryClient.getQueryData("registration")
-  //         if (queryData !== undefined) {
-  //           if (Array.isArray(queryData)) {
-  //             return queryData.find((r) => r.event === eventId)
-  //           }
-  //           return queryData
-  //         }
-  //       },
-  //       staleTime: 1000 * 60 * 15,
-  //       cacheTime: 1000 * 60 * 15,
-  //       onSuccess: (data) => {
-  //         if (data) {
-  //           dispatch({
-  //             type: EventRegistrationActions.UpdateRegistration,
-  //             payload: new Registration(data),
-  //           })
-  //         }
-  //       },
-  //       onError: (error) =>
-  //         dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
-  //     },
-  //   )
-
-  //   useQuery(
-  //     ["payment", eventId],
-  //     () => {
-  //       if (user && user.is_authenticated && eventId) {
-  //         return client(`payments/?event=${eventId}&player=me`).then((data) => data[0])
-  //       }
-  //     },
-  //     {
-  //       initialData: () => {
-  //         const queryData = queryClient.getQueryData("payment")
-  //         if (queryData !== undefined) {
-  //           if (Array.isArray(queryData)) {
-  //             return queryData.find((r) => r.event === eventId)
-  //           }
-  //           return queryData
-  //         }
-  //       },
-  //       staleTime: 1000 * 60 * 15,
-  //       cacheTime: 1000 * 60 * 15,
-  //       onSuccess: (data) => {
-  //         if (data) {
-  //           dispatch({ type: EventRegistrationActions.UpdatePayment, payload: new Payment(data) })
-  //         } else {
-  //           dispatch({ type: EventRegistrationActions.UpdatePayment, payload: null })
-  //         }
-  //       },
-  //       onError: (error) =>
-  //         dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message }),
-  //     },
-  //   )
-
   const loadRegistration = React.useCallback(
     (playerId) => {
       return client(`registration/?event_id=${eventId}&player_id=${playerId}`).then((data) => {

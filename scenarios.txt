@@ -22,4 +22,5 @@ player cancels an edit
 
 remove unconfirmed payments (and cancel) when an event is closed
     include fees and slots
+remove dead registration records when an event is closed
 make pendings slots available for can_choose events when registration is expired

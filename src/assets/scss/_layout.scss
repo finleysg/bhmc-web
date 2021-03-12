@@ -54,6 +54,14 @@
   &:not(.content__inner--sm) {
     max-width: 1400px;
   }
+
+  .actions {
+    position: absolute;
+    min-height: 30px;
+    top: 0;
+    margin: auto;
+    right: 1rem;
+  }
 }
 
 .content__inner--sm {

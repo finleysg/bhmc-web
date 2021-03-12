@@ -1,9 +1,15 @@
 import React from "react"
 
 import ResultDetail from "components/results/result-detail"
-import { Tab, Tabs } from "components/tabs"
+import {
+  Tab,
+  Tabs,
+} from "components/tabs"
 import { FaCalendarAlt } from "react-icons/fa"
-import { Link, useParams } from "react-router-dom"
+import {
+  Link,
+  useParams,
+} from "react-router-dom"
 import * as config from "utils/app-config"
 
 function ResultSeasonMenu({ eventType, season }) {
@@ -16,11 +22,7 @@ function ResultSeasonMenu({ eventType, season }) {
   }
 
   return (
-    <div
-      className="actions login__actions"
-      style={{ zIndex: 10 }}
-      onClick={() => setShowMenu(!showMenu)}
-    >
+    <div className="actions" style={{ zIndex: 10 }} onClick={() => setShowMenu(!showMenu)}>
       <div className="dropdown">
         {season}{" "}
         <i className="actions__item" title="Change Season">

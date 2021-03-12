@@ -18,13 +18,11 @@ function EventRegistrationManager({ clubEvent }) {
   const player = usePlayer()
   const {
     error,
-    cancelRegistration,
     completeRegistration,
     createRegistration,
     loadRegistration,
     resetRegistration,
     loadEvent,
-    registration,
   } = useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
 
