@@ -3,7 +3,10 @@
 import { jsx } from "@emotion/core"
 
 import { useAuth } from "context/auth-context"
-import { RiHomeGearLine } from "react-icons/ri"
+import {
+  RiDeleteBin5Line,
+  RiHomeGearLine,
+} from "react-icons/ri"
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
 
@@ -36,6 +39,17 @@ const linkCss = {
   },
 }
 
+const deleteCss = {
+  marginTop: "5px",
+  color: colors.red,
+  ":hover,:focus": {
+    color: colors.red,
+  },
+  borderStyle: "none",
+  backgroundColor: "transparent",
+  cursor: "pointer",
+}
+
 function AdminLink({ to, label, ...rest }) {
   const { user } = useAuth()
 
@@ -51,4 +65,19 @@ function AdminLink({ to, label, ...rest }) {
   return null
 }
 
-export { AdminLink }
+function AdminDelete({ id, onDelete, ...rest }) {
+  const { user } = useAuth()
+
+  if (user.is_staff) {
+    return (
+      <div css={containerCss} title="Delete" {...rest}>
+        <button css={deleteCss} onClick={() => onDelete(id)}>
+          <RiDeleteBin5Line />
+        </button>
+      </div>
+    )
+  }
+  return null
+}
+
+export { AdminDelete, AdminLink }

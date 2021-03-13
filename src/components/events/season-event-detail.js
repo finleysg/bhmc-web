@@ -1,11 +1,14 @@
 import React from "react"
 
-import { AdminLink } from "components/button/admin-button"
+import { AdminLink } from "components/button/admin-buttons"
 import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
 import { OverlaySpinner } from "components/spinners"
 import { RegistrationSteps } from "context/registration-context"
-import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
+import {
+  usePlayer,
+  useRegistrationStatus,
+} from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"

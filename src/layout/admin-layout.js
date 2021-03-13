@@ -6,6 +6,7 @@ import React from "react"
 import { EventAdminProvider } from "context/admin-context"
 import { useLayout } from "context/layout-context"
 import AdminAddPlayerPage from "pages/admin-add-player-page"
+import AdminManageEventDocumentsPage from "pages/admin-manage-event-documents-page"
 import EventAdminPage from "pages/event-admin-page"
 import EventReportPage from "pages/event-report-page"
 import { NotFoundScreen } from "pages/not-found"
@@ -29,9 +30,7 @@ function AdminRoutes() {
       <Route path="/event/:eventId/add-player" element={<AdminAddPlayerPage />} />
       <Route path="/event/:eventId/manage-players" element={<UnfinishedPage />} />
       <Route path="/event/:eventId/event-portal" element={<UnfinishedPage />} />
-      <Route path="/event/:eventId/documents/tee-times" element={<UnfinishedPage />} />
-      <Route path="/event/:eventId/documents/results" element={<UnfinishedPage />} />
-      <Route path="/event/:eventId/documents/other" element={<UnfinishedPage />} />
+      <Route path="/event/:eventId/manage-documents" element={<AdminManageEventDocumentsPage />} />
       <Route path="/event/:eventId/import-points" element={<UnfinishedPage />} />
       <Route path="/event/:eventId/edit-event" element={<UnfinishedPage />} />
       <Route path="/event/:eventId/clone-event" element={<UnfinishedPage />} />

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { AdminLink } from "components/button/admin-button"
+import { AdminLink } from "components/button/admin-buttons"
 import { Link } from "react-router-dom"
 import * as config from "utils/app-config"
 

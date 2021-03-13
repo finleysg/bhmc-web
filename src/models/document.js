@@ -9,15 +9,24 @@ export const sampleDocument = {
   last_update: "2020-05-09T18:48:35-05:00",
 }
 
+export const documentTypeMap = new Map([
+  ["R", "Event Results"],
+  ["T", "Event Tee Times"],
+  ["P", "Season Long Points"],
+  ["D", "Dam Cup"],
+  ["M", "Match Play"],
+  ["F", "Financial Statements"],
+  ["S", "Sign Up"],
+  ["O", "Other"],
+])
+
 function BhmcDocument(json) {
   this.id = json.id
   this.year = json.year
   this.title = json.title
   this.documentType = json.document_type
   this.file = json.file
-  this.eventId = json.event?.id
-  this.eventName = json.event?.name
-  this.eventType = json.event?.event_type
+  this.eventType = json.event_type
   this.lastUpdate = new Date(json.last_update)
 
   this.eventTypeCode = () => {

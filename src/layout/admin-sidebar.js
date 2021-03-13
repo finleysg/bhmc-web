@@ -21,10 +21,15 @@ import { MenuItem } from "./menu-item"
 const ADMIN_BASE = process.env.REACT_APP_ADMIN_URL
 
 function AdminSidebar() {
+  const [eventId, setEventId] = React.useState()
   const { clubEvent } = useEventAdmin()
   const { sidebarOpen } = useLayout()
 
-  const eventId = clubEvent?.id ?? 0
+  React.useEffect(() => {
+    if (Boolean(clubEvent?.id)) {
+      setEventId(clubEvent.id)
+    }
+  }, [clubEvent])
 
   return (
     <aside className={sidebarOpen ? "sidebar toggled" : "sidebar"}>
@@ -56,19 +61,9 @@ function AdminSidebar() {
           name="Edit GG Portal"
         />
         <MenuItem
-          path={`/admin/event/${eventId}/documents/tee-times`}
+          path={`/admin/event/${eventId}/manage-documents`}
           icon={<HiDocumentText />}
-          name="Upload Tee Times"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/documents/results`}
-          icon={<HiDocumentText />}
-          name="Upload Results"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/documents/other`}
-          icon={<HiDocumentText />}
-          name="Upload Event Document"
+          name="Manage Event Documents"
         />
         <MenuItem
           path={`/admin/event/${eventId}/import-points`}

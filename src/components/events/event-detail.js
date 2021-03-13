@@ -2,7 +2,7 @@ import "./events.scss"
 
 import React from "react"
 
-import { AdminLink } from "components/button/admin-button"
+import { AdminLink } from "components/button/admin-buttons"
 import { EditRegistrationButton } from "components/button/edit-registration-button"
 import { EventPortalButton } from "components/button/portal-button"
 import { RegisterButton } from "components/button/register-button"

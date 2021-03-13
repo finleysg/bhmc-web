@@ -77,8 +77,6 @@ Administration:
 - Edit event notes
 * Edit event portal url
 - Clone event
-* Post results
-* Post tee times
 - Post general doc (like pin locations)
 * Move player
 * Drop player (w/ optional refund)

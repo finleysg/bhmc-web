@@ -1,6 +1,12 @@
 import { useClient } from "context/auth-context"
 import BhmcDocument from "models/document"
-import { useQuery } from "react-query"
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query"
+import { toast } from "react-toastify"
+import { useFormClient } from "utils/form-client"
 
 function useEventDocuments(eventId) {
   const client = useClient()
@@ -61,4 +67,38 @@ function useDocumentTypes(documentType) {
   return documents ?? []
 }
 
-export { useDocuments, useDocumentTypes, useEventDocuments }
+function useEventDocumentUpload() {
+  const formClient = useFormClient()
+  const queryClient = useQueryClient()
+
+  return useMutation((formData) => formClient(`documents/`, formData), {
+    onError: () => {
+      toast.error("💣 Aww, Snap! Failed to update your document.")
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("documents")
+    },
+  })
+}
+
+function useEventDocumentDelete() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation((id) => client(`documents/${id}`, { method: "DELETE" }), {
+    onError: () => {
+      toast.error("💣 Aww, Snap! Failed to delete your document.")
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("documents")
+    },
+  })
+}
+
+export {
+  useDocuments,
+  useDocumentTypes,
+  useEventDocumentDelete,
+  useEventDocuments,
+  useEventDocumentUpload,
+}
