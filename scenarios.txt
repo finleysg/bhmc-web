@@ -1,3 +1,5 @@
+Registration
+
 single player signs up for non-wedn event
 single player signs up for wedn event
 
@@ -20,7 +22,20 @@ player cancels a registration
 player cancels an edit
 
 
+Data Cleanup
+
 remove unconfirmed payments (and cancel) when an event is closed
     include fees and slots
 remove dead registration records when an event is closed
 make pendings slots available for can_choose events when registration is expired
+
+
+Dropping Players and Refunds
+
+full group with refund
+full group without refund
+full group with partial refund
+
+partial group with refund
+partial group without refund
+partial group with partial refund

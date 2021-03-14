@@ -41,7 +41,6 @@ Season Long Points:
 
 Registration:
 - Enforce require ghin at the server level
-- Don't show the register now button right away
 - Add player during registration flow (open events)
 - Enforce age rules 
 * Handle team skins
@@ -50,7 +49,6 @@ Registration:
 - Don't leave pending spots on admin signup
 - Selected start is missing on Skins payment flow
 - Intermittent bomb: payment-reducer.js ln 82
-- On database conflict - issue a expired cleanup call?
 - Validate required fees
 - Reload on /registrations seems to have a problem
 
@@ -63,9 +61,10 @@ General:
 - Review and fix issues captured by sentry
 - Review and fix rendering issues (polypane)
 * Document mgmt button with spots on the site for specific docs
+  - Financial docs
+  - ByLaws
 - Markdown edit in website
 - Logout should not result in a 401
-- React unmount warning: RegisterButton and EventDetail
 - Load event by id when necessary (reports, for example)
 
 Administration:
@@ -74,14 +73,11 @@ Administration:
 - Add hole in one
 - Edit page content
 - Edit page content title
-- Edit event notes
-* Edit event portal url
 - Clone event
 - Post general doc (like pin locations)
-* Move player
 * Drop player (w/ optional refund)
-- Move group
 - Drop group (w/ optional refund)
+* Refund a canceled event
 - Remove group slots
 - Add group slots
 - Import points
@@ -92,7 +88,6 @@ Administration:
 - Replace / place by-laws
 - Maybe a document library?
 - More contextual links to admin website
-- Different background image on the menu
 
 Reports:
 * Membership report

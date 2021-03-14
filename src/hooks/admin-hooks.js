@@ -28,4 +28,30 @@ function useEventPatch() {
   )
 }
 
-export { useEventPatch }
+function useMovePlayers() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    ({ registrationId, sourceSlotIds, destinationSlotIds }) => {
+      return client(`registration/${registrationId}/move/`, {
+        method: "PUT",
+        data: {
+          source_slots: sourceSlotIds,
+          destination_slots: destinationSlotIds,
+        },
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to move player(s).")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("event-registration-slots")
+        toast.success("⛳ Player or players have been moved.")
+      },
+    },
+  )
+}
+
+export { useEventPatch, useMovePlayers }

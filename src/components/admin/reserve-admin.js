@@ -4,13 +4,21 @@ import {
   IndexTab,
   Tabs,
 } from "components/tabs"
-import { useEventAdmin } from "context/admin-context"
+import { useMovePlayers } from "hooks/admin-hooks"
 
-import { ReserveGrid } from "./reserve-grid"
+import { ReserveGridAdmin } from "./reserve-grid-admin"
 
-function ReserveAdmin({ reserveTables, onReserve }) {
+function ReserveAdmin({ reserveTables }) {
   const [selectedTableIndex, updateSelectedTableIndex] = React.useState(0)
-  const { error } = useEventAdmin()
+  const { mutate: movePlayers } = useMovePlayers()
+
+  const handleMove = ({ registrationId, sourceSlots, destinationSlots }) => {
+    movePlayers({
+      registrationId: registrationId,
+      sourceSlotIds: sourceSlots.map((s) => s.id),
+      destinationSlotIds: destinationSlots.map((d) => d.id),
+    })
+  }
 
   return (
     <div className="row">
@@ -30,11 +38,7 @@ function ReserveAdmin({ reserveTables, onReserve }) {
               )
             })}
           </Tabs>
-          <ReserveGrid
-            table={reserveTables[selectedTableIndex]}
-            error={error}
-            onReserve={onReserve}
-          />
+          <ReserveGridAdmin table={reserveTables[selectedTableIndex]} onMove={handleMove} />
         </div>
       </div>
     </div>

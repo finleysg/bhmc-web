@@ -126,6 +126,22 @@ function ReserveTable(course) {
       })
     })
   }
+
+  /**
+   * Return slots that are part of a given registation
+   * @param {number} registrationId - The registration
+   */
+  this.findSlotsByRegistrationId = (registrationId) => {
+    const slots = []
+    this.groups.forEach((group) => {
+      group.slots.forEach((slot) => {
+        if (slot.registrationId === registrationId) {
+          slots.push(slot)
+        }
+      })
+    })
+    return slots
+  }
 }
 
 const LoadReserveTables = (clubEvent, slots) => {

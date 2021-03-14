@@ -9,6 +9,7 @@ import AdminAddPlayerPage from "pages/admin-add-player-page"
 import AdminEditFormatPage from "pages/admin-edit-format-page"
 import AdminEditPortalPage from "pages/admin-edit-portal-page"
 import AdminManageEventDocumentsPage from "pages/admin-manage-event-documents-page"
+import AdminManagePlayersPage from "pages/admin-manage-players-page"
 import EventAdminPage from "pages/event-admin-page"
 import EventReportPage from "pages/event-report-page"
 import { NotFoundScreen } from "pages/not-found"
@@ -30,7 +31,7 @@ function AdminRoutes() {
       <Route path="/event/:eventId/event-report" element={<EventReportPage />} />
       <Route path="/event/:eventId/payment-report" element={<PaymentReportPage />} />
       <Route path="/event/:eventId/add-player" element={<AdminAddPlayerPage />} />
-      <Route path="/event/:eventId/manage-players" element={<UnfinishedPage />} />
+      <Route path="/event/:eventId/manage-players" element={<AdminManagePlayersPage />} />
       <Route path="/event/:eventId/event-portal" element={<AdminEditPortalPage />} />
       <Route path="/event/:eventId/manage-documents" element={<AdminManageEventDocumentsPage />} />
       <Route path="/event/:eventId/import-points" element={<UnfinishedPage />} />
@@ -43,7 +44,6 @@ function AdminRoutes() {
 
 function AdminLayout() {
   const { sidebarOpen, closeSidebar } = useLayout()
-  //   const { user } = useAuth()
 
   return (
     <main className="main" data-ma-theme="teal">
