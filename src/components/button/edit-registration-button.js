@@ -1,12 +1,9 @@
 import React from "react"
 
 import { RegistrationSteps } from "context/registration-context"
-import { useRegistrationStatus } from "hooks/account-hooks"
 
-function EditRegistrationButton({ clubEvent, currentStep, onClick, ...rest }) {
-  const hasSignedUp = useRegistrationStatus(clubEvent?.id)
-
-  if (hasSignedUp && clubEvent?.paymentsAreOpen) {
+function EditRegistrationButton({ clubEvent, hasSignedUp, currentStep, onClick, ...rest }) {
+  if (hasSignedUp && clubEvent?.canEditRegistration && clubEvent?.paymentsAreOpen) {
     return (
       <button
         className="btn btn-success btn-sm"

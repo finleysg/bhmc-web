@@ -4,6 +4,7 @@ import EventRegistrationManager from "components/event-registration/event-regist
 import { EventView } from "components/events/event-view"
 import { OverlaySpinner } from "components/spinners"
 import { parse } from "date-fns"
+import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
 import { loadingEvent } from "models/club-event"
 import {
@@ -18,6 +19,8 @@ function EventDetailPage() {
   const [clubEvent, setClubEvent] = React.useState(loadingEvent)
   const startDate = parse(eventDate, "yyyy-MM-dd", new Date())
   const clubEvents = useClubEvents(startDate.getFullYear())
+  const hasSignedUp = useRegistrationStatus(clubEvent.id)
+  const isMember = useRegistrationStatus(config.seasonEventId)
 
   React.useEffect(() => {
     if (clubEvents && clubEvents.length > 0) {
@@ -41,7 +44,9 @@ function EventDetailPage() {
       {!isLoading && clubEvent.paymentsAreOpen && (
         <EventRegistrationManager clubEvent={clubEvent} />
       )}
-      {(!isLoading && clubEvent.paymentsAreOpen) || <EventView clubEvent={clubEvent} />}
+      {(!isLoading && clubEvent.paymentsAreOpen) || (
+        <EventView clubEvent={clubEvent} hasSignedUp={hasSignedUp} isMember={isMember} />
+      )}
     </div>
   )
 }

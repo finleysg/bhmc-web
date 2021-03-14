@@ -1,39 +1,43 @@
 import React from "react"
 
 import { RegistrationSteps } from "context/registration-context"
-import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
-import * as config from "utils/app-config"
+import { usePlayer } from "hooks/account-hooks"
 
-function RegisterButton({ clubEvent, currentStep, onClick, ...rest }) {
+function RegisterButton({ clubEvent, hasSignedUp, isMember, currentStep, onClick, ...rest }) {
+  const [canRegister, setCanRegister] = React.useState(false)
   const player = usePlayer()
-  const isMember = useRegistrationStatus(config.seasonEventId)
-  const hasSignedUp = useRegistrationStatus(clubEvent?.id)
 
-  // short circuit cases
-  if (!Boolean(player.id)) {
-    return null
-  } else if (hasSignedUp) {
-    return null
-  } else if (clubEvent?.registrationTypeCode === "N") {
-    return null
-  } else if (!clubEvent?.registrationIsOpen) {
-    return null
-  } else if (clubEvent.registrationTypeCode !== "O" && !isMember) {
-    return null
-  } else if (clubEvent.ghinRequired && !Boolean(player.ghin)) {
-    return null
+  React.useEffect(() => {
+    if (!Boolean(player.id)) {
+      setCanRegister(false)
+    } else if (hasSignedUp) {
+      setCanRegister(false)
+    } else if (clubEvent?.registrationTypeCode === "N") {
+      setCanRegister(false)
+    } else if (!clubEvent?.registrationIsOpen) {
+      setCanRegister(false)
+    } else if (clubEvent.registrationTypeCode !== "O" && !isMember) {
+      setCanRegister(false)
+    } else if (clubEvent.ghinRequired && !Boolean(player.ghin)) {
+      setCanRegister(false)
+    } else {
+      setCanRegister(true)
+    }
+  }, [clubEvent, player, isMember, hasSignedUp])
+
+  if (canRegister) {
+    return (
+      <button
+        className="btn btn-warning btn-sm"
+        disabled={currentStep !== RegistrationSteps.Pending}
+        onClick={onClick}
+        {...rest}
+      >
+        🖊️ Sign Up Now
+      </button>
+    )
   }
-
-  return (
-    <button
-      className="btn btn-warning btn-sm"
-      disabled={currentStep !== RegistrationSteps.Pending}
-      onClick={onClick}
-      {...rest}
-    >
-      🖊️ Sign Up Now
-    </button>
-  )
+  return null
 }
 
 export { RegisterButton }

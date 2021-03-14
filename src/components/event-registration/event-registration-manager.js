@@ -3,10 +3,14 @@ import React from "react"
 import { EventView } from "components/events/event-view"
 import { ReserveView } from "components/reserve/reserve-view"
 import { useEventRegistration } from "context/registration-context"
-import { usePlayer } from "hooks/account-hooks"
+import {
+  usePlayer,
+  useRegistrationStatus,
+} from "hooks/account-hooks"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
 import { toast } from "react-toastify"
+import * as config from "utils/app-config"
 
 import { RegisterView } from "./register-view"
 
@@ -25,6 +29,8 @@ function EventRegistrationManager({ clubEvent }) {
     loadEvent,
   } = useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
+  const hasSignedUp = useRegistrationStatus(clubEvent.id)
+  const isMember = useRegistrationStatus(config.seasonEventId)
 
   const openings = () => {
     if (clubEvent.canChoose) {
@@ -113,6 +119,8 @@ function EventRegistrationManager({ clubEvent }) {
         openings={openings()}
         onRegister={handleStart}
         onEditRegistration={handleEdit}
+        hasSignedUp={hasSignedUp}
+        isMember={isMember}
       />
     )
   } else if (currentView === "reserve-view") {

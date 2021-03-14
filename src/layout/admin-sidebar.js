@@ -15,6 +15,7 @@ import {
   MdPeopleOutline,
   MdPersonAdd,
 } from "react-icons/md"
+import { TiArrowBackOutline } from "react-icons/ti"
 
 import { MenuItem } from "./menu-item"
 
@@ -32,8 +33,15 @@ function AdminSidebar() {
   }, [clubEvent])
 
   return (
-    <aside className={sidebarOpen ? "sidebar toggled" : "sidebar"}>
+    <aside
+      className={sidebarOpen ? "sidebar admin-sidebar--bg toggled" : "sidebar admin-sidebar--bg"}
+    >
       <ul className="navigation">
+        <MenuItem
+          path={clubEvent?.eventUrl ?? ""}
+          icon={<TiArrowBackOutline />}
+          name="Return to Event Page"
+        />
         <MenuItem path={`/admin/event/${eventId}`} icon={<GoHome />} name="Event Admin Home" />
         <MenuItem
           path={`/admin/event/${eventId}/event-report`}

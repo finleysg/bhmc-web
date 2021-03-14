@@ -1,7 +1,14 @@
-import { useAuth, useClient } from "context/auth-context"
+import {
+  useAuth,
+  useClient,
+} from "context/auth-context"
 import { SavedCard } from "models/payment"
 import Player from "models/player"
-import { useMutation, useQuery, useQueryClient } from "react-query"
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query"
 import { toast } from "react-toastify"
 import * as config from "utils/app-config"
 import { useFormClient } from "utils/form-client"
@@ -78,7 +85,7 @@ function useRegistrationStatus(eventId) {
   const myEvents = useMyEvents()
 
   if (user?.is_authenticated && myEvents && myEvents.length > 0) {
-    return myEvents?.indexOf(eventId) >= 0
+    return myEvents.indexOf(eventId) >= 0
   }
   return false
 }

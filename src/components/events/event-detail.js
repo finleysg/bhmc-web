@@ -9,7 +9,6 @@ import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
 import { OverlaySpinner } from "components/spinners"
 import { RegistrationSteps } from "context/registration-context"
-import { useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
 import {
@@ -17,7 +16,7 @@ import {
   dayDateAndTimeFormat,
 } from "utils/event-utils"
 
-function EventActionButtons({ clubEvent, onRegister, onEditRegistration }) {
+function EventActionButtons({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegistration }) {
   return (
     <div className="event-header">
       <div className="event-header--title">
@@ -28,11 +27,14 @@ function EventActionButtons({ clubEvent, onRegister, onEditRegistration }) {
         <RegisteredButton clubEvent={clubEvent} />
         <EditRegistrationButton
           clubEvent={clubEvent}
+          hasSignedUp={hasSignedUp}
           currentStep={RegistrationSteps.Pending}
           onClick={onEditRegistration}
         />
         <RegisterButton
           clubEvent={clubEvent}
+          hasSignedUp={hasSignedUp}
+          isMember={isMember}
           currentStep={RegistrationSteps.Pending}
           onClick={onRegister}
         />
@@ -41,9 +43,7 @@ function EventActionButtons({ clubEvent, onRegister, onEditRegistration }) {
   )
 }
 
-function EventDetail({ clubEvent, onRegister, onEditRegistration }) {
-  const hasSignedUp = useRegistrationStatus(clubEvent.id)
-
+function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegistration }) {
   return (
     <div className="card">
       <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
@@ -51,6 +51,8 @@ function EventDetail({ clubEvent, onRegister, onEditRegistration }) {
         <OverlaySpinner loading={!clubEvent?.id} />
         <EventActionButtons
           clubEvent={clubEvent}
+          hasSignedUp={hasSignedUp}
+          isMember={isMember}
           onRegister={onRegister}
           onEditRegistration={onEditRegistration}
         />

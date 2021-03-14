@@ -15,7 +15,7 @@ import {
   Formik,
 } from "formik"
 import { documentTypeMap } from "models/document"
-import { MdEmail } from "react-icons/md"
+import { CgFileDocument } from "react-icons/cg"
 import * as Yup from "yup"
 
 const acceptedDocuments =
@@ -62,7 +62,7 @@ function DocumentForm({ onSubmit, onCancel, title, documentType, isLoading, erro
           accept={acceptedDocuments}
         />
         <SubmitButton loading={isLoading} label="Save" disabled={files.length === 0}>
-          <MdEmail style={{ marginTop: ".6rem" }} />
+          <CgFileDocument style={{ marginTop: ".6rem" }} />
         </SubmitButton>
         <CancelButton onCancel={onCancel} style={{ marginLeft: "1rem" }} />
         <ErrorDisplay isError={isError} error={error} />

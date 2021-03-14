@@ -5,7 +5,7 @@ import * as config from "utils/app-config"
 
 import SeasonEventDetail from "./season-event-detail"
 
-function EventView({ clubEvent, openings, onRegister, onEditRegistration }) {
+function EventView({ clubEvent, hasSignedUp, isMember, openings, onRegister, onEditRegistration }) {
   const getOpenings = () => {
     if (openings === undefined && Boolean(clubEvent.id)) {
       return clubEvent.availableSpots()
@@ -24,6 +24,8 @@ function EventView({ clubEvent, openings, onRegister, onEditRegistration }) {
         {clubEvent.id === config.seasonEventId || (
           <EventDetail
             clubEvent={clubEvent}
+            hasSignedUp={hasSignedUp}
+            isMember={isMember}
             onRegister={onRegister}
             onEditRegistration={onEditRegistration}
           />

@@ -212,6 +212,7 @@ function ClubEvent(json) {
   this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(
     this.signupEnd,
   )}`
+  this.canEditRegistration = Boolean(json.payments_end)
   this.paymentsAreOpen =
     this.registrationTypeCode === "N"
       ? false

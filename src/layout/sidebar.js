@@ -3,11 +3,26 @@ import React from "react"
 import { useAuth } from "context/auth-context"
 import { useLayout } from "context/layout-context"
 import { useSelectedMonth } from "hooks/calendar-hooks"
-import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
-import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
-import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
+import {
+  BiEnvelope,
+  BiLogInCircle,
+} from "react-icons/bi"
+import {
+  GiGolfFlag,
+  GiTrophyCup,
+} from "react-icons/gi"
+import {
+  GoCalendar,
+  GoHome,
+  GoInfo,
+  GoPlus,
+  GoQuestion,
+} from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
-import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
+import {
+  MdPeopleOutline,
+  MdPersonAdd,
+} from "react-icons/md"
 import { TiContacts } from "react-icons/ti"
 import * as config from "utils/app-config"
 
@@ -19,7 +34,7 @@ function Sidebar() {
   const [selectedMonth] = useSelectedMonth()
 
   return (
-    <aside className={sidebarOpen ? "sidebar toggled" : "sidebar"}>
+    <aside className={sidebarOpen ? "sidebar sidebar--bg toggled" : "sidebar sidebar--bg"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
         <MenuItem
