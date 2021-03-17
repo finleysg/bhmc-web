@@ -4,13 +4,20 @@ import {
   IndexTab,
   Tabs,
 } from "components/tabs"
-import { useMovePlayers } from "hooks/admin-hooks"
+import {
+  useDropPlayers,
+  useIssueRefunds,
+  useMovePlayers,
+} from "hooks/admin-hooks"
+import { toast } from "react-toastify"
 
 import { ReserveGridAdmin } from "./reserve-grid-admin"
 
-function ReserveAdmin({ reserveTables }) {
+function ReserveAdmin({ clubEvent, reserveTables }) {
   const [selectedTableIndex, updateSelectedTableIndex] = React.useState(0)
   const { mutate: movePlayers } = useMovePlayers()
+  const { mutate: dropPlayers } = useDropPlayers()
+  const issueRefunds = useIssueRefunds()
 
   const handleMove = ({ registrationId, sourceSlots, destinationSlots }) => {
     movePlayers({
@@ -18,6 +25,12 @@ function ReserveAdmin({ reserveTables }) {
       sourceSlotIds: sourceSlots.map((s) => s.id),
       destinationSlotIds: destinationSlots.map((d) => d.id),
     })
+  }
+
+  const handleDrop = ({ registrationId, slotIds, refunds }) => {
+    issueRefunds(refunds)
+      .then(() => dropPlayers({ registrationId, slotIds }))
+      .catch((err) => toast.error("Failed to issue a refund: " + err))
   }
 
   return (
@@ -38,7 +51,12 @@ function ReserveAdmin({ reserveTables }) {
               )
             })}
           </Tabs>
-          <ReserveGridAdmin table={reserveTables[selectedTableIndex]} onMove={handleMove} />
+          <ReserveGridAdmin
+            clubEvent={clubEvent}
+            table={reserveTables[selectedTableIndex]}
+            onMove={handleMove}
+            onDrop={handleDrop}
+          />
         </div>
       </div>
     </div>

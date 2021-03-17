@@ -37,6 +37,7 @@ function ReserveSlot(groupId, json) {
   this.status = json.status
   this.statusName = getStatusName(json.status)
   this.selected = false
+  this.fees = []
   this.obj = json
 
   this.isRegistered = (playerId) => {

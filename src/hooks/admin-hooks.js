@@ -1,3 +1,5 @@
+import React from "react"
+
 import { useClient } from "context/auth-context"
 import {
   useMutation,
@@ -54,4 +56,50 @@ function useMovePlayers() {
   )
 }
 
-export { useEventPatch, useMovePlayers }
+function useDropPlayers() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    ({ registrationId, slotIds }) => {
+      return client(`registration/${registrationId}/drop/`, {
+        method: "DELETE",
+        data: {
+          source_slots: slotIds,
+        },
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to drop player(s).")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("event-registration-slots")
+        toast.success("⛳ Player or players have been dropped.")
+      },
+    },
+  )
+}
+
+function useIssueRefunds() {
+  const client = useClient()
+  return React.useCallback(
+    (refunds) => {
+      const posts = []
+      refunds.forEach((refund) => {
+        if (refund.refund_amount > 0) {
+          posts.push(client("refunds", { data: refund }))
+        }
+      })
+
+      if (posts.length > 0) {
+        return Promise.all(posts)
+      } else {
+        return Promise.resolve()
+      }
+    },
+    [client],
+  )
+}
+
+export { useDropPlayers, useEventPatch, useIssueRefunds, useMovePlayers }

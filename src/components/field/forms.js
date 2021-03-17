@@ -4,6 +4,8 @@ import React from "react"
 
 import { useField } from "formik"
 
+import { CheckBox } from "./check-box"
+
 const inputStyles = {
   border: "1px solid #f1f1f4",
   background: "#f1f2f7",
@@ -31,6 +33,18 @@ function FloatingInput({ typeVariant, id, label }) {
       <label htmlFor={id}>{label}</label>
       <i className="form-group__bar"></i>
     </div>
+  )
+}
+
+const FormCheckbox = ({ label, ...props }) => {
+  const [field, meta, helpers] = useField(props)
+  return (
+    <CheckBox
+      name={field.name}
+      label={label}
+      checked={field.checked}
+      onChange={(value) => helpers.setValue(value)}
+    />
   )
 }
 
@@ -96,4 +110,4 @@ const SelectGroup = ({ label, options, ...props }) => {
   )
 }
 
-export { FloatingInput, FormGroup, FormGroupAsTextarea, Input, SelectGroup, Textarea }
+export { FloatingInput, FormCheckbox, FormGroup, FormGroupAsTextarea, Input, SelectGroup, Textarea }

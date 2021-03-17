@@ -3,12 +3,39 @@ import React from "react"
 import { OverlaySpinner } from "components/spinners"
 import { toast } from "react-toastify"
 
+import DropPlayers from "./drop-players"
 import { ReserveRowAdmin } from "./reserve-row-admin"
 
-function ReserveGridAdmin({ table, error, onDrop, onMove, ...rest }) {
+/**
+ * Create refund objects out of the given reserve slots and fee information.
+ * The fee collection includes 0 - many selected fees/payments.
+ * @param {ReserveSlot[]} slots - reserve slots with fee collections
+ */
+const createRefunds = (slots, notes) => {
+  const feeDetails = slots.flatMap((slot) => slot.fees)
+  return feeDetails
+    .filter((fee) => fee.selected)
+    .reduce((acc, curr) => {
+      const refund = acc.get(curr.payment.id)
+      if (refund) {
+        refund.refund_amount += curr.eventFee.amount
+      } else {
+        acc.set(curr.payment.id, {
+          payment: curr.payment.id,
+          refund_amount: curr.eventFee.amount,
+          notes: notes,
+        })
+      }
+      return acc
+    }, new Map())
+}
+
+function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])
   const [selectedRegistration, setSelectedRegistration] = React.useState(0)
   const [mode, setMode] = React.useState("select")
+  const [showDrop, setShowDrop] = React.useState(false)
+  const dropRef = React.useRef()
 
   const handlePlayerSelect = (slot) => {
     setSelectedRegistration(slot.registrationId)
@@ -35,7 +62,18 @@ function ReserveGridAdmin({ table, error, onDrop, onMove, ...rest }) {
 
   const handleDrop = () => {
     if (selectedSlots?.length > 0) {
-      onDrop(selectedSlots)
+      setShowDrop(true)
+    }
+  }
+
+  const handleDropConfirm = (dropSlots, dropNotes) => {
+    try {
+      const slotIds = dropSlots.map((slot) => slot.id)
+      const refunds = createRefunds(dropSlots, dropNotes)
+      onDrop({ registrationId: selectedRegistration, slotIds, refunds })
+    } finally {
+      setShowDrop(false)
+      updateSelectedSlots([])
     }
   }
 
@@ -68,6 +106,12 @@ function ReserveGridAdmin({ table, error, onDrop, onMove, ...rest }) {
     }
   }
 
+  const handleCancel = () => {
+    updateSelectedSlots([])
+    setShowDrop(false)
+    setMode("select")
+  }
+
   // ensure the selected-slot state is applied
   if (Boolean(table)) {
     table.applySelectedSlots(selectedSlots)
@@ -90,6 +134,15 @@ function ReserveGridAdmin({ table, error, onDrop, onMove, ...rest }) {
             onMoveConfirm={handleMoveConfirm}
           />
         ))}
+      {showDrop && (
+        <DropPlayers
+          dropRef={dropRef}
+          clubEvent={clubEvent}
+          slots={selectedSlots}
+          onCancel={handleCancel}
+          onDrop={handleDropConfirm}
+        />
+      )}
     </div>
   )
 }

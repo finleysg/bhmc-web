@@ -75,9 +75,8 @@ Administration:
 - Edit page content title
 - Clone event
 - Post general doc (like pin locations)
-* Drop player (w/ optional refund)
-- Drop group (w/ optional refund)
-* Refund a canceled event
+- Refund a canceled event
+* Drop from non-wednesday event
 - Remove group slots
 - Add group slots
 - Import points
@@ -88,6 +87,8 @@ Administration:
 - Replace / place by-laws
 - Maybe a document library?
 - More contextual links to admin website
+- Go through admin site and fix up all models/screens as needed
+- Busy feedback on move/drop screens
 
 Reports:
 * Membership report
@@ -99,3 +100,12 @@ Testing:
 Styling:
 - Move to classes as much as possible
 - Consistency in the box display
+
+Bugs / Warnings:
+index.js:1 Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
+    at a
+    at Link (http://localhost:3000/static/js/5.chunk.js:80564:13)
+    at EmotionCssPropInternal
+    at div
+    at EmotionCssPropInternal
+    at AdminLink (http://localhost:3000/static/js/3.chunk.js:174:3)

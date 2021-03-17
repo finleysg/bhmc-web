@@ -10,7 +10,13 @@ function EventPlayerAdmin({ clubEvent }) {
   const reserveTables = clubEvent.canChoose ? LoadReserveTables(clubEvent, slots) : []
 
   if (clubEvent.canChoose) {
-    return <ReserveAdmin reserveTables={reserveTables} />
+    return (
+      <div className="row">
+        <div className="col-12">
+          <ReserveAdmin clubEvent={clubEvent} reserveTables={reserveTables} />
+        </div>
+      </div>
+    )
   } else {
     return null
   }
