@@ -74,6 +74,7 @@ function useDropPlayers() {
         toast.error("💣 Aww, Snap! Failed to drop player(s).")
       },
       onSuccess: () => {
+        queryClient.invalidateQueries("event-registrations")
         queryClient.invalidateQueries("event-registration-slots")
         toast.success("⛳ Player or players have been dropped.")
       },

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ReservedList } from "components/reserve/reserved"
+import { ReservedList } from "components/reserve/reserved-list"
 import { useEventRegistrations } from "hooks/event-hooks"
 
 function ReservedListingPage({ clubEvent }) {

@@ -45,4 +45,28 @@ const getAmountDue = (payment, eventFees, excludeTransactionFee = false) => {
   }
 }
 
-export { calculateFees, getAmountDue }
+/**
+ * Create refund objects out of the given reserve slots and fee information.
+ * The fee collection includes 0 - many selected fees/payments.
+ * @param {ReserveSlot[]} slots - reserve slots with fee collections
+ */
+const createRefunds = (slots, notes) => {
+  const feeDetails = slots.flatMap((slot) => slot.fees)
+  return feeDetails
+    .filter((fee) => fee.selected)
+    .reduce((acc, curr) => {
+      const refund = acc.get(curr.payment.id)
+      if (refund) {
+        refund.refund_amount += curr.eventFee.amount
+      } else {
+        acc.set(curr.payment.id, {
+          payment: curr.payment.id,
+          refund_amount: curr.eventFee.amount,
+          notes: notes,
+        })
+      }
+      return acc
+    }, new Map())
+}
+
+export { calculateFees, createRefunds, getAmountDue }

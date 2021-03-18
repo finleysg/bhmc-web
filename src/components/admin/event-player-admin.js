@@ -3,6 +3,7 @@ import React from "react"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
 
+import { RegisteredAdmin } from "./registered-admin"
 import { ReserveAdmin } from "./reserve-admin"
 
 function EventPlayerAdmin({ clubEvent }) {
@@ -18,7 +19,7 @@ function EventPlayerAdmin({ clubEvent }) {
       </div>
     )
   } else {
-    return null
+    return <RegisteredAdmin clubEvent={clubEvent} />
   }
 }
 

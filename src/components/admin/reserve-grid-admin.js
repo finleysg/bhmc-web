@@ -2,33 +2,10 @@ import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
 import { toast } from "react-toastify"
+import { createRefunds } from "utils/payment-utils"
 
 import DropPlayers from "./drop-players"
 import { ReserveRowAdmin } from "./reserve-row-admin"
-
-/**
- * Create refund objects out of the given reserve slots and fee information.
- * The fee collection includes 0 - many selected fees/payments.
- * @param {ReserveSlot[]} slots - reserve slots with fee collections
- */
-const createRefunds = (slots, notes) => {
-  const feeDetails = slots.flatMap((slot) => slot.fees)
-  return feeDetails
-    .filter((fee) => fee.selected)
-    .reduce((acc, curr) => {
-      const refund = acc.get(curr.payment.id)
-      if (refund) {
-        refund.refund_amount += curr.eventFee.amount
-      } else {
-        acc.set(curr.payment.id, {
-          payment: curr.payment.id,
-          refund_amount: curr.eventFee.amount,
-          notes: notes,
-        })
-      }
-      return acc
-    }, new Map())
-}
 
 function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])

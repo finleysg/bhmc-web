@@ -1,6 +1,6 @@
 import React from "react"
 
-import { ReservedGrid } from "components/reserve/reserved"
+import { ReserveGrid } from "components/reserve/reserve-grid"
 import { OverlaySpinner } from "components/spinners"
 import {
   IndexTab,
@@ -36,7 +36,7 @@ function ReservedGridPage({ clubEvent }) {
                   )
                 })}
               </Tabs>
-              <ReservedGrid table={reserveTables[selectedTableIndex]} />
+              <ReserveGrid table={reserveTables[selectedTableIndex]} />
             </React.Fragment>
           )}
         </div>

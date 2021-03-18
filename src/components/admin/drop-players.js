@@ -23,8 +23,8 @@ import { useAsync } from "utils/use-async"
 const createRefundDetails = (slots, payments, eventFeeMap) => {
   const transformedSlots = []
   const slotIds = slots.map((s) => s.id)
-  const filteredPayments = payments.filter((p) =>
-    p.payment_details.some((d) => slotIds.indexOf(d.registration_slot) >= 0),
+  const filteredPayments = payments.filter(
+    (p) => p.confirmed && p.payment_details.some((d) => slotIds.indexOf(d.registration_slot) >= 0),
   )
   slots.forEach((slot) => {
     const newSlot = new ReserveSlot(slot.groupId, slot.obj)

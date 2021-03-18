@@ -8,45 +8,6 @@ import {
 } from "date-fns"
 import { Link } from "react-router-dom"
 
-function ReservedGrid({ table, ...rest }) {
-  return (
-    <div className="card" style={{ padding: "1rem" }} {...rest}>
-      {table.groups.map((group) => (
-        <ReservedRow key={group.name} courseName={table.course.name} group={group} />
-      ))}
-    </div>
-  )
-}
-
-function ReservedRow({ courseName, group, onSelect, onReserve, ...rest }) {
-  return (
-    <div className={`reserve-group reserve-group__${courseName.toLowerCase()}`} {...rest}>
-      <div className="reserved-group-name">
-        <span>{group.name}</span>
-      </div>
-      {group.slots.map((slot) => (
-        <ReservedSlot key={slot.id} reserveSlot={slot} />
-      ))}
-    </div>
-  )
-}
-
-function ReservedSlot({ reserveSlot, isLink, ...rest }) {
-  const deriveClasses = () => {
-    const className = "reserve-slot"
-    if (reserveSlot.selected) {
-      return className + " reserve-slot__selected"
-    }
-    return className + ` reserve-slot__${reserveSlot.statusName.toLowerCase()}`
-  }
-
-  return (
-    <div className={deriveClasses()} {...rest}>
-      <span>{reserveSlot.displayText()}</span>
-    </div>
-  )
-}
-
 function ReservedList({ registrations, sortBy }) {
   const { user } = useAuth()
 
@@ -119,4 +80,4 @@ function ReservedPlayer({ playerRegistration, isLink, ...rest }) {
   return slot()
 }
 
-export { ReservedGrid, ReservedList }
+export { ReservedList, ReservedPlayer }

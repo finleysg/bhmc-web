@@ -1,5 +1,6 @@
 import React from "react"
 
+import { OverlaySpinner } from "components/spinners"
 import {
   IndexTab,
   Tabs,
@@ -15,6 +16,8 @@ import { ReserveGridAdmin } from "./reserve-grid-admin"
 
 function ReserveAdmin({ clubEvent, reserveTables }) {
   const [selectedTableIndex, updateSelectedTableIndex] = React.useState(0)
+  const [busy, setBusy] = React.useState(false)
+
   const { mutate: movePlayers } = useMovePlayers()
   const { mutate: dropPlayers } = useDropPlayers()
   const issueRefunds = useIssueRefunds()
@@ -28,14 +31,17 @@ function ReserveAdmin({ clubEvent, reserveTables }) {
   }
 
   const handleDrop = ({ registrationId, slotIds, refunds }) => {
+    setBusy(true)
     issueRefunds(refunds)
       .then(() => dropPlayers({ registrationId, slotIds }))
       .catch((err) => toast.error("Failed to issue a refund: " + err))
+      .finally(() => setBusy(false))
   }
 
   return (
     <div className="row">
       <div className="col-12">
+        <OverlaySpinner loading={busy} />
         <div>
           <Tabs>
             {reserveTables.map((table, index) => {
