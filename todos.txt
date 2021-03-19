@@ -76,7 +76,6 @@ Administration:
 - Clone event
 - Post general doc (like pin locations)
 - Refund a canceled event
-* Drop from non-wednesday event
 - Remove group slots
 - Add group slots
 - Import points
