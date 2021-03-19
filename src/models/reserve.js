@@ -136,7 +136,7 @@ function ReserveTable(course) {
     const slots = []
     this.groups.forEach((group) => {
       group.slots.forEach((slot) => {
-        if (slot.registrationId === registrationId) {
+        if (slot.registrationId === registrationId && Boolean(slot.playerId)) {
           slots.push(slot)
         }
       })
