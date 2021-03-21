@@ -48,6 +48,19 @@ const cardColor = (documentType) => {
 }
 
 function DocumentCard({ document, ...rest }) {
+  const [updated, setUpdated] = React.useState()
+
+  React.useEffect(() => {
+    if (Boolean(document) && Boolean(document.lastUpdate)) {
+      try {
+        const updateString = format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")
+        setUpdated(updateString)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }, [document])
+
   return (
     <a href={document.file} target="_blank" rel="noreferrer" alt={document.title}>
       <DocumentDetail {...rest}>
@@ -58,11 +71,11 @@ function DocumentCard({ document, ...rest }) {
           <DocumentTitle className={cardColor(document.documentType)} title={document.title}>
             {document.title}
           </DocumentTitle>
-          <DocumentDate title={format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}>
-            <small className="text-muted">
-              Updated: {format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")}
-            </small>
-          </DocumentDate>
+          {updated && (
+            <DocumentDate title={updated}>
+              <small className="text-muted">Updated: {updated}</small>
+            </DocumentDate>
+          )}
         </div>
       </DocumentDetail>
     </a>
