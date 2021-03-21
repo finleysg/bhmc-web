@@ -8,10 +8,18 @@ import {
 } from "components/tabs"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
+import { useQueryClient } from "react-query"
+import { useNavigate } from "react-router"
 
 function ReservedGridPage({ clubEvent }) {
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
   const [selectedTableIndex, updateSelectedTableIndex] = React.useState(0)
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries(["event-registration-slots", clubEvent.id])
+  }
 
   const reserveTables = clubEvent.canChoose ? LoadReserveTables(clubEvent, slots) : []
 
@@ -36,7 +44,12 @@ function ReservedGridPage({ clubEvent }) {
                   )
                 })}
               </Tabs>
-              <ReserveGrid table={reserveTables[selectedTableIndex]} />
+              <ReserveGrid
+                mode="view"
+                table={reserveTables[selectedTableIndex]}
+                onBack={() => navigate(-1)}
+                onRefresh={handleRefresh}
+              />
             </React.Fragment>
           )}
         </div>

@@ -1,9 +1,14 @@
 import React from "react"
 
-// import { useEventRegistration } from "context/registration-context"
+import { IconActionButton } from "components/button/buttons"
+import {
+  TiArrowBack,
+  TiRefresh,
+} from "react-icons/ti"
+
 import { ReserveRow } from "./reserve-row"
 
-function ReserveGrid({ table, error, onReserve, ...rest }) {
+function ReserveGrid({ table, error, mode, onReserve, onRefresh, onBack, ...rest }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])
   // const { error } = useEventRegistration()
 
@@ -16,6 +21,9 @@ function ReserveGrid({ table, error, onReserve, ...rest }) {
   }, [error])
 
   const handleSingleSelect = (slot) => {
+    if (mode !== "register") {
+      return
+    }
     const currentlySelected = selectedSlots.filter((ss) => ss.groupId === slot.groupId).slice(0)
     updateSelectedSlots(currentlySelected) // clears previous selections in other groups
     slot.selected = !slot.selected
@@ -29,6 +37,9 @@ function ReserveGrid({ table, error, onReserve, ...rest }) {
   }
 
   const handleSelect = (slots) => {
+    if (mode !== "register") {
+      return
+    }
     if (slots.length === 1) {
       handleSingleSelect(slots[0])
     } else {
@@ -55,9 +66,22 @@ function ReserveGrid({ table, error, onReserve, ...rest }) {
 
   return (
     <div className="card" style={{ padding: "1rem" }} {...rest}>
+      <div>
+        <span className="mr-2">
+          <IconActionButton onAction={onBack} label="back">
+            <TiArrowBack />
+          </IconActionButton>
+        </span>
+        <span>
+          <IconActionButton onAction={onRefresh} label="refresh">
+            <TiRefresh />
+          </IconActionButton>
+        </span>
+      </div>
       {table.groups.map((group) => (
         <ReserveRow
           key={group.name}
+          mode={mode}
           courseName={table.course.name}
           group={group}
           onSelect={handleSelect}

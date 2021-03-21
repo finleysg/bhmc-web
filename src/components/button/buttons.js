@@ -45,6 +45,22 @@ const Button = styled.button(
   ({ variant = "primary" }) => buttonVariants[variant],
 )
 
+const ActionButton = styled.button({
+  padding: "2px",
+  border: "0",
+  cursor: "pointer",
+  backgroundColor: "transparent",
+  fontSize: "1.4rem",
+  color: colors.gray600,
+  height: "24px",
+  width: "24px",
+  borderRadius: "24px",
+  ":hover": {
+    backgroundColor: colors.gray200,
+    color: colors.green,
+  },
+})
+
 const Link = styled(RouterLink)({
   color: colors.indigo,
   ":hover": {
@@ -73,6 +89,14 @@ function TooltipButton({ label, highlight, onClick, icon, ...rest }) {
       >
         {icon}
       </CircleButton>
+    </Tooltip>
+  )
+}
+
+function IconActionButton({ onAction, label, children }) {
+  return (
+    <Tooltip label={label}>
+      <ActionButton onClick={onAction}>{children}</ActionButton>
     </Tooltip>
   )
 }
@@ -124,6 +148,7 @@ export {
   Button,
   CancelButton,
   CircleButton,
+  IconActionButton,
   IconButton,
   IconSubmitButton,
   Link,

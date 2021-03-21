@@ -9,6 +9,7 @@ import {
 } from "hooks/account-hooks"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
+import { useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 import * as config from "utils/app-config"
 
@@ -31,6 +32,7 @@ function EventRegistrationManager({ clubEvent }) {
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
   const isMember = useRegistrationStatus(config.seasonEventId)
+  const queryClient = useQueryClient()
 
   const openings = () => {
     if (clubEvent.canChoose) {
@@ -106,6 +108,10 @@ function EventRegistrationManager({ clubEvent }) {
     })
   }
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries(["event-registration-slots", clubEvent.id])
+  }
+
   const handleCancel = () => {
     setCurrentView("event-view")
   }
@@ -124,7 +130,14 @@ function EventRegistrationManager({ clubEvent }) {
       />
     )
   } else if (currentView === "reserve-view") {
-    return <ReserveView reserveTables={reserveTables} onReserve={handleReserve} />
+    return (
+      <ReserveView
+        reserveTables={reserveTables}
+        onReserve={handleReserve}
+        onRefresh={handleRefresh}
+        onBack={() => setCurrentView("event-view")}
+      />
+    )
   } else if (currentView === "register-view") {
     return <RegisterView selectedStart={selectedStart} onCancel={handleCancel} mode={mode} />
   }

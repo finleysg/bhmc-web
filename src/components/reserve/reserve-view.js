@@ -8,7 +8,7 @@ import { useEventRegistration } from "context/registration-context"
 
 import { ReserveGrid } from "./reserve-grid"
 
-function ReserveView({ reserveTables, onReserve }) {
+function ReserveView({ reserveTables, onReserve, onRefresh, onBack }) {
   const [selectedTableIndex, updateSelectedTableIndex] = React.useState(0)
   const { error } = useEventRegistration()
 
@@ -32,8 +32,11 @@ function ReserveView({ reserveTables, onReserve }) {
           </Tabs>
           <ReserveGrid
             table={reserveTables[selectedTableIndex]}
+            mode="register"
             error={error}
             onReserve={onReserve}
+            onRefresh={onRefresh}
+            onBack={onBack}
           />
         </div>
       </div>

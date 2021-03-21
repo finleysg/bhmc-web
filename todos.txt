@@ -44,7 +44,6 @@ Registration:
 - Add player during registration flow (open events)
 - Enforce age rules 
 * Handle team skins
-* Refresh and Back on the reserve page
 - Sort by widget (player or date)
 - Don't leave pending spots on admin signup
 - Selected start is missing on Skins payment flow
@@ -90,7 +89,7 @@ Administration:
 - Busy feedback on move/drop screens
 
 Reports:
-* Membership report
+- Membership report
 - Season long points report
 
 Testing:

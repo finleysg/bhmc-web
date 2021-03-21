@@ -95,6 +95,7 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
                 <div className="col-12">
                   <RegisterButton
                     clubEvent={clubEvent}
+                    hasSignedUp={hasSignedUp}
                     currentStep={RegistrationSteps.Pending}
                     style={{ marginRight: ".5rem" }}
                     onClick={onRegister}
