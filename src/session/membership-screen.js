@@ -16,7 +16,7 @@ function MembershipScreen() {
 
   React.useEffect(() => {
     if (clubEvents && clubEvents.length > 0) {
-      const evt = getClubEvent({ events: clubEvents, eventId: config.seasonMatchPlayId })
+      const evt = getClubEvent({ events: clubEvents, eventId: config.seasonEventId })
       setClubEvent(evt)
     }
   }, [clubEvents, setClubEvent])

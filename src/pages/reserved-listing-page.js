@@ -1,6 +1,7 @@
 import React from "react"
 
 import { ReservedList } from "components/reserve/reserved-list"
+import { OverlaySpinner } from "components/spinners"
 import { useEventRegistrations } from "hooks/event-hooks"
 
 function ReservedListingPage({ clubEvent }) {
@@ -13,6 +14,7 @@ function ReservedListingPage({ clubEvent }) {
           <h3 className="card-title text-primary">{clubEvent.name}</h3>
           <div className="card-text">
             <div className="row">
+              <OverlaySpinner loading={registrations.length === 0} />
               <ReservedList registrations={registrations} sortBy="player" />
             </div>
           </div>

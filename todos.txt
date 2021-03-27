@@ -100,10 +100,4 @@ Styling:
 - Consistency in the box display
 
 Bugs / Warnings:
-index.js:1 Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
-    at a
-    at Link (http://localhost:3000/static/js/5.chunk.js:80564:13)
-    at EmotionCssPropInternal
-    at div
-    at EmotionCssPropInternal
-    at AdminLink (http://localhost:3000/static/js/3.chunk.js:174:3)
+- unmount warning from season-event-detail

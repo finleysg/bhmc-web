@@ -1,6 +1,12 @@
-import { addDays, isWithinInterval, subDays } from "date-fns"
+import { AdminLink } from "components/button/admin-buttons"
+import {
+  addDays,
+  isWithinInterval,
+  subDays,
+} from "date-fns"
 import { useClubEvents } from "hooks/event-hooks"
 import { Link } from "react-router-dom"
+import * as colors from "styles/colors"
 import { dayAndDateFormat } from "utils/event-utils"
 
 function UpcomingEvent({ event }) {
@@ -38,7 +44,10 @@ function UpcomingEvents() {
   return (
     <div className="listview listview--hover">
       {upcoming().map((event) => (
-        <UpcomingEvent key={event.id} event={event} />
+        <div key={event.id} style={{ position: "relative" }}>
+          <UpcomingEvent event={event} />
+          <AdminLink to={event.adminUrl} label="Event administration home" color={colors.teal} />
+        </div>
       ))}
     </div>
   )

@@ -12,6 +12,7 @@ import {
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
+import * as colors from "styles/colors"
 import * as config from "utils/app-config"
 
 function SeasonEventDetail({ clubEvent, onRegister }) {
@@ -19,12 +20,12 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
   const hasSignedUp = useRegistrationStatus(config.seasonEventId)
   const isReturning = useRegistrationStatus(config.previousSeasonEventId)
 
-  player.isReturningMember = isReturning
+  //  player.isReturningMember = isReturning
   const loading = clubEvent?.id === undefined
 
   return (
     <div className="card">
-      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
+      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" color={colors.teal} />
       <div className="card-body">
         <OverlaySpinner loading={loading} />
         <h3 className="card-title text-primary">{config.currentSeason} Membership Policies</h3>

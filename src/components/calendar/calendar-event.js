@@ -2,6 +2,7 @@ import React from "react"
 
 import { AdminLink } from "components/button/admin-buttons"
 import { Link } from "react-router-dom"
+import * as colors from "styles/colors"
 import * as config from "utils/app-config"
 
 function CalendarEvent({ clubEvent }) {
@@ -26,15 +27,21 @@ function CalendarEvent({ clubEvent }) {
           <div className={`calendar-event ${eventTypeClass}`}>{name}</div>
         </a>
       ) : (
-        <Link to={eventUrl()}>
-          <div className={`calendar-event ${eventTypeClass}`}>
-            <p>{name}</p>
-            <p>
-              {startTime} {showStartType && startType}
-            </p>
-            <AdminLink to={clubEvent.adminUrl} label="Event administration home" />
-          </div>
-        </Link>
+        <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
+          <Link to={eventUrl()}>
+            <div className={`calendar-event ${eventTypeClass}`}>
+              <p>{name}</p>
+              <p>
+                {startTime} {showStartType && startType}
+              </p>
+            </div>
+          </Link>
+          <AdminLink
+            to={clubEvent.adminUrl}
+            label="Event administration home"
+            color={colors.teal}
+          />
+        </div>
       )}
     </React.Fragment>
   )

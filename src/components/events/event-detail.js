@@ -11,6 +11,7 @@ import { OverlaySpinner } from "components/spinners"
 import { RegistrationSteps } from "context/registration-context"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
+import * as colors from "styles/colors"
 import {
   dayAndDateFormat,
   dayDateAndTimeFormat,
@@ -46,7 +47,7 @@ function EventActionButtons({ clubEvent, hasSignedUp, isMember, onRegister, onEd
 function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegistration }) {
   return (
     <div className="card">
-      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" />
+      <AdminLink to={clubEvent?.adminUrl} label="Event administration home" color={colors.teal} />
       <div className="card-body">
         <OverlaySpinner loading={!clubEvent?.id} />
         <EventActionButtons

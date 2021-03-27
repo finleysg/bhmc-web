@@ -1,3 +1,5 @@
+import React from "react"
+
 import {
   useAuth,
   useClient,
@@ -83,11 +85,12 @@ function useMyCards() {
 function useRegistrationStatus(eventId) {
   const { user } = useAuth()
   const myEvents = useMyEvents()
-
-  if (user?.is_authenticated && myEvents && myEvents.length > 0) {
-    return myEvents.indexOf(eventId) >= 0
-  }
-  return false
+  return React.useCallback(() => {
+    if (user?.is_authenticated && myEvents && myEvents.length > 0) {
+      return myEvents.indexOf(eventId) >= 0
+    }
+    return false
+  }, [eventId, user, myEvents])
 }
 
 function useUpdatePlayer() {

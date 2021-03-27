@@ -7,77 +7,49 @@ import {
   RiDeleteBin5Line,
   RiHomeGearLine,
 } from "react-icons/ri"
-import { Link } from "react-router-dom"
-import * as colors from "styles/colors"
+import { useNavigate } from "react-router-dom"
+
+import { IconActionButton } from "./buttons"
 
 const containerCss = {
   position: "absolute",
   top: 3,
   right: 3,
-  backgroundColor: colors.black,
-  opacity: 0.25,
-  borderRadius: "20px",
-  padding: 0,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  border: `1px solid ${colors.gray10}`,
-  width: "20px",
-  height: "20px",
-  fontSize: "1.1rem",
-  ":hover,:focus": {
-    backgroundColor: colors.gray100,
-    opacity: 1,
-  },
 }
 
-const linkCss = {
-  marginTop: "5px",
-  color: colors.gray400,
-  ":hover,:focus": {
-    color: colors.green,
-  },
-}
-
-const deleteCss = {
-  marginTop: "5px",
-  color: colors.red,
-  ":hover,:focus": {
-    color: colors.red,
-  },
-  borderStyle: "none",
-  backgroundColor: "transparent",
-  cursor: "pointer",
-}
-
-function AdminLink({ to, label, ...rest }) {
+function AdminLink({ to, color, label, ...rest }) {
   const { user } = useAuth()
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate(to)
+  }
 
   if (user.is_staff) {
     return (
-      <div css={containerCss} title={label} {...rest}>
-        <Link css={linkCss} to={to ?? "#"}>
+      <div css={containerCss} {...rest}>
+        <IconActionButton color={color} label={label} onAction={handleClick}>
           <RiHomeGearLine />
-        </Link>
+        </IconActionButton>
       </div>
     )
   }
   return null
 }
 
-function AdminDelete({ id, onDelete, ...rest }) {
+function AdminAction({ id, color, label, onAction, ...rest }) {
   const { user } = useAuth()
 
   if (user.is_staff) {
     return (
-      <div css={containerCss} title="Delete" {...rest}>
-        <button css={deleteCss} onClick={() => onDelete(id)}>
+      <div css={containerCss} {...rest}>
+        <IconActionButton color={color} label={label} onAction={() => onAction(id)}>
           <RiDeleteBin5Line />
-        </button>
+        </IconActionButton>
       </div>
     )
   }
   return null
 }
 
-export { AdminDelete, AdminLink }
+export { AdminAction, AdminLink }

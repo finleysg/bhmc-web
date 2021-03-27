@@ -2,11 +2,12 @@ import styled from "@emotion/styled/macro"
 
 import React from "react"
 
-import { AdminDelete } from "components/button/admin-buttons"
+import { AdminAction } from "components/button/admin-buttons"
 import { StandardConfirmDialog } from "components/dialog/confirm"
 import { DocumentCard } from "components/document/document-card"
 import { useEventDocumentDelete } from "hooks/document-hooks"
 import { toast } from "react-toastify"
+import * as colors from "styles/colors"
 
 const DocumentContainer = styled.div({
   position: "relative",
@@ -47,7 +48,12 @@ function DocumentAdmin({ documents, title, noResultMessage, onAddNew }) {
           {hasDocuments &&
             documents.map((doc) => (
               <DocumentContainer key={doc.id}>
-                <AdminDelete id={doc.id} onDelete={handleDelete} />
+                <AdminAction
+                  color={colors.red}
+                  label="Delete document"
+                  id={doc.id}
+                  onAction={handleDelete}
+                />
                 <DocumentCard document={doc} />
               </DocumentContainer>
             ))}

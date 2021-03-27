@@ -45,21 +45,21 @@ const Button = styled.button(
   ({ variant = "primary" }) => buttonVariants[variant],
 )
 
-const ActionButton = styled.button({
-  padding: "2px",
-  border: "0",
-  cursor: "pointer",
-  backgroundColor: "transparent",
-  fontSize: "1.4rem",
-  color: colors.gray600,
-  height: "24px",
-  width: "24px",
-  borderRadius: "24px",
-  ":hover": {
-    backgroundColor: colors.gray200,
-    color: colors.green,
-  },
-})
+const ActionButton = styled.button`
+  padding: 2px;
+  border: 0;
+  cursor: pointer;
+  color: ${colors.gray400};
+  background-color: transparent;
+  font-size: 1.2rem;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  &:hover {
+    background-color: ${colors.gray100};
+    color: ${(props) => props.color};
+  }
+`
 
 const Link = styled(RouterLink)({
   color: colors.indigo,
@@ -93,10 +93,12 @@ function TooltipButton({ label, highlight, onClick, icon, ...rest }) {
   )
 }
 
-function IconActionButton({ onAction, label, children }) {
+function IconActionButton({ onAction, color, label, children }) {
   return (
     <Tooltip label={label}>
-      <ActionButton onClick={onAction}>{children}</ActionButton>
+      <ActionButton color={color} onClick={onAction}>
+        {children}
+      </ActionButton>
     </Tooltip>
   )
 }

@@ -4,7 +4,7 @@ import { jsx } from "@emotion/core"
 
 import React from "react"
 
-import { AdminDelete } from "components/button/admin-buttons"
+import { AdminAction } from "components/button/admin-buttons"
 import { ReservedPlayer } from "components/reserve/reserved-list"
 import { OverlaySpinner } from "components/spinners"
 import {
@@ -14,6 +14,7 @@ import {
 import { useEventRegistrations } from "hooks/event-hooks"
 import { ReserveSlot } from "models/reserve"
 import { toast } from "react-toastify"
+import * as colors from "styles/colors"
 import { createRefunds } from "utils/payment-utils"
 
 import DropPlayers from "./drop-players"
@@ -91,16 +92,18 @@ function RegisteredAdmin({ clubEvent }) {
   return (
     <div className="card">
       <div className="card-body">
-        <OverlaySpinner loading={busy} />
+        <OverlaySpinner loading={busy || registrations.length === 0} />
         <h4 className="card-title text-primary">Drop Players</h4>
         {getPlayers().map((p) => {
           return (
-            <div css={PlayerContainerCss}>
-              <AdminDelete
-                onDelete={() => handleDrop(p)}
-                style={{ top: "8px", right: 0, backgroundColor: "#ffffff" }}
+            <div key={p.id} css={PlayerContainerCss}>
+              <AdminAction
+                color={colors.red}
+                label="Drop player"
+                onAction={() => handleDrop(p)}
+                style={{ top: "8px", right: "-4px" }}
               />
-              <ReservedPlayer key={p.id} playerRegistration={p} isLink={false} />
+              <ReservedPlayer playerRegistration={p} isLink={false} />
             </div>
           )
         })}

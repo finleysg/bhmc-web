@@ -5,6 +5,7 @@ import {
   TiArrowBack,
   TiRefresh,
 } from "react-icons/ti"
+import * as colors from "styles/colors"
 
 import { ReserveRow } from "./reserve-row"
 
@@ -68,12 +69,12 @@ function ReserveGrid({ table, error, mode, onReserve, onRefresh, onBack, ...rest
     <div className="card" style={{ padding: "1rem" }} {...rest}>
       <div>
         <span className="mr-2">
-          <IconActionButton onAction={onBack} label="back">
+          <IconActionButton onAction={onBack} label="back" color={colors.green}>
             <TiArrowBack />
           </IconActionButton>
         </span>
         <span>
-          <IconActionButton onAction={onRefresh} label="refresh">
+          <IconActionButton onAction={onRefresh} label="refresh" color={colors.indigo}>
             <TiRefresh />
           </IconActionButton>
         </span>

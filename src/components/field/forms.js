@@ -37,6 +37,7 @@ function FloatingInput({ typeVariant, id, label }) {
 }
 
 const FormCheckbox = ({ label, ...props }) => {
+  // eslint-disable-next-line no-unused-vars
   const [field, meta, helpers] = useField(props)
   return (
     <CheckBox
