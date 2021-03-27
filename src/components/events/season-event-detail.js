@@ -20,7 +20,7 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
   const hasSignedUp = useRegistrationStatus(config.seasonEventId)
   const isReturning = useRegistrationStatus(config.previousSeasonEventId)
 
-  //  player.isReturningMember = isReturning
+  player.isReturningMember = isReturning
   const loading = clubEvent?.id === undefined
 
   return (
