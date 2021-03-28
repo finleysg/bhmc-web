@@ -8,6 +8,7 @@ import {
   useMutation,
   useQueryClient,
 } from "react-query"
+import { toast } from "react-toastify"
 import * as config from "utils/app-config"
 
 import {
@@ -255,22 +256,24 @@ function EventRegistrationProvider(props) {
     ]).then((results) => {
       const reg = results[0]
       const pmt = results[1]
-      if (!reg || reg.length !== 1) {
-        throw new Error(
-          `We expected a single registration for ${user.email} for event ${state.clubEvent.id}`,
+
+      const paymentId = pmt && pmt.length > 0 ? pmt[0].id : undefined
+      const registrationId = reg && reg.length > 0 ? reg[0].id : undefined
+
+      if (registrationId === undefined) {
+        toast.warning("It looks like someone else has is signing you up right now.")
+      } else {
+        cancelRegistration(
+          { registrationId, paymentId },
+          {
+            onSuccess: () => {
+              const message =
+                "We had to clean up a previous incomplete registration. Please try again."
+              dispatch({ type: EventRegistrationActions.UpdateError, payload: message })
+            },
+          },
         )
       }
-      const paymentId = pmt && pmt.length > 0 ? pmt[0].id : undefined
-      cancelRegistration(
-        { registrationId: reg[0].id, paymentId },
-        {
-          onSuccess: () => {
-            const message =
-              "We had to clean up a previous incomplete registration. Please try again."
-            dispatch({ type: EventRegistrationActions.UpdateError, payload: message })
-          },
-        },
-      )
     })
   }
 

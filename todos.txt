@@ -47,7 +47,6 @@ Registration:
 - Sort by widget (player or date)
 - Don't leave pending spots on admin signup
 - Selected start is missing on Skins payment flow
-- Intermittent bomb: payment-reducer.js ln 82
 - Validate required fees
 - Reload on /registrations seems to have a problem
 
@@ -99,3 +98,5 @@ Styling:
 
 Bugs / Warnings:
 - unmount warning from season-event-detail
+- Intermittent bomb: payment-reducer.js ln 82
+- On FF, the order of event fees is backwards

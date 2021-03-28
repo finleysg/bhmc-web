@@ -88,10 +88,18 @@ function EventRegistrationManager({ clubEvent }) {
   }
 
   const handleEdit = () => {
-    loadRegistration(player.id).then(() => {
-      setMode("edit")
-      setCurrentView("register-view")
-    })
+    loadRegistration(player.id)
+      .then(() => {
+        setMode("edit")
+        setCurrentView("register-view")
+      })
+      .catch((err) => {
+        // TODO: suss out the underlying cause of the issue at ln 82 of the reducer
+        toast.warning(`Something went wrong: ${err}. Reloading should fix it.`)
+        setTimeout(() => {
+          window.location.assign(window.location)
+        }, 2000)
+      })
   }
 
   const handleReserve = (course, groupName, slots) => {
