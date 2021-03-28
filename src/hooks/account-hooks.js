@@ -13,6 +13,13 @@ import { toast } from "react-toastify"
 import * as config from "utils/app-config"
 import { useFormClient } from "utils/form-client"
 
+const Groups = {
+  Guests: "Guests",
+  AuthenticatedUsers: "Authenticated Users",
+  Administrators: "Administrators",
+  PaulHelpers: "Paul Helpers",
+}
+
 function usePlayer() {
   const { user } = useAuth()
   const client = useClient()
@@ -186,9 +193,27 @@ function useRemoveFriend() {
   )
 }
 
+function useGroups() {
+  const { user } = useAuth()
+  const groups = []
+  if (user.is_authenticated) {
+    groups.push(Groups.AuthenticatedUsers)
+  } else {
+    groups.push(Groups.Guests)
+    return groups
+  }
+  if (user.is_staff) {
+    groups.push(Groups.Administrators)
+  }
+  user.groups.forEach((g) => groups.push(g.name))
+  return groups
+}
+
 export {
+  Groups,
   useAddFriend,
   useFriends,
+  useGroups,
   useMyCards,
   useMyEvents,
   usePlayer,

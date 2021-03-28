@@ -52,11 +52,8 @@ Registration:
 - Reload on /registrations seems to have a problem
 
 General:
-- Image optimization
-* Performance review / optimization in Django
 - Giphy production api key
 - Don't constrain width (as much, at least)
-- Policy review
 - Review and fix issues captured by sentry
 - Review and fix rendering issues (polypane)
 * Document mgmt button with spots on the site for specific docs
@@ -87,6 +84,7 @@ Administration:
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
 - Busy feedback on move/drop screens
+- Regenerate slots
 
 Reports:
 - Membership report
