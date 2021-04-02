@@ -1,13 +1,6 @@
-import {
-  addDays,
-  isWithinInterval,
-  parse,
-} from "date-fns"
+import { addDays, isWithinInterval, parse } from "date-fns"
 import { immerable } from "immer"
-import {
-  dayDateAndTimeFormat,
-  isoDayFormat,
-} from "utils/event-utils"
+import { dayDateAndTimeFormat, isoDayFormat } from "utils/event-utils"
 
 const mapRegistrationType = (code) => {
   switch (code) {
@@ -82,14 +75,17 @@ const mapEventType = (code) => {
 }
 
 const slugify = (text) => {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace("/", " ")
-    .replace(/\s+/g, "-")
-    .replace(/[^\w-]+/g, "")
-    .replace(/--+/g, "-")
+  if (Boolean(text)) {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace("/", " ")
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "")
+      .replace(/--+/g, "-")
+  }
+  return ""
 }
 
 const sampleEvent = {

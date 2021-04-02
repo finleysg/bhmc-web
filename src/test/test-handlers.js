@@ -50,7 +50,6 @@ const handlers = [
   // player handlers
   rest.get(apiUrl("players/"), async (req, res, ctx) => {
     const email = req.url.searchParams.get("email")
-    console.log(`In handler with email: ${email}`)
     return res(ctx.delay(delay), ctx.json(buildPlayer({ email: email })))
   }),
   rest.put(apiUrl("players/:playerId/"), async (req, res, ctx) => {
@@ -74,6 +73,9 @@ const handlers = [
   }),
   rest.get(apiUrl("payments/"), async (req, res, ctx) => {
     return res(ctx.delay(delay), [])
+  }),
+  rest.get(apiUrl("registration-slots"), async (req, res, ctx) => {
+    return res(ctx.status(200), [])
   }),
 ]
 

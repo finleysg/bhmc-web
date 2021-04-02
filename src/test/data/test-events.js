@@ -8,6 +8,7 @@ const TestEventType = {
   open: 5,
   guest: 6,
   shotgun: 7,
+  deadline: 8,
 }
 
 const SeasonRegistrationEvent = {
@@ -845,6 +846,36 @@ const WeeknightShotgunEvent = {
   ],
 }
 
+const DeadlineEvent = {
+  can_choose: false,
+  courses: [],
+  event_type: "O",
+  external_url: null,
+  fees: [],
+  ghin_required: false,
+  group_size: 4,
+  id: TestEventType.deadline,
+  maximum_signup_group_size: 4,
+  minimum_signup_group_size: 2,
+  name: "Test Deadline",
+  notes: "",
+  payments_end: null,
+  portal_url: null,
+  registration_maximum: 0,
+  registration_type: "N",
+  registration_window: "n/a",
+  rounds: 1,
+  season: 2021,
+  season_points: 0,
+  signup_end: null,
+  signup_start: null,
+  skins_type: "N",
+  start_date: "2021-05-01",
+  start_time: "1:00 PM",
+  start_type: "NA",
+  total_groups: null,
+}
+
 const getEvent = (eventType) => {
   switch (eventType) {
     case TestEventType.season:
@@ -861,6 +892,8 @@ const getEvent = (eventType) => {
       return MemberGuestEvent
     case TestEventType.shotgun:
       return WeeknightShotgunEvent
+    case TestEventType.deadline:
+      return DeadlineEvent
     default:
       return null
   }
@@ -894,6 +927,7 @@ const getTestEvents = () => {
     getTestEvent({ eventType: TestEventType.open, state: "future" }),
     getTestEvent({ eventType: TestEventType.guest, state: "future" }),
     getTestEvent({ eventType: TestEventType.shotgun, state: "future" }),
+    getTestEvent({ eventType: TestEventType.deadline }),
   ]
 }
 

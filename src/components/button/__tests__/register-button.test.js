@@ -5,14 +5,8 @@ import { format } from "date-fns"
 import { ClubEvent } from "models/club-event"
 import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
-import {
-  getTestEvent,
-  TestEventType,
-} from "test/data/test-events"
-import {
-  rest,
-  server,
-} from "test/test-server"
+import { getTestEvent, TestEventType } from "test/data/test-events"
+import { rest, server } from "test/test-server"
 import {
   act,
   deferred,
