@@ -3,22 +3,22 @@ import React from "react"
 import { LoadingSpinner } from "components/spinners"
 import { useClient } from "context/auth-context"
 import { slugify } from "models/club-event"
-import { getEventReportHeader, getEventReportRows } from "utils/report-utils"
+import { getSkinsReportHeader, getSkinsReportRows } from "utils/report-utils"
 import { useAsync } from "utils/use-async"
 
 import DownloadButton from "./download-button"
 
-function EventReport({ eventId, clubEvent }) {
+function SkinsReport({ eventId, clubEvent }) {
   const { data, isLoading, run } = useAsync()
   const client = useClient()
 
   React.useEffect(() => {
-    run(client(`reports/event-report/${eventId}`))
+    run(client(`reports/skins-report/${eventId}`))
   }, [run, client, eventId])
 
-  const reportName = `${slugify(clubEvent.name)}-event-report.csv`
-  const reportHeader = getEventReportHeader(clubEvent)
-  const reportData = getEventReportRows(clubEvent, data)
+  const reportName = `${slugify(clubEvent.name)}-skins-report.csv`
+  const reportHeader = getSkinsReportHeader(clubEvent)
+  const reportData = getSkinsReportRows(clubEvent, data)
 
   const getDownloadFile = () => {
     const rows = []
@@ -30,7 +30,7 @@ function EventReport({ eventId, clubEvent }) {
   return (
     <div className="card">
       <div className="card-body">
-        <h4 className="card-title text-success">{clubEvent.name} Event Report</h4>
+        <h4 className="card-title text-success">{clubEvent.name} Skins Report</h4>
         <DownloadButton data={getDownloadFile()} filename={reportName} />
         <div className="card-text">
           <div style={{ overflowY: "auto", overflowX: "auto" }}>
@@ -74,4 +74,4 @@ function EventReport({ eventId, clubEvent }) {
   )
 }
 
-export default EventReport
+export default SkinsReport

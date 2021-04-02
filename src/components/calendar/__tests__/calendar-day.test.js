@@ -1,21 +1,43 @@
 import React from "react"
 
-import { addDays, parseISO, subDays } from "date-fns"
+import {
+  addDays,
+  parseISO,
+  subDays,
+} from "date-fns"
 import { ClubEvent } from "models/club-event"
-import { screen, simpleRender } from "test/test-utils"
+import {
+  buildAdminUser,
+  buildUser,
+} from "test/data/auth"
+import {
+  act,
+  deferred,
+  render,
+  screen,
+} from "test/test-utils"
 
 import { CalendarDay } from "../calendar-day"
 import { Day } from "../calendar-utils"
 
-test("conditionally renders an empty date", () => {
+test("conditionally renders an empty date", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(parseISO("2020-11-15"))
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={10} />)
+  render(<CalendarDay day={day} currentMonthNbr={10} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("listitem")).toHaveClass("hidden-xs-down")
 })
 
-test("always renders a date with an event", () => {
+test("always renders a date with an event", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(parseISO("2020-11-15"))
   day.events.push(
     new ClubEvent({
@@ -28,28 +50,48 @@ test("always renders a date with an event", () => {
     }),
   )
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={10} />)
+  render(<CalendarDay day={day} currentMonthNbr={10} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("listitem")).not.toHaveClass("hidden-xs-down")
 })
 
-test("renders a date outside the current month with a special class", () => {
+test("renders a date outside the current month with a special class", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(parseISO("2020-11-15"))
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={9} />)
+  render(<CalendarDay day={day} currentMonthNbr={9} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("listitem")).toHaveClass("other-month")
 })
 
-test("renders the current date with a special class", () => {
+test("renders the current date with a special class", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(new Date())
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={9} />)
+  render(<CalendarDay day={day} currentMonthNbr={9} />)
 
+  await act(() => {
+    resolve()
+    return promise
+  })
   expect(screen.getByRole("listitem")).toHaveClass("today")
 })
 
-test("renders an internal link for club events", () => {
+test("renders an internal link for club events", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(parseISO("2020-11-15"))
   day.events.push(
     new ClubEvent({
@@ -62,7 +104,12 @@ test("renders an internal link for club events", () => {
     }),
   )
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={10} />)
+  render(<CalendarDay day={day} currentMonthNbr={10} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("link", { name: /2 man best ball/i })).toHaveAttribute(
     "href",
@@ -70,7 +117,9 @@ test("renders an internal link for club events", () => {
   )
 })
 
-test("overrides the link to the season event", () => {
+test("overrides the link to the season event", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(parseISO("2020-11-15"))
   day.events.push(
     new ClubEvent({
@@ -83,7 +132,12 @@ test("overrides the link to the season event", () => {
     }),
   )
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={10} />)
+  render(<CalendarDay day={day} currentMonthNbr={10} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("link", { name: /season sign up/i })).toHaveAttribute(
     "href",
@@ -91,7 +145,9 @@ test("overrides the link to the season event", () => {
   )
 })
 
-test("overrides the link to the match play event", () => {
+test("overrides the link to the match play event", async () => {
+  const { promise, resolve } = deferred()
+
   const day = new Day(parseISO("2020-11-15"))
   day.events.push(
     new ClubEvent({
@@ -104,7 +160,12 @@ test("overrides the link to the match play event", () => {
     }),
   )
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={10} />)
+  render(<CalendarDay day={day} currentMonthNbr={10} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("link", { name: /season long match play/i })).toHaveAttribute(
     "href",
@@ -112,7 +173,9 @@ test("overrides the link to the match play event", () => {
   )
 })
 
-test("renders an external url for non-club events", () => {
+test("renders an external url for non-club events", async () => {
+  const { promise, resolve } = deferred()
+
   const externalUrl = "https://mpga.net/tournaments/2020/four-ball"
   const day = new Day(parseISO("2020-11-15"))
   day.events.push(
@@ -127,7 +190,62 @@ test("renders an external url for non-club events", () => {
     }),
   )
 
-  simpleRender(<CalendarDay day={day} currentMonthNbr={10} />)
+  render(<CalendarDay day={day} currentMonthNbr={10} />)
+
+  await act(() => {
+    resolve()
+    return promise
+  })
 
   expect(screen.getByRole("link", { name: /mpga fourball/i })).toHaveAttribute("href", externalUrl)
+})
+
+test("renders a link to event admin for administrators", async () => {
+  const { promise, resolve } = deferred()
+  const user = buildAdminUser()
+
+  const day = new Day(parseISO("2020-11-15"))
+  day.events.push(
+    new ClubEvent({
+      id: 11,
+      name: "2 Man Best Ball",
+      start_date: "2020-11-15",
+      signup_start: subDays(new Date("2020-11-15"), 1).toISOString(),
+      signup_end: addDays(new Date("2020-11-15"), 7).toISOString(),
+      rounds: 1,
+    }),
+  )
+  render(<CalendarDay day={day} currentMonthNbr={10} />, { user: user })
+
+  await act(() => {
+    resolve()
+    return promise
+  })
+
+  expect(screen.getByRole("button")).toBeInTheDocument()
+})
+
+test("does not render a link to event admin for non-administrators", async () => {
+  const { promise, resolve } = deferred()
+  const user = buildUser()
+
+  const day = new Day(parseISO("2020-11-15"))
+  day.events.push(
+    new ClubEvent({
+      id: 11,
+      name: "2 Man Best Ball",
+      start_date: "2020-11-15",
+      signup_start: subDays(new Date("2020-11-15"), 1).toISOString(),
+      signup_end: addDays(new Date("2020-11-15"), 7).toISOString(),
+      rounds: 1,
+    }),
+  )
+  render(<CalendarDay day={day} currentMonthNbr={10} />, { user: user })
+
+  await act(() => {
+    resolve()
+    return promise
+  })
+
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
 })

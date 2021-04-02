@@ -1,8 +1,4 @@
-import {
-  format,
-  isDate,
-  isValid,
-} from "date-fns"
+import { format, isDate, isValid } from "date-fns"
 
 const getDayName = (dt) => {
   const dow = dt.getDay()
@@ -63,6 +59,13 @@ const dayDateAndTimeFormat = (dt) => {
   return "--"
 }
 
+const sortableDateAndTimeFormat = (dt) => {
+  if (dt && isDate(dt) && isValid(dt)) {
+    return format(dt, "yyyy-MM-dd hh:mm")
+  }
+  return ""
+}
+
 const dayNameFormat = (dt) => {
   try {
     if (dt && isDate(dt) && isValid(dt)) {
@@ -119,4 +122,5 @@ export {
   monthNameFormat,
   shortDayNameFormat,
   shortMonthNameFormat,
+  sortableDateAndTimeFormat,
 }

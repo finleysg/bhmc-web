@@ -5,16 +5,8 @@ import { useLayout } from "context/layout-context"
 import { GiGolfFlag } from "react-icons/gi"
 import { GoHome } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
-import {
-  HiDocumentReport,
-  HiDocumentText,
-} from "react-icons/hi"
-import {
-  MdContentCopy,
-  MdEdit,
-  MdPeopleOutline,
-  MdPersonAdd,
-} from "react-icons/md"
+import { HiDocumentReport, HiDocumentText } from "react-icons/hi"
+import { MdContentCopy, MdEdit, MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiArrowBackOutline } from "react-icons/ti"
 
 import { MenuItem } from "./menu-item"
@@ -52,6 +44,11 @@ function AdminSidebar() {
           path={`/admin/event/${eventId}/payment-report`}
           icon={<HiDocumentReport />}
           name="Payment Report"
+        />
+        <MenuItem
+          path={`/admin/event/${eventId}/skins-report`}
+          icon={<HiDocumentReport />}
+          name="Skins Report"
         />
         <MenuItem
           path={`/admin/event/${eventId}/add-player`}

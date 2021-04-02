@@ -1,5 +1,8 @@
 import * as auth from "context/auth-provider"
-import { rest, server } from "test/test-server"
+import {
+  rest,
+  server,
+} from "test/test-server"
 import { client } from "utils/api-client"
 import { apiUrl } from "utils/client-utils"
 
@@ -79,7 +82,7 @@ test("automatically logs the user out if the request returns a 401", async () =>
   )
   const result = await client(endpoint).catch((err) => err)
 
-  expect(result.message).toMatchInlineSnapshot(`"Please re-authenticate."`)
+  expect(result.message).toMatchInlineSnapshot(`undefined`)
   expect(auth.logout).toHaveBeenCalledTimes(1)
 })
 
@@ -92,5 +95,5 @@ test("rejects the promise if there is an error", async () => {
     }),
   )
 
-  await expect(client(endpoint)).rejects.toEqual("Trunalimunumaprzure!")
+  await expect(client(endpoint)).rejects.toMatchSnapshot()
 })

@@ -1,10 +1,7 @@
-import {
-  differenceInYears,
-  parseISO,
-} from "date-fns"
+import { differenceInYears, parseISO } from "date-fns"
 import { GetGroupStartName } from "models/reserve"
 
-import { isoDayFormat } from "./event-utils"
+import { isoDayFormat, sortableDateAndTimeFormat } from "./event-utils"
 
 const standardHeader = [
   "Group",
@@ -94,6 +91,23 @@ const getPaymentReportRow = (obj) => {
   return values
 }
 
+const getSkinsReportRow = (clubEvent, obj) => {
+  const startName = GetGroupStartName(clubEvent, obj["hole_number"], obj["starting_order"])
+
+  const values = []
+  values.push(obj["registration_id"])
+  values.push(obj["course_name"])
+  values.push(startName)
+  values.push(`${obj["first_name"]} ${obj["last_name"]}`)
+  values.push(obj["skins_type"])
+  values.push(+obj["is_paid"] === 1 ? "Paid" : "")
+  values.push(sortableDateAndTimeFormat(parseISO(obj["payment_date"])))
+
+  clubEvent.fees.forEach((fee) => values.push(obj[fee.name]))
+
+  return values
+}
+
 const getEventReportHeader = (clubEvent) => {
   const feeNames = clubEvent?.fees?.map((f) => f.name) ?? []
   if (clubEvent.canChoose) {
@@ -102,6 +116,9 @@ const getEventReportHeader = (clubEvent) => {
   return standardHeader.concat(feeNames)
 }
 
+const getSkinsReportHeader = () => {
+  return ["Group", "Course", "Start", "Player", "Skins Type", "Paid", "Payment Date"]
+}
 const getPaymentReportHeader = () => {
   return ["Player", "Payment Code", "Payment Date", "Amount Due", "Transaction Fee", "Total"]
 }
@@ -120,4 +137,15 @@ const getPaymentReportRows = (reportData) => {
   return reportData?.map((obj) => getPaymentReportRow(obj)) ?? []
 }
 
-export { getEventReportHeader, getEventReportRows, getPaymentReportHeader, getPaymentReportRows }
+const getSkinsReportRows = (clubEvent, reportData) => {
+  return reportData?.map((obj) => getSkinsReportRow(clubEvent, obj)) ?? []
+}
+
+export {
+  getEventReportHeader,
+  getEventReportRows,
+  getPaymentReportHeader,
+  getPaymentReportRows,
+  getSkinsReportHeader,
+  getSkinsReportRows,
+}

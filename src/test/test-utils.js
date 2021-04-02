@@ -1,11 +1,20 @@
-import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing-library/react"
+import {
+  render as rtlRender,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react"
 
 import { AuthProvider } from "context/auth-context"
 import { EventRegistrationProvider } from "context/registration-context"
-import { QueryCache, QueryClient, QueryClientProvider } from "react-query"
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query"
 import { MemoryRouter as Router } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
+const guestUser = {}
 const testingQueryCache = new QueryCache()
 const testingQueryClient = new QueryClient({ queryCache: testingQueryCache })
 
@@ -24,7 +33,7 @@ const waitForLoadingToFinish = () =>
     { timeout: 4000 },
   )
 
-function render(ui, { user = null, ...options } = {}) {
+function render(ui, { user = guestUser, ...options } = {}) {
   const Wrapper = ({ children }) => (
     <QueryClientProvider client={testingQueryClient}>
       <Router>
@@ -40,7 +49,7 @@ function render(ui, { user = null, ...options } = {}) {
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-function renderWithEventRegistration(ui, { user = null, ...options } = {}) {
+function renderWithEventRegistration(ui, { user = guestUser, ...options } = {}) {
   const Wrapper = ({ children }) => (
     <QueryClientProvider client={testingQueryClient}>
       <Router>

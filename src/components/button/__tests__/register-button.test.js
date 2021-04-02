@@ -1,11 +1,18 @@
 import React from "react"
 
+import { RegistrationSteps } from "context/registration-context"
 import { format } from "date-fns"
 import { ClubEvent } from "models/club-event"
 import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
-import { getTestEvent, TestEventType } from "test/data/test-events"
-import { rest, server } from "test/test-server"
+import {
+  getTestEvent,
+  TestEventType,
+} from "test/data/test-events"
+import {
+  rest,
+  server,
+} from "test/test-server"
 import {
   act,
   deferred,
@@ -79,7 +86,16 @@ test("renders the button for an authenticated user in the season sign-up event",
     getTestEvent({ eventType: TestEventType.season, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={false}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -113,7 +129,16 @@ test("renders null for an authenticated user who has already signed up for the s
     getTestEvent({ eventType: TestEventType.season, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={true}
+      isMember={true}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -147,7 +172,16 @@ test("renders the button for a member and a weeknight event", async () => {
     getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={true}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -181,7 +215,16 @@ test("renders null for a non-member and a weeknight event", async () => {
     getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={false}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -215,7 +258,16 @@ test("renders null for a member and a weeknight event in the future", async () =
     getTestEvent({ eventType: TestEventType.weeknight, state: "future" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={true}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -249,7 +301,16 @@ test("renders null for a member and a weeknight event in the past", async () => 
     getTestEvent({ eventType: TestEventType.weeknight, state: "past" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={true}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -283,7 +344,16 @@ test("renders the button for a non-member and an open event", async () => {
     getTestEvent({ eventType: TestEventType.open, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={false}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -318,7 +388,16 @@ test("renders null for a non-member without a ghin and an open event", async () 
     getTestEvent({ eventType: TestEventType.open, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={false}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -352,7 +431,16 @@ test("renders null for a non-member and a member-guest event", async () => {
     getTestEvent({ eventType: TestEventType.guest, state: "registration" }),
   )
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={false}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
@@ -384,12 +472,21 @@ test("renders null for an event without registration", async () => {
 
   const testEvent = new ClubEvent({
     id: 11,
-    name: "2 Man Best Ball",
+    name: "Meeting",
     start_date: format(new Date(), "yyyy-MM-dd"),
     registration_type: "N",
   })
 
-  renderWithEventRegistration(<RegisterButton clubEvent={testEvent} />, { user: user })
+  renderWithEventRegistration(
+    <RegisterButton
+      clubEvent={testEvent}
+      hasSignedUp={false}
+      isMember={true}
+      currentStep={RegistrationSteps.Pending}
+      onClick={jest.fn()}
+    />,
+    { user: user },
+  )
 
   await act(() => {
     resolve()
