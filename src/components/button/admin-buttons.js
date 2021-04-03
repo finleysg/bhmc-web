@@ -3,10 +3,7 @@
 import { jsx } from "@emotion/core"
 
 import { useAuth } from "context/auth-context"
-import {
-  RiDeleteBin5Line,
-  RiHomeGearLine,
-} from "react-icons/ri"
+import { RiDeleteBin5Line, RiHomeGearLine } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 
 import { IconActionButton } from "./buttons"
@@ -52,4 +49,19 @@ function AdminAction({ id, color, label, onAction, ...rest }) {
   return null
 }
 
-export { AdminAction, AdminLink }
+function AdminAction2({ id, color, label, onAction, children, ...rest }) {
+  const { user } = useAuth()
+
+  if (user.is_staff) {
+    return (
+      <div css={containerCss} {...rest}>
+        <IconActionButton color={color} label={label} onAction={() => onAction(id)}>
+          {children}
+        </IconActionButton>
+      </div>
+    )
+  }
+  return null
+}
+
+export { AdminAction, AdminAction2, AdminLink }

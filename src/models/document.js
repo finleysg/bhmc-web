@@ -18,6 +18,7 @@ export const documentTypeMap = new Map([
   ["F", "Financial Statements"],
   ["S", "Sign Up"],
   ["O", "Other"],
+  ["Z", "Data"],
 ])
 
 function BhmcDocument(json) {

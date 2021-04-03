@@ -65,6 +65,9 @@ function DocumentAdmin({ documents, title, noResultMessage, onAddNew }) {
           <button className="btn btn-sm btn-primary mr-2" onClick={() => onAddNew("R")}>
             Results
           </button>
+          <button className="btn btn-sm btn-light mr-2" onClick={() => onAddNew("Z")}>
+            Points
+          </button>
           <button className="btn btn-sm btn-info" onClick={() => onAddNew("O")}>
             Other
           </button>

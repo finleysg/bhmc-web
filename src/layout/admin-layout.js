@@ -10,6 +10,7 @@ import AdminEditFormatPage from "pages/admin-edit-format-page"
 import AdminEditPortalPage from "pages/admin-edit-portal-page"
 import AdminManageEventDocumentsPage from "pages/admin-manage-event-documents-page"
 import AdminManagePlayersPage from "pages/admin-manage-players-page"
+import AdminSlpPage from "pages/admin-slp-page"
 import EventAdminPage from "pages/event-admin-page"
 import EventReportPage from "pages/event-report-page"
 import { NotFoundScreen } from "pages/not-found"
@@ -33,7 +34,7 @@ function AdminRoutes() {
       <Route path="/event/:eventId/manage-players" element={<AdminManagePlayersPage />} />
       <Route path="/event/:eventId/event-portal" element={<AdminEditPortalPage />} />
       <Route path="/event/:eventId/manage-documents" element={<AdminManageEventDocumentsPage />} />
-      <Route path="/event/:eventId/import-points" element={<UnfinishedPage />} />
+      <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />
       <Route path="/event/:eventId/edit-event" element={<AdminEditFormatPage />} />
       <Route path="/event/:eventId/clone-event" element={<UnfinishedPage />} />
       <Route path="*" element={<NotFoundScreen />} />

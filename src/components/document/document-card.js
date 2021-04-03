@@ -42,6 +42,8 @@ const cardColor = (documentType) => {
     case "P":
     case "D":
       return "text-light-blue"
+    case "Z":
+      return "text-gray"
     default:
       return "text-blue-gray"
   }

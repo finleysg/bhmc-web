@@ -1,10 +1,7 @@
 import React from "react"
 
 import { useClient } from "context/auth-context"
-import {
-  useMutation,
-  useQueryClient,
-} from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 
 function useEventPatch() {
@@ -103,4 +100,50 @@ function useIssueRefunds() {
   )
 }
 
-export { useDropPlayers, useEventPatch, useIssueRefunds, useMovePlayers }
+function usePoints(eventId, documentId) {
+  const client = useClient()
+
+  return useQuery(["season-long-points", documentId], () => {
+    return client(`season-long-points/?event_id=${eventId}&document_id=${documentId}`).then(
+      (data) => {
+        if (data) return data.map((c) => c)
+        return []
+      },
+    )
+  })
+}
+
+function usePointsImport() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    ({ eventId, documentId }) => {
+      return client(`import-points`, {
+        method: "POST",
+        data: {
+          event_id: eventId,
+          document_id: documentId,
+        },
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to import points from the selected file.")
+      },
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries(["season-long-points", variables.documentId])
+        toast.success("⛳ Points have been imported.")
+      },
+    },
+  )
+}
+
+export {
+  useDropPlayers,
+  useEventPatch,
+  useIssueRefunds,
+  useMovePlayers,
+  usePoints,
+  usePointsImport,
+}

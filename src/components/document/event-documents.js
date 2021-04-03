@@ -6,9 +6,14 @@ import { DocumentList } from "./document-list"
 
 function EventDocuments({ clubEvent }) {
   const documents = useEventDocuments(clubEvent?.id)
+  const filteredDocuments = documents?.filter((doc) => doc.documentType !== "Z") ?? []
 
   return (
-    <DocumentList documents={documents} title="Event Documents" noResultMessage="No files yet." />
+    <DocumentList
+      documents={filteredDocuments}
+      title="Event Documents"
+      noResultMessage="No files yet."
+    />
   )
 }
 
