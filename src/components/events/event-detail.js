@@ -12,10 +12,7 @@ import { RegistrationSteps } from "context/registration-context"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
 import * as colors from "styles/colors"
-import {
-  dayAndDateFormat,
-  dayDateAndTimeFormat,
-} from "utils/event-utils"
+import { dayAndDateFormat, dayDateAndTimeFormat } from "utils/event-utils"
 
 function EventActionButtons({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegistration }) {
   return (
@@ -58,6 +55,7 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
           onEditRegistration={onEditRegistration}
         />
         <div className="card-text">
+          {clubEvent.status === "Canceled" ? <h4 className="text-danger">Canceled</h4> : null}
           <div className="registration-start-item">
             <div className="label">Event date:</div>
             <div className="value">{dayAndDateFormat(clubEvent.startDate)}</div>

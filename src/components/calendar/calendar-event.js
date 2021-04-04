@@ -1,9 +1,17 @@
+import styled from "@emotion/styled/macro"
+
 import React from "react"
 
 import { AdminLink } from "components/button/admin-buttons"
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
 import * as config from "utils/app-config"
+
+const EventContainer = styled.div({
+  position: "relative",
+  display: "inline-block",
+  width: "100%",
+})
 
 function CalendarEvent({ clubEvent }) {
   const { name, eventTypeClass, externalUrl, startTime, startType } = clubEvent
@@ -27,9 +35,9 @@ function CalendarEvent({ clubEvent }) {
           <div className={`calendar-event ${eventTypeClass}`}>{name}</div>
         </a>
       ) : (
-        <div style={{ position: "relative", display: "inline-block", width: "100%" }}>
+        <EventContainer className={clubEvent.status === "Canceled" ? "canceled" : ""}>
           <Link to={eventUrl()}>
-            <div className={`calendar-event ${eventTypeClass}`}>
+            <div className={`calendar-event ${eventTypeClass} ${clubEvent.status.toLowerCase()}`}>
               <p>{name}</p>
               <p>
                 {startTime} {showStartType && startType}
@@ -41,7 +49,7 @@ function CalendarEvent({ clubEvent }) {
             label="Event administration home"
             color={colors.teal}
           />
-        </div>
+        </EventContainer>
       )}
     </React.Fragment>
   )

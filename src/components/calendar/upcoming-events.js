@@ -1,19 +1,21 @@
+import styled from "@emotion/styled/macro"
+
 import { AdminLink } from "components/button/admin-buttons"
-import {
-  addDays,
-  isWithinInterval,
-  subDays,
-} from "date-fns"
+import { addDays, isWithinInterval, subDays } from "date-fns"
 import { useClubEvents } from "hooks/event-hooks"
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
 import { dayAndDateFormat } from "utils/event-utils"
 
+const EventContainer = styled.div({
+  position: "relative",
+})
+
 function UpcomingEvent({ event }) {
   return (
     <Link className="listview__item" to={event.eventUrl}>
       <i className={`avatar-char ${event.eventTypeClass}`}>{event.name[0]}</i>
-      <div className="listview__content">
+      <div className={`listview__content ${event.status === "Canceled" ? "canceled" : ""}`}>
         <div className="listview__heading">{event.name}</div>
         <p>{dayAndDateFormat(event.startDate)}</p>
       </div>
@@ -44,10 +46,10 @@ function UpcomingEvents() {
   return (
     <div className="listview listview--hover">
       {upcoming().map((event) => (
-        <div key={event.id} style={{ position: "relative" }}>
+        <EventContainer key={event.id}>
           <UpcomingEvent event={event} />
           <AdminLink to={event.adminUrl} label="Event administration home" color={colors.teal} />
-        </div>
+        </EventContainer>
       ))}
     </div>
   )
