@@ -1,15 +1,9 @@
 import React from "react"
 
 import ResultDetail from "components/results/result-detail"
-import {
-  Tab,
-  Tabs,
-} from "components/tabs"
+import { Tab, Tabs } from "components/tabs"
 import { FaCalendarAlt } from "react-icons/fa"
-import {
-  Link,
-  useParams,
-} from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import * as config from "utils/app-config"
 
 function ResultSeasonMenu({ eventType, season }) {

@@ -1,31 +1,13 @@
 import React from "react"
 
 import { useLayout } from "context/layout-context"
-import {
-  Groups,
-  useGroups,
-} from "hooks/account-hooks"
+import { Groups, useGroups } from "hooks/account-hooks"
 import { useSelectedMonth } from "hooks/calendar-hooks"
-import {
-  BiEnvelope,
-  BiLogInCircle,
-} from "react-icons/bi"
-import {
-  GiGolfFlag,
-  GiTrophyCup,
-} from "react-icons/gi"
-import {
-  GoCalendar,
-  GoHome,
-  GoInfo,
-  GoPlus,
-  GoQuestion,
-} from "react-icons/go"
+import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
+import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
+import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
-import {
-  MdPeopleOutline,
-  MdPersonAdd,
-} from "react-icons/md"
+import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiContacts } from "react-icons/ti"
 import * as config from "utils/app-config"
 
@@ -60,7 +42,7 @@ function Sidebar() {
         <MenuItem path="season-long-points" icon={<GiGolfFlag />} name="Season Long Points" />
         <MenuItem path="dam-cup" icon={<GiTrophyCup />} name="Dam Cup" />
         {groups.indexOf(Groups.AuthenticatedUsers) >= 0 && (
-          <MenuItem path="directory" icon={<TiContacts />} name="Member Directory" />
+          <MenuItem path="directory" icon={<TiContacts />} name="Account Directory" />
         )}
         <MenuItem path="contact-us" icon={<BiEnvelope />} name="Contact Us" />
         <MenuItem path="about-us" icon={<GoQuestion />} name="About Us" />

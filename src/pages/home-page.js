@@ -3,8 +3,10 @@ import React from "react"
 import AnnouncementList from "components/announcements/announcement-list"
 import { QuickLinks } from "components/announcements/quick-links"
 import { UpcomingEvents } from "components/calendar/upcoming-events"
-import { CardContentSolid } from "components/card/content"
+import HoleInOne from "components/results/aces"
+import { LowScoreList } from "components/results/low-score-list"
 import * as colors from "styles/colors"
+import * as config from "utils/app-config"
 
 function HomePage() {
   const scrollToTop = () => window.scrollTo(0, 0)
@@ -49,8 +51,8 @@ function HomePage() {
           </div>
         </div>
         <div className="col-xl-3 col-lg-4">
-          <CardContentSolid contentKey="sponsors" headerColor="success" />
-          <CardContentSolid contentKey="notable" headerColor="teal" />
+          <HoleInOne headerColor="success" />
+          <LowScoreList season={config.currentSeason} />
         </div>
       </div>
     </div>

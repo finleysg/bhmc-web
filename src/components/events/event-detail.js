@@ -77,6 +77,10 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
                 <div className="label">Registration closes:</div>
                 <div className="value">{dayDateAndTimeFormat(clubEvent.signupEnd)}</div>
               </div>
+              <div className="registration-start-item">
+                <div className="label">Skins closes:</div>
+                <div className="value">{dayDateAndTimeFormat(clubEvent.paymentsEnd)}</div>
+              </div>
             </React.Fragment>
           )}
           <div className="registration-start-item">
