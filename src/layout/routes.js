@@ -12,6 +12,7 @@ import PlayerProfilePage from "pages/player-profile-page"
 import PolicyPage from "pages/policy-page"
 import ReservedPage from "pages/reserved-page"
 import ResultsPage from "pages/results-page"
+import ScorecardPage from "pages/scorecard-page"
 import SeasonLongPointsPage from "pages/season-long-points"
 import SeasonSignupPage from "pages/season-signup-page"
 import SendMessagePage from "pages/send-message-page"
@@ -32,6 +33,7 @@ const mainRoutes = (user) => [
   { path: "/event/:eventDate/:eventName/registrations", element: <ReservedPage /> },
   { path: "/results/:eventType/:season", element: <ResultsPage /> },
   { path: "/policies/:policyType", element: <PolicyPage /> },
+  { path: "/scorecards/:rotation", element: <ScorecardPage /> },
   { path: "/match-play", element: <MatchPlayPage /> },
   { path: "/season-long-points", element: <SeasonLongPointsPage /> },
   { path: "/dam-cup", element: <DamCupPage /> },

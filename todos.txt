@@ -1,8 +1,5 @@
 stripe listen --forward-to localhost:8000/api/hooks/stripe/
 
-Home page:
-- Hole in one control with explanation of the pool
-
 Calendar:
 
 Directory:
@@ -49,6 +46,7 @@ Registration:
 - Selected start is missing on Skins payment flow
 - Validate required fees
 - Reload on /registrations seems to have a problem
+- Add email for receipt when creating intent
 
 General:
 - Giphy production api key
@@ -69,7 +67,6 @@ Administration:
 - Edit page content
 - Edit page content title
 - Clone event
-- Post general doc (like pin locations)
 - Refund a canceled event
 - Remove group slots
 - Add group slots
@@ -82,8 +79,7 @@ Administration:
 - Maybe a document library?
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
-- Busy feedback on move/drop screens
-- Regenerate slots
+- Regenerate slots (do more stategically)
 
 Reports:
 - Membership report
@@ -100,3 +96,4 @@ Bugs / Warnings:
 - unmount warning from season-event-detail
 - Intermittent bomb: payment-reducer.js ln 82
 - On FF, the order of event fees is backwards
+- ghin 407057 not found when importing points
