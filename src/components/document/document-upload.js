@@ -14,7 +14,7 @@ function DocumentUpload(props) {
   const [title, setTitle] = React.useState("")
 
   React.useEffect(() => {
-    const documentTypeName = documentTypeMap.get(documentType)
+    const documentTypeName = documentTypeMap.get(documentType).replace("Event ", "")
     if (Boolean(clubEvent?.id)) {
       setTitle(`${clubEvent.name} ${documentTypeName}`)
     } else {
@@ -22,13 +22,26 @@ function DocumentUpload(props) {
     }
   }, [documentType, clubEvent])
 
+  const normalizeFilename = (filename) => {
+    const name = filename
+      .toLowerCase()
+      .trim()
+      .replace("/", " ")
+      .replace(/\s+/g, "-")
+      .replace(/--+/g, "-")
+    if (clubEvent?.id) {
+      return `${clubEvent.slugDate}-${clubEvent.slugName}-${name}`
+    }
+    return name
+  }
+
   const handleUpload = (values, file) => {
     const form = new FormData()
     form.append("document_type", values.documentType)
     form.append("event", clubEvent?.id)
     form.append("year", config.currentSeason)
     form.append("title", values.title)
-    form.append("file", file, file.name)
+    form.append("file", file, normalizeFilename(file.name))
 
     saveDocument(form, {
       onSuccess: () => {
