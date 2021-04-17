@@ -3,19 +3,10 @@ import React from "react"
 import { useClubEvents } from "hooks/event-hooks"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
-import {
-  useMutation,
-  useQueryClient,
-} from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 
-import {
-  EventAdminActions,
-  eventAdminReducer,
-} from "./admin-reducer"
-import {
-  useAuth,
-  useClient,
-} from "./auth-context"
+import { EventAdminActions, eventAdminReducer } from "./admin-reducer"
+import { useAuth, useClient } from "./auth-context"
 
 const EventAdminContext = React.createContext()
 EventAdminContext.displayName = "EventAdminContext"
@@ -29,14 +20,17 @@ function EventAdminProvider(props) {
   const client = useClient()
   const queryClient = useQueryClient()
 
-  const paymentPlaceholder = () => {
+  /**
+   * Creates an empty payment object, used to collect payment details.
+   */
+  const paymentPlaceholder = React.useCallback(() => {
     const placeholder = new Payment({
       id: 0,
       event: eventId,
       user: user.id,
     })
     return placeholder
-  }
+  }, [eventId, user])
 
   const loadEvent = React.useCallback(
     (id) => {
@@ -76,6 +70,27 @@ function EventAdminProvider(props) {
       },
       onError: (error) => dispatch({ type: EventAdminActions.UpdateError, payload: error.message }),
     },
+  )
+
+  const loadRegistration = React.useCallback(
+    (registrationId) => {
+      return client(`registration/${registrationId}/`).then((data) => {
+        const registration = new Registration(data)
+        return client(`registration-fees/?registration_id=${registrationId}&confirmed=true`).then(
+          (fees) => {
+            dispatch({
+              type: EventAdminActions.LoadRegistration,
+              payload: {
+                registration: registration,
+                payment: paymentPlaceholder(),
+                existingFees: fees,
+              },
+            })
+          },
+        )
+      })
+    },
+    [client, paymentPlaceholder],
   )
 
   const { mutate: updateRegistration } = useMutation(
@@ -252,6 +267,7 @@ function EventAdminProvider(props) {
     ...state,
     loadEvent,
     createRegistration,
+    loadRegistration,
     updateRegistration,
     cancelRegistration,
     completeRegistration,

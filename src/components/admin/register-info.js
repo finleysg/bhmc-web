@@ -18,7 +18,7 @@ function RegisterInfo({ onCancel, onComplete, selectedStart, title, layout, ...r
     removeFee,
   } = useEventAdmin()
 
-  const isBusy = registration === undefined || registration.id === undefined
+  const isBusy = registration === undefined || registration?.id === undefined
 
   // Update the registration with changes to the notes.
   const updateNotes = React.useMemo(() => debounceFn(updateRegistration, { wait: 500 }), [

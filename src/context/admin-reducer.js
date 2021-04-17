@@ -30,6 +30,7 @@ const EventAdminSteps = {
 const EventAdminActions = {
   LoadEvent: "load-event",
   CreateRegistration: "create-registration",
+  LoadRegistration: "load-registration",
   UpdateRegistration: "update-registration",
   CancelRegistration: "cancel-registration",
   ResetRegistration: "reset-registration",
@@ -71,6 +72,17 @@ const eventAdminReducer = produce((draft, action) => {
       draft.registration = payload.registration
       draft.payment = payload.payment
       draft.currentStep = EventAdminSteps.Register
+      return
+    }
+    case EventAdminActions.LoadRegistration: {
+      draft.registration = payload.registration
+      draft.registration.slots.forEach((slot) => {
+        // The event_fee_ids already paid
+        payload.existingFees
+          .filter((f) => f.registration_slot === slot.id)
+          .forEach((f) => slot.paidFeeIds.push(f.event_fee))
+      })
+      draft.payment = payload.payment
       return
     }
     case EventAdminActions.UpdateRegistration: {
