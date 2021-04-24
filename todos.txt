@@ -25,6 +25,7 @@ Results:
 - Random image component and/or champion images on results
 - Champion images on event detail?
 - Link to gallery
+- Event document card should include date
 
 Gallery:
 - By event type (w/ dam cup)
@@ -59,6 +60,7 @@ General:
 - Markdown edit in website
 - Logout should not result in a 401
 - Load event by id when necessary (reports, for example)
+- Logo file error in console
 
 Administration:
 - Add announcement
@@ -80,6 +82,7 @@ Administration:
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
 - Regenerate slots (do more stategically)
+- Edit registration with refund if necessary
 
 Reports:
 - Membership report
@@ -97,3 +100,5 @@ Bugs / Warnings:
 - Intermittent bomb: payment-reducer.js ln 82
 - On FF, the order of event fees is backwards
 - ghin 407057 not found when importing points
+- filter 0 from points import
+- missing skins on event report

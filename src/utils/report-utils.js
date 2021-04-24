@@ -92,7 +92,9 @@ const getPaymentReportRow = (obj) => {
 }
 
 const getSkinsReportRow = (clubEvent, obj) => {
-  const startName = GetGroupStartName(clubEvent, obj["hole_number"], obj["starting_order"])
+  const startName = clubEvent.canChoose
+    ? GetGroupStartName(clubEvent, obj["hole_number"], obj["starting_order"])
+    : "n/a"
 
   const values = []
   values.push(obj["registration_id"])
