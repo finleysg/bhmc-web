@@ -80,7 +80,7 @@ function PlayerRow(props) {
         >
           {player.name}
         </h6>
-        <a href={`mailto: ${player.email}`}>{player.email}</a>
+        <a href={`mailto:${player.email}`}>{player.email}</a>
       </div>
       {/* <div>
         <a href={`mailto: ${player.email}`}>{player.email}</a>

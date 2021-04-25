@@ -96,7 +96,7 @@ function RegisteredAdmin({ clubEvent }) {
     <div className="card">
       <div className="card-body">
         <OverlaySpinner loading={busy || registrations.length === 0} />
-        <h4 className="card-title text-primary">Drop Players</h4>
+        <h4 className="card-title text-primary">Manage Players</h4>
         {getPlayers().map((p) => {
           return (
             <div key={p.id} css={PlayerContainerCss}>

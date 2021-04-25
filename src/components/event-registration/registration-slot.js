@@ -31,11 +31,15 @@ function RegistrationSlot({
     return selected.reduce((acc, fee) => acc + fee.amount, 0)
   }
 
-  const handleToggleFee = ({ fee }) => {
-    if (hasPaymentDetail(fee)) {
-      onToggleFee({ action: "remove", slot, fee })
+  const handleToggleFee = ({ fee, isSelected }) => {
+    if (mode === "edit") {
+      onToggleFee({ action: isSelected ? "remove" : "add", slot, fee })
     } else {
-      onToggleFee({ action: "add", slot, fee })
+      if (hasPaymentDetail(fee)) {
+        onToggleFee({ action: "remove", slot, fee })
+      } else {
+        onToggleFee({ action: "add", slot, fee })
+      }
     }
   }
 
@@ -53,6 +57,7 @@ function RegistrationSlot({
               selected={hasPaymentDetail(eventFee) || existing}
               disabled={slot.playerId === 0 || existing}
               onToggleFee={handleToggleFee}
+              mode={mode}
               {...rest}
             />
           )

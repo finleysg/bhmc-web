@@ -49,7 +49,6 @@ function EventRegistrationAdmin({ clubEvent }) {
         closeOnClick: true,
         autoClose: 5000,
       })
-      // resetRegistration()
     }
   }, [error])
 
@@ -74,7 +73,7 @@ function EventRegistrationAdmin({ clubEvent }) {
   if (currentView === "reserve-view") {
     return <ReserveView reserveTables={reserveTables} onReserve={handleReserve} />
   } else if (currentView === "register-view") {
-    return <RegisterAdmin selectedStart={selectedStart} onCancel={handleCancel} />
+    return <RegisterAdmin selectedStart={selectedStart} onCancel={handleCancel} mode="add" />
   } else {
     return null
   }

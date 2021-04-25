@@ -13,6 +13,10 @@ const EventAdminSteps = {
     name: "register",
     title: "Admin Registration",
   },
+  Edit: {
+    name: "edit",
+    title: "Edit Registration",
+  },
   Review: {
     name: "review",
     title: "Confirm Registration Details",
@@ -20,6 +24,10 @@ const EventAdminSteps = {
   Payment: {
     name: "payment",
     title: "Payment Details",
+  },
+  Refund: {
+    name: "refund",
+    title: "Full or Partial Refund",
   },
   Complete: {
     name: "complete",
@@ -47,7 +55,7 @@ const initialEventAdminState = {
   clubEvent: null,
   registration: null,
   payment: null,
-  selectedFees: [],
+  existingFees: [],
   error: null,
   currentStep: EventAdminSteps.Pending,
 }
@@ -59,7 +67,7 @@ const eventAdminReducer = produce((draft, action) => {
       draft.clubEvent = payload
       draft.registration = null
       draft.payment = null
-      draft.selectedFees = []
+      draft.existingFees = []
       draft.error = null
       draft.currentStep = EventAdminSteps.Pending
       return
@@ -76,6 +84,7 @@ const eventAdminReducer = produce((draft, action) => {
     }
     case EventAdminActions.LoadRegistration: {
       draft.registration = payload.registration
+      draft.existingFees = payload.existingFees
       draft.registration.slots.forEach((slot) => {
         // The event_fee_ids already paid
         payload.existingFees
@@ -94,7 +103,7 @@ const eventAdminReducer = produce((draft, action) => {
     case EventAdminActions.ResetRegistration: {
       draft.registration = null
       draft.payment = null
-      draft.selectedFees = []
+      draft.existingFees = []
       draft.error = null
       draft.currentStep = EventAdminSteps.Pending
       return
@@ -144,18 +153,57 @@ const eventAdminReducer = produce((draft, action) => {
       return
     }
     case EventAdminActions.AddFee: {
-      draft.payment.details.push({
-        eventFeeId: payload.eventFeeId,
-        slotId: payload.slotId,
-      })
+      if (payload.mode === "edit") {
+        // remove edit if it exists
+        const existing = draft.payment.edits.findIndex(
+          (e) => e.eventFeeId === payload.eventFeeId && e.slotId === payload.eventFeeId,
+        )
+        if (existing >= 0) {
+          draft.payment.edits.splice(existing, 1)
+        } else {
+          const slot = draft.registration.slots.find((slot) => slot.id === payload.slotId)
+          slot.paidFeeIds.push(payload.eventFeeId)
+          draft.payment.edits.push({
+            eventFeeId: payload.eventFeeId,
+            slotId: payload.slotId,
+            action: "add",
+          })
+        }
+      } else {
+        draft.payment.details.push({
+          eventFeeId: payload.eventFeeId,
+          slotId: payload.slotId,
+        })
+      }
       return
     }
     case EventAdminActions.RemoveFee: {
-      const index = draft.payment.details.findIndex(
-        (p) => p.eventFeeId === payload.eventFeeId && p.slotId === payload.slotId,
-      )
-      if (index >= 0) {
-        draft.payment.details.splice(index, 1)
+      if (payload.mode === "edit") {
+        // remove edit if it exists
+        const existing = draft.payment.edits.findIndex(
+          (e) => e.eventFeeId === payload.eventFeeId && e.slotId === payload.eventFeeId,
+        )
+        if (existing >= 0) {
+          draft.payment.edits.splice(existing, 1)
+        } else {
+          const slot = draft.registration.slots.find((slot) => slot.id === payload.slotId)
+          slot.paidFeeIds.splice(
+            slot.paidFeeIds.findIndex((id) => id === payload.eventFeeId),
+            1,
+          )
+          draft.payment.edits.push({
+            eventFeeId: payload.eventFeeId,
+            slotId: payload.slotId,
+            action: "remove",
+          })
+        }
+      } else {
+        const index = draft.payment.details.findIndex(
+          (p) => p.eventFeeId === payload.eventFeeId && p.slotId === payload.slotId,
+        )
+        if (index >= 0) {
+          draft.payment.details.splice(index, 1)
+        }
       }
       return
     }

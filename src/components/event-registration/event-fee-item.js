@@ -40,7 +40,7 @@ function RestrictedEventFeeItem(props) {
   return null
 }
 
-function UnrestrictedEventFeeItem({ fee, selected, disabled, onToggleFee }) {
+function UnrestrictedEventFeeItem({ fee, mode, selected, disabled, onToggleFee }) {
   const isSelected = selected || fee.isRequired
   return (
     <div className="fee">
@@ -48,8 +48,8 @@ function UnrestrictedEventFeeItem({ fee, selected, disabled, onToggleFee }) {
         <EventFeeCheckbox
           isRequired={fee.isRequired}
           isSelected={isSelected}
-          onChange={() => onToggleFee({ fee })}
-          disabled={disabled || fee.isRequired}
+          onChange={() => onToggleFee({ fee, isSelected })}
+          disabled={(mode !== "edit" && disabled) || fee.isRequired}
         />
       </div>
       <div className="fee-item fee-item--description">
@@ -61,8 +61,8 @@ function UnrestrictedEventFeeItem({ fee, selected, disabled, onToggleFee }) {
 }
 
 function EventFeeItem(props) {
-  const { fee } = props
-  if (fee.restriction === "None") {
+  const { fee, mode } = props
+  if (fee.restriction === "None" || mode === "edit") {
     return UnrestrictedEventFeeItem(props)
   } else {
     return RestrictedEventFeeItem(props)

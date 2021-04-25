@@ -93,6 +93,7 @@ function Payment(json) {
   this.confirmed = json.confirmed
   this.details =
     json && json.payment_details ? json.payment_details.map((f) => new PaymentDetail(f)) : []
+  this.edits = []
 
   /**
    * Returns true if there are complete payment details

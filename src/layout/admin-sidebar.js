@@ -58,7 +58,7 @@ function AdminSidebar() {
         <MenuItem
           path={`/admin/event/${eventId}/manage-players`}
           icon={<MdPeopleOutline />}
-          name="Move or Drop Player(s)"
+          name="Manage Player(s)"
         />
         <MenuItem
           path={`/admin/event/${eventId}/event-portal`}

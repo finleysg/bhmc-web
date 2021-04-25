@@ -1,6 +1,7 @@
 import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
+import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
 import { createRefunds } from "utils/payment-utils"
 
@@ -13,6 +14,7 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
   const [mode, setMode] = React.useState("select")
   const [showDrop, setShowDrop] = React.useState(false)
   const dropRef = React.useRef()
+  const navigate = useNavigate()
 
   const handlePlayerSelect = (slot) => {
     setSelectedRegistration(slot.registrationId)
@@ -83,6 +85,10 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
     }
   }
 
+  const handleEdit = () => {
+    navigate(selectedRegistration.toString())
+  }
+
   const handleCancel = () => {
     updateSelectedSlots([])
     setShowDrop(false)
@@ -107,6 +113,7 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
             onPlayerSelect={handlePlayerSelect}
             onGroupSelect={handleGroupSelect}
             onDrop={handleDrop}
+            onEdit={handleEdit}
             onMove={handleMove}
             onMoveConfirm={handleMoveConfirm}
           />

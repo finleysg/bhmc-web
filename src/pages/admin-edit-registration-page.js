@@ -1,20 +1,36 @@
 import React from "react"
 
-import { EditRegistration } from "components/admin/edit-registration"
+import { RegisterAdmin } from "components/admin/register-admin"
 import { OverlaySpinner } from "components/spinners"
 import { useEventAdmin } from "context/admin-context"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 function AdminEditRegistrationPage() {
+  const navigate = useNavigate()
   const { eventId, registrationId } = useParams()
-  const { clubEvent, loadEvent } = useEventAdmin()
+  const { clubEvent, loadEvent, loadRegistration } = useEventAdmin()
 
   React.useEffect(() => {
     if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
   }, [loadEvent, clubEvent, eventId])
 
+  React.useEffect(() => {
+    loadRegistration(registrationId)
+  }, [loadRegistration, registrationId])
+
+  const handleCancel = () => {
+    navigate(-1)
+  }
+
   if (Boolean(clubEvent?.id)) {
-    return <EditRegistration clubEvent={clubEvent} registrationId={+registrationId} />
+    return (
+      <RegisterAdmin
+        clubEvent={clubEvent}
+        registrationId={+registrationId}
+        mode="edit"
+        onCancel={handleCancel}
+      />
+    )
   } else {
     return <OverlaySpinner loading={true} />
   }

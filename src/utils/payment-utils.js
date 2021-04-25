@@ -25,6 +25,7 @@ const calculateFees = (subtotal, excludeTransactionFee = false) => {
     total,
   }
 }
+
 /**
  * Calculates the amount due from the payment details
  * @param {Payment} payment - The payment record for the event registration flow
@@ -36,6 +37,26 @@ const getAmountDue = (payment, eventFees, excludeTransactionFee = false) => {
       .map((detail) => eventFees.get(detail.eventFeeId).amount)
       .reduce((f1, f2) => f1 + f2, 0)
     return calculateFees(subtotal, excludeTransactionFee)
+  } else {
+    return {
+      subtotal: 0,
+      transactionFee: 0,
+      total: 0,
+    }
+  }
+}
+
+/**
+ * Calculates the amount due from the payment edits
+ * @param {Payment} payment - The payment record for the event registration flow
+ * @param {Map} eventFees - The event fee map from the club event
+ */
+const getAmountChange = (payment, eventFees) => {
+  if (Boolean(payment?.edits) && payment.edits.length > 0) {
+    const subtotal = payment.edits
+      .map((e) => eventFees.get(e.eventFeeId).amount * (e.action === "add" ? 1 : -1))
+      .reduce((f1, f2) => f1 + f2, 0)
+    return calculateFees(subtotal, true)
   } else {
     return {
       subtotal: 0,
@@ -69,4 +90,4 @@ const createRefunds = (slots, notes) => {
     }, new Map())
 }
 
-export { calculateFees, createRefunds, getAmountDue }
+export { calculateFees, createRefunds, getAmountChange, getAmountDue }

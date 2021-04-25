@@ -7,6 +7,7 @@ function ReserveRowAdmin({
   onPlayerSelect,
   onGroupSelect,
   onDrop,
+  onEdit,
   onMove,
   onMoveConfirm,
   ...rest
@@ -17,7 +18,7 @@ function ReserveRowAdmin({
 
   return (
     <div className={`reserve-group reserve-group__${courseName.toLowerCase()}`} {...rest}>
-      <div className="reserve-group-name">
+      <div className="reserve-group-name" style={{ minWidth: "260px" }}>
         <span>{group.name}</span>
         <button
           className="btn btn-sm btn-primary"
@@ -25,6 +26,9 @@ function ReserveRowAdmin({
           onClick={() => onMove(group.selectedSlotIds())}
         >
           {mode === "select" ? "Move" : "Cancel"}
+        </button>
+        <button className="btn btn-sm btn-warning" disabled={disableActions()} onClick={onEdit}>
+          Edit
         </button>
         <button
           className="btn btn-sm btn-danger"

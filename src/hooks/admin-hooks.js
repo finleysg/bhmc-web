@@ -100,6 +100,40 @@ function useIssueRefunds() {
   )
 }
 
+function useSyncRegistrationFees() {
+  const client = useClient()
+  return React.useCallback(
+    (payment, existingFees) => {
+      const calls = []
+      payment.edits.forEach((fee) => {
+        if (fee.action === "add") {
+          // TODO: this is not a reliable way to resolve the payment record to attach this to
+          // if there are more than one for a given registration. Not sure how to solve this...
+          const paymentId = existingFees.find((f) => f.registration_slot === fee.slotId)?.payment
+          const payload = {
+            event_fee: fee.eventFeeId,
+            registration_slot: fee.slotId,
+            payment: payment.id === 0 ? paymentId : payment.id,
+          }
+          calls.push(client("registration-fees", { data: payload }))
+        } else {
+          const existing = existingFees.find(
+            (f) => f.registration_slot === fee.slotId && f.event_fee === fee.eventFeeId,
+          )
+          calls.push(client(`registration-fees/${existing.id}`, { method: "DELETE" }))
+        }
+      })
+
+      if (calls.length > 0) {
+        return Promise.all(calls)
+      } else {
+        return Promise.resolve()
+      }
+    },
+    [client],
+  )
+}
+
 function usePoints(eventId, documentId) {
   const client = useClient()
 
@@ -146,4 +180,5 @@ export {
   useMovePlayers,
   usePoints,
   usePointsImport,
+  useSyncRegistrationFees,
 }

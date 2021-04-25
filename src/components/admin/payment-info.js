@@ -2,21 +2,26 @@ import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
 import { useEventAdmin } from "context/admin-context"
+import { useSyncRegistrationFees } from "hooks/admin-hooks"
 import { usePlayer } from "hooks/player-hooks"
 import { toast } from "react-toastify"
-import { getAmountDue } from "utils/payment-utils"
+import { getAmountChange, getAmountDue } from "utils/payment-utils"
 
 import { PaymentForm } from "./payment-form"
 
 function PaymentInfo(props) {
-  const { onBack, onComplete, onCancel, selectedStart, title } = props
+  const { onBack, onComplete, onCancel, selectedStart, title, mode } = props
   const [isBusy, setIsBusy] = React.useState(false)
-  const { clubEvent, registration, payment, createPayment } = useEventAdmin()
+  const { clubEvent, registration, payment, existingFees, createPayment } = useEventAdmin()
+  const syncFees = useSyncRegistrationFees()
 
   // Associate the payment record with the first (or only) player selected
   const player = usePlayer(registration.slots[0].playerId)
 
-  const amountDue = getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
+  const amountDue =
+    mode === "edit"
+      ? getAmountChange(payment, clubEvent.feeMap)
+      : getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
 
   const publishBusyFeedback = (busy) => {
     setIsBusy(busy)
@@ -29,20 +34,18 @@ function PaymentInfo(props) {
     updatedPayment.paymentCode = paymentCode
     updatedPayment.paymentAmount = amountDue
 
-    createPayment(
-      { payment: updatedPayment, player: player },
-      {
-        onSuccess: () => {
-          publishBusyFeedback(false)
-          toast.success("💸 Registration and payment saved.")
-          onComplete()
-        },
-        onError: (error) => {
-          publishBusyFeedback(false)
-          toast.error(`😟 Something went wrong: ${error}`)
-        },
-      },
-    )
+    try {
+      await createPayment({ payment: updatedPayment, player: player })
+      if (mode === "edit") {
+        await syncFees(payment, existingFees)
+      }
+      toast.success("💸 Registration and payment saved.")
+      onComplete()
+    } catch (err) {
+      toast.error(`😟 Something went wrong: ${err}`)
+    } finally {
+      publishBusyFeedback(false)
+    }
   }
 
   return (

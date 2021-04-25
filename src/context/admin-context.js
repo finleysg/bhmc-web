@@ -255,12 +255,12 @@ function EventAdminProvider(props) {
     [updateRegistrationSlotPlayer],
   )
 
-  const addFee = React.useCallback(({ eventFeeId, slotId }) => {
-    dispatch({ type: EventAdminActions.AddFee, payload: { eventFeeId, slotId } })
+  const addFee = React.useCallback(({ eventFeeId, slotId, mode }) => {
+    dispatch({ type: EventAdminActions.AddFee, payload: { eventFeeId, slotId, mode } })
   }, [])
 
-  const removeFee = React.useCallback(({ eventFeeId, slotId }) => {
-    dispatch({ type: EventAdminActions.RemoveFee, payload: { eventFeeId, slotId } })
+  const removeFee = React.useCallback(({ eventFeeId, slotId, mode }) => {
+    dispatch({ type: EventAdminActions.RemoveFee, payload: { eventFeeId, slotId, mode } })
   }, [])
 
   const value = {
