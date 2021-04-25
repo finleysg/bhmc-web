@@ -3,6 +3,7 @@ import React from "react"
 import AnnouncementList from "components/announcements/announcement-list"
 import { QuickLinks } from "components/announcements/quick-links"
 import { UpcomingEvents } from "components/calendar/upcoming-events"
+import { StaticDocument } from "components/document/static-document"
 import HoleInOne from "components/results/aces"
 import { LowScoreList } from "components/results/low-score-list"
 import * as colors from "styles/colors"
@@ -47,6 +48,17 @@ function HomePage() {
             </div>
             <div className="card-body">
               <QuickLinks />
+            </div>
+          </div>
+          <div className="card">
+            <div className="card-header bg-teal">
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+                Club Documents
+              </span>
+            </div>
+            <div className="card-body">
+              <StaticDocument code="BYLAW" documentType="O" />
+              <StaticDocument code="FIN" documentType="F" />
             </div>
           </div>
         </div>

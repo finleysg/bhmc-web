@@ -2,6 +2,7 @@ import React from "react"
 
 import { CardContent } from "components/card/content"
 import { HistoricalDocuments } from "components/document/historical-documents"
+import { StaticDocument } from "components/document/static-document"
 import PointsTable from "components/points/points-table"
 import TopPoints from "components/points/top-points"
 import { IndexTab, Tabs } from "components/tabs"
@@ -15,11 +16,15 @@ function SeasonLongPointsPage() {
     <div className="content__inner">
       <div className="row">
         <div className="col-xl-3 col-12">
-          <HistoricalDocuments
-            documentTypeCode="P"
-            title="Current Season"
-            includedSeason={config.currentSeason}
-          />
+          <div className="card">
+            <div className="card-body">
+              <h4 className="text-primary" style={{ marginBottom: "1rem" }}>
+                Current Standings
+              </h4>
+              <StaticDocument code="SLPG" documentType="P" />
+              <StaticDocument code="SLPN" documentType="P" />
+            </div>
+          </div>
           <Tabs>
             <IndexTab
               key="gross"

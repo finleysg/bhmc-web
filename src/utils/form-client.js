@@ -4,9 +4,9 @@ import { useAuth } from "context/auth-context"
 
 import { apiUrl, parseError } from "./client-utils"
 
-async function client(endpoint, formData, token) {
+async function client(endpoint, formData, method, token) {
   const config = {
-    method: "POST",
+    method: method ?? "POST",
     body: formData,
     headers: {
       Authorization: token ? `Token ${token}` : undefined,
@@ -35,7 +35,10 @@ function useFormClient() {
   if (!token) {
     throw new Error("A form client requires an authenticated user.")
   }
-  return React.useCallback((endpoint, formData) => client(endpoint, formData, token), [token])
+  return React.useCallback(
+    (endpoint, formData, method) => client(endpoint, formData, method, token),
+    [token],
+  )
 }
 
 export { useFormClient }

@@ -1,10 +1,6 @@
 import { useClient } from "context/auth-context"
 import BhmcDocument from "models/document"
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 import { useFormClient } from "utils/form-client"
 
@@ -95,10 +91,65 @@ function useEventDocumentDelete() {
   })
 }
 
+function useStaticDocument(code) {
+  const client = useClient()
+
+  return useQuery(
+    ["static-documents", code],
+    () =>
+      client(`static-documents/?code=${code}`).then((data) => {
+        if (data && data.length === 1) {
+          return new BhmcDocument(data[0].document)
+        }
+        return null
+      }),
+    {
+      cacheTime: Infinity,
+    },
+  )
+}
+
+function useStaticDocumentCreate() {
+  const client = useClient()
+  const formClient = useFormClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(({ code, formData }) => formClient("documents", formData), {
+    onError: () => {
+      toast.error("💣 Aww, Snap! Failed to create your document.")
+    },
+    onSuccess: (data, variables) => {
+      client("static-documents", { data: { code: variables.code, document: data.id } }).then(() => {
+        queryClient.invalidateQueries("static-documents")
+      })
+    },
+  })
+}
+
+function useStaticDocumentUpdate() {
+  const formClient = useFormClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    ({ documentId, formData }) => formClient(`documents/${documentId}`, formData, "PUT"),
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to update your document.")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("static-documents")
+      },
+    },
+  )
+}
+
 export {
   useDocuments,
   useDocumentTypes,
   useEventDocumentDelete,
   useEventDocuments,
   useEventDocumentUpload,
+  useStaticDocument,
+  useStaticDocumentCreate,
+  useStaticDocumentUpdate,
 }

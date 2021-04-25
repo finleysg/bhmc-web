@@ -1,19 +1,10 @@
 import React from "react"
 
-import {
-  CancelButton,
-  SubmitButton,
-} from "components/button/buttons"
+import { CancelButton, SubmitButton } from "components/button/buttons"
 import FilePicker from "components/document/file-picker"
 import { ErrorDisplay } from "components/errors"
-import {
-  FormGroup,
-  SelectGroup,
-} from "components/field/forms"
-import {
-  Form,
-  Formik,
-} from "formik"
+import { FormGroup, SelectGroup } from "components/field/forms"
+import { Form, Formik } from "formik"
 import { documentTypeMap } from "models/document"
 import { CgFileDocument } from "react-icons/cg"
 import * as Yup from "yup"
