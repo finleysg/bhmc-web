@@ -1,10 +1,8 @@
 import React from "react"
 
 import { IconActionButton } from "components/button/buttons"
-import {
-  TiArrowBack,
-  TiRefresh,
-} from "react-icons/ti"
+import { OverlaySpinner } from "components/spinners"
+import { TiArrowBack, TiRefresh } from "react-icons/ti"
 import * as colors from "styles/colors"
 
 import { ReserveRow } from "./reserve-row"
@@ -63,7 +61,9 @@ function ReserveGrid({ table, error, mode, onReserve, onRefresh, onBack, ...rest
   }
 
   // ensure the selected-slot state is applied
-  table.applySelectedSlots(selectedSlots)
+  if (Boolean(table)) {
+    table.applySelectedSlots(selectedSlots)
+  }
 
   return (
     <div className="card" style={{ padding: "1rem" }} {...rest}>
@@ -79,16 +79,18 @@ function ReserveGrid({ table, error, mode, onReserve, onRefresh, onBack, ...rest
           </IconActionButton>
         </span>
       </div>
-      {table.groups.map((group) => (
-        <ReserveRow
-          key={group.name}
-          mode={mode}
-          courseName={table.course.name}
-          group={group}
-          onSelect={handleSelect}
-          onReserve={handleReserve}
-        />
-      ))}
+      <OverlaySpinner loading={!Boolean(table)} />
+      {Boolean(table) &&
+        table.groups.map((group) => (
+          <ReserveRow
+            key={group.name}
+            mode={mode}
+            courseName={table.course.name}
+            group={group}
+            onSelect={handleSelect}
+            onReserve={handleReserve}
+          />
+        ))}
     </div>
   )
 }

@@ -82,7 +82,7 @@ Administration:
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
 - Regenerate slots (do more stategically)
-- Edit registration with refund if necessary
+- Admin should be able to add players after registration is closed
 
 Reports:
 - Membership report

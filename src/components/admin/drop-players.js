@@ -1,17 +1,14 @@
 import styled from "@emotion/styled/macro"
-import {
-  AlertDialog,
-  AlertDialogDescription,
-  AlertDialogLabel,
-} from "@reach/alert-dialog"
+import { AlertDialog, AlertDialogDescription, AlertDialogLabel } from "@reach/alert-dialog"
 
 import React from "react"
 
-import { CheckBox } from "components/field/check-box"
 import { OverlaySpinner } from "components/spinners"
 import { useClient } from "context/auth-context"
 import { ReserveSlot } from "models/reserve"
 import { useAsync } from "utils/use-async"
+
+import { RefundSlotDetail } from "./refund-slot-detail"
 
 /**
  * Add a refund detail collection to each slot to be dropped.
@@ -43,46 +40,6 @@ const createRefundDetails = (slots, payments, eventFeeMap) => {
     transformedSlots.push(newSlot)
   })
   return transformedSlots
-}
-
-function PaymentDetail({ paymentDetail, onSelect }) {
-  const handleChange = (e) => {
-    onSelect({ paymentDetailId: paymentDetail.id, selected: e.target.checked })
-  }
-
-  const feeInfo = `${paymentDetail.eventFee.name}: $${paymentDetail.eventFee.amount.toFixed(2)}`
-  const paidBy = `(paid by ${paymentDetail.paidBy})`
-
-  return (
-    <div style={{ marginBottom: ".5rem" }}>
-      <CheckBox
-        label={`${feeInfo} ${paidBy}`}
-        checked={paymentDetail.selected}
-        onChange={handleChange}
-      />
-    </div>
-  )
-}
-
-function SlotDetail({ slot, onSelect }) {
-  return (
-    <div
-      key={slot.id}
-      style={{
-        display: "flex",
-        justifyContent: "flex-start",
-        marginBottom: ".5rem",
-        padding: ".5rem",
-      }}
-    >
-      <div style={{ flex: 1 }}>{slot.playerName}</div>
-      <div style={{ flex: 3 }}>
-        {slot.fees.map((fee) => {
-          return <PaymentDetail key={`${fee.id}`} paymentDetail={fee} onSelect={onSelect} />
-        })}
-      </div>
-    </div>
-  )
 }
 
 const DropPlayersAlertDialog = styled(AlertDialog)({
@@ -145,7 +102,7 @@ function DropPlayers({ clubEvent, slots, dropRef, onDrop, onCancel }) {
           <div className="card-body">
             <OverlaySpinner loading={isLoading} />
             {dropSlots.map((slot) => {
-              return <SlotDetail key={slot.id} slot={slot} onSelect={handleSelect} />
+              return <RefundSlotDetail key={slot.id} slot={slot} onSelect={handleSelect} />
             })}
             <div className="form-group mt-4">
               <label htmlFor="refundNotes">Refund Notes</label>

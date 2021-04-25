@@ -8,6 +8,7 @@ import { useLayout } from "context/layout-context"
 import AdminAddPlayerPage from "pages/admin-add-player-page"
 import AdminEditFormatPage from "pages/admin-edit-format-page"
 import AdminEditPortalPage from "pages/admin-edit-portal-page"
+import AdminEditRegistrationPage from "pages/admin-edit-registration-page"
 import AdminManageEventDocumentsPage from "pages/admin-manage-event-documents-page"
 import AdminManagePlayersPage from "pages/admin-manage-players-page"
 import AdminSlpPage from "pages/admin-slp-page"
@@ -32,6 +33,10 @@ function AdminRoutes() {
       <Route path="/event/:eventId/skins-report" element={<SkinsReportPage />} />
       <Route path="/event/:eventId/add-player" element={<AdminAddPlayerPage />} />
       <Route path="/event/:eventId/manage-players" element={<AdminManagePlayersPage />} />
+      <Route
+        path="/event/:eventId/manage-players/:registrationId"
+        element={<AdminEditRegistrationPage />}
+      />
       <Route path="/event/:eventId/event-portal" element={<AdminEditPortalPage />} />
       <Route path="/event/:eventId/manage-documents" element={<AdminManageEventDocumentsPage />} />
       <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />
