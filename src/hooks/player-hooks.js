@@ -154,6 +154,22 @@ function usePlayerAces(playerId) {
   return lowScores ?? []
 }
 
+function useTopPoints(category, topN) {
+  const client = useClient()
+
+  return useQuery(
+    ["season-long-points", category],
+    () =>
+      client(`points/${config.currentSeason}/${category.toLowerCase()}/${topN}`).then(
+        (data) => data,
+      ),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
+}
+
 export {
   useAces,
   useBoardMembers,
@@ -165,4 +181,5 @@ export {
   usePlayerEvents,
   usePlayerLowScores,
   usePlayerSearch,
+  useTopPoints,
 }

@@ -134,16 +134,14 @@ function useSyncRegistrationFees() {
   )
 }
 
-function usePoints(eventId, documentId) {
+function usePoints(eventId) {
   const client = useClient()
 
-  return useQuery(["season-long-points", documentId], () => {
-    return client(`season-long-points/?event_id=${eventId}&document_id=${documentId}`).then(
-      (data) => {
-        if (data) return data.map((c) => c)
-        return []
-      },
-    )
+  return useQuery(["season-long-points", eventId], () => {
+    return client(`season-long-points/?event_id=${eventId}`).then((data) => {
+      if (data) return data.map((c) => c)
+      return []
+    })
   })
 }
 
@@ -152,12 +150,13 @@ function usePointsImport() {
   const queryClient = useQueryClient()
 
   return useMutation(
-    ({ eventId, documentId }) => {
+    ({ eventId, documentId, info }) => {
       return client(`import-points`, {
         method: "POST",
         data: {
           event_id: eventId,
           document_id: documentId,
+          additional_info: info,
         },
       })
     },
@@ -166,7 +165,7 @@ function usePointsImport() {
         toast.error("💣 Aww, Snap! Failed to import points from the selected file.")
       },
       onSuccess: (data, variables) => {
-        queryClient.invalidateQueries(["season-long-points", variables.documentId])
+        queryClient.invalidateQueries(["season-long-points", variables.eventId])
         toast.success("⛳ Points have been imported.")
       },
     },

@@ -61,6 +61,7 @@ General:
 - Logout should not result in a 401
 - Load event by id when necessary (reports, for example)
 - Logo file error in console
+- Table sorting / searching
 
 Administration:
 - Add announcement
@@ -81,7 +82,7 @@ Administration:
 - Maybe a document library?
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
-- Regenerate slots (do more stategically)
+- Regenerate slots (do more strategically)
 - Admin should be able to add players after registration is closed
 
 Reports:

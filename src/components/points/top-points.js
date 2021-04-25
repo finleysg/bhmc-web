@@ -1,39 +1,37 @@
 import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
-import { usePoints } from "hooks/admin-hooks"
+import { useTopPoints } from "hooks/player-hooks"
 
-function PointsList({ clubEvent }) {
-  const { data: points, isLoading } = usePoints(clubEvent?.id)
+function TopPoints({ category, topN }) {
+  const { data: points, isLoading } = useTopPoints(category, topN)
 
   return (
     <div className="card">
       <div className="card-body">
         <OverlaySpinner loading={isLoading} />
-        <h4 className="card-title text-success">Points Imported for this Event</h4>
+        {/* <h4 className="card-title text-success">
+          Top {topN} {category}
+        </h4> */}
         <div className="card-text">
           <div style={{ overflowY: "auto", overflowX: "auto" }}>
             <table className="table table-striped table-sm">
               <thead>
                 <tr>
                   <th>Player</th>
-                  <th>Course / Flight</th>
-                  <th>Gross Points</th>
-                  <th>Net Points</th>
+                  <th>Points</th>
                 </tr>
               </thead>
               <tbody>
                 {!isLoading &&
                   points &&
-                  points.map((row, rx) => {
+                  points.map((row) => {
                     return (
-                      <tr key={rx}>
+                      <tr key={row.id}>
                         <td>
-                          {row.player.first_name} {row.player.last_name}
+                          {row.first_name} {row.last_name}
                         </td>
-                        <td>{row.additional_info}</td>
-                        <td>{row.gross_points}</td>
-                        <td>{row.net_points}</td>
+                        <td>{row.total_points}</td>
                       </tr>
                     )
                   })}
@@ -46,4 +44,4 @@ function PointsList({ clubEvent }) {
   )
 }
 
-export default PointsList
+export default TopPoints

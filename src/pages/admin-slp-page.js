@@ -11,7 +11,6 @@ function AdminSlpPage() {
   const { eventId } = useParams()
   const { clubEvent, loadEvent } = useEventAdmin()
   const documents = useEventDocuments(clubEvent?.id)
-  const [selectedDocument, setSelectedDocument] = React.useState()
 
   React.useEffect(() => {
     if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
@@ -28,11 +27,10 @@ function AdminSlpPage() {
           documents={dataDocuments}
           title="Manage Season Long Points"
           noResultMessage="No points have been uploaded for this event"
-          onSelectDocument={(doc) => setSelectedDocument(doc)}
         />
       </div>
-      <div className="col-md-6 col-lg-4 col-xl-3">
-        <PointsList clubEvent={clubEvent} document={selectedDocument} />
+      <div className="col-md-6 col-lg-6 col-xl-6">
+        <PointsList clubEvent={clubEvent} />
       </div>
     </div>
   )
