@@ -103,3 +103,4 @@ Bugs / Warnings:
 - ghin 407057 not found when importing points
 - filter 0 from points import
 - missing skins on event report
+- swap player scenario threw an error: https://sentry.io/share/issue/4f1965a29eff4cfc95caaae8ca60e262/

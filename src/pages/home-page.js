@@ -59,6 +59,9 @@ function HomePage() {
             <div className="card-body">
               <StaticDocument code="BYLAW" documentType="O" />
               <StaticDocument code="FIN" documentType="F" />
+              <StaticDocument code="HCP" documentType="O" />
+              <StaticDocument code="TUT1" documentType="O" />
+              <StaticDocument code="TUT2" documentType="O" />
             </div>
           </div>
         </div>
