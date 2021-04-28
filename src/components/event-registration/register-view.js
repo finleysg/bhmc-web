@@ -9,6 +9,7 @@ import PeoplePicker from "components/directory/people-picker"
 import { useEventRegistration } from "context/registration-context"
 import { EventRegistrationSteps } from "context/registration-reducer"
 import { useAddFriend } from "hooks/account-hooks"
+import { getAmountDue } from "utils/payment-utils"
 
 import RegistrationComplete from "./registration-complete"
 import RegistrationConfirm from "./registration-confirm"
@@ -61,6 +62,15 @@ function RegisterView({ selectedStart, mode, onCancel }) {
     onCancel()
   }
 
+  const handleRegistrationConfirm = () => {
+    const amountDue = getAmountDue(payment, clubEvent.feeMap)
+    if (amountDue.total > 0) {
+      updateStep(EventRegistrationSteps.Payment)
+    } else {
+      updateStep(EventRegistrationSteps.Complete)
+    }
+  }
+
   const handleRegistrationComplete = () => {
     updateStep(EventRegistrationSteps.Complete)
   }
@@ -94,7 +104,7 @@ function RegisterView({ selectedStart, mode, onCancel }) {
             selectedStart={selectedStart}
             onBack={() => updateStep(EventRegistrationSteps.Register)}
             onCancel={setShowConfirm}
-            onComplete={() => updateStep(EventRegistrationSteps.Payment)}
+            onComplete={handleRegistrationConfirm}
           />
         )}
         {currentStep === EventRegistrationSteps.Payment && (

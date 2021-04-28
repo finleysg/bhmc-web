@@ -8,15 +8,12 @@ import ReactDOM from "react-dom"
 import { FullPageSpinner } from "components/spinners"
 import { AppProviders } from "context"
 import { enableMapSet } from "immer"
-import {
-  Route,
-  Routes,
-} from "react-router-dom"
+import AuthLayout from "layout/auth-layout"
+import MainLayout from "layout/main-layout"
+import { Route, Routes } from "react-router-dom"
 import * as config from "utils/app-config"
 
-const MainLayout = React.lazy(() => import("./layout/main-layout"))
 const AdminLayout = React.lazy(() => import("./layout/admin-layout"))
-const AuthLayout = React.lazy(() => import("./layout/auth-layout"))
 
 // import reportWebVitals from "./reportWebVitals"
 if (config.currentEnvironment !== "development") {
