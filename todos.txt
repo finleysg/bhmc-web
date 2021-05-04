@@ -62,6 +62,7 @@ General:
 - Load event by id when necessary (reports, for example)
 - Logo file error in console
 - Table sorting / searching
+- Validate amount due (no 0 unless the event is free)
 
 Administration:
 - Add announcement
@@ -83,7 +84,7 @@ Administration:
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
 - Regenerate slots (do more strategically)
-- Admin should be able to add players after registration is closed
+- Missing slots warning
 
 Reports:
 - Membership report
@@ -100,7 +101,5 @@ Bugs / Warnings:
 - unmount warning from season-event-detail
 - Intermittent bomb: payment-reducer.js ln 82
 - On FF, the order of event fees is backwards
-- ghin 407057 not found when importing points
-- filter 0 from points import
-- missing skins on event report
+- missing skins on event report?
 - swap player scenario threw an error: https://sentry.io/share/issue/4f1965a29eff4cfc95caaae8ca60e262/

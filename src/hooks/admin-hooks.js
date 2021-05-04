@@ -27,6 +27,28 @@ function useEventPatch() {
   )
 }
 
+function useCreateEventSlots() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    (eventId) => {
+      return client(`registration/${eventId}/create-slots/`, {
+        method: "POST",
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to create slots.")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("event-registration-slots")
+        toast.success("⛳ Registration slots have been created or recreated.")
+      },
+    },
+  )
+}
+
 function useMovePlayers() {
   const client = useClient()
   const queryClient = useQueryClient()
@@ -173,6 +195,7 @@ function usePointsImport() {
 }
 
 export {
+  useCreateEventSlots,
   useDropPlayers,
   useEventPatch,
   useIssueRefunds,

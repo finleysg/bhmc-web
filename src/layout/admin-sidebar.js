@@ -6,7 +6,7 @@ import { GiGolfFlag } from "react-icons/gi"
 import { GoHome } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
 import { HiDocumentReport, HiDocumentText } from "react-icons/hi"
-import { MdContentCopy, MdEdit, MdPeopleOutline, MdPersonAdd } from "react-icons/md"
+import { MdEdit, MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiArrowBackOutline } from "react-icons/ti"
 
 import { MenuItem } from "./menu-item"
@@ -79,11 +79,6 @@ function AdminSidebar() {
           path={`/admin/event/${eventId}/edit-event`}
           icon={<MdEdit />}
           name="Edit Event Notes"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/clone-event`}
-          icon={<MdContentCopy />}
-          name="Clone This Event"
         />
         <li>
           <a
