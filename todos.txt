@@ -1,9 +1,5 @@
 stripe listen --forward-to localhost:8000/api/hooks/stripe/
 
-Calendar:
-
-Directory:
-
 Account / profile:
 * Update expired card (https://stripe.com/docs/api/payment_methods/update)
 - Save image in a separate folder
