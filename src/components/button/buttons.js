@@ -61,6 +61,22 @@ const ActionButton = styled.button`
   }
 `
 
+const ActionButtonSolid = styled.button`
+  padding: 2px;
+  border: 0;
+  cursor: pointer;
+  color: ${colors.white};
+  background-color: ${(props) => props.color};
+  font-size: 1.2rem;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  &:hover {
+    background-color: ${colors.gray100};
+    color: ${(props) => props.color};
+  }
+`
+
 const Link = styled(RouterLink)({
   color: colors.indigo,
   ":hover": {
@@ -89,6 +105,16 @@ function TooltipButton({ label, highlight, onClick, icon, ...rest }) {
       >
         {icon}
       </CircleButton>
+    </Tooltip>
+  )
+}
+
+function SolidIconActionButton({ onAction, color, label, children }) {
+  return (
+    <Tooltip label={label}>
+      <ActionButtonSolid color={color} onClick={onAction}>
+        {children}
+      </ActionButtonSolid>
     </Tooltip>
   )
 }
@@ -154,6 +180,7 @@ export {
   IconButton,
   IconSubmitButton,
   Link,
+  SolidIconActionButton,
   SubmitButton,
   TooltipButton,
 }

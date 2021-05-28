@@ -4,6 +4,8 @@ import { useClient } from "context/auth-context"
 import Player from "models/player"
 import { AsyncTypeahead } from "react-bootstrap-typeahead"
 
+import AddPlayer from "./add-player"
+
 const playerFilter = (clubEvent, players) => {
   if (clubEvent && clubEvent.id) {
     return players
@@ -36,27 +38,35 @@ function PeoplePicker({ allowNew, clubEvent, onSelect, ...rest }) {
 
   return (
     <div {...rest}>
-      <AsyncTypeahead
-        id="player-search"
-        ref={(typeahead) => (instance.current = typeahead)}
-        placeholder="Search for player..."
-        labelKey={(option) => `${option.first_name} ${option.last_name}`}
-        isLoading={false}
-        minLength={3}
-        highlightOnlyResult={!allowNew}
-        newSelectionPrefix={"Add new player: "}
-        allowNew={allowNew}
-        onSearch={(query) => {
-          setQuery(query)
-        }}
-        onChange={(selected) => {
-          onSelect(new Player(selected[0]))
-          if (instance && instance.current) {
-            instance.current.clear()
-          }
-        }}
-        options={data}
-      />
+      {(clubEvent?.registrationTypeCode === "G" || clubEvent?.registrationTypeCode === "O") && (
+        <AddPlayer
+          onAdd={(player) => onSelect(player)}
+          style={{ display: "inline-block", marginRight: "10px" }}
+        />
+      )}
+      <div style={{ display: "inline-block" }}>
+        <AsyncTypeahead
+          id="player-search"
+          ref={(typeahead) => (instance.current = typeahead)}
+          placeholder="Search for player..."
+          labelKey={(option) => `${option.first_name} ${option.last_name}`}
+          isLoading={false}
+          minLength={3}
+          highlightOnlyResult={!allowNew}
+          newSelectionPrefix={"Add new player: "}
+          allowNew={allowNew}
+          onSearch={(query) => {
+            setQuery(query)
+          }}
+          onChange={(selected) => {
+            onSelect(new Player(selected[0]))
+            if (instance && instance.current) {
+              instance.current.clear()
+            }
+          }}
+          options={data}
+        />
+      </div>
     </div>
   )
 }
