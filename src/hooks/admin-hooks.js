@@ -194,6 +194,30 @@ function usePointsImport() {
   )
 }
 
+function useScoresImport() {
+  const client = useClient()
+
+  return useMutation(
+    ({ eventId, documentId, info }) => {
+      return client(`import-scores`, {
+        method: "POST",
+        data: {
+          event_id: eventId,
+          document_id: documentId,
+        },
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to import scores from the selected file.")
+      },
+      onSuccess: () => {
+        toast.success("⛳ Scores have been imported.")
+      },
+    },
+  )
+}
+
 export {
   useCreateEventSlots,
   useDropPlayers,
@@ -202,5 +226,6 @@ export {
   useMovePlayers,
   usePoints,
   usePointsImport,
+  useScoresImport,
   useSyncRegistrationFees,
 }

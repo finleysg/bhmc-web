@@ -1,6 +1,6 @@
 {
   "name": "bhmc-web",
-  "version": "5.4.4",
+  "version": "5.4.5",
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.35",
