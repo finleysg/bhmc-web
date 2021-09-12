@@ -6,7 +6,7 @@ import { StaticDocument } from "components/document/static-document"
 import * as colors from "styles/colors"
 
 import DamCupLogo from "../assets/img/DamCup.png"
-import DamCupTeam from "../assets/img/DamCupTeam2020.jpg"
+import DamCupTeam from "../assets/img/TheTeam.jpg"
 
 function DamCupPage() {
   return (
@@ -41,7 +41,7 @@ function DamCupPage() {
               <h4 className="card-title text-success">Our 2020 Dam Cup Team</h4>
               <img
                 src={DamCupTeam}
-                alt="2020 Dam Cup Team"
+                alt="2021 Dam Cup Team"
                 style={{ width: "100%", height: "auto" }}
               />
             </div>
