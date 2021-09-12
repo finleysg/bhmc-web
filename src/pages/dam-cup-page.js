@@ -38,7 +38,7 @@ function DamCupPage() {
           </div>
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title text-success">Our 2020 Dam Cup Team</h4>
+              <h4 className="card-title text-success">Our 2021 Dam Cup Team</h4>
               <img
                 src={DamCupTeam}
                 alt="2021 Dam Cup Team"
