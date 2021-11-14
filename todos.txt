@@ -4,13 +4,10 @@ Account / profile:
 * Update expired card (https://stripe.com/docs/api/payment_methods/update)
 - Save image in a separate folder
 - Remove images no longer selected
-- Figure out what is going on with Jim McAllister / Doug Wolfe
 
 Public profile:
 - Ace badge
-- Dam cup badge
 - Last season person was a member (if any)
-* Truncate champion list
 - Link to all championships for a player, or just spill the list down
 
 Event:
@@ -21,7 +18,6 @@ Results:
 - Random image component and/or champion images on results
 - Champion images on event detail?
 - Link to gallery
-- Event document card should include date
 
 Gallery:
 - By event type (w/ dam cup)
@@ -33,41 +29,25 @@ Season Long Points:
 
 Registration:
 - Enforce require ghin at the server level
-- Enforce age rules 
 * Handle team skins
-- Sort by widget (player or date)
-- Don't leave pending spots on admin signup
+- Admin signup review and bug fixes (if any)
 - Selected start is missing on Skins payment flow
 - Validate required fees
 - Reload on /registrations seems to have a problem
-- Need one more status between pending and reserved (payment pending)
 
 General:
 - Giphy production api key
 - Don't constrain width (as much, at least)
-- Review and fix issues captured by sentry
 - Review and fix rendering issues (polypane)
-- Markdown edit in website
 - Logout should not result in a 401
-- Load event by id when necessary (reports, for example)
+- Admin 404 issue
 - Logo file error in console
 - Table sorting / searching
-- Validate amount due (no 0 unless the event is free)
-- Import hole scores
 
 Administration:
-- Add announcement
-- Cancel announcement
-- Add hole in one
-- Edit page content
-- Edit page content title
-- Clone event
-- Refund a canceled event
-- Remove group slots
-- Add group slots
+- Clone Event
 - Upload photo
 - Replace dam cup photo
-- Maybe a document library?
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
 - Missing slots warning
@@ -81,10 +61,7 @@ Testing:
 
 Styling:
 - Move to classes as much as possible
-- Consistency in the box display
 
 Bugs / Warnings:
 - unmount warning from season-event-detail
 - Intermittent bomb: payment-reducer.js ln 82
-- On FF, the order of event fees is backwards
-- swap player scenario threw an error: https://sentry.io/share/issue/4f1965a29eff4cfc95caaae8ca60e262/
