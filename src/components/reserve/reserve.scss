@@ -56,9 +56,14 @@
       cursor: pointer;
     }
 
-    &__pending {
+    &__in-progress {
       color: $white;
       background-color: $gray-200;
+    }
+
+    &__payment-processing {
+      font-weight: 400;
+      color: $teal;
     }
 
     &__reserved {

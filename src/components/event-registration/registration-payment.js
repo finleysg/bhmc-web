@@ -1,15 +1,8 @@
-import {
-  CardElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js"
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 
 import React from "react"
 
-import {
-  CreditCardList,
-  StyledCardElement,
-} from "components/credit-card"
+import { CreditCardList, StyledCardElement } from "components/credit-card"
 import { ErrorDisplay } from "components/errors"
 import { CheckBox } from "components/field/check-box"
 import { OverlaySpinner } from "components/spinners"
@@ -26,7 +19,7 @@ function RegistrationPayment(props) {
   const [isBusy, setIsBusy] = React.useState(false)
   const [saveCard, setSaveCard] = React.useState(false)
   const { user } = useAuth()
-  const { clubEvent, payment } = useEventRegistration()
+  const { clubEvent, payment, registration, confirmPayment } = useEventRegistration()
   const myCards = useMyCards()
   const stripe = useStripe()
   const elements = useElements()
@@ -41,17 +34,13 @@ function RegistrationPayment(props) {
 
   const amountDue = getAmountDue(payment, clubEvent.feeMap)
 
-  const publishBusyFeedback = (busy) => {
-    setIsBusy(busy)
-  }
-
   const handleSaveCard = (evt) => {
     setSaveCard(evt.target.checked)
   }
 
   const handlePaymentClick = async () => {
-    publishBusyFeedback(true)
-    if (paymentMethod === "new") {
+    setIsBusy(true)
+    if (paymentMethod === "new" || !Boolean(paymentMethod)) {
       const cardElement = elements.getElement(CardElement)
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
@@ -62,46 +51,38 @@ function RegistrationPayment(props) {
         },
       })
 
-      if (error) {
+      if (Boolean(error)) {
         setPaymentError(error.message)
-        publishBusyFeedback(false)
+        setIsBusy(false)
       } else {
-        if (Boolean(paymentMethod)) {
-          submitPayment(paymentMethod)
-        } else {
-          setPaymentError("No payment method was created!")
-          publishBusyFeedback(false)
-        }
+        finishPayment(paymentMethod)
       }
     } else {
-      submitPayment({ id: paymentMethod })
+      finishPayment({ id: paymentMethod })
     }
   }
 
-  const submitPayment = async (method) => {
-    try {
-      // The setup_future_usage defaults to "on_session", unless this is a new card
-      // and the player has not elected to save it.
-      const thisPaymentMethod = {
-        payment_method: method.id,
-      }
-      if (paymentMethod === "new" && saveCard) {
-        thisPaymentMethod.setup_future_usage = "on_session"
-      }
-      const result = await stripe.confirmCardPayment(payment.paymentKey, thisPaymentMethod)
-      if (result.error) {
-        // publishBusyFeedback(false)
-        toast.error("😟 Something went wrong.")
-        const message = result.error.message
-        setPaymentError(message)
-      } else if (result.paymentIntent) {
-        // publishBusyFeedback(false)
-        toast.success("💸 Your payment has been accepted.")
-        onComplete()
-      }
-    } finally {
-      publishBusyFeedback(false)
-    }
+  const finishPayment = (method) => {
+    confirmPayment(
+      {
+        paymentId: payment.id,
+        registrationId: registration.id,
+        paymentMethodId: method.id,
+        saveCard: paymentMethod === "new" && saveCard,
+      },
+      {
+        onSuccess: () => {
+          setIsBusy(false)
+          toast.success("💸 Your payment has been accepted.")
+          onComplete()
+        },
+        onError: (err) => {
+          setIsBusy(false)
+          toast.error("😟 Something went wrong. You are not signed up!")
+          setPaymentError(err.message)
+        },
+      },
+    )
   }
 
   return (

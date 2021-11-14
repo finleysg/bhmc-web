@@ -7,9 +7,11 @@ const getStatusName = (statusCode) => {
     case "A":
       return "Available"
     case "P":
-      return "Pending"
+      return "In Progress"
     case "R":
       return "Reserved"
+    case "X":
+      return "Payment Processing"
     default:
       return "Unavailable"
   }
@@ -49,6 +51,8 @@ function ReserveSlot(groupId, json) {
       return "Selected"
     } else if (this.status === "R") {
       return this.playerName
+    } else if (this.status === "X") {
+      return `${this.playerName} (unconfirmed)`
     } else {
       return this.statusName
     }

@@ -4,21 +4,12 @@ import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
-import {
-  useMutation,
-  useQueryClient,
-} from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 import * as config from "utils/app-config"
 
-import {
-  useAuth,
-  useClient,
-} from "./auth-context"
-import {
-  EventRegistrationActions,
-  eventRegistrationReducer,
-} from "./registration-reducer"
+import { useAuth, useClient } from "./auth-context"
+import { EventRegistrationActions, eventRegistrationReducer } from "./registration-reducer"
 
 const RegistrationSteps = {
   Pending: {
@@ -277,6 +268,24 @@ function EventRegistrationProvider(props) {
     })
   }
 
+  const { mutate: confirmPayment } = useMutation(
+    ({ paymentId, registrationId, paymentMethodId, saveCard }) => {
+      return client(`payments/${paymentId}/confirm/`, {
+        method: "PUT",
+        data: {
+          registrationId,
+          paymentMethodId,
+          saveCard,
+        },
+      })
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["event-registration-slots", eventId])
+      },
+    },
+  )
+
   const { mutate: createPayment } = useMutation(
     (payment) => {
       return client("payments", {
@@ -433,6 +442,7 @@ function EventRegistrationProvider(props) {
     cancelRegistration,
     completeRegistration,
     resetRegistration,
+    confirmPayment,
     savePayment,
     adminPayment,
     updateStep,

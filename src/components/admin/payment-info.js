@@ -9,6 +9,7 @@ import { getAmountChange, getAmountDue } from "utils/payment-utils"
 
 import { PaymentForm } from "./payment-form"
 
+// This component is used by admins only
 function PaymentInfo(props) {
   const { onBack, onComplete, onCancel, selectedStart, title, mode } = props
   const [isBusy, setIsBusy] = React.useState(false)
@@ -23,29 +24,30 @@ function PaymentInfo(props) {
       ? getAmountChange(payment, clubEvent.feeMap)
       : getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
 
-  const publishBusyFeedback = (busy) => {
-    setIsBusy(busy)
-  }
-
-  const submitPayment = async ({ amountDue, paymentCode }) => {
-    publishBusyFeedback(true)
+  const submitPayment = ({ amountDue, paymentCode }) => {
+    setIsBusy(true)
 
     const updatedPayment = { ...payment }
     updatedPayment.paymentCode = paymentCode
     updatedPayment.paymentAmount = amountDue
 
-    try {
-      await createPayment({ payment: updatedPayment, player: player })
-      if (mode === "edit") {
-        await syncFees(payment, existingFees)
-      }
-      toast.success("💸 Registration and payment saved.")
-      onComplete()
-    } catch (err) {
-      toast.error(`😟 Something went wrong: ${err}`)
-    } finally {
-      publishBusyFeedback(false)
-    }
+    createPayment(
+      { payment: updatedPayment, player: player },
+      {
+        onSuccess: () => {
+          if (mode === "edit") {
+            syncFees(payment, existingFees)
+          }
+          setIsBusy(false)
+          toast.success("💸 Registration and payment saved.")
+          onComplete()
+        },
+        onError: (err) => {
+          setIsBusy(false)
+          toast.error(`😟 Something went wrong: ${err}`)
+        },
+      },
+    )
   }
 
   return (

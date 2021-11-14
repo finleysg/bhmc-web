@@ -10,7 +10,7 @@ function ReserveCard({ reserveSlot, onSelect, ...rest }) {
     if (reserveSlot.selected) {
       return className + " reserve-slot__selected"
     }
-    return className + ` reserve-slot__${reserveSlot.statusName.toLowerCase()}`
+    return className + ` reserve-slot__${reserveSlot.statusName.toLowerCase().replace(" ", "-")}`
   }
 
   return (
