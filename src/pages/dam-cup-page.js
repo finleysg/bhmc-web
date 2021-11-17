@@ -3,6 +3,7 @@ import React from "react"
 import { DamCupResults } from "components/damcup/dam-cup-results"
 import { HistoricalDocuments } from "components/document/historical-documents"
 import { StaticDocument } from "components/document/static-document"
+import { PhotoUploader } from "components/photo/photo-uploader"
 import * as colors from "styles/colors"
 
 import DamCupLogo from "../assets/img/DamCup.png"
@@ -26,19 +27,21 @@ function DamCupPage() {
               <span style={{ color: colors.white, fontSize: "1.2rem" }}>Past Results</span>
             </div>
             <div className="card-body">
+              <img src={DamCupLogo} alt="Dam Cup Logo" style={{ width: "100%", height: "auto" }} />
               <DamCupResults />
             </div>
           </div>
         </div>
         <div className="col-xl-6 col-12">
-          <div className="card">
+          {/* <div className="card">
             <div className="card-body">
               <img src={DamCupLogo} alt="Dam Cup Logo" style={{ width: "100%", height: "auto" }} />
             </div>
-          </div>
+          </div> */}
           <div className="card">
             <div className="card-body">
               <h4 className="card-title text-success">Our 2021 Dam Cup Team</h4>
+              <PhotoUploader defaultTags={["Dam Cup"]} />
               <img
                 src={DamCupTeam}
                 alt="2021 Dam Cup Team"

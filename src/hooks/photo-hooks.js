@@ -1,5 +1,7 @@
 import { useClient } from "context/auth-context"
-import { useQuery } from "react-query"
+import { useMutation, useQuery } from "react-query"
+import { toast } from "react-toastify"
+import { useFormClient } from "utils/form-client"
 
 function usePhotos({ season, tags }) {
   const client = useClient()
@@ -38,4 +40,25 @@ function usePhotos({ season, tags }) {
   return photos ?? []
 }
 
-export { usePhotos }
+function useCreatePhoto() {
+  const formClient = useFormClient()
+
+  return useMutation((formData) => formClient(`photos/`, formData), {
+    onError: () => {
+      toast.error("💣 Aww, Snap! Failed to update your photo.")
+    },
+    onSuccess: (data) => {
+      toast.success("📸 Your photo has been uploaded. Thank you!")
+    },
+  })
+}
+
+function useTags() {
+  const client = useClient()
+
+  return useQuery(["tags"], () => client(`tags`), {
+    cacheTime: Infinity,
+  })
+}
+
+export { useCreatePhoto, usePhotos, useTags }
