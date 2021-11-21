@@ -24,7 +24,7 @@ function Tag(props) {
   const { tag, removeTag } = props
   return (
     <Badge variant="info">
-      {tag.name}{" "}
+      {tag.tagName}{" "}
       {tag.canRemove && (
         <TagRemover onClick={() => removeTag(tag)}>
           <TiTimes size={16} />
@@ -40,7 +40,7 @@ function TagList(props) {
     <TagContainer className="mb-2 mt-1">
       {tags &&
         tags.map((tag) => (
-          <li key={tag.id}>
+          <li key={tag.tagName}>
             <Tag tag={tag} removeTag={() => removeTag(tag)} />
           </li>
         ))}

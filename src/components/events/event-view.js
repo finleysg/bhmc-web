@@ -3,6 +3,7 @@ import EventDetail from "components/events/event-detail"
 import FeesAndPoints from "components/events/fees-and-points"
 import * as config from "utils/app-config"
 
+import EventPhotos from "./event=photos"
 import SeasonEventDetail from "./season-event-detail"
 
 function EventView({ clubEvent, hasSignedUp, isMember, openings, onRegister, onEditRegistration }) {
@@ -34,6 +35,7 @@ function EventView({ clubEvent, hasSignedUp, isMember, openings, onRegister, onE
       <div className="col-md-4">
         <FeesAndPoints clubEvent={clubEvent} openings={getOpenings()} />
         <EventDocuments clubEvent={clubEvent} />
+        <EventPhotos clubEvent={clubEvent} />
       </div>
     </div>
   )

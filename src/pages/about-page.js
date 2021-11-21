@@ -1,9 +1,10 @@
 import React from "react"
 
 import { CardContent } from "components/card/content"
+import { PhotoUploader } from "components/photo/photo-uploader"
+import { RandomPicList } from "components/photo/random-pic-list"
 
 import SeriousGolf from "../assets/img/FiveNorthGreen.jpg"
-import SeriousFun from "../assets/img/NateAndBill.jpeg"
 
 function AboutPage() {
   return (
@@ -29,16 +30,9 @@ function AboutPage() {
           </div>
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title text-success">Serious Fun</h4>
-              <picture>
-                <source srcSet={SeriousFun} media="(max-width: 600px)" />
-                <source srcSet={SeriousFun} media="(max-width: 1200px)" />
-                <img
-                  src={SeriousFun}
-                  style={{ maxWidth: "100%", height: "auto", display: "block", margin: "auto" }}
-                  alt="Serious Fun"
-                />
-              </picture>
+              <h4 className="card-title text-success">Serious Golf, Serious Fun</h4>
+              <PhotoUploader />
+              <RandomPicList take={3} />
             </div>
           </div>
         </div>

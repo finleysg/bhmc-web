@@ -193,6 +193,7 @@ function ClubEvent(json) {
   this.status = mapStatusType(json.status)
   this.statusCode = json.status
   this.totalGroups = json.total_groups
+  this.defaultTag = json.default_tag?.name
 
   // derived properties
   if (this.rounds <= 1) {

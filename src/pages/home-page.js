@@ -4,6 +4,8 @@ import AnnouncementList from "components/announcements/announcement-list"
 import { QuickLinks } from "components/announcements/quick-links"
 import { UpcomingEvents } from "components/calendar/upcoming-events"
 import { StaticDocument } from "components/document/static-document"
+import { PhotoUploader } from "components/photo/photo-uploader"
+import { RandomPicList } from "components/photo/random-pic-list"
 import HoleInOne from "components/results/aces"
 import { LowScoreList } from "components/results/low-score-list"
 import * as colors from "styles/colors"
@@ -26,6 +28,8 @@ function HomePage() {
                 Club News and Announcements
               </h3>
               <AnnouncementList />
+              <PhotoUploader />
+              <RandomPicList take={1} />
             </div>
           </div>
         </div>

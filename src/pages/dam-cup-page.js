@@ -1,13 +1,15 @@
 import React from "react"
 
+import { CardContent } from "components/card/content"
 import { DamCupResults } from "components/damcup/dam-cup-results"
 import { HistoricalDocuments } from "components/document/historical-documents"
 import { StaticDocument } from "components/document/static-document"
 import { PhotoUploader } from "components/photo/photo-uploader"
+// import DamCupTeam from "../assets/img/TheTeam.jpg"
+import { RandomPicList } from "components/photo/random-pic-list"
 import * as colors from "styles/colors"
 
 import DamCupLogo from "../assets/img/DamCup.png"
-import DamCupTeam from "../assets/img/TheTeam.jpg"
 
 function DamCupPage() {
   return (
@@ -33,22 +35,12 @@ function DamCupPage() {
           </div>
         </div>
         <div className="col-xl-6 col-12">
-          {/* <div className="card">
-            <div className="card-body">
-              <img src={DamCupLogo} alt="Dam Cup Logo" style={{ width: "100%", height: "auto" }} />
-            </div>
-          </div> */}
-          <div className="card">
-            <div className="card-body">
-              <h4 className="card-title text-success">Our 2021 Dam Cup Team</h4>
+          <CardContent contentKey="dam-cup">
+            <>
               <PhotoUploader defaultTags={["Dam Cup"]} />
-              <img
-                src={DamCupTeam}
-                alt="2021 Dam Cup Team"
-                style={{ width: "100%", height: "auto" }}
-              />
-            </div>
-          </div>
+              <RandomPicList tag="Dam Cup" take={2} />
+            </>
+          </CardContent>
         </div>
         <div className="col-xl-3 col-12">
           <HistoricalDocuments documentTypeCode="D" />

@@ -23,16 +23,18 @@ function TagPicker(props) {
   React.useEffect(() => {
     const results = []
     data?.forEach((t) => {
-      if (defaultTags.indexOf(t.name) >= 0) {
-        t.canRemove = false
-        results.push(t)
+      if (defaultTags?.indexOf(t.name) >= 0) {
+        results.push({
+          tagName: t.name,
+          canRemove: false,
+        })
       }
     })
     updateTags(results)
-  }, [data, defaultTags])
+  }, [data, defaultTags, onChange])
 
   const removeTag = (tag) => {
-    const idx = tags.findIndex((t) => t.id === tag.id)
+    const idx = tags.findIndex((t) => t.tagName === tag.tagName)
     if (idx >= 0) {
       const updatedTags = tags.slice(0)
       updatedTags.splice(idx, 1)
@@ -47,7 +49,7 @@ function TagPicker(props) {
         id="tag-picker"
         ref={(typeahead) => (instance.current = typeahead)}
         labelKey="name"
-        placeholder="Tags..."
+        placeholder="Tags (at least one is required)"
         isLoading={status === "loading"}
         filterBy={["name"]}
         minLength={3}
@@ -56,11 +58,13 @@ function TagPicker(props) {
           setQuery(query)
         }}
         onChange={(selected) => {
-          selected[0].canRemove = true
-          tags.push(selected[0])
           const newTags = tags.slice(0)
+          newTags.push({
+            tagName: selected[0].name || selected[0],
+            canRemove: true,
+          })
           updateTags(newTags)
-          onChange(newTags)
+          onChange(newTags.map((t) => t.tagName))
           if (instance && instance.current) {
             instance.current.clear()
           }

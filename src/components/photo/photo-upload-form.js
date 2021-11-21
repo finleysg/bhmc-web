@@ -11,6 +11,7 @@ import { TagPicker } from "./tag-picker"
 const schema = yup.object({
   year: yup.number().required(),
   caption: yup.string().max(240),
+  tags: yup.array(),
 })
 
 function PhotoUploadForm(props) {
@@ -67,7 +68,10 @@ function PhotoUploadForm(props) {
             <TagPicker
               defaultTags={defaultTags}
               selectedTags={values.tags || []}
-              onChange={(tags) => (values.tags = tags)}
+              onChange={(tags) => {
+                values.tags = tags
+                // handleChange()
+              }}
             />
             <button
               className="btn btn-success"
