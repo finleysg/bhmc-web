@@ -32,9 +32,9 @@ async function client(endpoint, formData, method, token) {
 function useFormClient() {
   const { user } = useAuth()
   const token = user ? user.token : undefined
-  if (!token) {
-    throw new Error("A form client requires an authenticated user.")
-  }
+  //   if (!token) {
+  //     throw new Error("A form client requires an authenticated user.")
+  //   }
   return React.useCallback(
     (endpoint, formData, method) => client(endpoint, formData, method, token),
     [token],
