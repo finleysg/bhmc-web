@@ -7,6 +7,7 @@ import { StaticDocument } from "components/document/static-document"
 import { PhotoUploader } from "components/photo/photo-uploader"
 // import DamCupTeam from "../assets/img/TheTeam.jpg"
 import { RandomPicList } from "components/photo/random-pic-list"
+import { NavLink } from "react-router-dom"
 import * as colors from "styles/colors"
 
 import DamCupLogo from "../assets/img/DamCup.png"
@@ -39,6 +40,7 @@ function DamCupPage() {
             <>
               <PhotoUploader defaultTags={["Dam Cup"]} />
               <RandomPicList tag="Dam Cup" take={2} />
+              <NavLink to="/gallery?tag=Dam Cup">Go to the Dam Cup photo gallery</NavLink>
             </>
           </CardContent>
         </div>

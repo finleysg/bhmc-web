@@ -5,9 +5,11 @@ import ContactPage from "pages/contact-page"
 import DamCupPage from "pages/dam-cup-page"
 import DirectoryPage from "pages/directory-page"
 import EventDetailPage from "pages/event-detail-page"
+import GalleryImagePage from "pages/gallery-image-page"
 import HomePage from "pages/home-page"
 import MatchPlayPage from "pages/match-play--page"
 import { NotFoundScreen } from "pages/not-found"
+import PhotoGalleryPage from "pages/photo-gallery-page"
 import PlayerProfilePage from "pages/player-profile-page"
 import PolicyPage from "pages/policy-page"
 import ReservedPage from "pages/reserved-page"
@@ -42,6 +44,8 @@ const mainRoutes = (user) => [
   { path: "/contact-us", element: <ContactPage /> },
   { path: "/contact-us/message", element: <SendMessagePage /> },
   { path: "/about-us", element: <AboutPage /> },
+  { path: "/gallery", element: <PhotoGalleryPage /> },
+  { path: "/gallery/:id", element: <GalleryImagePage /> },
   { path: "/my-account", element: <AccountScreen /> },
   { path: "/settings", element: <SettingsPage /> },
   { path: "*", element: <NotFoundScreen /> },

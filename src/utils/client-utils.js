@@ -20,6 +20,9 @@ const normalizeEndpoint = (endpoint) => {
 }
 
 const apiUrl = (endpoint) => {
+  if (endpoint.startsWith("http")) {
+    return endpoint
+  }
   return `${API_BASE}/${normalizeEndpoint(endpoint)}`
 }
 const authUrl = (endpoint) => {

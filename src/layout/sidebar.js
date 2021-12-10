@@ -8,6 +8,7 @@ import { GiGolfFlag, GiGolfTee, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
 import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
+import { RiGalleryFill } from "react-icons/ri"
 import { TiContacts } from "react-icons/ti"
 import * as config from "utils/app-config"
 
@@ -47,6 +48,7 @@ function Sidebar() {
         )}
         <MenuItem path="contact-us" icon={<BiEnvelope />} name="Contact Us" />
         <MenuItem path="about-us" icon={<GoQuestion />} name="About Us" />
+        <MenuItem path="gallery" icon={<RiGalleryFill />} name="Photo Gallery" />
         {groups.indexOf(Groups.Guests) >= 0 && (
           <React.Fragment>
             <MenuItem path="session/login" icon={<BiLogInCircle />} name="Login" />

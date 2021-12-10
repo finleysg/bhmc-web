@@ -2,6 +2,7 @@ import React from "react"
 
 import { PhotoUploader } from "components/photo/photo-uploader"
 import { RandomPicList } from "components/photo/random-pic-list"
+import { NavLink } from "react-router-dom"
 import * as colors from "styles/colors"
 
 function EventPhotos({ clubEvent }) {
@@ -24,7 +25,14 @@ function EventPhotos({ clubEvent }) {
       </div>
       <div className="card-body">
         <PhotoUploader defaultTags={tags} />
-        <RandomPicList tag={clubEvent.defaultTag} take={1} />
+        {clubEvent.defaultTag && (
+          <>
+            <RandomPicList tag={clubEvent.defaultTag} take={1} />
+            <NavLink to={`/gallery?tag=${clubEvent.defaultTag}`}>
+              Go to the {clubEvent.defaultTag} photo gallery
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   )

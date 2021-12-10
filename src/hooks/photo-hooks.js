@@ -3,6 +3,14 @@ import { useMutation, useQuery } from "react-query"
 import { toast } from "react-toastify"
 import { useFormClient } from "utils/form-client"
 
+function usePhoto(id) {
+  const client = useClient()
+  const url = `photos/${id}/`
+  return useQuery([url], () => client(url), {
+    cacheTime: Infinity,
+  })
+}
+
 function useRandomPhotos({ take, tag }) {
   const client = useClient()
 
@@ -41,4 +49,4 @@ function useTags() {
   })
 }
 
-export { useCreatePhoto, useRandomPhotos, useTags }
+export { useCreatePhoto, usePhoto, useRandomPhotos, useTags }

@@ -3,7 +3,7 @@ import EventDetail from "components/events/event-detail"
 import FeesAndPoints from "components/events/fees-and-points"
 import * as config from "utils/app-config"
 
-import EventPhotos from "./event=photos"
+import EventPhotos from "./event-photos"
 import SeasonEventDetail from "./season-event-detail"
 
 function EventView({ clubEvent, hasSignedUp, isMember, openings, onRegister, onEditRegistration }) {
