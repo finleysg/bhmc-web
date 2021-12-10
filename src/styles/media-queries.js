@@ -21,6 +21,5 @@ export const isLarge = () => {
 }
 
 export const isExtraLarge = () => {
-  console.log(window.innerWidth)
   return window.innerWidth >= 1200
 }

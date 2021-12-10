@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
+import { jsx } from "@emotion/react"
 import styled from "@emotion/styled/macro"
 
 import { useAuth } from "context/auth-context"

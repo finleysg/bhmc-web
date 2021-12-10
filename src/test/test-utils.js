@@ -1,16 +1,8 @@
-import {
-  render as rtlRender,
-  screen,
-  waitForElementToBeRemoved,
-} from "@testing-library/react"
+import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing-library/react"
 
 import { AuthProvider } from "context/auth-context"
 import { EventRegistrationProvider } from "context/registration-context"
-import {
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query"
+import { QueryCache, QueryClient, QueryClientProvider } from "react-query"
 import { MemoryRouter as Router } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 

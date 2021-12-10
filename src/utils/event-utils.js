@@ -71,10 +71,8 @@ const dayNameFormat = (dt) => {
     if (dt && isDate(dt) && isValid(dt)) {
       return format(dt, "iiii")
     }
-    console.log(`invalid date: ${dt}`)
     return "--"
   } catch (error) {
-    console.log(error)
     return getDayName(dt)
   }
 }
@@ -84,10 +82,8 @@ const shortDayNameFormat = (dt) => {
     if (dt && isDate(dt) && isValid(dt)) {
       return format(dt, "iii")
     }
-    console.log(`invalid date: ${dt}`)
     return "--"
   } catch (error) {
-    console.log(error)
     return getShortDayName(dt)
   }
 }

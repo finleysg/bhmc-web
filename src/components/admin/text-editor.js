@@ -31,7 +31,9 @@ function TextEditor(props) {
           </div>
           <div className="col-md-6">
             <h6 className="text-success">Rendered on the Website</h6>
-            <ReactMarkdown source={updatedText} plugins={[gfm]} escapeHtml={true} />
+            <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+              {updatedText}
+            </ReactMarkdown>
           </div>
         </div>
       )}
@@ -48,7 +50,9 @@ function TextEditor(props) {
           </div>
           <div>
             <h6 className="text-success">Rendered on the Website</h6>
-            <ReactMarkdown source={updatedText} plugins={[gfm]} escapeHtml={true} />
+            <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+              {updatedText}
+            </ReactMarkdown>
           </div>
         </React.Fragment>
       )}

@@ -39,7 +39,6 @@ function AddPlayer({ onAdd, ...rest }) {
         onAdd(new Player(playerData))
       })
       .catch((err) => {
-        console.log(err)
         if (err?.message && err.message.indexOf("player with this Email already exists.") >= 0) {
           client(`player-search/?pattern=${player.email}`).then((players) => {
             setShowAdd(false)

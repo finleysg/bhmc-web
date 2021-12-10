@@ -7,14 +7,7 @@ import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
 import { getTestEvent, TestEventType } from "test/data/test-events"
 import { rest, server } from "test/test-server"
-import {
-  act,
-  deferred,
-  renderWithEventRegistration,
-  screen,
-  testingQueryClient,
-  waitFor,
-} from "test/test-utils"
+import { renderWithEventRegistration, screen, testingQueryClient, waitFor } from "test/test-utils"
 import { apiUrl } from "utils/client-utils"
 
 import { RegisterButton } from "../register-button"
@@ -57,7 +50,6 @@ beforeEach(() => {
 })
 
 test("renders the button for an authenticated user in the season sign-up event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -91,16 +83,10 @@ test("renders the button for an authenticated user in the season sign-up event",
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
 })
 
 test("renders null for an authenticated user who has already signed up for the season sign-up event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -134,16 +120,10 @@ test("renders null for an authenticated user who has already signed up for the s
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })
 
 test("renders the button for a member and a weeknight event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -177,16 +157,10 @@ test("renders the button for a member and a weeknight event", async () => {
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
 })
 
 test("renders null for a non-member and a weeknight event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -220,16 +194,10 @@ test("renders null for a non-member and a weeknight event", async () => {
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })
 
 test("renders null for a member and a weeknight event in the future", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -263,16 +231,10 @@ test("renders null for a member and a weeknight event in the future", async () =
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })
 
 test("renders null for a member and a weeknight event in the past", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -306,16 +268,10 @@ test("renders null for a member and a weeknight event in the past", async () => 
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })
 
 test("renders the button for a non-member and an open event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -349,16 +305,10 @@ test("renders the button for a non-member and an open event", async () => {
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
 })
 
 test("renders null for a non-member without a ghin and an open event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -393,16 +343,10 @@ test("renders null for a non-member without a ghin and an open event", async () 
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })
 
 test("renders null for a non-member and a member-guest event", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -436,16 +380,10 @@ test("renders null for a non-member and a member-guest event", async () => {
     { user: user },
   )
 
-  await act(() => {
-    resolve()
-    return promise
-  })
-
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })
 
 test("renders null for an event without registration", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = buildPlayer({
     overrides: {
@@ -481,11 +419,6 @@ test("renders null for an event without registration", async () => {
     />,
     { user: user },
   )
-
-  await act(() => {
-    resolve()
-    return promise
-  })
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
 })

@@ -13,7 +13,7 @@ import { build, fake, sequence } from "@jackfranklin/test-data-bot"
 const buildSlot = build("slot", {
   fields: {
     id: sequence((n) => n),
-    event: fake((f) => f.random.number(100)),
+    event: fake((f) => f.datatype.number(100)),
     hole: 0,
     registration: null,
     starting_order: 0,

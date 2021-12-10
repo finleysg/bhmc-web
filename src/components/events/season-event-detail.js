@@ -5,10 +5,7 @@ import { RegisterButton } from "components/button/register-button"
 import { RegisteredButton } from "components/button/registered-button"
 import { OverlaySpinner } from "components/spinners"
 import { RegistrationSteps } from "context/registration-context"
-import {
-  usePlayer,
-  useRegistrationStatus,
-} from "hooks/account-hooks"
+import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
 import gfm from "remark-gfm"
@@ -35,7 +32,9 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
               Registration open: {clubEvent.signupWindow}
             </h6>
             <div className="card-text">
-              <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
+              <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+                {clubEvent.notes}
+              </ReactMarkdown>
               <div className="row">
                 {!hasSignedUp && (
                   <div className="col-12">

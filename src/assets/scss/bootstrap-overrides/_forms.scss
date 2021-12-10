@@ -229,11 +229,11 @@ select.form-control {
 }
 
 $icon-toggle-colors: (
-  red: $red,
-  blue: $blue,
-  green: $green,
-  amber: $amber,
-  blue-grey: $blue-grey,
+  "red": $red,
+  "blue": $blue,
+  "green": $green,
+  "amber": $amber,
+  "blue-grey": $blue-grey,
 );
 
 @each $color, $value in $icon-toggle-colors {

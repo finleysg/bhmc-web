@@ -211,7 +211,6 @@ function EventAdminProvider(props) {
       onError: (error) => {
         // Clear this error, otherwise we will be stuck in an unrecoverable state.
         // Most likely, we don't have a payment to delete.
-        console.error(error)
         dispatch({ type: EventAdminActions.UpdateError, payload: null })
       },
     },

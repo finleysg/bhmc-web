@@ -54,12 +54,8 @@ function DocumentCard({ document, ...rest }) {
 
   React.useEffect(() => {
     if (Boolean(document) && Boolean(document.lastUpdate)) {
-      try {
-        const updateString = format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")
-        setUpdated(updateString)
-      } catch (error) {
-        console.error(error)
-      }
+      const updateString = format(document.lastUpdate, "MMMM d, yyyy h:mm aaaa")
+      setUpdated(updateString)
     }
   }, [document])
 

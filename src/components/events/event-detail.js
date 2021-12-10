@@ -95,7 +95,9 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
           <h5 className="text-success" style={{ marginTop: "2rem" }}>
             Notes
           </h5>
-          <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
+          <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+            {clubEvent.notes}
+          </ReactMarkdown>
         </div>
       </div>
     </div>

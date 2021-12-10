@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
+import { jsx } from "@emotion/react"
 import styled from "@emotion/styled/macro"
 import { Dialog as ReachDialog } from "@reach/dialog"
 import VisuallyHidden from "@reach/visually-hidden"

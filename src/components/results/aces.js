@@ -17,7 +17,9 @@ function HoleInOne(props) {
         </span>
       </div>
       <div className="card-body">
-        <ReactMarkdown source={pageContent.content} plugins={[gfm]} escapeHtml={true} />
+        <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+          {pageContent.content}
+        </ReactMarkdown>
         <HoleInOneList season={config.currentSeason} />
       </div>
     </div>

@@ -20,7 +20,7 @@ const handlers = [
     return res(
       ctx.delay(delay),
       ctx.json({
-        id: faker.random.number(),
+        id: faker.datatype.number(),
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,

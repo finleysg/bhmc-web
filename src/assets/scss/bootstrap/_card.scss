@@ -38,7 +38,7 @@
   padding: $card-spacer-x;
 
   @media (max-width: map-get($grid-breakpoints, sm)) {
-    padding: $card-spacer-x / 2;
+    padding: calc($card-spacer-x / 2);
   }
 }
 
@@ -47,7 +47,7 @@
 }
 
 .card-subtitle {
-  margin-top: -$card-spacer-y / 2;
+  margin-top: -1 * calc($card-spacer-y / 2);
   margin-bottom: 0;
 }
 
@@ -77,7 +77,7 @@
   border-bottom: $card-border-width solid $card-border-color;
 
   @media (max-width: map-get($grid-breakpoints, sm)) {
-    padding: $card-spacer-x / 2;
+    padding: calc($card-spacer-x / 2);
   }
 
   &:first-child {
@@ -106,15 +106,15 @@
 //
 
 .card-header-tabs {
-  margin-right: -$card-spacer-x / 2;
+  margin-right: -1 * calc($card-spacer-x / 2);
   margin-bottom: -$card-spacer-y;
-  margin-left: -$card-spacer-x / 2;
+  margin-left: -1 * calc($card-spacer-x / 2);
   border-bottom: 0;
 }
 
 .card-header-pills {
-  margin-right: -$card-spacer-x / 2;
-  margin-left: -$card-spacer-x / 2;
+  margin-right: -1 * calc($card-spacer-x / 2);
+  margin-left: -1 * calc($card-spacer-x / 2);
 }
 
 // Card image

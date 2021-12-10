@@ -125,7 +125,6 @@ function EventRegistrationProvider(props) {
               isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members",
             )
             .forEach((fee) => {
-              console.log(`adding required fee ${fee.name}`)
               placeholder.details.push({
                 eventFeeId: fee.id,
                 slotId: data.slots[0].id,

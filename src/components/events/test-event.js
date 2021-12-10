@@ -19,7 +19,9 @@ function TestEvent() {
           <React.Fragment>
             <h6 className="card-subtitle">Registration open: {clubEvent.signupWindow}</h6>
             <div className="card-text">
-              <ReactMarkdown source={clubEvent.notes} plugins={[gfm]} escapeHtml={true} />
+              <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+                {clubEvent.notes}
+              </ReactMarkdown>
               <div className="row">
                 <div className="col-12">
                   <button

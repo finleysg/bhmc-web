@@ -1,11 +1,11 @@
 $toggle-switch-rail-bg: #e0e0e0;
 $toggle-switch-colors: (
-  red: $red,
-  blue: $blue,
-  green: $green,
-  orange: $orange,
-  purple: $purple,
-  cyan: $cyan
+  "red": $red,
+  "blue": $blue,
+  "green": $green,
+  "orange": $orange,
+  "purple": $purple,
+  "cyan": $cyan,
 );
 
 .toggle-switch {
@@ -22,7 +22,7 @@ $toggle-switch-colors: (
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     transition: left 300ms, background-color, 300ms;
@@ -84,7 +84,7 @@ $toggle-switch-colors: (
   .toggle-switch--#{$color} {
     .toggle-switch__checkbox {
       &:checked {
-        & ~ .toggle-switch__helper{
+        & ~ .toggle-switch__helper {
           &:after {
             background-color: $value;
           }
