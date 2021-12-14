@@ -1,7 +1,7 @@
 const serverUrl = process.env.REACT_APP_SERVER_URL
 
 const getPagedPhotosUrl = (tag) => {
-  if (Boolean(tag)) {
+  if (tag) {
     return `photos/?page=1&tags=${tag}`
   } else {
     return "photos/?page=1"

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { client } from "utils/auth-client"
 
 const localStorageKey = "__bhmc_token__"
@@ -50,13 +51,4 @@ async function changePassword(current_password, new_password, re_new_password) {
   return client("users/set_password", { current_password, new_password, re_new_password }, token)
 }
 
-export {
-  activate,
-  changePassword,
-  getUser,
-  login,
-  logout,
-  register,
-  requestPasswordReset,
-  resetPassword,
-}
+export { activate, changePassword, getUser, login, logout, register, requestPasswordReset, resetPassword }

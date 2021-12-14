@@ -122,9 +122,7 @@ const eventAdminReducer = produce((draft, action) => {
         draft.clubEvent.fees
           .filter((f) => f.isRequired)
           .filter((f) =>
-            player.isReturningMember
-              ? f.restriction === "Returning Members"
-              : f.restriction === "New Members",
+            player.isReturningMember ? f.restriction === "Returning Members" : f.restriction === "New Members",
           )
           .forEach((fee) => {
             draft.payment.details.push({

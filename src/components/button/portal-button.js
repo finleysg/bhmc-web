@@ -3,7 +3,7 @@ import React from "react"
 import * as colors from "styles/colors"
 
 function EventPortalButton({ clubEvent, ...rest }) {
-  if (Boolean(clubEvent?.portalUrl)) {
+  if (clubEvent?.portalUrl) {
     return (
       <a
         className="btn btn-info btn-sm"

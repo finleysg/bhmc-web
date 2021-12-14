@@ -27,8 +27,8 @@ function EventAdminPage() {
               {clubEvent?.registrationWindow === "future" && (
                 <>
                   <p>
-                    Currently there are {slots?.length} slots created for this event. Create or
-                    recreate registration slots:
+                    Currently there are {slots?.length} slots created for this event. Create or recreate registration
+                    slots:
                   </p>
                   <button
                     className="btn btn-primary"

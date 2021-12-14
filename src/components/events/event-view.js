@@ -19,9 +19,7 @@ function EventView({ clubEvent, hasSignedUp, isMember, openings, onRegister, onE
   return (
     <div className="row">
       <div className="col-md-8">
-        {clubEvent.id === config.seasonEventId && (
-          <SeasonEventDetail clubEvent={clubEvent} onRegister={onRegister} />
-        )}
+        {clubEvent.id === config.seasonEventId && <SeasonEventDetail clubEvent={clubEvent} onRegister={onRegister} />}
         {clubEvent.id === config.seasonEventId || (
           <EventDetail
             clubEvent={clubEvent}

@@ -12,25 +12,25 @@ test("submitting the register form calls onSubmit", async () => {
 
   render(<RegisterForm onSubmit={handleSubmit} />)
 
-  const { first_name, last_name, email, ghin, password, re_password } = buildRegisterForm()
+  const { firstName, lastName, email, ghin, password, rePassword } = buildRegisterForm()
 
-  userEvent.type(screen.getByRole("textbox", { name: /first name/i }), first_name)
-  userEvent.type(screen.getByRole("textbox", { name: /last name/i }), last_name)
+  userEvent.type(screen.getByRole("textbox", { name: /first name/i }), firstName)
+  userEvent.type(screen.getByRole("textbox", { name: /last name/i }), lastName)
   userEvent.type(screen.getByRole("textbox", { name: /email/i }), email)
   userEvent.type(screen.getByRole("textbox", { name: /ghin/i }), ghin)
   userEvent.type(screen.getByLabelText("Password", { exact: true }), password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), re_password)
+  userEvent.type(screen.getByLabelText(/confirm password/i), rePassword)
   userEvent.click(screen.getByRole("button"))
 
   await screen.findByTitle("loading")
 
   expect(handleSubmit).toHaveBeenCalledWith({
-    first_name,
-    last_name,
+    first_name: firstName,
+    last_name: lastName,
     email,
     ghin,
     password,
-    re_password,
+    re_password: rePassword,
   })
 })
 
@@ -40,15 +40,15 @@ test("submitting the login form with mismatched passwords fails validation", asy
 
   render(<RegisterForm onSubmit={handleSubmit} />)
 
-  const { first_name, last_name, email, ghin, password } = buildRegisterForm()
-  const re_password = "bogus"
+  const { firstName, lastName, email, ghin, password } = buildRegisterForm()
+  const rePassword = "bogus"
 
-  userEvent.type(screen.getByRole("textbox", { name: /first name/i }), first_name)
-  userEvent.type(screen.getByRole("textbox", { name: /last name/i }), last_name)
+  userEvent.type(screen.getByRole("textbox", { name: /first name/i }), firstName)
+  userEvent.type(screen.getByRole("textbox", { name: /last name/i }), lastName)
   userEvent.type(screen.getByRole("textbox", { name: /email/i }), email)
   userEvent.type(screen.getByRole("textbox", { name: /ghin/i }), ghin)
   userEvent.type(screen.getByLabelText("Password", { exact: true }), password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), re_password)
+  userEvent.type(screen.getByLabelText(/confirm password/i), rePassword)
   userEvent.click(screen.getByRole("button"))
 
   await screen.findByText(/passwords must match/i)

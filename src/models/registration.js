@@ -27,9 +27,7 @@ function RegistrationSlot(json) {
   this.registrationId = json.registration
   this.holeId = json.hole
   this.playerId = json.player?.id ?? 0
-  this.playerName = Boolean(json.player)
-    ? `${json.player?.first_name} ${json.player?.last_name}`
-    : undefined
+  this.playerName = json.player ? `${json.player?.first_name} ${json.player?.last_name}` : undefined
   this.startingOrder = json.starting_order
   this.slot = json.slot
   this.status = json.status

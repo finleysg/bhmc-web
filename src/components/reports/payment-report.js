@@ -3,10 +3,7 @@ import React from "react"
 import { LoadingSpinner } from "components/spinners"
 import { useClient } from "context/auth-context"
 import { slugify } from "models/club-event"
-import {
-  getPaymentReportHeader,
-  getPaymentReportRows,
-} from "utils/report-utils"
+import { getPaymentReportHeader, getPaymentReportRows } from "utils/report-utils"
 import { useAsync } from "utils/use-async"
 
 import DownloadButton from "./download-button"
@@ -41,10 +38,7 @@ function PaymentReport({ eventId, clubEvent }) {
               <thead>
                 <tr>
                   {reportHeader.map((h, hx) => (
-                    <th
-                      key={h.replace(" ", "-").toLowerCase()}
-                      style={{ textAlign: hx < 3 ? "left" : "right" }}
-                    >
+                    <th key={h.replace(" ", "-").toLowerCase()} style={{ textAlign: hx < 3 ? "left" : "right" }}>
                       {h}
                     </th>
                   ))}

@@ -68,11 +68,7 @@ function ProfilePicPicker(props) {
           <MdCameraAlt /> Upload Profile Picture
         </h2>
       </div>
-      <FilePicker
-        onSelected={preview}
-        onDrop={preview}
-        accept=".gif,.jpg,.png,image/gif,image/jpeg,image/png"
-      />
+      <FilePicker onSelected={preview} onDrop={preview} accept=".gif,.jpg,.png,image/gif,image/jpeg,image/png" />
       <aside style={thumbsContainer}>{thumbs}</aside>
       <button
         className="btn btn-primary"

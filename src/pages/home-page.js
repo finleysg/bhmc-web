@@ -36,9 +36,7 @@ function HomePage() {
         <div className="col-xl-3 col-lg-4">
           <div className="card">
             <div className="card-header bg-primary">
-              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
-                Upcoming Events
-              </span>
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Upcoming Events</span>
             </div>
             <div className="card-body">
               <UpcomingEvents />
@@ -46,9 +44,7 @@ function HomePage() {
           </div>
           <div className="card">
             <div className="card-header bg-indigo">
-              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
-                Quick Links
-              </span>
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Quick Links</span>
             </div>
             <div className="card-body">
               <QuickLinks />
@@ -56,9 +52,7 @@ function HomePage() {
           </div>
           <div className="card">
             <div className="card-header bg-teal">
-              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
-                Club Documents
-              </span>
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Club Documents</span>
             </div>
             <div className="card-body">
               <StaticDocument code="BYLAW" documentType="O" />

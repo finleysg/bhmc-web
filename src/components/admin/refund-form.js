@@ -1,13 +1,7 @@
 import React from "react"
 
-import {
-  FormCheckbox,
-  FormGroup,
-} from "components/field/forms"
-import {
-  Form,
-  Formik,
-} from "formik"
+import { FormCheckbox, FormGroup } from "components/field/forms"
+import { Form, Formik } from "formik"
 import * as Yup from "yup"
 
 function RefundForm({ refundAmount, isBusy, onSubmit, onCancel }) {
@@ -35,20 +29,10 @@ function RefundForm({ refundAmount, isBusy, onSubmit, onCancel }) {
         <FormGroup name="notes" type="text" label="Notes" />
         <hr />
         <div style={{ textAlign: "right" }}>
-          <button
-            className="btn btn-light"
-            type="button"
-            style={{ marginLeft: ".5rem" }}
-            onClick={onCancel}
-          >
+          <button className="btn btn-light" type="button" style={{ marginLeft: ".5rem" }} onClick={onCancel}>
             Cancel
           </button>
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={isBusy}
-            style={{ marginLeft: ".5rem" }}
-          >
+          <button className="btn btn-primary" type="submit" disabled={isBusy} style={{ marginLeft: ".5rem" }}>
             Save
           </button>
         </div>

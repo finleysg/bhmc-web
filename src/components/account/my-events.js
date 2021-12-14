@@ -32,8 +32,7 @@ function EventView({ eventRegistration, ...rest }) {
           <span className="text-success">{eventRegistration.name}</span>
         </p>
         <p className="text-muted" style={{ fontSize: ".8rem", margin: 0 }}>
-          Signed up by {eventRegistration.signedUpBy} on{" "}
-          {format(eventRegistration.signupDate, "MM/dd/yyyy h:mm aaaa")}
+          Signed up by {eventRegistration.signedUpBy} on {format(eventRegistration.signupDate, "MM/dd/yyyy h:mm aaaa")}
         </p>
       </div>
     </Link>

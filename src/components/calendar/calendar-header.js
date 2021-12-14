@@ -13,9 +13,7 @@ function CalendarHeader({ calendar }) {
       <header>
         <div className="month-title">
           <IconButton
-            to={`/calendar/${
-              calendar.lastMonth().year
-            }/${calendar.lastMonth().month.toLowerCase()}`}
+            to={`/calendar/${calendar.lastMonth().year}/${calendar.lastMonth().month.toLowerCase()}`}
             color="transparent"
           >
             <IoIosSkipBackward />
@@ -29,9 +27,7 @@ function CalendarHeader({ calendar }) {
             </YearMenu>
           </div>
           <IconButton
-            to={`/calendar/${
-              calendar.nextMonth().year
-            }/${calendar.nextMonth().month.toLowerCase()}`}
+            to={`/calendar/${calendar.nextMonth().year}/${calendar.nextMonth().month.toLowerCase()}`}
             color="transparent"
           >
             <IoIosSkipForward />

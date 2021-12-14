@@ -15,7 +15,7 @@ function AdminManageEventDocumentsPage() {
   const [documentType, setdocumentType] = React.useState("O")
 
   React.useEffect(() => {
-    if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
+    if (!clubEvent?.id) loadEvent(+eventId)
   }, [loadEvent, clubEvent, eventId])
 
   const handleAddDocument = (docType) => {
@@ -25,7 +25,7 @@ function AdminManageEventDocumentsPage() {
 
   return (
     <div className="row">
-      <OverlaySpinner loading={!Boolean(clubEvent?.id)} />
+      <OverlaySpinner loading={!clubEvent?.id} />
       <div className="col-md-6 col-lg-4 col-xl-3">
         <DocumentAdmin
           documents={documents}

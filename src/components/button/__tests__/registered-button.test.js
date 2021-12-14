@@ -12,32 +12,24 @@ beforeEach(() => {
 })
 
 test("renders the button if sign-ups have started", async () => {
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.shotgun, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.shotgun, state: "registration" }))
 
   renderWithEventRegistration(<RegisteredButton clubEvent={testEvent} onClick={jest.fn()} />, {
     user: {},
   })
 
-  await waitFor(() =>
-    expect(screen.queryByRole("link", { name: /👀 registered/i })).toBeInTheDocument(),
-  )
+  await waitFor(() => expect(screen.queryByRole("link", { name: /👀 registered/i })).toBeInTheDocument())
 })
 
 test("does not render the button if registration as not started", async () => {
   const user = buildUser()
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.shotgun, state: "future" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.shotgun, state: "future" }))
   renderWithEventRegistration(<RegisteredButton clubEvent={testEvent} onClick={jest.fn()} />, {
     user: user,
   })
 
-  await waitFor(() =>
-    expect(screen.queryByRole("link", { name: /👀 registered/i })).not.toBeInTheDocument(),
-  )
+  await waitFor(() => expect(screen.queryByRole("link", { name: /👀 registered/i })).not.toBeInTheDocument())
 })
 
 test("does not render the button if there is no registration", async () => {
@@ -49,7 +41,5 @@ test("does not render the button if there is no registration", async () => {
     user: user,
   })
 
-  await waitFor(() =>
-    expect(screen.queryByRole("link", { name: /👀 registered/i })).not.toBeInTheDocument(),
-  )
+  await waitFor(() => expect(screen.queryByRole("link", { name: /👀 registered/i })).not.toBeInTheDocument())
 })

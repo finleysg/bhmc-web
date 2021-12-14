@@ -116,22 +116,11 @@ function PlayerSearch(props) {
   return (
     <div>
       <div style={{ marginBottom: "20px" }}>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search for players..."
-          onChange={handleSearch}
-        />
+        <input type="text" className="form-control" placeholder="Search for players..." onChange={handleSearch} />
       </div>
       <div>
         {results.map((player) => {
-          return (
-            <PlayerRow
-              key={player.id}
-              player={player}
-              onSelect={(player) => props.onSelect(player)}
-            />
-          )
+          return <PlayerRow key={player.id} player={player} onSelect={(player) => props.onSelect(player)} />
         })}
       </div>
     </div>

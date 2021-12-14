@@ -3,10 +3,7 @@ import React from "react"
 import { EventView } from "components/events/event-view"
 import { ReserveView } from "components/reserve/reserve-view"
 import { useEventRegistration } from "context/registration-context"
-import {
-  usePlayer,
-  useRegistrationStatus,
-} from "hooks/account-hooks"
+import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
 import { useQueryClient } from "react-query"
@@ -21,14 +18,8 @@ function EventRegistrationManager({ clubEvent }) {
   const [selectedStart, setSelectedStart] = React.useState("")
 
   const player = usePlayer()
-  const {
-    error,
-    completeRegistration,
-    createRegistration,
-    loadRegistration,
-    resetRegistration,
-    loadEvent,
-  } = useEventRegistration()
+  const { error, completeRegistration, createRegistration, loadRegistration, resetRegistration, loadEvent } =
+    useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
   const isMember = useRegistrationStatus(config.seasonEventId)
@@ -52,7 +43,7 @@ function EventRegistrationManager({ clubEvent }) {
   }, [loadEvent, clubEvent, completeRegistration])
 
   React.useEffect(() => {
-    if (Boolean(error)) {
+    if (error) {
       if (error.indexOf("Please try again") >= 0) {
         toast.warning(`🧹 Oops! ${error}`, {
           position: "top-right",

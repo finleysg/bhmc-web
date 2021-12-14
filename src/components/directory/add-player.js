@@ -44,10 +44,7 @@ function AddPlayer({ onAdd, ...rest }) {
             setShowAdd(false)
             onAdd(new Player(players[0]))
           })
-        } else if (
-          err?.message &&
-          err.message.indexOf("player with this GHIN already exists.") >= 0
-        ) {
+        } else if (err?.message && err.message.indexOf("player with this GHIN already exists.") >= 0) {
           client(`players/?ghin=${player.ghin}`).then((players) => {
             setShowAdd(false)
             onAdd(new Player(players[0]))

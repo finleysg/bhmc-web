@@ -8,7 +8,7 @@ function Player(json) {
   this.obj = json
   this.id = json.id
   this.email = json.email
-  this.name = Boolean(json.id) ? `${json.first_name} ${json.last_name}` : ""
+  this.name = json.id ? `${json.first_name} ${json.last_name}` : ""
   this.ghin = json.ghin
   this.birthDate = parse(json.birth_date, "yyyy-MM-dd", new Date())
   this.phoneNumber = json.phone_number
@@ -18,7 +18,7 @@ function Player(json) {
   this.isFriend = false
 
   // Available from the search endpoint and friends endpoint
-  this.canRegister = !Boolean(json.event_status) // depends on event id passed on api request
+  this.canRegister = !json.event_status // depends on event id passed on api request
   this.isMember = json.member_status === "R"
   this.isReturningMember = json.returning_member_status === "R"
 

@@ -1,5 +1,6 @@
 import React from "react"
 
+/* eslint-disable camelcase */
 import { useAuth } from "context/auth-context"
 import { useAces } from "hooks/player-hooks"
 import { Link } from "react-router-dom"

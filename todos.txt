@@ -19,11 +19,6 @@ Results:
 - Champion images on event detail?
 - Link to gallery
 
-Gallery:
-- By event type (w/ dam cup)
-- Thumbnails
-- Link to "permanent" url
-
 Season Long Points:
 - View points by event
 

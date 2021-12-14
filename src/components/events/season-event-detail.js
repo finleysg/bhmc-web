@@ -40,14 +40,13 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
                   <div className="col-12">
                     <ul data-testid="player-info" className="text-primary">
                       <li>
-                        Your current selection for competition tees is <strong>{player.tee}</strong>
-                        .
+                        Your current selection for competition tees is <strong>{player.tee}</strong>.
                       </li>
                       <li>
                         {isNaN(player.age) ? (
                           <span>
-                            You have not given us your birth date. We cannot give you the senior
-                            rate for the patron card.
+                            You have not given us your birth date. We cannot give you the senior rate for the patron
+                            card.
                           </span>
                         ) : (
                           <span>
@@ -69,24 +68,22 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
                     </ul>
                     <p>
                       If this information is not correct, please update your profile at the{" "}
-                      <Link to="/my-account">My Account</Link> page before you register for the{" "}
-                      {config.currentSeason} season.
+                      <Link to="/my-account">My Account</Link> page before you register for the {config.currentSeason}{" "}
+                      season.
                     </p>
                   </div>
                 )}
                 {hasSignedUp && (
                   <div className="col-12">
                     <p className="text-primary">
-                      It looks like you have already signed up for the {config.currentSeason}{" "}
-                      season.
+                      It looks like you have already signed up for the {config.currentSeason} season.
                     </p>
                   </div>
                 )}
                 {!hasSignedUp && !isReturning && (
                   <div className="col-12">
                     <h6 className="text-danger">
-                      As a new member, please indicate your former club (if any) in the notes
-                      section when you register.
+                      As a new member, please indicate your former club (if any) in the notes section when you register.
                     </h6>
                   </div>
                 )}

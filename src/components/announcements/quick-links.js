@@ -14,12 +14,7 @@ function QuickLinks() {
           <div className="listview__heading">Bunker Hills Tee Times</div>
         </div>
       </a>
-      <a
-        className="listview__item"
-        href="https://bunkerhillsgolf.com/"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a className="listview__item" href="https://bunkerhillsgolf.com/" rel="noreferrer" target="_blank">
         <img alt="Bunker Hills website home" className="listview__img" src={tee} />
         <div className="listview__content">
           <div className="listview__heading">Bunker Hills Home</div>
@@ -31,12 +26,7 @@ function QuickLinks() {
           <div className="listview__heading">Minnesota Public Golf Association</div>
         </div>
       </a>
-      <a
-        className="listview__item"
-        href="https://www.mngolf.org/home"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a className="listview__item" href="https://www.mngolf.org/home" rel="noreferrer" target="_blank">
         <img alt="MGA website home" className="listview__img" src={tee} />
         <div className="listview__content">
           <div className="listview__heading">Minnesota Golf Association</div>
@@ -53,12 +43,7 @@ function QuickLinks() {
           <div className="listview__heading">Rules of Golf</div>
         </div>
       </a>
-      <a
-        className="listview__item"
-        href="https://www.ghin.com/default.aspx"
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a className="listview__item" href="https://www.ghin.com/default.aspx" rel="noreferrer" target="_blank">
         <img alt="GHIN website home" className="listview__img" src={tee} />
         <div className="listview__content">
           <div className="listview__heading">Handicaps (GHIN)</div>

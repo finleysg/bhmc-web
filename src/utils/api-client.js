@@ -20,7 +20,7 @@ async function client(endpoint, { data, token, headers: customHeaders, ...custom
     if (response.status === 401) {
       await auth.logout()
       window.location.assign(window.location)
-      return Promise.reject("User must re-authenticate.")
+      return Promise.reject(new Error("User must re-authenticate."))
     }
     if (response.ok) {
       if (response.status !== 204) {

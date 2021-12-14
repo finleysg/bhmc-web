@@ -86,19 +86,17 @@ function EventRegistrationProvider(props) {
     (playerId) => {
       return client(`registration/?event_id=${eventId}&player_id=${playerId}`).then((data) => {
         const registration = new Registration(data[0])
-        return client(`registration-fees/?registration_id=${registration.id}&confirmed=true`).then(
-          (fees) => {
-            dispatch({
-              type: EventRegistrationActions.LoadRegistration,
-              payload: {
-                registration: registration,
-                payment: paymentPlaceholder(),
-                existingFees: fees,
-              },
-            })
-            queryClient.setQueryData(["registration", eventId], data[0])
-          },
-        )
+        return client(`registration-fees/?registration_id=${registration.id}&confirmed=true`).then((fees) => {
+          dispatch({
+            type: EventRegistrationActions.LoadRegistration,
+            payload: {
+              registration: registration,
+              payment: paymentPlaceholder(),
+              existingFees: fees,
+            },
+          })
+          queryClient.setQueryData(["registration", eventId], data[0])
+        })
       })
     },
     [client, eventId, queryClient, paymentPlaceholder],
@@ -121,9 +119,7 @@ function EventRegistrationProvider(props) {
         if (state.clubEvent.id === config.seasonEventId) {
           state.clubEvent.fees
             .filter((f) => f.isRequired)
-            .filter((f) =>
-              isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members",
-            )
+            .filter((f) => (isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members"))
             .forEach((fee) => {
               placeholder.details.push({
                 eventFeeId: fee.id,
@@ -209,7 +205,6 @@ function EventRegistrationProvider(props) {
       },
       onError: (error) => {
         dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
-        return
       },
     },
   )
@@ -257,8 +252,7 @@ function EventRegistrationProvider(props) {
           { registrationId, paymentId },
           {
             onSuccess: () => {
-              const message =
-                "We had to clean up a previous incomplete registration. Please try again."
+              const message = "We had to clean up a previous incomplete registration. Please try again."
               dispatch({ type: EventRegistrationActions.UpdateError, payload: message })
             },
           },
@@ -399,7 +393,6 @@ function EventRegistrationProvider(props) {
           },
           onError: (error) => {
             dispatch({ type: EventRegistrationActions.UpdateError, payload: error.message })
-            return
           },
         },
       )

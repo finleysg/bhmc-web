@@ -1,9 +1,6 @@
 import React from "react"
 
-import {
-  IndexTab,
-  Tabs,
-} from "components/tabs"
+import { IndexTab, Tabs } from "components/tabs"
 import { useEventRegistration } from "context/registration-context"
 
 import { ReserveGrid } from "./reserve-grid"

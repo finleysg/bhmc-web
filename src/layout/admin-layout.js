@@ -34,10 +34,7 @@ function AdminRoutes() {
       <Route path="/event/:eventId/skins-report" element={<SkinsReportPage />} />
       <Route path="/event/:eventId/add-player" element={<AdminAddPlayerPage />} />
       <Route path="/event/:eventId/manage-players" element={<AdminManagePlayersPage />} />
-      <Route
-        path="/event/:eventId/manage-players/:registrationId"
-        element={<AdminEditRegistrationPage />}
-      />
+      <Route path="/event/:eventId/manage-players/:registrationId" element={<AdminEditRegistrationPage />} />
       <Route path="/event/:eventId/event-portal" element={<AdminEditPortalPage />} />
       <Route path="/event/:eventId/manage-documents" element={<AdminManageEventDocumentsPage />} />
       <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />

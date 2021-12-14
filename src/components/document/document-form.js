@@ -47,11 +47,7 @@ function DocumentForm({ onSubmit, onCancel, title, documentType, isLoading, erro
       <Form>
         <FormGroup name="title" type="text" label="Title" />
         <SelectGroup name="documentType" label="Type" options={getDocumentTypeOptions()} />
-        <FilePicker
-          onSelected={handleFileSelected}
-          onDrop={handleFileSelected}
-          accept={acceptedDocuments}
-        />
+        <FilePicker onSelected={handleFileSelected} onDrop={handleFileSelected} accept={acceptedDocuments} />
         <SubmitButton loading={isLoading} label="Save" disabled={files.length === 0}>
           <CgFileDocument style={{ marginTop: ".6rem" }} />
         </SubmitButton>

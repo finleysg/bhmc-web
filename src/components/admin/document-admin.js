@@ -48,12 +48,7 @@ function DocumentAdmin({ documents, title, noResultMessage, onAddNew }) {
           {hasDocuments &&
             documents.map((doc) => (
               <DocumentContainer key={doc.id}>
-                <AdminAction
-                  color={colors.red}
-                  label="Delete document"
-                  id={doc.id}
-                  onAction={handleDelete}
-                />
+                <AdminAction color={colors.red} label="Delete document" id={doc.id} onAction={handleDelete} />
                 <DocumentCard document={doc} />
               </DocumentContainer>
             ))}

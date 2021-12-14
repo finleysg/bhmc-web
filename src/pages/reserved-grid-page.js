@@ -2,10 +2,7 @@ import React from "react"
 
 import { ReserveGrid } from "components/reserve/reserve-grid"
 import { OverlaySpinner } from "components/spinners"
-import {
-  IndexTab,
-  Tabs,
-} from "components/tabs"
+import { IndexTab, Tabs } from "components/tabs"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
 import { LoadReserveTables } from "models/reserve"
 import { useQueryClient } from "react-query"
@@ -27,7 +24,7 @@ function ReservedGridPage({ clubEvent }) {
     <div className="row">
       <div className="col-12">
         <div>
-          <OverlaySpinner loading={!Boolean(reserveTables[0])} />
+          <OverlaySpinner loading={!reserveTables[0]} />
           {Boolean(reserveTables[0]) && (
             <React.Fragment>
               <Tabs>

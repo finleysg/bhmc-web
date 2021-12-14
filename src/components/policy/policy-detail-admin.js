@@ -116,9 +116,7 @@ function PolicyDetailAdmin({ policy }) {
         {canEdit && showConfirm && (
           <AlertDialog leastDestructiveRef={cancelRef}>
             <AlertDialogLabel>Please Confirm!</AlertDialogLabel>
-            <AlertDialogDescription>
-              Are you sure you want to delete this policy?
-            </AlertDialogDescription>
+            <AlertDialogDescription>Are you sure you want to delete this policy?</AlertDialogDescription>
             <div className="alert-buttons">
               <button onClick={handleDelete}>Delete</button>{" "}
               <button ref={cancelRef} onClick={() => setShowConfirm(false)}>

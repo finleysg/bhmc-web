@@ -73,12 +73,7 @@ function PhotoUploadForm(props) {
                 // handleChange()
               }}
             />
-            <button
-              className="btn btn-success"
-              style={{ marginRight: "1rem" }}
-              type="submit"
-              disabled={isSubmitting}
-            >
+            <button className="btn btn-success" style={{ marginRight: "1rem" }} type="submit" disabled={isSubmitting}>
               Save
             </button>
             <CancelButton onClick={onCancel} />

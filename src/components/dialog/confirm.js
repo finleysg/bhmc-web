@@ -23,12 +23,7 @@ function StandardConfirmDialog({ confirmRef, onConfirm, onCancel, children }) {
         <button style={{ marginRight: ".5rem" }} className="btn btn-primary" onClick={onConfirm}>
           Yes
         </button>
-        <button
-          style={{ marginLeft: ".5rem" }}
-          className="btn btn-light"
-          ref={confirmRef}
-          onClick={onCancel}
-        >
+        <button style={{ marginLeft: ".5rem" }} className="btn btn-light" ref={confirmRef} onClick={onCancel}>
           No
         </button>
       </div>

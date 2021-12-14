@@ -38,8 +38,8 @@ function MembershipScreen() {
                   </ReactMarkdown>
                   <div className="col-12">
                     <p className="text-primary">
-                      You need to have an account with us and be logged in to register for the{" "}
-                      {config.currentSeason} season.
+                      You need to have an account with us and be logged in to register for the {config.currentSeason}{" "}
+                      season.
                     </p>
                   </div>
                 </div>

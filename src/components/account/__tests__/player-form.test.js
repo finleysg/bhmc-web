@@ -5,13 +5,7 @@ import React from "react"
 import Player from "models/player"
 import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
-import {
-  act,
-  deferred,
-  render,
-  screen,
-  waitFor,
-} from "test/test-utils"
+import { act, deferred, render, screen, waitFor } from "test/test-utils"
 
 import { PlayerForm } from "../player-form"
 

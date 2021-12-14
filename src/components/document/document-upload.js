@@ -15,7 +15,7 @@ function DocumentUpload(props) {
 
   React.useEffect(() => {
     const documentTypeName = documentTypeMap.get(documentType).replace("Event ", "")
-    if (Boolean(clubEvent?.id)) {
+    if (clubEvent?.id) {
       setTitle(`${clubEvent.name} ${documentTypeName}`)
     } else {
       setTitle(documentTypeName)
@@ -23,12 +23,7 @@ function DocumentUpload(props) {
   }, [documentType, clubEvent])
 
   const normalizeFilename = (filename) => {
-    const name = filename
-      .toLowerCase()
-      .trim()
-      .replace("/", " ")
-      .replace(/\s+/g, "-")
-      .replace(/--+/g, "-")
+    const name = filename.toLowerCase().trim().replace("/", " ").replace(/\s+/g, "-").replace(/--+/g, "-")
     if (clubEvent?.id) {
       return `${clubEvent.slugDate}-${clubEvent.slugName}-${name}`
     }

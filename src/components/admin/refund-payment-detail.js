@@ -10,11 +10,7 @@ function RefundPaymentDetail({ paymentDetail, onSelect }) {
 
   return (
     <div style={{ marginBottom: ".5rem" }}>
-      <CheckBox
-        label={`${feeInfo} ${paidBy}`}
-        checked={paymentDetail.selected}
-        onChange={handleChange}
-      />
+      <CheckBox label={`${feeInfo} ${paidBy}`} checked={paymentDetail.selected} onChange={handleChange} />
     </div>
   )
 }

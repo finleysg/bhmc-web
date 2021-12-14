@@ -32,7 +32,7 @@ function ReserveSlot(groupId, json) {
   this.groupId = groupId
   this.holeId = json.hole
   this.playerId = json.player?.id
-  this.playerName = Boolean(json.player) ? `${json.player.first_name} ${json.player.last_name}` : ""
+  this.playerName = json.player ? `${json.player.first_name} ${json.player.last_name}` : ""
   this.position = json.slot // 0 to size of group - 1
   this.registrationId = json.registration
   this.startingOrder = json.starting_order

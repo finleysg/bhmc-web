@@ -40,12 +40,7 @@ const FormCheckbox = ({ label, ...props }) => {
   // eslint-disable-next-line no-unused-vars
   const [field, meta, helpers] = useField(props)
   return (
-    <CheckBox
-      name={field.name}
-      label={label}
-      checked={field.checked}
-      onChange={(value) => helpers.setValue(value)}
-    />
+    <CheckBox name={field.name} label={label} checked={field.checked} onChange={(value) => helpers.setValue(value)} />
   )
 }
 
@@ -55,13 +50,7 @@ const FormGroup = ({ label, ...props }) => {
   return (
     <div className={"form-group"}>
       <label htmlFor={props.id || props.name}>{label}</label>
-      <input
-        value={field.value || ""}
-        {...field}
-        {...props}
-        id={props.name}
-        className="form-control"
-      />
+      <input value={field.value || ""} {...field} {...props} id={props.name} className="form-control" />
       <i className="form-group__bar"></i>
       {meta.touched && meta.error ? <div className="invalid-feedback">{meta.error}</div> : null}
     </div>
@@ -74,13 +63,7 @@ const FormGroupAsTextarea = ({ label, ...props }) => {
   return (
     <div className={"form-group"}>
       <label htmlFor={props.id || props.name}>{label}</label>
-      <textarea
-        value={field.value || ""}
-        {...field}
-        {...props}
-        id={props.name}
-        className="form-control"
-      />
+      <textarea value={field.value || ""} {...field} {...props} id={props.name} className="form-control" />
       <i className="form-group__bar"></i>
       {meta.touched && meta.error ? <div className="invalid-feedback">{meta.error}</div> : null}
     </div>

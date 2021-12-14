@@ -61,7 +61,7 @@ function ReserveGrid({ table, error, mode, onReserve, onRefresh, onBack, ...rest
   }
 
   // ensure the selected-slot state is applied
-  if (Boolean(table)) {
+  if (table) {
     table.applySelectedSlots(selectedSlots)
   }
 
@@ -79,7 +79,7 @@ function ReserveGrid({ table, error, mode, onReserve, onRefresh, onBack, ...rest
           </IconActionButton>
         </span>
       </div>
-      <OverlaySpinner loading={!Boolean(table)} />
+      <OverlaySpinner loading={!table} />
       {Boolean(table) &&
         table.groups.map((group) => (
           <ReserveRow

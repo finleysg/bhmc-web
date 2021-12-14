@@ -8,7 +8,7 @@ function UnfinishedPage() {
   const { clubEvent, loadEvent } = useEventAdmin()
 
   React.useEffect(() => {
-    if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
+    if (!clubEvent?.id) loadEvent(+eventId)
   }, [loadEvent, clubEvent, eventId])
 
   return (

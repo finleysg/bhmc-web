@@ -1,12 +1,6 @@
 import { useClient } from "context/auth-context"
-import {
-  ClubEvent,
-  loadingEvent,
-} from "models/club-event"
-import {
-  Registration,
-  RegistrationSlot,
-} from "models/registration"
+import { ClubEvent, loadingEvent } from "models/club-event"
+import { Registration, RegistrationSlot } from "models/registration"
 import { useQuery } from "react-query"
 import * as config from "utils/app-config"
 
@@ -32,9 +26,7 @@ function useEventRegistrations(eventId) {
     ["event-registrations", eventId],
     () =>
       client(`registration/?event_id=${eventId}`).then((data) => {
-        return data
-          .map((reg) => new Registration(reg))
-          .filter((r) => r.slots.length > 0 && r.slots[0].status === "R")
+        return data.map((reg) => new Registration(reg)).filter((r) => r.slots.length > 0 && r.slots[0].status === "R")
       }),
     {
       enabled: !!eventId,
@@ -47,8 +39,7 @@ function useEventRegistrations(eventId) {
 
 function useEventWithRegistrations({ eventDate, eventName }) {
   const events = useClubEvents()
-  const clubEvent =
-    events.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
+  const clubEvent = events.find((ce) => ce.slugDate === eventDate && ce.slugName === eventName) ?? loadingEvent
   const registrations = useEventRegistrations(clubEvent?.id)
   return {
     clubEvent,

@@ -1,0 +1,16 @@
+{
+  "quoteMark": "double",
+  "groupRules": ["^[@]", "^react(-dom)?$", {}, "^[.]"],
+  "emptyLinesBetweenGroups": 1,
+  "emptyLinesAfterAllImports": 1,
+  "tabSize": 2,
+  "trailingComma": "multiLine",
+  "formatExports": true,
+  "exclude": ["node_modules"],
+  "sortImportsBy": "paths",
+  "wrappingStyle": {
+    "maxBindingNamesPerLine": 0,
+    "maxDefaultAndBindingNamesPerLine": 0
+  },
+  "maxLineLength": 120
+}

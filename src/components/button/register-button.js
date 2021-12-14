@@ -8,7 +8,7 @@ function RegisterButton({ clubEvent, hasSignedUp, isMember, currentStep, onClick
   const player = usePlayer()
 
   React.useEffect(() => {
-    if (!Boolean(player.id)) {
+    if (!player.id) {
       setCanRegister(false)
     } else if (hasSignedUp) {
       setCanRegister(false)
@@ -18,7 +18,7 @@ function RegisterButton({ clubEvent, hasSignedUp, isMember, currentStep, onClick
       setCanRegister(false)
     } else if (clubEvent.registrationTypeCode !== "O" && !isMember) {
       setCanRegister(false)
-    } else if (clubEvent.ghinRequired && !Boolean(player.ghin)) {
+    } else if (clubEvent.ghinRequired && !player.ghin) {
       setCanRegister(false)
     } else {
       setCanRegister(true)

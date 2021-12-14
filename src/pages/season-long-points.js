@@ -49,9 +49,7 @@ function SeasonLongPointsPage() {
           <CardContent contentKey="season-long-points" />
           <div className="card">
             <div className="card-header bg-light-blue">
-              <span style={{ color: colors.white, fontSize: "1.2rem" }}>
-                Points Breakdown by Event
-              </span>
+              <span style={{ color: colors.white, fontSize: "1.2rem" }}>Points Breakdown by Event</span>
             </div>
             <div className="card-body">
               <PointsTable />
@@ -59,11 +57,7 @@ function SeasonLongPointsPage() {
           </div>
         </div>
         <div className="col-xl-3 col-12">
-          <HistoricalDocuments
-            documentTypeCode="P"
-            title="Past Seasons"
-            excludedSeason={config.currentSeason}
-          />
+          <HistoricalDocuments documentTypeCode="P" title="Past Seasons" excludedSeason={config.currentSeason} />
         </div>
       </div>
     </div>

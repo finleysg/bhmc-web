@@ -15,7 +15,7 @@ function useRandomPhotos({ take, tag }) {
   const client = useClient()
 
   const getUrl = () => {
-    if (Boolean(tag)) {
+    if (tag) {
       return `random-photos/?take=${take}&tag=${tag}`
     } else {
       return `random-photos/?take=${take}`

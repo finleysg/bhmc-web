@@ -75,7 +75,7 @@ const mapEventType = (code) => {
 }
 
 const slugify = (text) => {
-  if (Boolean(text)) {
+  if (text) {
     return text
       .toString()
       .toLowerCase()
@@ -162,9 +162,7 @@ function ClubEvent(json) {
   this.eventType = mapEventType(json.event_type)
   this.eventTypeCode = json.event_type
   this.externalUrl = json.external_url
-  this.fees = json.fees
-    ? json.fees.sort((a, b) => (a.display_order = b.display_order)).map((f) => new EventFee(f))
-    : []
+  this.fees = json.fees ? json.fees.sort((a, b) => (a.display_order = b.display_order)).map((f) => new EventFee(f)) : []
   this.feeMap = new Map(this.fees.map((f) => [f.id, f]))
   this.ghinRequired = json.ghin_required
   this.groupSize = json.group_size
@@ -172,9 +170,7 @@ function ClubEvent(json) {
   this.minimumSignupGroupSize = json.minimum_signup_group_size
   this.name = json.name
   this.notes = json.notes
-  this.paymentsEnd = Boolean(json.payments_end)
-    ? new Date(json.payments_end)
-    : new Date(json.signup_end)
+  this.paymentsEnd = json.payments_end ? new Date(json.payments_end) : new Date(json.signup_end)
   this.portalUrl = json.portal_url
   this.registrationMaximum = json.registration_maximum
   this.registrationType = mapRegistrationType(json.registration_type)
@@ -206,9 +202,7 @@ function ClubEvent(json) {
   this.adminUrl = `/admin/event/${this.id}`
   this.slugName = slugify(json.name)
   this.slugDate = isoDayFormat(this.startDate)
-  this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(
-    this.signupEnd,
-  )}`
+  this.signupWindow = `${dayDateAndTimeFormat(this.signupStart)} to ${dayDateAndTimeFormat(this.signupEnd)}`
   this.canEditRegistration = Boolean(json.payments_end)
   this.paymentsAreOpen =
     this.registrationTypeCode === "N"

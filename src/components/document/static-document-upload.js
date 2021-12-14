@@ -19,7 +19,7 @@ function StaticDocumentUpload(props) {
     form.append("title", values.title)
     form.append("file", file, file.name)
 
-    if (Boolean(document?.id)) {
+    if (document?.id) {
       update(
         { documentId: document.id, formData: form },
         {

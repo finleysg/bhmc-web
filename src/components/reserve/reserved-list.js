@@ -1,11 +1,7 @@
 import React from "react"
 
 import { useAuth } from "context/auth-context"
-import {
-  format,
-  isAfter,
-  isBefore,
-} from "date-fns"
+import { format, isAfter, isBefore } from "date-fns"
 import { Link } from "react-router-dom"
 
 function ReservedList({ registrations, sortBy }) {
@@ -74,7 +70,7 @@ function ReservedPlayer({ playerRegistration, isLink, ...rest }) {
     )
   }
 
-  if (Boolean(isLink)) {
+  if (isLink) {
     return <Link to={`/directory/${playerRegistration.id}`}>{slot()}</Link>
   }
   return slot()

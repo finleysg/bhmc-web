@@ -10,30 +10,18 @@ import { getAmountChange, getAmountDue } from "utils/payment-utils"
 
 function RegisterInfo({ onCancel, onComplete, selectedStart, title, layout, mode, ...rest }) {
   const [amountDue, updateAmountDue] = React.useState(0)
-  const {
-    clubEvent,
-    registration,
-    payment,
-    updateRegistration,
-    removePlayer,
-    addFee,
-    removeFee,
-  } = useEventAdmin()
+  const { clubEvent, registration, payment, updateRegistration, removePlayer, addFee, removeFee } = useEventAdmin()
 
   React.useEffect(() => {
     const due =
-      mode === "edit"
-        ? getAmountChange(payment, clubEvent.feeMap)
-        : getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
+      mode === "edit" ? getAmountChange(payment, clubEvent.feeMap) : getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
     updateAmountDue(due)
   }, [mode, payment, clubEvent])
 
   const isBusy = registration === undefined || registration?.id === undefined
 
   // Update the registration with changes to the notes.
-  const updateNotes = React.useMemo(() => debounceFn(updateRegistration, { wait: 500 }), [
-    updateRegistration,
-  ])
+  const updateNotes = React.useMemo(() => debounceFn(updateRegistration, { wait: 500 }), [updateRegistration])
 
   const handleNotesChange = (e) => {
     const reg = Object.assign({}, registration, { notes: e.target.value })
@@ -52,13 +40,10 @@ function RegisterInfo({ onCancel, onComplete, selectedStart, title, layout, mode
     if (amountDue.total < 0) {
       const adds = payment.edits.filter((e) => e.action === "add")
       if (adds && adds.length > 0) {
-        toast.error(
-          "We cannot create refunds when you have also added new fees. Do that in separate steps.",
-          {
-            autoClose: 5000,
-            closeOnClick: true,
-          },
-        )
+        toast.error("We cannot create refunds when you have also added new fees. Do that in separate steps.", {
+          autoClose: 5000,
+          closeOnClick: true,
+        })
         return
       }
     }
@@ -101,19 +86,10 @@ function RegisterInfo({ onCancel, onComplete, selectedStart, title, layout, mode
             </div>
             <div className="row" style={{ marginTop: "1rem", textAlign: "right" }}>
               <div className="col-12">
-                <button
-                  className="btn btn-light"
-                  disabled={isBusy}
-                  onClick={() => onCancel(registration.id)}
-                >
+                <button className="btn btn-light" disabled={isBusy} onClick={() => onCancel(registration.id)}>
                   Cancel
                 </button>
-                <button
-                  className="btn btn-success"
-                  disabled={isBusy}
-                  style={{ marginLeft: ".5rem" }}
-                  onClick={confirm}
-                >
+                <button className="btn btn-success" disabled={isBusy} style={{ marginLeft: ".5rem" }} onClick={confirm}>
                   {amountDue.total > 0 && "Payment Info"}
                   {amountDue.total < 0 && "Refund"}
                   {amountDue.total === 0 && "Save"}

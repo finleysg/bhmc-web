@@ -1,15 +1,8 @@
 import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
-import {
-  IndexTab,
-  Tabs,
-} from "components/tabs"
-import {
-  useDropPlayers,
-  useIssueRefunds,
-  useMovePlayers,
-} from "hooks/admin-hooks"
+import { IndexTab, Tabs } from "components/tabs"
+import { useDropPlayers, useIssueRefunds, useMovePlayers } from "hooks/admin-hooks"
 import { toast } from "react-toastify"
 
 import { ReserveGridAdmin } from "./reserve-grid-admin"

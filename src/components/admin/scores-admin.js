@@ -1,8 +1,7 @@
-import React from "react"
-
 import { DataDocument } from "components/document/data-document"
 import { OverlaySpinner } from "components/spinners"
 import { useScoresImport } from "hooks/admin-hooks"
+import React from "react"
 import { CgImport } from "react-icons/cg"
 
 function ScoresAdmin({ clubEvent, documents, title, noResultMessage }) {
@@ -35,6 +34,7 @@ function ScoresAdmin({ clubEvent, documents, title, noResultMessage }) {
             {hasDocuments &&
               documents.map((doc) => (
                 <DataDocument
+                  key={doc.id}
                   document={doc}
                   onAction={showImport}
                   onSelect={showImport}
@@ -54,11 +54,7 @@ function ScoresAdmin({ clubEvent, documents, title, noResultMessage }) {
               >
                 Cancel
               </button>
-              <button
-                className="btn btn-success"
-                style={{ marginLeft: ".5rem" }}
-                onClick={handleImport}
-              >
+              <button className="btn btn-success" style={{ marginLeft: ".5rem" }} onClick={handleImport}>
                 Import
               </button>
             </>

@@ -5,16 +5,7 @@ import * as colors from "styles/colors"
 import EventFeeItem from "./event-fee-item"
 import RegistrationSlotPlayer from "./registration-slot-player"
 
-function RegistrationSlot({
-  layout,
-  slot,
-  mode,
-  payment,
-  eventFees,
-  onRemovePlayer,
-  onToggleFee,
-  ...rest
-}) {
+function RegistrationSlot({ layout, slot, mode, payment, eventFees, onRemovePlayer, onToggleFee, ...rest }) {
   // If there is a payment object created, has a given fee been selected?
   const hasPaymentDetail = (eventFee) => {
     if (payment && payment.details) {

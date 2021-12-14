@@ -42,12 +42,7 @@ function StaticDocument({ code, documentType }) {
       )}
       {documentExists || (
         <div style={{ position: "relative" }}>
-          <AdminAction2
-            color={colors.indigo}
-            label="Upload a document"
-            id={0}
-            onAction={() => setShowUpload(true)}
-          >
+          <AdminAction2 color={colors.indigo} label="Upload a document" id={0} onAction={() => setShowUpload(true)}>
             <RiFileUploadFill />
           </AdminAction2>
         </div>

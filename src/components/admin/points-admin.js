@@ -1,10 +1,9 @@
-import React from "react"
-
 import { DataDocument } from "components/document/data-document"
 import { FormGroup } from "components/field/forms"
 import { OverlaySpinner } from "components/spinners"
 import { Form, Formik } from "formik"
 import { usePointsImport } from "hooks/admin-hooks"
+import React from "react"
 import { CgImport } from "react-icons/cg"
 import * as Yup from "yup"
 
@@ -22,12 +21,7 @@ function PointsImportForm({ document, onSubmit, onCancel }) {
         >
           <Form>
             <FormGroup name="info" type="text" label="Course / Flight" />
-            <button
-              className="btn btn-light"
-              type="button"
-              style={{ marginLeft: ".5rem" }}
-              onClick={onCancel}
-            >
+            <button className="btn btn-light" type="button" style={{ marginLeft: ".5rem" }} onClick={onCancel}>
               Cancel
             </button>
             <button className="btn btn-success" type="submit" style={{ marginLeft: ".5rem" }}>
@@ -71,6 +65,7 @@ function PointsAdmin({ clubEvent, documents, title, noResultMessage }) {
             {hasDocuments &&
               documents.map((doc) => (
                 <DataDocument
+                  key={doc.id}
                   document={doc}
                   onAction={showImport}
                   onSelect={showImport}
@@ -83,11 +78,7 @@ function PointsAdmin({ clubEvent, documents, title, noResultMessage }) {
         </div>
       </div>
       {isImporting && (
-        <PointsImportForm
-          document={selectedDocument}
-          onSubmit={handleImport}
-          onCancel={() => setIsImporting(false)}
-        />
+        <PointsImportForm document={selectedDocument} onSubmit={handleImport} onCancel={() => setIsImporting(false)} />
       )}
     </div>
   )

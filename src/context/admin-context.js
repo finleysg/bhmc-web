@@ -1,10 +1,8 @@
-import React from "react"
-
 import { useClubEvents } from "hooks/event-hooks"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
+import React from "react"
 import { useMutation, useQueryClient } from "react-query"
-
 import { EventAdminActions, eventAdminReducer } from "./admin-reducer"
 import { useAuth, useClient } from "./auth-context"
 
@@ -76,18 +74,16 @@ function EventAdminProvider(props) {
     (registrationId) => {
       return client(`registration/${registrationId}/`).then((data) => {
         const registration = new Registration(data)
-        return client(`registration-fees/?registration_id=${registrationId}&confirmed=true`).then(
-          (fees) => {
-            dispatch({
-              type: EventAdminActions.LoadRegistration,
-              payload: {
-                registration: registration,
-                payment: paymentPlaceholder(),
-                existingFees: fees,
-              },
-            })
-          },
-        )
+        return client(`registration-fees/?registration_id=${registrationId}&confirmed=true`).then((fees) => {
+          dispatch({
+            type: EventAdminActions.LoadRegistration,
+            payload: {
+              registration: registration,
+              payment: paymentPlaceholder(),
+              existingFees: fees,
+            },
+          })
+        })
       })
     },
     [client, paymentPlaceholder],
@@ -137,7 +133,6 @@ function EventAdminProvider(props) {
       },
       onError: (error) => {
         dispatch({ type: EventAdminActions.UpdateError, payload: error.message })
-        return
       },
     },
   )
@@ -208,7 +203,7 @@ function EventAdminProvider(props) {
         queryClient.invalidateQueries("payment", { refetchActive: false })
         dispatch({ type: EventAdminActions.UpdatePayment, payload: null })
       },
-      onError: (error) => {
+      onError: () => {
         // Clear this error, otherwise we will be stuck in an unrecoverable state.
         // Most likely, we don't have a payment to delete.
         dispatch({ type: EventAdminActions.UpdateError, payload: null })
@@ -229,7 +224,6 @@ function EventAdminProvider(props) {
         },
         onError: (error) => {
           dispatch({ type: EventAdminActions.UpdateError, payload: error.message })
-          return
         },
       },
     )

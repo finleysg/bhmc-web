@@ -32,15 +32,11 @@ function DamCupResults() {
                     <span title={`Played at ${r.site}`}>{r.season}</span>
                   </td>
                   <td className="text-center">
-                    {r.good_guys > r.bad_guys && (
-                      <span style={{ fontWeight: "bold" }}>{r.good_guys}</span>
-                    )}
+                    {r.good_guys > r.bad_guys && <span style={{ fontWeight: "bold" }}>{r.good_guys}</span>}
                     {r.good_guys > r.bad_guys || <span>{r.good_guys}</span>}
                   </td>
                   <td className="text-center">
-                    {r.good_guys < r.bad_guys && (
-                      <span style={{ fontWeight: "bold" }}>{r.bad_guys}</span>
-                    )}
+                    {r.good_guys < r.bad_guys && <span style={{ fontWeight: "bold" }}>{r.bad_guys}</span>}
                     {r.good_guys < r.bad_guys || <span>{r.bad_guys}</span>}
                   </td>
                 </tr>

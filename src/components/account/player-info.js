@@ -71,8 +71,8 @@ function PlayerInfo() {
         <React.Fragment>
           <PlayerForm player={player.obj} onClose={() => setMode("view")} />
           <p className="text-primary" style={{ marginTop: "1rem" }}>
-            <span style={{ fontWeight: "bold" }}>NOTE:</span> If you want to change the tees you
-            will play for this season, send us a contact message.
+            <span style={{ fontWeight: "bold" }}>NOTE:</span> If you want to change the tees you will play for this
+            season, send us a contact message.
           </p>
         </React.Fragment>
       )}

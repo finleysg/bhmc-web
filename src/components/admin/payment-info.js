@@ -20,9 +20,7 @@ function PaymentInfo(props) {
   const player = usePlayer(registration.slots[0].playerId)
 
   const amountDue =
-    mode === "edit"
-      ? getAmountChange(payment, clubEvent.feeMap)
-      : getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
+    mode === "edit" ? getAmountChange(payment, clubEvent.feeMap) : getAmountDue(payment, clubEvent.feeMap, true) // true -> excludeTransactionFee
 
   const submitPayment = ({ amountDue, paymentCode }) => {
     setIsBusy(true)

@@ -3,7 +3,7 @@ import React from "react"
 import * as colors from "styles/colors"
 
 function RegistrationAmountDue({ amountDue }) {
-  if (Boolean(amountDue?.total)) {
+  if (amountDue?.total) {
     return (
       <>
         <div className="summary">

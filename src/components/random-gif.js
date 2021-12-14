@@ -46,9 +46,7 @@ const getRandomGif = () => {
 }
 
 const giphy = async () => {
-  const response = await window.fetch(
-    `https://api.giphy.com/v1/gifs/${getRandomGif()}?api_key=${config.giphyApiKey}`,
-  )
+  const response = await window.fetch(`https://api.giphy.com/v1/gifs/${getRandomGif()}?api_key=${config.giphyApiKey}`)
   const result = await response.json()
   if (result && result.data) {
     return {

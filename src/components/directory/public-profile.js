@@ -6,12 +6,7 @@ import React from "react"
 
 import clsx from "clsx"
 import { OverlaySpinner } from "components/spinners"
-import {
-  useBoardMembers,
-  usePlayer,
-  usePlayerChampionships,
-  usePlayerEvents,
-} from "hooks/player-hooks"
+import { useBoardMembers, usePlayer, usePlayerChampionships, usePlayerEvents } from "hooks/player-hooks"
 import { MdPerson } from "react-icons/md"
 import * as colors from "styles/colors"
 import * as config from "utils/app-config"
@@ -109,9 +104,7 @@ function PlayerProfile({ playerId }) {
           <MdPerson style={{ fontSize: "2rem", marginRight: "1rem" }} />
           <span>{player.name}</span>
         </div>
-        <div style={{ color: colors.white, fontSize: "1rem" }}>
-          {boardMember && <span>{boardMember.role}</span>}
-        </div>
+        <div style={{ color: colors.white, fontSize: "1rem" }}>{boardMember && <span>{boardMember.role}</span>}</div>
       </div>
       <div className="card-body">
         <div className="row">

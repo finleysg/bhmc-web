@@ -61,20 +61,10 @@ function RegistrationConfirm(props) {
           <button className="btn btn-light" disabled={isBusy} onClick={onBack}>
             Back
           </button>
-          <button
-            className="btn btn-light"
-            disabled={isBusy}
-            style={{ marginLeft: ".5rem" }}
-            onClick={onCancel}
-          >
+          <button className="btn btn-light" disabled={isBusy} style={{ marginLeft: ".5rem" }} onClick={onCancel}>
             Cancel
           </button>
-          <button
-            className="btn btn-success"
-            disabled={isBusy}
-            style={{ marginLeft: ".5rem" }}
-            onClick={onComplete}
-          >
+          <button className="btn btn-success" disabled={isBusy} style={{ marginLeft: ".5rem" }} onClick={onComplete}>
             👍 Looks Good
           </button>
         </div>

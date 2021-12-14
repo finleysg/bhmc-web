@@ -20,17 +20,13 @@ function RegistrationComplete({ selectedStart, title, mode }) {
         <div className="row" style={{ marginBottom: "1rem" }}>
           <div className="col-12">
             {mode === "edit" && (
-              <p>
-                Your registration has been updated. You should receive an email receipt from our
-                payment provider.
-              </p>
+              <p>Your registration has been updated. You should receive an email receipt from our payment provider.</p>
             )}
             {mode === "new" && (
               <>
                 <h3 className="text-success">You're In!</h3>
                 <p>
-                  A confirmation email will be sent to {user?.email}, as well as a receipt from our
-                  payment provider.
+                  A confirmation email will be sent to {user?.email}, as well as a receipt from our payment provider.
                 </p>
                 <RandomGif enabled={true} />
               </>

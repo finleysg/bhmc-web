@@ -44,11 +44,7 @@ function CalendarEvent({ clubEvent }) {
               </p>
             </div>
           </Link>
-          <AdminLink
-            to={clubEvent.adminUrl}
-            label="Event administration home"
-            color={colors.teal}
-          />
+          <AdminLink to={clubEvent.adminUrl} label="Event administration home" color={colors.teal} />
         </EventContainer>
       )}
     </React.Fragment>

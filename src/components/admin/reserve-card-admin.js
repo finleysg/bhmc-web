@@ -1,11 +1,4 @@
-function ReserveCardAdmin({
-  reserveSlot,
-  mode,
-  onPlayerSelect,
-  onGroupSelect,
-  onOpenSelect,
-  ...rest
-}) {
+function ReserveCardAdmin({ reserveSlot, mode, onPlayerSelect, onGroupSelect, onOpenSelect, ...rest }) {
   const deriveClasses = () => {
     const className = "reserve-slot"
     if (reserveSlot.selected) {

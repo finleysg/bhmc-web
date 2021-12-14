@@ -7,7 +7,7 @@ const LayoutContext = React.createContext()
 LayoutContext.displayName = "LayoutContext"
 
 function LayoutProvider(props) {
-  const [sidebarOpen, setSidebarOpen] = React.useState(isExtraLarge() ? true : false)
+  const [sidebarOpen, setSidebarOpen] = React.useState(!!isExtraLarge())
 
   const resizeHandler = React.useCallback((event) => {
     if (event.target.innerWidth >= 1200) {

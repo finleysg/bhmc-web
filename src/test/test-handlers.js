@@ -63,10 +63,7 @@ const handlers = [
 
   rest.get(apiUrl("events/:eventId"), async (req, res, ctx) => {
     const eventId = req.url.params.get("eventId")
-    return res(
-      ctx.delay(delay),
-      ctx.json(getTestEvent({ eventType: eventId, state: "registration" })),
-    )
+    return res(ctx.delay(delay), ctx.json(getTestEvent({ eventType: eventId, state: "registration" })))
   }),
   rest.get(apiUrl("registration/"), async (req, res, ctx) => {
     return res(ctx.delay(delay), [])

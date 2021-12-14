@@ -6,14 +6,7 @@ import { CardElement } from "@stripe/react-stripe-js"
 import React from "react"
 
 import { SavedCard } from "models/payment"
-import {
-  FaCcAmex,
-  FaCcDinersClub,
-  FaCcDiscover,
-  FaCcJcb,
-  FaCcMastercard,
-  FaCcVisa,
-} from "react-icons/fa"
+import { FaCcAmex, FaCcDinersClub, FaCcDiscover, FaCcJcb, FaCcMastercard, FaCcVisa } from "react-icons/fa"
 import { GiCheckMark } from "react-icons/gi"
 import { GoPlusSmall } from "react-icons/go"
 import { MdRemoveCircle } from "react-icons/md"
@@ -96,12 +89,7 @@ function CreditCardList(props) {
             />
           )
         })}
-      <CreditCard
-        card={newCard}
-        onSelect={handleSelection}
-        selected={selectedCard === "new"}
-        {...props}
-      />
+      <CreditCard card={newCard} onSelect={handleSelection} selected={selectedCard === "new"} {...props} />
     </div>
   )
 }
@@ -113,14 +101,7 @@ function ManageCreditCards(props) {
     <div>
       {cards &&
         cards.map((card) => {
-          return (
-            <ManagedCreditCard
-              key={card.paymentMethod}
-              card={card}
-              onRemove={onRemove}
-              {...props}
-            />
-          )
+          return <ManagedCreditCard key={card.paymentMethod} card={card} onRemove={onRemove} {...props} />
         })}
       <div style={{ display: "flex", cursor: "pointer" }} onClick={() => onAdd()}>
         <div style={{ flex: "1" }}>
@@ -191,11 +172,7 @@ function ManagedCreditCard(props) {
         )}
       </div>
       <div style={{ flex: "1", height: "1.5rem", textAlign: "right" }}>
-        <span
-          className="text-danger"
-          style={{ fontSize: "1.5rem", cursor: "pointer" }}
-          onClick={() => onRemove(card)}
-        >
+        <span className="text-danger" style={{ fontSize: "1.5rem", cursor: "pointer" }} onClick={() => onRemove(card)}>
           <MdRemoveCircle />
         </span>
       </div>

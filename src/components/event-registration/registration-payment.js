@@ -40,7 +40,7 @@ function RegistrationPayment(props) {
 
   const handlePaymentClick = async () => {
     setIsBusy(true)
-    if (paymentMethod === "new" || !Boolean(paymentMethod)) {
+    if (paymentMethod === "new" || !paymentMethod) {
       const cardElement = elements.getElement(CardElement)
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
@@ -51,7 +51,7 @@ function RegistrationPayment(props) {
         },
       })
 
-      if (Boolean(error)) {
+      if (error) {
         setPaymentError(error.message)
         setIsBusy(false)
       } else {
@@ -97,9 +97,7 @@ function RegistrationPayment(props) {
           Amount due: ${amountDue.total.toFixed(2)}
         </h6>
         <div style={{ marginBottom: "1rem" }}>
-          {myCards && myCards[0] && (
-            <CreditCardList cards={myCards} onSelected={(pm) => setPaymentMethod(pm)} />
-          )}
+          {myCards && myCards[0] && <CreditCardList cards={myCards} onSelected={(pm) => setPaymentMethod(pm)} />}
         </div>
         {paymentMethod === "new" && (
           <React.Fragment>
@@ -107,11 +105,7 @@ function RegistrationPayment(props) {
               <StyledCardElement />
             </div>
             <div>
-              <CheckBox
-                label="Save this card for future payments"
-                checked={saveCard}
-                onChange={handleSaveCard}
-              />
+              <CheckBox label="Save this card for future payments" checked={saveCard} onChange={handleSaveCard} />
             </div>
           </React.Fragment>
         )}

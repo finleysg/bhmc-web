@@ -43,11 +43,7 @@ function PhotoUploader(props) {
     if (!upload) {
       return (
         <div css={containerCss}>
-          <IconActionButton
-            label="Upload a picture"
-            color={colors.deepPurple}
-            onAction={() => setUpload(true)}
-          >
+          <IconActionButton label="Upload a picture" color={colors.deepPurple} onAction={() => setUpload(true)}>
             <MdCamera style={{ fontSize: "3rem" }} />
           </IconActionButton>
         </div>

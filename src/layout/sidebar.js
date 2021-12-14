@@ -24,11 +24,7 @@ function Sidebar() {
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
         <MenuItem path="scorecards/east-west" icon={<GiGolfTee />} name="Gold/White Combo Tees" />
-        <MenuItem
-          path="membership"
-          icon={<GoPlus />}
-          name={`${config.currentSeason} Signup Page`}
-        />
+        <MenuItem path="membership" icon={<GoPlus />} name={`${config.currentSeason} Signup Page`} />
         <MenuItem
           path={`calendar/${selectedMonth.year}/${selectedMonth.monthName.toLowerCase()}`}
           icon={<GoCalendar />}

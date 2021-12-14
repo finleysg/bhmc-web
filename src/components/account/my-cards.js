@@ -87,11 +87,7 @@ function MyCards() {
         <React.Fragment>
           <div className="row" style={{ marginBottom: "1rem", marginTop: "2rem" }}>
             <div className="col-12">
-              <ManageCreditCards
-                cards={myCards}
-                onAdd={() => setAction("add")}
-                onRemove={handleRemoveCard}
-              />
+              <ManageCreditCards cards={myCards} onAdd={() => setAction("add")} onRemove={handleRemoveCard} />
             </div>
           </div>
           {action === "add" && (

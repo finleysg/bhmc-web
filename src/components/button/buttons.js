@@ -160,13 +160,7 @@ function SubmitButton({ loading, ...props }) {
 
 function CancelButton({ loading, onCancel, ...props }) {
   return (
-    <button
-      type="button"
-      className="btn btn-light"
-      disabled={loading}
-      onClick={onCancel}
-      {...props}
-    >
+    <button type="button" className="btn btn-light" disabled={loading} onClick={onCancel} {...props}>
       Cancel
     </button>
   )

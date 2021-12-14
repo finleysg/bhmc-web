@@ -1,10 +1,7 @@
 import React from "react"
 
 import { FormGroup } from "components/field/forms"
-import {
-  Form,
-  Formik,
-} from "formik"
+import { Form, Formik } from "formik"
 import * as Yup from "yup"
 
 function PaymentForm({ amountDue, isBusy, onSubmit, onCancel, onBack }) {
@@ -25,20 +22,10 @@ function PaymentForm({ amountDue, isBusy, onSubmit, onCancel, onBack }) {
           <button className="btn btn-light" type="button" disabled={isBusy} onClick={onBack}>
             Back
           </button>
-          <button
-            className="btn btn-light"
-            type="button"
-            style={{ marginLeft: ".5rem" }}
-            onClick={onCancel}
-          >
+          <button className="btn btn-light" type="button" style={{ marginLeft: ".5rem" }} onClick={onCancel}>
             Cancel
           </button>
-          <button
-            className="btn btn-success"
-            type="submit"
-            disabled={isBusy}
-            style={{ marginLeft: ".5rem" }}
-          >
+          <button className="btn btn-success" type="submit" disabled={isBusy} style={{ marginLeft: ".5rem" }}>
             Save
           </button>
         </div>

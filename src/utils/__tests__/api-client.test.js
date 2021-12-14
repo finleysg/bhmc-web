@@ -1,8 +1,5 @@
 import * as auth from "context/auth-provider"
-import {
-  rest,
-  server,
-} from "test/test-server"
+import { rest, server } from "test/test-server"
 import { client } from "utils/api-client"
 import { apiUrl } from "utils/client-utils"
 

@@ -1,21 +1,9 @@
 import React from "react"
 
-import {
-  addDays,
-  parseISO,
-  subDays,
-} from "date-fns"
+import { addDays, parseISO, subDays } from "date-fns"
 import { ClubEvent } from "models/club-event"
-import {
-  buildAdminUser,
-  buildUser,
-} from "test/data/auth"
-import {
-  act,
-  deferred,
-  render,
-  screen,
-} from "test/test-utils"
+import { buildAdminUser, buildUser } from "test/data/auth"
+import { act, deferred, render, screen } from "test/test-utils"
 
 import { CalendarDay } from "../calendar-day"
 import { Day } from "../calendar-utils"
@@ -139,10 +127,7 @@ test("overrides the link to the season event", async () => {
     return promise
   })
 
-  expect(screen.getByRole("link", { name: /season sign up/i })).toHaveAttribute(
-    "href",
-    "/membership",
-  )
+  expect(screen.getByRole("link", { name: /season sign up/i })).toHaveAttribute("href", "/membership")
 })
 
 test("overrides the link to the match play event", async () => {
@@ -167,10 +152,7 @@ test("overrides the link to the match play event", async () => {
     return promise
   })
 
-  expect(screen.getByRole("link", { name: /season long match play/i })).toHaveAttribute(
-    "href",
-    "/match-play",
-  )
+  expect(screen.getByRole("link", { name: /season long match play/i })).toHaveAttribute("href", "/match-play")
 })
 
 test("renders an external url for non-club events", async () => {

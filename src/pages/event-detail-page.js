@@ -7,10 +7,7 @@ import { parse } from "date-fns"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
 import { loadingEvent } from "models/club-event"
-import {
-  useNavigate,
-  useParams,
-} from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import * as config from "utils/app-config"
 import { getClubEvent } from "utils/event-utils"
 
@@ -30,7 +27,7 @@ function EventDetailPage() {
   }, [clubEvents, eventDate, eventName, setClubEvent])
 
   const navigate = useNavigate()
-  const isLoading = !Boolean(clubEvent.id)
+  const isLoading = !clubEvent.id
 
   if (clubEvent.id === config.seasonEventId) {
     navigate("/membership")
@@ -41,9 +38,7 @@ function EventDetailPage() {
   return (
     <div className="content__inner">
       <OverlaySpinner loading={isLoading} />
-      {!isLoading && clubEvent.paymentsAreOpen && (
-        <EventRegistrationManager clubEvent={clubEvent} />
-      )}
+      {!isLoading && clubEvent.paymentsAreOpen && <EventRegistrationManager clubEvent={clubEvent} />}
       {(!isLoading && clubEvent.paymentsAreOpen) || (
         <EventView clubEvent={clubEvent} hasSignedUp={hasSignedUp} isMember={isMember} />
       )}

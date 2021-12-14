@@ -130,17 +130,14 @@ function useStaticDocumentUpdate() {
   const formClient = useFormClient()
   const queryClient = useQueryClient()
 
-  return useMutation(
-    ({ documentId, formData }) => formClient(`documents/${documentId}`, formData, "PUT"),
-    {
-      onError: () => {
-        toast.error("💣 Aww, Snap! Failed to update your document.")
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries("static-documents")
-      },
+  return useMutation(({ documentId, formData }) => formClient(`documents/${documentId}`, formData, "PUT"), {
+    onError: () => {
+      toast.error("💣 Aww, Snap! Failed to update your document.")
     },
-  )
+    onSuccess: () => {
+      queryClient.invalidateQueries("static-documents")
+    },
+  })
 }
 
 export {

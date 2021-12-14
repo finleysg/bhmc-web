@@ -61,9 +61,7 @@ function ProfilePic() {
     return (
       <React.Fragment>
         {isLoading && <LoadingSpinner loading={true} offset={90} />}
-        {isLoading || (
-          <ProfilePicPicker onSelect={handleSelectedFile} onCancel={() => setMode("view")} />
-        )}
+        {isLoading || <ProfilePicPicker onSelect={handleSelectedFile} onCancel={() => setMode("view")} />}
       </React.Fragment>
     )
   }

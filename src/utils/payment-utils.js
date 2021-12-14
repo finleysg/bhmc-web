@@ -14,9 +14,7 @@ const calculateFees = (subtotal, excludeTransactionFee = false) => {
     }
   }
 
-  const total = excludeTransactionFee
-    ? subtotal
-    : (subtotal + transactionFixedCost) / (1.0 - transactionPercentage)
+  const total = excludeTransactionFee ? subtotal : (subtotal + transactionFixedCost) / (1.0 - transactionPercentage)
   const transactionFee = excludeTransactionFee ? 0 : total - subtotal
 
   return {

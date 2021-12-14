@@ -10,9 +10,7 @@ const playerFilter = (clubEvent, players) => {
   if (clubEvent && clubEvent.id) {
     return players
       .filter((p) => p.event_status === null)
-      .filter((p) =>
-        clubEvent.registrationType === "Members Only" ? p.member_status === "R" : true,
-      )
+      .filter((p) => (clubEvent.registrationType === "Members Only" ? p.member_status === "R" : true))
       .filter((p) => (clubEvent.ghinRequired ? Boolean(p.ghin) : true))
   }
   return players
@@ -25,7 +23,7 @@ function PeoplePicker({ allowNew, clubEvent, onSelect, ...rest }) {
   const client = useClient()
 
   const search = React.useCallback(async () => {
-    if (Boolean(query)) {
+    if (query) {
       const results = await client(`player-search/?pattern=${query}&event_id=${clubEvent?.id ?? 0}`)
       const filteredResults = playerFilter(clubEvent, results)
       setData(filteredResults)
@@ -39,10 +37,7 @@ function PeoplePicker({ allowNew, clubEvent, onSelect, ...rest }) {
   return (
     <div {...rest}>
       {(clubEvent?.registrationTypeCode === "G" || clubEvent?.registrationTypeCode === "O") && (
-        <AddPlayer
-          onAdd={(player) => onSelect(player)}
-          style={{ display: "inline-block", marginRight: "10px" }}
-        />
+        <AddPlayer onAdd={(player) => onSelect(player)} style={{ display: "inline-block", marginRight: "10px" }} />
       )}
       <div style={{ display: "inline-block" }}>
         <AsyncTypeahead

@@ -49,14 +49,7 @@ const defaultFileTypes =
 
 function FilePicker(props) {
   const { multiple, accept, onSelected } = props
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({
+  const { acceptedFiles, getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     multiple: multiple || false,
     accept: accept || defaultFileTypes,
     onDrop: (acceptedFiles) => {

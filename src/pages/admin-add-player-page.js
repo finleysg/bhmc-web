@@ -10,10 +10,10 @@ function AdminAddPlayerPage() {
   const { clubEvent, loadEvent } = useEventAdmin()
 
   React.useEffect(() => {
-    if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
+    if (!clubEvent?.id) loadEvent(+eventId)
   }, [loadEvent, clubEvent, eventId])
 
-  if (Boolean(clubEvent?.id)) {
+  if (clubEvent?.id) {
     return <EventRegistrationAdmin clubEvent={clubEvent} />
   } else {
     return <OverlaySpinner loading={true} />

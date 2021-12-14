@@ -1,3 +1,4 @@
+/* eslint-disable import/export */
 import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing-library/react"
 
 import { AuthProvider } from "context/auth-context"
@@ -12,6 +13,7 @@ const testingQueryClient = new QueryClient({ queryCache: testingQueryCache })
 
 function deferred() {
   let resolve, reject
+  // eslint-disable-next-line promise/param-names
   const promise = new Promise((res, rej) => {
     resolve = res
     reject = rej
@@ -20,10 +22,9 @@ function deferred() {
 }
 
 const waitForLoadingToFinish = () =>
-  waitForElementToBeRemoved(
-    () => [...screen.queryAllByLabelText(/loading/i), ...screen.queryAllByText(/loading/i)],
-    { timeout: 4000 },
-  )
+  waitForElementToBeRemoved(() => [...screen.queryAllByLabelText(/loading/i), ...screen.queryAllByText(/loading/i)], {
+    timeout: 4000,
+  })
 
 function render(ui, { user = guestUser, ...options } = {}) {
   const Wrapper = ({ children }) => (
@@ -81,7 +82,6 @@ function simpleRender(ui, { user = null, ...options } = {}) {
 }
 
 export * from "@testing-library/react"
-
 export {
   deferred,
   render,

@@ -63,8 +63,7 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
           <div className="registration-start-item">
             <div className="label">Start:</div>
             <div className="value">
-              {clubEvent.startTime}{" "}
-              {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
+              {clubEvent.startTime} {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
             </div>
           </div>
           {clubEvent.registrationType !== "None" && (

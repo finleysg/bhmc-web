@@ -4,10 +4,9 @@ import { CancelButton, SubmitButton } from "components/button/buttons"
 import { ErrorDisplay } from "components/errors"
 import { FormGroup } from "components/field/forms"
 import { Form, Formik } from "formik"
+import { useUpdatePlayer } from "hooks/account-hooks"
 import { toast } from "react-toastify"
 import * as Yup from "yup"
-
-import { useUpdatePlayer } from "../../hooks/account-hooks"
 
 function PlayerForm({ player, onClose }) {
   const { mutate: update, isLoading, isError, error } = useUpdatePlayer()

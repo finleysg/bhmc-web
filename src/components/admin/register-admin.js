@@ -17,16 +17,8 @@ import RegisterDone from "./register-done"
 import RegisterInfo from "./register-info"
 
 function RegisterAdmin({ selectedStart, mode, onCancel }) {
-  const {
-    clubEvent,
-    registration,
-    payment,
-    existingFees,
-    currentStep,
-    cancelRegistration,
-    updateStep,
-    addPlayer,
-  } = useEventAdmin()
+  const { clubEvent, registration, payment, existingFees, currentStep, cancelRegistration, updateStep, addPlayer } =
+    useEventAdmin()
 
   const [busy, setBusy] = React.useState(false)
   const issueRefunds = useIssueRefunds()
@@ -41,15 +33,11 @@ function RegisterAdmin({ selectedStart, mode, onCancel }) {
   }, [mode, updateStep])
 
   const layout =
-    clubEvent?.maximumSignupGroupSize === 1
-      ? "vertical"
-      : clubEvent?.fees.length > 5
-      ? "vertical"
-      : "horizontal"
+    clubEvent?.maximumSignupGroupSize === 1 ? "vertical" : clubEvent?.fees.length > 5 ? "vertical" : "horizontal"
 
   const handlePlayerSelect = (player) => {
-    const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
-    if (Boolean(slot)) {
+    const slot = registration.slots.find((slot) => !slot.playerId)
+    if (slot) {
       addPlayer(slot, player)
     }
   }

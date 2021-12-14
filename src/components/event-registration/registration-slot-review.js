@@ -29,13 +29,7 @@ function RegistrationSlotReview({ slot, paymentDetails, fees }) {
           paymentDetails
             .filter((detail) => detail.slotId === slot.id)
             .map((detail) => {
-              return (
-                <PaymentDetailReview
-                  key={`${detail.slotId}-${detail.id}`}
-                  paymentDetail={detail}
-                  fees={fees}
-                />
-              )
+              return <PaymentDetailReview key={`${detail.slotId}-${detail.id}`} paymentDetail={detail} fees={fees} />
             })}
       </div>
     </div>

@@ -29,11 +29,7 @@ function DataDocument({ document, selectLabel, actionLabel, icon, onSelect, onAc
   return (
     <DataDocumentDetail {...rest}>
       <div className="text-muted" style={{ marginRight: "1rem" }}>
-        <IconActionButton
-          color={colors.indigo}
-          label={selectLabel}
-          onAction={() => onSelect(document)}
-        >
+        <IconActionButton color={colors.indigo} label={selectLabel} onAction={() => onSelect(document)}>
           <FiFileText style={{ fontSize: "1.5rem" }} />
         </IconActionButton>
       </div>
@@ -44,11 +40,7 @@ function DataDocument({ document, selectLabel, actionLabel, icon, onSelect, onAc
         </div>
       )}
       <div>
-        <IconActionButton
-          color={colors.indigo}
-          label={actionLabel}
-          onAction={() => onAction(document)}
-        >
+        <IconActionButton color={colors.indigo} label={actionLabel} onAction={() => onAction(document)}>
           {icon}
         </IconActionButton>
       </div>

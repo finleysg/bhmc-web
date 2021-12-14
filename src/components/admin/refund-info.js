@@ -32,9 +32,7 @@ const createRefundDetails = (registration, payment, payments, eventFeeMap) => {
       const paymentDetails = payment.payment_details.filter((d) => d.registration_slot === id)
       paymentDetails.forEach((detail) => {
         // Only if a given fee was removed...
-        const prSlot = pendingRefunds.find(
-          (pr) => pr.slotId === id && pr.eventFeeId === detail.event_fee,
-        )
+        const prSlot = pendingRefunds.find((pr) => pr.slotId === id && pr.eventFeeId === detail.event_fee)
         if (prSlot) {
           newSlot.fees.push({
             id: detail.id,

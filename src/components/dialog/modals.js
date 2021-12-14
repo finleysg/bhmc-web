@@ -11,7 +11,10 @@ import { CircleButton } from "components/button/buttons"
 import * as mq from "styles/media-queries"
 
 // This is to call all handlers, including the one we're adding.
-const callAll = (...fns) => (...args) => fns.forEach((fn) => fn && fn(...args))
+const callAll =
+  (...fns) =>
+  (...args) =>
+    fns.forEach((fn) => fn && fn(...args))
 
 const ModalContext = React.createContext()
 

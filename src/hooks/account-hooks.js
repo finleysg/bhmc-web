@@ -1,14 +1,7 @@
-import {
-  useAuth,
-  useClient,
-} from "context/auth-context"
+import { useAuth, useClient } from "context/auth-context"
 import { SavedCard } from "models/payment"
 import Player from "models/player"
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "react-query"
+import { useMutation, useQuery, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
 import * as config from "utils/app-config"
 import { useFormClient } from "utils/form-client"
@@ -142,10 +135,7 @@ function useFriends({ eventId }) {
 
   const { data: players } = useQuery(
     ["friends", eventId],
-    () =>
-      client(`friends/${player.id}/?event_id=${eventId}`).then((data) =>
-        data.map((p) => new Player(p)),
-      ),
+    () => client(`friends/${player.id}/?event_id=${eventId}`).then((data) => data.map((p) => new Player(p))),
     {
       cacheTime: 1000 * 60 * 5,
       staleTime: 1000 * 60 * 5,

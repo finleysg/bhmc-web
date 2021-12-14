@@ -96,13 +96,13 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
   }
 
   // ensure the selected-slot state is applied
-  if (Boolean(table)) {
+  if (table) {
     table.applySelectedSlots(selectedSlots)
   }
 
   return (
     <div className="card" style={{ padding: "1rem" }} {...rest}>
-      <OverlaySpinner loading={!Boolean(table)} />
+      <OverlaySpinner loading={!table} />
       {Boolean(table) &&
         table.groups.map((group) => (
           <ReserveRowAdmin

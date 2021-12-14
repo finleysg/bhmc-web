@@ -12,9 +12,7 @@ function HoleInOne(props) {
   return (
     <div className="card">
       <div className={`card-header bg-${props.headerColor}`}>
-        <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
-          {pageContent.title}
-        </span>
+        <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>{pageContent.title}</span>
       </div>
       <div className="card-body">
         <ReactMarkdown plugins={[gfm]} escapeHtml={true}>

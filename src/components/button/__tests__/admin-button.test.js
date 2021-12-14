@@ -2,22 +2,10 @@ import userEvent from "@testing-library/user-event"
 
 import React from "react"
 
-import {
-  buildAdminUser,
-  buildUser,
-} from "test/data/auth"
-import {
-  act,
-  deferred,
-  render,
-  screen,
-  waitFor,
-} from "test/test-utils"
+import { buildAdminUser, buildUser } from "test/data/auth"
+import { act, deferred, render, screen, waitFor } from "test/test-utils"
 
-import {
-  AdminAction,
-  AdminLink,
-} from "../admin-buttons"
+import { AdminAction, AdminLink } from "../admin-buttons"
 
 const mockNav = jest.fn()
 jest.mock("react-router-dom", () => ({

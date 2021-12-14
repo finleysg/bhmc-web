@@ -91,8 +91,7 @@ function Payment(json) {
   this.transactionFee = json.transaction_fee
   this.notificationType = json.notification_type
   this.confirmed = json.confirmed
-  this.details =
-    json && json.payment_details ? json.payment_details.map((f) => new PaymentDetail(f)) : []
+  this.details = json && json.payment_details ? json.payment_details.map((f) => new PaymentDetail(f)) : []
   this.edits = []
 
   /**
@@ -100,10 +99,7 @@ function Payment(json) {
    */
   this.hasPaymentDetails = () => {
     return (
-      this !== undefined &&
-      this.id !== undefined &&
-      this.details[0] !== undefined &&
-      this.details[0].id !== undefined
+      this !== undefined && this.id !== undefined && this.details[0] !== undefined && this.details[0].id !== undefined
     )
   }
 }

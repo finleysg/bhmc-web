@@ -1,12 +1,4 @@
-import {
-  addDays,
-  addMonths,
-  isSameDay,
-  isSameMonth,
-  isWithinInterval,
-  startOfWeek,
-  subMonths,
-} from "date-fns"
+import { addDays, addMonths, isSameDay, isSameMonth, isWithinInterval, startOfWeek, subMonths } from "date-fns"
 import { dayNameFormat, monthNameFormat, shortDayNameFormat } from "utils/event-utils"
 
 function getMonth(name, zeroBased = true) {

@@ -19,52 +19,22 @@ function AdminSidebar() {
   const { sidebarOpen } = useLayout()
 
   React.useEffect(() => {
-    if (Boolean(clubEvent?.id)) {
+    if (clubEvent?.id) {
       setEventId(clubEvent.id)
     }
   }, [clubEvent])
 
   return (
-    <aside
-      className={sidebarOpen ? "sidebar admin-sidebar--bg toggled" : "sidebar admin-sidebar--bg"}
-    >
+    <aside className={sidebarOpen ? "sidebar admin-sidebar--bg toggled" : "sidebar admin-sidebar--bg"}>
       <ul className="navigation">
-        <MenuItem
-          path={clubEvent?.eventUrl ?? ""}
-          icon={<TiArrowBackOutline />}
-          name="Return to Event Page"
-        />
+        <MenuItem path={clubEvent?.eventUrl ?? ""} icon={<TiArrowBackOutline />} name="Return to Event Page" />
         <MenuItem path={`/admin/event/${eventId}`} icon={<GoHome />} name="Event Admin Home" />
-        <MenuItem
-          path={`/admin/event/${eventId}/event-report`}
-          icon={<HiDocumentReport />}
-          name="Event Report"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/payment-report`}
-          icon={<HiDocumentReport />}
-          name="Payment Report"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/skins-report`}
-          icon={<HiDocumentReport />}
-          name="Skins Report"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/add-player`}
-          icon={<MdPersonAdd />}
-          name="Add Player(s)"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/manage-players`}
-          icon={<MdPeopleOutline />}
-          name="Manage Player(s)"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/event-portal`}
-          icon={<GiGolfFlag />}
-          name="Edit GG Portal"
-        />
+        <MenuItem path={`/admin/event/${eventId}/event-report`} icon={<HiDocumentReport />} name="Event Report" />
+        <MenuItem path={`/admin/event/${eventId}/payment-report`} icon={<HiDocumentReport />} name="Payment Report" />
+        <MenuItem path={`/admin/event/${eventId}/skins-report`} icon={<HiDocumentReport />} name="Skins Report" />
+        <MenuItem path={`/admin/event/${eventId}/add-player`} icon={<MdPersonAdd />} name="Add Player(s)" />
+        <MenuItem path={`/admin/event/${eventId}/manage-players`} icon={<MdPeopleOutline />} name="Manage Player(s)" />
+        <MenuItem path={`/admin/event/${eventId}/event-portal`} icon={<GiGolfFlag />} name="Edit GG Portal" />
         <MenuItem
           path={`/admin/event/${eventId}/manage-documents`}
           icon={<HiDocumentText />}
@@ -75,22 +45,10 @@ function AdminSidebar() {
           icon={<GrOrderedList />}
           name="Import Season Long Points"
         />
-        <MenuItem
-          path={`/admin/event/${eventId}/import-scores`}
-          icon={<GrOrderedList />}
-          name="Import Hole Scores"
-        />
-        <MenuItem
-          path={`/admin/event/${eventId}/edit-event`}
-          icon={<MdEdit />}
-          name="Edit Event Notes"
-        />
+        <MenuItem path={`/admin/event/${eventId}/import-scores`} icon={<GrOrderedList />} name="Import Hole Scores" />
+        <MenuItem path={`/admin/event/${eventId}/edit-event`} icon={<MdEdit />} name="Edit Event Notes" />
         <li>
-          <a
-            href={`${ADMIN_BASE}/events/event/${eventId}/change/`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={`${ADMIN_BASE}/events/event/${eventId}/change/`} target="_blank" rel="noreferrer">
             Backend Administration Page
           </a>
         </li>

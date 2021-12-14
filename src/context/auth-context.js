@@ -1,5 +1,6 @@
 import React from "react"
 
+/* eslint-disable camelcase */
 import { FullPageErrorFallback } from "components/errors"
 import { FullPageSpinner } from "components/spinners"
 import { useQueryClient } from "react-query"
@@ -13,17 +14,7 @@ const AuthContext = React.createContext()
 AuthContext.displayName = "AuthContext"
 
 function AuthProvider(props) {
-  const {
-    data: user,
-    status,
-    error,
-    isLoading,
-    isIdle,
-    isError,
-    isSuccess,
-    run,
-    setData,
-  } = useAsync()
+  const { data: user, status, error, isLoading, isIdle, isError, isSuccess, run, setData } = useAsync()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
@@ -99,12 +90,9 @@ function AuthProvider(props) {
     [navigate],
   )
 
-  const changePassword = React.useCallback(
-    async ({ current_password, new_password, re_new_password }) => {
-      return auth.changePassword(current_password, new_password, re_new_password)
-    },
-    [],
-  )
+  const changePassword = React.useCallback(async ({ current_password, new_password, re_new_password }) => {
+    return auth.changePassword(current_password, new_password, re_new_password)
+  }, [])
 
   const value = React.useMemo(
     () => ({

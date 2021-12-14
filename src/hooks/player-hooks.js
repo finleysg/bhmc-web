@@ -44,9 +44,7 @@ function usePlayerEvents(playerId) {
     ["player-events", playerId],
     () => {
       return client(
-        `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${
-          config.currentSeason - 1
-        }`,
+        `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${config.currentSeason - 1}`,
       ).then((data) => {
         if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
         return []
@@ -128,14 +126,10 @@ function usePlayerLowScores(playerId) {
 
 function useAces(season) {
   const client = useClient()
-  const { data: lowScores } = useQuery(
-    ["aces", season],
-    () => client(`aces/?season=${season}`).then((data) => data),
-    {
-      cacheTime: Infinity,
-      staleTime: Infinity,
-    },
-  )
+  const { data: lowScores } = useQuery(["aces", season], () => client(`aces/?season=${season}`).then((data) => data), {
+    cacheTime: Infinity,
+    staleTime: Infinity,
+  })
 
   return lowScores ?? []
 }
@@ -159,10 +153,7 @@ function useTopPoints(category, topN) {
 
   return useQuery(
     ["season-long-points", category],
-    () =>
-      client(`points/${config.currentSeason}/${category.toLowerCase()}/${topN}`).then(
-        (data) => data,
-      ),
+    () => client(`points/${config.currentSeason}/${category.toLowerCase()}/${topN}`).then((data) => data),
     {
       cacheTime: Infinity,
       staleTime: Infinity,

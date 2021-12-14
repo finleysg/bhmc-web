@@ -4,7 +4,7 @@ import { useLocation } from "react-router"
 function PhotoGalleryPage() {
   const { search } = useLocation()
 
-  let tag = undefined
+  let tag
   let title = "Photo Gallery"
 
   if (search) {

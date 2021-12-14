@@ -68,9 +68,7 @@ test("renders the button for an authenticated user in the season sign-up event",
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.season, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.season, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -105,9 +103,7 @@ test("renders null for an authenticated user who has already signed up for the s
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.season, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.season, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -142,9 +138,7 @@ test("renders the button for a member and a weeknight event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -179,9 +173,7 @@ test("renders null for a non-member and a weeknight event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -216,9 +208,7 @@ test("renders null for a member and a weeknight event in the future", async () =
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.weeknight, state: "future" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "future" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -253,9 +243,7 @@ test("renders null for a member and a weeknight event in the past", async () => 
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.weeknight, state: "past" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "past" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -290,9 +278,7 @@ test("renders the button for a non-member and an open event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.open, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.open, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -328,9 +314,7 @@ test("renders null for a non-member without a ghin and an open event", async () 
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.open, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.open, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton
@@ -365,9 +349,7 @@ test("renders null for a non-member and a member-guest event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(
-    getTestEvent({ eventType: TestEventType.guest, state: "registration" }),
-  )
+  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.guest, state: "registration" }))
 
   renderWithEventRegistration(
     <RegisterButton

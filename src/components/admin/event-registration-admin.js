@@ -36,14 +36,14 @@ function EventRegistrationAdmin({ clubEvent }) {
   }, [clubEvent, createRegistration])
 
   React.useEffect(() => {
-    if (Boolean(clubEvent.id)) {
+    if (clubEvent.id) {
       startRegistration()
     }
     return () => completeRegistration()
   }, [clubEvent, completeRegistration, startRegistration])
 
   React.useEffect(() => {
-    if (Boolean(error)) {
+    if (error) {
       toast.error(`💥 Aww, snap! ${error}`, {
         position: "top-right",
         closeOnClick: true,

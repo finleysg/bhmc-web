@@ -1,9 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-
-import React from "react"
-
 import * as faker from "faker"
+import React from "react"
 import { ResetPasswordConfirmForm } from "session/reset-password-confirm-form"
 
 jest.mock("react-router-dom", () => ({
@@ -17,18 +15,18 @@ test("submitting the reset password confirm form calls onSubmit", async () => {
 
   render(<ResetPasswordConfirmForm onSubmit={handleSubmit} />)
 
-  const new_password = faker.internet.password()
-  const re_new_password = new_password
+  const newPassword = faker.internet.password()
+  const reNewPassword = newPassword
 
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), new_password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), re_new_password)
+  userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
+  userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
   userEvent.click(screen.getByRole("button"))
 
   await screen.findByTitle("loading")
 
   expect(handleSubmit).toHaveBeenCalledWith({
-    new_password,
-    re_new_password,
+    new_password: newPassword,
+    re_new_password: reNewPassword,
     uid: "ABC",
     token: "123",
   })
@@ -40,11 +38,11 @@ test("submitting the login form with mismatched passwords fails validation", asy
 
   render(<ResetPasswordConfirmForm onSubmit={handleSubmit} />)
 
-  const new_password = faker.internet.password()
-  const re_new_password = "bogus"
+  const newPassword = faker.internet.password()
+  const reNewPassword = "bogus"
 
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), new_password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), re_new_password)
+  userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
+  userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
   userEvent.click(screen.getByRole("button"))
 
   await screen.findByText(/passwords must match/i)

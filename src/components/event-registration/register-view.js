@@ -17,38 +17,27 @@ import RegistrationForm from "./registration-form"
 import RegistrationPayment from "./registration-payment"
 
 function RegisterView({ selectedStart, mode, onCancel }) {
-  const {
-    clubEvent,
-    registration,
-    payment,
-    currentStep,
-    cancelRegistration,
-    updateStep,
-    addPlayer,
-  } = useEventRegistration()
+  const { clubEvent, registration, payment, currentStep, cancelRegistration, updateStep, addPlayer } =
+    useEventRegistration()
   const { mutate: addFriend } = useAddFriend()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
   const cancelRef = React.useRef()
 
   const layout =
-    clubEvent?.maximumSignupGroupSize === 1
-      ? "vertical"
-      : clubEvent?.fees.length > 5
-      ? "vertical"
-      : "horizontal"
+    clubEvent?.maximumSignupGroupSize === 1 ? "vertical" : clubEvent?.fees.length > 5 ? "vertical" : "horizontal"
   const showPickers = mode === "new" && clubEvent?.maximumSignupGroupSize > 1
 
   const handleFriendSelect = (friend) => {
-    const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
-    if (Boolean(slot)) {
+    const slot = registration.slots.find((slot) => !slot.playerId)
+    if (slot) {
       addPlayer(slot, friend)
     }
   }
 
   const handlePlayerSelect = (player) => {
-    const slot = registration.slots.find((slot) => !Boolean(slot.playerId))
-    if (Boolean(slot)) {
+    const slot = registration.slots.find((slot) => !slot.playerId)
+    if (slot) {
       addPlayer(slot, player)
       addFriend(player.id)
     }

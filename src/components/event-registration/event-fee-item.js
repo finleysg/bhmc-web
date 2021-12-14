@@ -28,7 +28,7 @@ function RestrictedEventFeeItem(props) {
   const player = usePlayerSearch(fee.eventId, playerId)
 
   React.useEffect(() => {
-    if (Boolean(player.id)) {
+    if (player.id) {
       const isVisible = evaluateRestriction(fee, player)
       setVisible(isVisible)
     }

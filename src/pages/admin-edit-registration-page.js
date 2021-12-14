@@ -11,7 +11,7 @@ function AdminEditRegistrationPage() {
   const { clubEvent, loadEvent, loadRegistration } = useEventAdmin()
 
   React.useEffect(() => {
-    if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
+    if (!clubEvent?.id) loadEvent(+eventId)
   }, [loadEvent, clubEvent, eventId])
 
   React.useEffect(() => {
@@ -22,15 +22,8 @@ function AdminEditRegistrationPage() {
     navigate(-1)
   }
 
-  if (Boolean(clubEvent?.id)) {
-    return (
-      <RegisterAdmin
-        clubEvent={clubEvent}
-        registrationId={+registrationId}
-        mode="edit"
-        onCancel={handleCancel}
-      />
-    )
+  if (clubEvent?.id) {
+    return <RegisterAdmin clubEvent={clubEvent} registrationId={+registrationId} mode="edit" onCancel={handleCancel} />
   } else {
     return <OverlaySpinner loading={true} />
   }

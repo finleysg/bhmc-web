@@ -10,12 +10,12 @@ function AdminEditPortalPage() {
   const { clubEvent, loadEvent } = useEventAdmin()
 
   React.useEffect(() => {
-    if (!Boolean(clubEvent?.id)) loadEvent(+eventId)
+    if (!clubEvent?.id) loadEvent(+eventId)
   }, [loadEvent, clubEvent, eventId])
 
   return (
     <div className="row">
-      <OverlaySpinner loading={!Boolean(clubEvent?.id)} />
+      <OverlaySpinner loading={!clubEvent?.id} />
       <div className="col-md-6 col-lg-4">
         <PortalAdmin clubEvent={clubEvent} />
       </div>

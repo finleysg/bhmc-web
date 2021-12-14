@@ -18,9 +18,7 @@ function HistoricalDocuments(props) {
       return documents
     }
   }
-  return (
-    <DocumentList documents={getDocuments()} title={title} noResultMessage="No documents found" />
-  )
+  return <DocumentList documents={getDocuments()} title={title} noResultMessage="No documents found" />
 }
 
 export { HistoricalDocuments }

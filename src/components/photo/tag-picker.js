@@ -14,7 +14,7 @@ function TagPicker(props) {
   const instance = React.useRef()
 
   React.useEffect(() => {
-    if (Boolean(query)) {
+    if (query) {
       const results = data?.filter((t) => t.name.toLowerCase().indexOf(query.toLowerCase()) >= 0)
       setFilteredTags(results)
     }

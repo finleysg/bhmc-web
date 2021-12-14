@@ -36,7 +36,7 @@ function FriendCard({ friend, clubEvent, onSelect, ...rest }) {
         </IsRegistered>
       </FriendDetail>
     )
-  } else if (clubEvent.ghinRequired && !Boolean(friend.ghin)) {
+  } else if (clubEvent.ghinRequired && !friend.ghin) {
     return (
       <FriendDetail className="text-muted">
         <FriendName>{friend.name}</FriendName>

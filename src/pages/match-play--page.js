@@ -19,14 +19,12 @@ function MatchPlayPage() {
     }
   }, [clubEvents, setClubEvent])
 
-  const isLoading = !Boolean(clubEvent.id)
+  const isLoading = !clubEvent.id
 
   return (
     <div className="content__inner">
       <OverlaySpinner loading={isLoading} />
-      {!isLoading && clubEvent.registrationIsOpen && (
-        <EventRegistrationManager clubEvent={clubEvent} />
-      )}
+      {!isLoading && clubEvent.registrationIsOpen && <EventRegistrationManager clubEvent={clubEvent} />}
       {(!isLoading && clubEvent.registrationIsOpen) || <EventView clubEvent={clubEvent} />}
     </div>
   )

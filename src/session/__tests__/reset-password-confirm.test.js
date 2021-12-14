@@ -25,11 +25,11 @@ test("successful password reset", async () => {
     return promise
   })
 
-  const new_password = faker.internet.password()
-  const re_new_password = new_password
+  const newPassword = faker.internet.password()
+  const reNewPassword = newPassword
 
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), new_password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), re_new_password)
+  userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
+  userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
   userEvent.click(screen.getByRole("button"))
 
   await waitFor(() => expect(mockNav).toHaveBeenCalledWith("/session/reset-password/complete"))

@@ -1,15 +1,9 @@
 import React from "react"
 
-import {
-  CancelButton,
-  SubmitButton,
-} from "components/button/buttons"
+import { CancelButton, SubmitButton } from "components/button/buttons"
 import { ErrorDisplay } from "components/errors"
 import { FormGroup } from "components/field/forms"
-import {
-  Form,
-  Formik,
-} from "formik"
+import { Form, Formik } from "formik"
 import { useEventPatch } from "hooks/admin-hooks"
 import { CgWebsite } from "react-icons/cg"
 import * as Yup from "yup"

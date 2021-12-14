@@ -15,13 +15,11 @@ function Officer(props) {
       <p style={{ marginBottom: ".5rem" }}>
         {user?.is_authenticated ? (
           <Link className="text-success" to={`/directory/${officer.player.id}`}>
-            {officer.player.first_name} {officer.player.last_name}{" "}
-            <span>({officer.term_expires})</span>
+            {officer.player.first_name} {officer.player.last_name} <span>({officer.term_expires})</span>
           </Link>
         ) : (
           <React.Fragment>
-            {officer.player.first_name} {officer.player.last_name}{" "}
-            <span>({officer.term_expires})</span>
+            {officer.player.first_name} {officer.player.last_name} <span>({officer.term_expires})</span>
           </React.Fragment>
         )}
       </p>
