@@ -77,9 +77,9 @@ test("automatically logs the user out if the request returns a 401", async () =>
       return res(ctx.status(401), ctx.json(mockResult))
     }),
   )
-  const result = await client(endpoint).catch((err) => err)
 
-  expect(result.message).toMatchInlineSnapshot(`undefined`)
+  await client(endpoint).catch((err) => err)
+
   expect(auth.logout).toHaveBeenCalledTimes(1)
 })
 
@@ -92,5 +92,5 @@ test("rejects the promise if there is an error", async () => {
     }),
   )
 
-  await expect(client(endpoint)).rejects.toMatchSnapshot()
+  await expect(client(endpoint)).rejects.toMatchInlineSnapshot(`[Error: Trunalimunumaprzure!]`)
 })

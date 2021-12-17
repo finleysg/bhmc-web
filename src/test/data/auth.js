@@ -50,12 +50,12 @@ const buildUserWithToken = build({
 
 const buildRegisterForm = build({
   fields: {
-    first_name: fake((f) => f.name.firstName()),
-    last_name: fake((f) => f.name.lastName()),
+    firstName: fake((f) => f.name.firstName()),
+    lastName: fake((f) => f.name.lastName()),
     email: fake((f) => f.internet.email()),
     ghin: fake((f) => f.datatype.number(7).toString()),
     password: password,
-    re_password: password,
+    rePassword: password,
   },
 })
 

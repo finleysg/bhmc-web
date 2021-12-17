@@ -1,15 +1,11 @@
 import * as faker from "faker"
 import { rest } from "msw"
-import { apiUrl, authUrl } from "utils/client-utils"
-
-import { buildPlayer } from "./data/account"
-import { buildUser } from "./data/auth"
-import { getTestEvent, getTestEvents } from "./data/test-events"
+import { buildUser } from "test/data/auth"
+import { authUrl } from "utils/client-utils"
 
 const delay = process.env.NODE_ENV === "test" ? 0 : 1500
 
 const handlers = [
-  // Auth handlers
   rest.post(authUrl("token/login/"), async (req, res, ctx) => {
     return res(ctx.delay(delay), ctx.json({ auth_token: faker.random.alphaNumeric(12) }))
   }),
@@ -45,34 +41,6 @@ const handlers = [
       return res(ctx.delay(delay), ctx.status(204))
     }
     return res(ctx.delay(delay), ctx.status(400), ctx.json({ non_field_errors: ["invalid token"] }))
-  }),
-
-  // player handlers
-  rest.get(apiUrl("players/"), async (req, res, ctx) => {
-    const email = req.url.searchParams.get("email")
-    return res(ctx.delay(delay), ctx.json(buildPlayer({ email: email })))
-  }),
-  rest.put(apiUrl("players/:playerId/"), async (req, res, ctx) => {
-    return res(ctx.delay(delay), ctx.status(204))
-  }),
-
-  // season registration handlers
-  rest.get(apiUrl("events"), async (req, res, ctx) => {
-    return res(ctx.delay(delay), ctx.json([getTestEvents()]))
-  }),
-
-  rest.get(apiUrl("events/:eventId"), async (req, res, ctx) => {
-    const eventId = req.url.params.get("eventId")
-    return res(ctx.delay(delay), ctx.json(getTestEvent({ eventType: eventId, state: "registration" })))
-  }),
-  rest.get(apiUrl("registration/"), async (req, res, ctx) => {
-    return res(ctx.delay(delay), [])
-  }),
-  rest.get(apiUrl("payments/"), async (req, res, ctx) => {
-    return res(ctx.delay(delay), [])
-  }),
-  rest.get(apiUrl("registration-slots"), async (req, res, ctx) => {
-    return res(ctx.status(200), [])
   }),
 ]
 

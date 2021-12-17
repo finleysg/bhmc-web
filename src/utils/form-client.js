@@ -35,7 +35,10 @@ function useFormClient() {
   //   if (!token) {
   //     throw new Error("A form client requires an authenticated user.")
   //   }
-  return React.useCallback((endpoint, formData, method) => client(endpoint, formData, method, token), [token])
+  return React.useCallback(
+    (endpoint, formData, method) => client(endpoint, formData, method, token),
+    [token],
+  )
 }
 
 export { useFormClient }

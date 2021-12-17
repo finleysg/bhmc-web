@@ -11,14 +11,9 @@ const guestUser = {}
 const testingQueryCache = new QueryCache()
 const testingQueryClient = new QueryClient({ queryCache: testingQueryCache })
 
-function deferred() {
-  let resolve, reject
-  // eslint-disable-next-line promise/param-names
-  const promise = new Promise((res, rej) => {
-    resolve = res
-    reject = rej
-  })
-  return { promise, resolve, reject }
+const formSubmitSpy = () => {
+  const promise = Promise.resolve({})
+  return jest.fn(() => promise)
 }
 
 const waitForLoadingToFinish = () =>
@@ -83,7 +78,7 @@ function simpleRender(ui, { user = null, ...options } = {}) {
 
 export * from "@testing-library/react"
 export {
-  deferred,
+  formSubmitSpy,
   render,
   renderSession,
   renderWithEventRegistration,

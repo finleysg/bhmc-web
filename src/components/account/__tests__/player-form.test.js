@@ -5,12 +5,11 @@ import React from "react"
 import Player from "models/player"
 import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
-import { act, deferred, render, screen, waitFor } from "test/test-utils"
+import { formSubmitSpy, render, screen, waitFor, waitForLoadingToFinish } from "test/test-utils"
 
 import { PlayerForm } from "../player-form"
 
 test("player form happy path", async () => {
-  const { promise, resolve } = deferred()
   const close = jest.fn(() => Promise.resolve({}))
   const user = buildUserWithToken()
   const player = new Player(
@@ -23,12 +22,7 @@ test("player form happy path", async () => {
 
   render(<PlayerForm player={player.obj} onClose={close} />, { user })
 
-  expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
-
-  await act(() => {
-    resolve()
-    return promise
-  })
+  await waitForLoadingToFinish()
 
   // perform an update
   userEvent.clear(screen.getByRole("textbox", { name: /ghin/i }))
@@ -40,8 +34,7 @@ test("player form happy path", async () => {
 })
 
 test("submitting the player form when it fails validation", async () => {
-  const { promise, resolve } = deferred()
-  const close = jest.fn(() => Promise.resolve({}))
+  const close = formSubmitSpy()
   const user = buildUserWithToken()
   const player = new Player(
     buildPlayer({
@@ -53,12 +46,7 @@ test("submitting the player form when it fails validation", async () => {
 
   render(<PlayerForm player={player.obj} onClose={close} />, { user })
 
-  expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
-
-  await act(() => {
-    resolve()
-    return promise
-  })
+  await waitForLoadingToFinish()
 
   // perform an invalid update
   userEvent.clear(screen.getByRole("textbox", { name: /email/i }))

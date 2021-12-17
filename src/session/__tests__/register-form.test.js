@@ -5,10 +5,10 @@ import React from "react"
 
 import { RegisterForm } from "session/register-form"
 import { buildRegisterForm } from "test/data/auth"
+import { formSubmitSpy } from "test/test-utils"
 
 test("submitting the register form calls onSubmit", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<RegisterForm onSubmit={handleSubmit} />)
 
@@ -35,8 +35,7 @@ test("submitting the register form calls onSubmit", async () => {
 })
 
 test("submitting the login form with mismatched passwords fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<RegisterForm onSubmit={handleSubmit} />)
 
@@ -57,8 +56,7 @@ test("submitting the login form with mismatched passwords fails validation", asy
 })
 
 test("all other fields are required on the register form", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<RegisterForm onSubmit={handleSubmit} />)
 

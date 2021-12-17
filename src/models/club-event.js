@@ -233,6 +233,9 @@ function ClubEvent(json) {
    * regard to existing or ongoinng registrations.
    */
   this.availableSpots = () => {
+    
+    // eslint-disable-next-line no-debugger
+    debugger
     if (this.registrationType === "None") {
       return null
     }

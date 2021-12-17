@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`invalid credentials displays the error message 1`] = `"There was an error: Unable to log in with provided credentials."`;

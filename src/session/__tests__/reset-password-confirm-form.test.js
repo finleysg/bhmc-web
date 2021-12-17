@@ -1,8 +1,11 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import * as faker from "faker"
+
 import React from "react"
+
+import * as faker from "faker"
 import { ResetPasswordConfirmForm } from "session/reset-password-confirm-form"
+import { formSubmitSpy } from "test/test-utils"
 
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -10,8 +13,7 @@ jest.mock("react-router-dom", () => ({
 }))
 
 test("submitting the reset password confirm form calls onSubmit", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<ResetPasswordConfirmForm onSubmit={handleSubmit} />)
 
@@ -33,8 +35,7 @@ test("submitting the reset password confirm form calls onSubmit", async () => {
 })
 
 test("submitting the login form with mismatched passwords fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<ResetPasswordConfirmForm onSubmit={handleSubmit} />)
 

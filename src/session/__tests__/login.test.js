@@ -5,7 +5,7 @@ import React from "react"
 import { LoginScreen } from "session/login-screen"
 import { buildLoginForm } from "test/data/auth"
 import { rest, server } from "test/test-server"
-import { act, deferred, renderSession, screen, waitFor } from "test/test-utils"
+import { renderSession, screen, waitFor, waitForLoadingToFinish } from "test/test-utils"
 import { apiUrl, authUrl } from "utils/client-utils"
 
 const mockNav = jest.fn()
@@ -20,8 +20,6 @@ afterEach(() => {
 })
 
 test("successful login", async () => {
-  const { promise, resolve } = deferred()
-
   // post-login calls to bootstrap a user
   server.use(
     rest.get(apiUrl(`players`), async (req, res, ctx) => {
@@ -34,12 +32,7 @@ test("successful login", async () => {
 
   renderSession(<LoginScreen />)
 
-  expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
-
-  await act(() => {
-    resolve()
-    return promise
-  })
+  await waitForLoadingToFinish()
 
   const { email, password } = buildLoginForm()
 
@@ -60,16 +53,9 @@ test("invalid credentials displays the error message", async () => {
     }),
   )
 
-  const { promise, resolve } = deferred()
-
   renderSession(<LoginScreen />)
 
-  expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
-
-  await act(() => {
-    resolve()
-    return promise
-  })
+  await waitForLoadingToFinish()
 
   const { email, password } = buildLoginForm()
 
@@ -79,5 +65,7 @@ test("invalid credentials displays the error message", async () => {
 
   const alert = await screen.findByRole("alert")
 
-  expect(alert.textContent).toMatchSnapshot()
+  expect(alert.textContent).toMatchInlineSnapshot(
+    `"There was an error: Unable to log in with provided credentials."`,
+  )
 })

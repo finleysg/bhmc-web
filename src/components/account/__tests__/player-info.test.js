@@ -5,13 +5,12 @@ import { rest } from "msw"
 import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
 import { server } from "test/test-server"
-import { act, deferred, render, screen, waitForLoadingToFinish } from "test/test-utils"
+import { render, screen, waitForLoadingToFinish } from "test/test-utils"
 import { apiUrl } from "utils/client-utils"
 
 import { PlayerInfo } from "../player-info"
 
 test("displays the current player's profile", async () => {
-  const { promise, resolve } = deferred()
   const user = buildUserWithToken()
   const player = new Player(
     buildPlayer({
@@ -28,11 +27,6 @@ test("displays the current player's profile", async () => {
   )
 
   render(<PlayerInfo />, { user })
-
-  await act(() => {
-    resolve()
-    return promise
-  })
 
   await waitForLoadingToFinish()
 

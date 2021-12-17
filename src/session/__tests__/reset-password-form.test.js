@@ -5,10 +5,10 @@ import React from "react"
 
 import * as faker from "faker"
 import { ResetPasswordForm } from "session/reset-password-form"
+import { formSubmitSpy } from "test/test-utils"
 
 test("submitting the reset form calls onSubmit with email", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<ResetPasswordForm onSubmit={handleSubmit} />)
 
@@ -25,8 +25,7 @@ test("submitting the reset form calls onSubmit with email", async () => {
 })
 
 test("submitting the login form without an email fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<ResetPasswordForm onSubmit={handleSubmit} />)
 
@@ -38,8 +37,7 @@ test("submitting the login form without an email fails validation", async () => 
 })
 
 test("submitting the login form with an invalid email fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<ResetPasswordForm onSubmit={handleSubmit} />)
 

@@ -5,10 +5,10 @@ import React from "react"
 
 import { LoginForm } from "session/login-form"
 import { buildLoginForm } from "test/data/auth"
+import { formSubmitSpy } from "test/test-utils"
 
 test("submitting the login form calls onSubmit with email and password", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<LoginForm onSubmit={handleSubmit} />)
 
@@ -27,8 +27,7 @@ test("submitting the login form calls onSubmit with email and password", async (
 })
 
 test("submitting the login form without a password fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<LoginForm onSubmit={handleSubmit} />)
 
@@ -43,8 +42,7 @@ test("submitting the login form without a password fails validation", async () =
 })
 
 test("submitting the login form without an email fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<LoginForm onSubmit={handleSubmit} />)
 
@@ -59,8 +57,7 @@ test("submitting the login form without an email fails validation", async () => 
 })
 
 test("submitting the login form with an invalid email fails validation", async () => {
-  const promise = Promise.resolve({})
-  const handleSubmit = jest.fn(() => promise)
+  const handleSubmit = formSubmitSpy()
 
   render(<LoginForm onSubmit={handleSubmit} />)
 

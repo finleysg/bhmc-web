@@ -4,7 +4,7 @@ import React from "react"
 
 import * as faker from "faker"
 import { ResetPasswordConfirmScreen } from "session/index"
-import { act, deferred, renderSession, screen, waitFor } from "test/test-utils"
+import { renderSession, screen, waitFor, waitForLoadingToFinish } from "test/test-utils"
 
 const mockNav = jest.fn()
 jest.mock("react-router-dom", () => ({
@@ -14,17 +14,11 @@ jest.mock("react-router-dom", () => ({
 }))
 
 test("successful password reset", async () => {
-  const { promise, resolve } = deferred()
 
   renderSession(<ResetPasswordConfirmScreen />)
 
-  expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
-
-  await act(() => {
-    resolve()
-    return promise
-  })
-
+  await waitForLoadingToFinish()
+  
   const newPassword = faker.internet.password()
   const reNewPassword = newPassword
 
