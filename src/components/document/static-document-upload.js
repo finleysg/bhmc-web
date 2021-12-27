@@ -2,8 +2,8 @@ import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
 import { useStaticDocumentCreate, useStaticDocumentUpdate } from "hooks/document-hooks"
+import { useSettings } from "hooks/use-settings"
 import { toast } from "react-toastify"
-import * as config from "utils/app-config"
 
 import DocumentForm from "./document-form"
 
@@ -11,11 +11,12 @@ function StaticDocumentUpload(props) {
   const { onComplete, documentType, document, code } = props
   const { mutate: create, status: createStatus, error: createError } = useStaticDocumentCreate()
   const { mutate: update, status: updateStatus, error: updateError } = useStaticDocumentUpdate()
+  const { currentSeason } = useSettings()
 
   const handleUpload = (values, file) => {
     const form = new FormData()
     form.append("document_type", values.documentType)
-    form.append("year", config.currentSeason)
+    form.append("year", currentSeason)
     form.append("title", values.title)
     form.append("file", file, file.name)
 

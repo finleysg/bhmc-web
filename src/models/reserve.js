@@ -157,17 +157,28 @@ const LoadReserveTables = (clubEvent, slots) => {
       return createShotgun(clubEvent, slots)
     } else {
       throw new Error(
-        `${clubEvent.startTypeCode} is an invalid start type for an event where players can choose their tee time or starting hole.`,
+        `${clubEvent.startTypeCode} is an invalid start type for an event where 
+        players can choose their tee time or starting hole.`,
       )
     }
   }
   return []
 }
 
+const GetGroupStartName = (clubEvent, startingHole, startingOrder) => {
+  if (clubEvent.startType === "Shotgun") {
+    return calculateStartingHole(startingHole, startingOrder)
+  } else {
+    const startingTime = parse(clubEvent.startTime, "h:mm a", clubEvent.startDate)
+    return calculateTeetime(startingTime, startingOrder, getTeeTimeSplits(clubEvent))
+  }
+}
+
 // each table is a hierarchy: course --> groups --> slots
 const createTeeTimes = (clubEvent, slots) => {
   const tables = []
   const startingTime = parse(clubEvent.startTime, "h:mm a", clubEvent.startDate)
+  const teeTimeSplits = getTeeTimeSplits(clubEvent)
 
   clubEvent.courses.forEach((course) => {
     const table = new ReserveTable(course)
@@ -176,7 +187,7 @@ const createTeeTimes = (clubEvent, slots) => {
       const group = slots.filter((slot) => {
         return slot.starting_order === i && slot.hole === firstHole.id
       })
-      const teetime = calculateTeetime(startingTime, i)
+      const teetime = calculateTeetime(startingTime, i, teeTimeSplits)
       table.groups.push(new ReserveGroup(course, firstHole, group, teetime))
     }
     tables.push(table)
@@ -206,8 +217,11 @@ const createShotgun = (clubEvent, slots) => {
   return tables
 }
 
-const calculateTeetime = (startingTime, startingOrder) => {
-  const offset = startingOrder * 8
+// Supports null or empty (""), single numeric value ("9"), or alternating
+// numeric values separated by a comma ("8,9")
+const calculateTeetime = (startingTime, startingOrder, intervals) => {
+  const offset =
+    intervals.length === 1 ? startingOrder * intervals[0] : getOffset(startingOrder, intervals)
   return format(addMinutes(startingTime, offset), "h:mm a")
 }
 
@@ -215,12 +229,23 @@ const calculateStartingHole = (holeNumber, startingOrder) => {
   return `${holeNumber}${startingOrder === 0 ? "A" : "B"}`
 }
 
-const GetGroupStartName = (clubEvent, startingHole, startingOrder) => {
-  if (clubEvent.startType === "Shotgun") {
-    return calculateStartingHole(startingHole, startingOrder)
+const getTeeTimeSplits = (clubEvent) => {
+  if (!clubEvent.teeTimeSplits) {
+    return [8]
+  }
+  const splits = clubEvent.teeTimeSplits.split(",")
+  return splits.map((s) => {
+    return parseInt(s, 10)
+  })
+}
+
+const getOffset = (startingOrder, intervals) => {
+  if (startingOrder === 0) {
+    return 0
+  } else if (startingOrder % 2 === 0) {
+    return (startingOrder / 2) * (intervals[0] + intervals[1])
   } else {
-    const startingTime = parse(clubEvent.startTime, "h:mm a", clubEvent.startDate)
-    return calculateTeetime(startingTime, startingOrder)
+    return Math.floor(startingOrder / 2) * (intervals[0] + intervals[1]) + intervals[0]
   }
 }
 

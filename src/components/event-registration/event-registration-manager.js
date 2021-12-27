@@ -5,24 +5,31 @@ import { ReserveView } from "components/reserve/reserve-view"
 import { useEventRegistration } from "context/registration-context"
 import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import { useEventRegistrationSlots } from "hooks/event-hooks"
+import { useSettings } from "hooks/use-settings"
 import { LoadReserveTables } from "models/reserve"
 import { useQueryClient } from "react-query"
 import { toast } from "react-toastify"
-import * as config from "utils/app-config"
 
 import { RegisterView } from "./register-view"
 
 function EventRegistrationManager({ clubEvent }) {
+  const { seasonEventId } = useSettings()
   const [currentView, setCurrentView] = React.useState("event-view")
   const [mode, setMode] = React.useState("new")
   const [selectedStart, setSelectedStart] = React.useState("")
 
   const player = usePlayer()
-  const { error, completeRegistration, createRegistration, loadRegistration, resetRegistration, loadEvent } =
-    useEventRegistration()
+  const {
+    error,
+    completeRegistration,
+    createRegistration,
+    loadRegistration,
+    resetRegistration,
+    loadEvent,
+  } = useEventRegistration()
   const { data: slots } = useEventRegistrationSlots(clubEvent.id)
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
-  const isMember = useRegistrationStatus(config.seasonEventId)
+  const isMember = useRegistrationStatus(seasonEventId)
   const queryClient = useQueryClient()
 
   const openings = () => {

@@ -1,7 +1,8 @@
 import { useClient } from "context/auth-context"
 import Player from "models/player"
 import { useQuery } from "react-query"
-import * as config from "utils/app-config"
+
+import { useSettings } from "./use-settings"
 
 function usePlayer(playerId) {
   const client = useClient()
@@ -38,13 +39,16 @@ function usePlayerSearch(eventId, playerId) {
 }
 
 function usePlayerEvents(playerId) {
+  const { currentSeason } = useSettings()
   const client = useClient()
 
   const { data: playerEvents } = useQuery(
     ["player-events", playerId],
     () => {
       return client(
-        `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${config.currentSeason - 1}`,
+        `registration-slots/?player_id=${playerId}&seasons=${currentSeason}&seasons=${
+          currentSeason - 1
+        }`,
       ).then((data) => {
         if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
         return []
@@ -126,10 +130,14 @@ function usePlayerLowScores(playerId) {
 
 function useAces(season) {
   const client = useClient()
-  const { data: lowScores } = useQuery(["aces", season], () => client(`aces/?season=${season}`).then((data) => data), {
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  })
+  const { data: lowScores } = useQuery(
+    ["aces", season],
+    () => client(`aces/?season=${season}`).then((data) => data),
+    {
+      cacheTime: Infinity,
+      staleTime: Infinity,
+    },
+  )
 
   return lowScores ?? []
 }
@@ -149,11 +157,12 @@ function usePlayerAces(playerId) {
 }
 
 function useTopPoints(category, topN) {
+  const { currentSeason } = useSettings()
   const client = useClient()
 
   return useQuery(
     ["season-long-points", category],
-    () => client(`points/${config.currentSeason}/${category.toLowerCase()}/${topN}`).then((data) => data),
+    () => client(`points/${currentSeason}/${category.toLowerCase()}/${topN}`).then((data) => data),
     {
       cacheTime: Infinity,
       staleTime: Infinity,

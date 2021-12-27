@@ -4,7 +4,7 @@ import { GetGroupStartName } from "models/reserve"
 import { isoDayFormat, sortableDateAndTimeFormat } from "./event-utils"
 
 const standardHeader = [
-  "Group",
+  "Team ID",
   "GHIN",
   "Age",
   "Tee",
@@ -16,7 +16,7 @@ const standardHeader = [
   "Signup Date",
 ]
 const canChooseHeader = [
-  "Group",
+  "Team ID",
   "Course",
   "Start",
   "GHIN",
@@ -32,7 +32,7 @@ const canChooseHeader = [
 
 const getStandardEventReportRow = (fees, obj) => {
   const values = []
-  values.push(obj.registration_id)
+  values.push(`id-${obj.registration_id}`)
   values.push(obj.ghin)
   if (obj.birth_date) {
     values.push(differenceInYears(new Date(), parseISO(obj.birth_date)))
@@ -56,7 +56,7 @@ const getCanChooseEventReportRow = (clubEvent, obj) => {
   const startName = GetGroupStartName(clubEvent, obj.hole_number, obj.starting_order)
 
   const values = []
-  values.push(obj.registration_id)
+  values.push(`${obj.course_name}-${startName}`)
   values.push(obj.course_name)
   values.push(startName)
   values.push(obj.ghin)
@@ -92,7 +92,9 @@ const getPaymentReportRow = (obj) => {
 }
 
 const getSkinsReportRow = (clubEvent, obj) => {
-  const startName = clubEvent.canChoose ? GetGroupStartName(clubEvent, obj.hole_number, obj.starting_order) : "n/a"
+  const startName = clubEvent.canChoose
+    ? GetGroupStartName(clubEvent, obj.hole_number, obj.starting_order)
+    : "n/a"
 
   const values = []
   values.push(obj.registration_id)
@@ -110,7 +112,7 @@ const getSkinsReportRow = (clubEvent, obj) => {
 
 const getEventReportHeader = (clubEvent) => {
   const feeNames = clubEvent?.fees?.map((f) => f.name) ?? []
-  if (clubEvent.canChoose) {
+  if (clubEvent?.canChoose) {
     return canChooseHeader.concat(feeNames)
   }
   return standardHeader.concat(feeNames)
@@ -126,7 +128,9 @@ const getPaymentReportHeader = () => {
 const getEventReportRows = (clubEvent, reportData) => {
   return (
     reportData?.map((obj) =>
-      clubEvent.canChoose ? getCanChooseEventReportRow(clubEvent, obj) : getStandardEventReportRow(clubEvent.fees, obj),
+      clubEvent.canChoose
+        ? getCanChooseEventReportRow(clubEvent, obj)
+        : getStandardEventReportRow(clubEvent.fees, obj),
     ) ?? []
   )
 }

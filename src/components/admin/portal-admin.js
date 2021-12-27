@@ -23,7 +23,7 @@ function PortalAdmin({ clubEvent, onCancel }) {
         </p>
         <Formik
           initialValues={{
-            portalUrl: clubEvent?.portalUrl ?? "",
+            portalUrl: "",
           }}
           validationSchema={Yup.object({
             portalUrl: Yup.string().url().required("Copy the event's portal url from Golf Genius"),

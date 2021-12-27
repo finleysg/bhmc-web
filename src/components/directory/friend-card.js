@@ -2,8 +2,8 @@ import styled from "@emotion/styled/macro"
 
 import React from "react"
 
+import { useSettings } from "hooks/use-settings"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
 
 const FriendDetail = styled.div({
   border: `1px solid ${colors.gray300}`,
@@ -27,12 +27,14 @@ const IsRegistered = styled.p({
 })
 
 function FriendCard({ friend, clubEvent, onSelect, ...rest }) {
+  const { currentSeason } = useSettings()
+
   if (clubEvent.registrationType === "Members Only" && !friend.isMember) {
     return (
       <FriendDetail className="text-muted">
         <FriendName>{friend.name}</FriendName>
         <IsRegistered>
-          <small>Not a {config.currentSeason} member</small>
+          <small>Not a {currentSeason} member</small>
         </IsRegistered>
       </FriendDetail>
     )

@@ -4,19 +4,20 @@ import { CreateAccountButton } from "components/button/create-account-button"
 import { LoginButton } from "components/button/login-button"
 import { RegisteredButton } from "components/button/registered-button"
 import { useClubEvents } from "hooks/event-hooks"
+import { useSettings } from "hooks/use-settings"
 import { loadingEvent } from "models/club-event"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
-import * as config from "utils/app-config"
 import { getClubEvent } from "utils/event-utils"
 
 function MembershipScreen() {
+  const { currentSeason, seasonEventId } = useSettings()
   const [clubEvent, setClubEvent] = React.useState(loadingEvent)
-  const clubEvents = useClubEvents(config.currentSeason)
+  const clubEvents = useClubEvents(currentSeason)
 
   React.useEffect(() => {
     if (clubEvents && clubEvents.length > 0) {
-      const evt = getClubEvent({ events: clubEvents, eventId: config.seasonEventId })
+      const evt = getClubEvent({ events: clubEvents, eventId: seasonEventId })
       setClubEvent(evt)
     }
   }, [clubEvents, setClubEvent])
@@ -38,8 +39,8 @@ function MembershipScreen() {
                   </ReactMarkdown>
                   <div className="col-12">
                     <p className="text-primary">
-                      You need to have an account with us and be logged in to register for the {config.currentSeason}{" "}
-                      season.
+                      You need to have an account with us and be logged in to register for the{" "}
+                      {currentSeason} season.
                     </p>
                   </div>
                 </div>

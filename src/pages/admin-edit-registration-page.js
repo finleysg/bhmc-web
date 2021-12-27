@@ -7,12 +7,8 @@ import { useNavigate, useParams } from "react-router-dom"
 
 function AdminEditRegistrationPage() {
   const navigate = useNavigate()
-  const { eventId, registrationId } = useParams()
-  const { clubEvent, loadEvent, loadRegistration } = useEventAdmin()
-
-  React.useEffect(() => {
-    if (!clubEvent?.id) loadEvent(+eventId)
-  }, [loadEvent, clubEvent, eventId])
+  const { registrationId } = useParams()
+  const { clubEvent, loadRegistration } = useEventAdmin()
 
   React.useEffect(() => {
     loadRegistration(registrationId)
@@ -23,7 +19,14 @@ function AdminEditRegistrationPage() {
   }
 
   if (clubEvent?.id) {
-    return <RegisterAdmin clubEvent={clubEvent} registrationId={+registrationId} mode="edit" onCancel={handleCancel} />
+    return (
+      <RegisterAdmin
+        clubEvent={clubEvent}
+        registrationId={+registrationId}
+        mode="edit"
+        onCancel={handleCancel}
+      />
+    )
   } else {
     return <OverlaySpinner loading={true} />
   }

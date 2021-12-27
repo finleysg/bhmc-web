@@ -2,11 +2,11 @@ import React from "react"
 
 import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
+import { useSettings } from "hooks/use-settings"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
 import { useMutation, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
-import * as config from "utils/app-config"
 
 import { useAuth, useClient } from "./auth-context"
 import { EventRegistrationActions, eventRegistrationReducer } from "./registration-reducer"
@@ -41,6 +41,7 @@ const EventRegistrationContext = React.createContext()
 EventRegistrationContext.displayName = "EventRegistrationContext"
 
 function EventRegistrationProvider(props) {
+  const { seasonEventId, previousSeasonEventId } = useSettings()
   const [state, dispatch] = React.useReducer(eventRegistrationReducer)
 
   const eventId = state?.clubEvent?.id
@@ -49,8 +50,7 @@ function EventRegistrationProvider(props) {
   const client = useClient()
   const queryClient = useQueryClient()
 
-  // TODO: generalize (some day)
-  const isReturning = useRegistrationStatus(config.previousSeasonEventId)
+  const isReturning = useRegistrationStatus(previousSeasonEventId)
 
   /**
    * Creates an empty payment object, used to collect payment details.
@@ -86,17 +86,19 @@ function EventRegistrationProvider(props) {
     (playerId) => {
       return client(`registration/?event_id=${eventId}&player_id=${playerId}`).then((data) => {
         const registration = new Registration(data[0])
-        return client(`registration-fees/?registration_id=${registration.id}&confirmed=true`).then((fees) => {
-          dispatch({
-            type: EventRegistrationActions.LoadRegistration,
-            payload: {
-              registration: registration,
-              payment: paymentPlaceholder(),
-              existingFees: fees,
-            },
-          })
-          queryClient.setQueryData(["registration", eventId], data[0])
-        })
+        return client(`registration-fees/?registration_id=${registration.id}&confirmed=true`).then(
+          (fees) => {
+            dispatch({
+              type: EventRegistrationActions.LoadRegistration,
+              payload: {
+                registration: registration,
+                payment: paymentPlaceholder(),
+                existingFees: fees,
+              },
+            })
+            queryClient.setQueryData(["registration", eventId], data[0])
+          },
+        )
       })
     },
     [client, eventId, queryClient, paymentPlaceholder],
@@ -116,10 +118,12 @@ function EventRegistrationProvider(props) {
       onSuccess: (data, variables) => {
         // Filling in required fees
         const placeholder = paymentPlaceholder()
-        if (state.clubEvent.id === config.seasonEventId) {
+        if (state.clubEvent.id === seasonEventId) {
           state.clubEvent.fees
             .filter((f) => f.isRequired)
-            .filter((f) => (isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members"))
+            .filter((f) =>
+              isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members",
+            )
             .forEach((fee) => {
               placeholder.details.push({
                 eventFeeId: fee.id,
@@ -252,7 +256,8 @@ function EventRegistrationProvider(props) {
           { registrationId, paymentId },
           {
             onSuccess: () => {
-              const message = "We had to clean up a previous incomplete registration. Please try again."
+              const message =
+                "We had to clean up a previous incomplete registration. Please try again."
               dispatch({ type: EventRegistrationActions.UpdateError, payload: message })
             },
           },

@@ -5,23 +5,17 @@ import PointsList from "components/admin/points-list"
 import { OverlaySpinner } from "components/spinners"
 import { useEventAdmin } from "context/admin-context"
 import { useEventDocuments } from "hooks/document-hooks"
-import { useParams } from "react-router-dom"
 
 function AdminSlpPage() {
-  const { eventId } = useParams()
-  const { clubEvent, loadEvent } = useEventAdmin()
+  const { clubEvent } = useEventAdmin()
   const documents = useEventDocuments(clubEvent?.id)
-
-  React.useEffect(() => {
-    if (!clubEvent?.id) loadEvent(+eventId)
-  }, [loadEvent, clubEvent, eventId])
 
   const dataDocuments = documents?.filter((doc) => doc.documentType === "Z")
 
   return (
-    <div className="row">
-      <OverlaySpinner loading={!clubEvent?.id} />
+    <>
       <div className="col-md-6 col-lg-4 col-xl-3">
+        <OverlaySpinner loading={!clubEvent?.id} />
         <PointsAdmin
           clubEvent={clubEvent}
           documents={dataDocuments}
@@ -32,7 +26,7 @@ function AdminSlpPage() {
       <div className="col-md-6 col-lg-6 col-xl-6">
         <PointsList clubEvent={clubEvent} />
       </div>
-    </div>
+    </>
   )
 }
 

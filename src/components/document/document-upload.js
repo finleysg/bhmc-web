@@ -2,9 +2,9 @@ import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
 import { useEventDocumentUpload } from "hooks/document-hooks"
+import { useSettings } from "hooks/use-settings"
 import { documentTypeMap } from "models/document"
 import { toast } from "react-toastify"
-import * as config from "utils/app-config"
 
 import DocumentForm from "./document-form"
 
@@ -12,6 +12,7 @@ function DocumentUpload(props) {
   const { onComplete, onCancel, documentType, clubEvent } = props
   const { mutate: saveDocument, isLoading, isError, error } = useEventDocumentUpload()
   const [title, setTitle] = React.useState("")
+  const { currentSeason } = useSettings()
 
   React.useEffect(() => {
     const documentTypeName = documentTypeMap.get(documentType).replace("Event ", "")
@@ -23,7 +24,12 @@ function DocumentUpload(props) {
   }, [documentType, clubEvent])
 
   const normalizeFilename = (filename) => {
-    const name = filename.toLowerCase().trim().replace("/", " ").replace(/\s+/g, "-").replace(/--+/g, "-")
+    const name = filename
+      .toLowerCase()
+      .trim()
+      .replace("/", " ")
+      .replace(/\s+/g, "-")
+      .replace(/--+/g, "-")
     if (clubEvent?.id) {
       return `${clubEvent.slugDate}-${clubEvent.slugName}-${name}`
     }
@@ -34,7 +40,7 @@ function DocumentUpload(props) {
     const form = new FormData()
     form.append("document_type", values.documentType)
     form.append("event", clubEvent?.id)
-    form.append("year", config.currentSeason)
+    form.append("year", currentSeason)
     form.append("title", values.title)
     form.append("file", file, normalizeFilename(file.name))
 

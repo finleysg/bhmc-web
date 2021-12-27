@@ -1,15 +1,16 @@
 import React from "react"
 
+import { useSettings } from "hooks/use-settings"
 import { Link } from "react-router-dom"
-import * as config from "utils/app-config"
 
 function YearMenu(props) {
   const { currentMonth, ...rest } = props
   const [showMenu, setShowMenu] = React.useState(false)
+  const { currentSeason } = useSettings()
 
   const seasons = () => {
     const startAt = 2017
-    const size = config.currentSeason - startAt + 1
+    const size = currentSeason - startAt + 1
     return [...Array(size).keys()].map((i) => i + startAt).reverse()
   }
 

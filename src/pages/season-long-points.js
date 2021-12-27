@@ -6,10 +6,11 @@ import { StaticDocument } from "components/document/static-document"
 import PointsTable from "components/points/points-table"
 import TopPoints from "components/points/top-points"
 import { IndexTab, Tabs } from "components/tabs"
+import { useSettings } from "hooks/use-settings"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
 
 function SeasonLongPointsPage() {
+  const { currentSeason } = useSettings()
   const [selectedCategory, updateSelectedCategory] = React.useState("Gross")
 
   return (
@@ -49,7 +50,9 @@ function SeasonLongPointsPage() {
           <CardContent contentKey="season-long-points" />
           <div className="card">
             <div className="card-header bg-light-blue">
-              <span style={{ color: colors.white, fontSize: "1.2rem" }}>Points Breakdown by Event</span>
+              <span style={{ color: colors.white, fontSize: "1.2rem" }}>
+                Points Breakdown by Event
+              </span>
             </div>
             <div className="card-body">
               <PointsTable />
@@ -57,7 +60,11 @@ function SeasonLongPointsPage() {
           </div>
         </div>
         <div className="col-xl-3 col-12">
-          <HistoricalDocuments documentTypeCode="P" title="Past Seasons" excludedSeason={config.currentSeason} />
+          <HistoricalDocuments
+            documentTypeCode="P"
+            title="Past Seasons"
+            excludedSeason={currentSeason}
+          />
         </div>
       </div>
     </div>

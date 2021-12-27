@@ -32,45 +32,48 @@ function PaymentReport({ eventId, clubEvent }) {
       <div className="card-body">
         <h4 className="card-title text-success">{clubEvent.name} Payment Report</h4>
         <DownloadButton data={getDownloadFile()} filename={reportName} />
-        <div className="card-text">
-          <div style={{ overflowY: "auto", overflowX: "auto" }}>
-            <table className="table table-striped table-sm">
-              <thead>
-                <tr>
-                  {reportHeader.map((h, hx) => (
-                    <th key={h.replace(" ", "-").toLowerCase()} style={{ textAlign: hx < 3 ? "left" : "right" }}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {!isLoading &&
-                  reportData.map((row, rx) => {
-                    return (
-                      <tr key={rx}>
-                        {row.map((cell, cx) => {
-                          return (
-                            <td
-                              key={`${cx}-${cell}`}
-                              style={{
-                                fontSize: ".9rem",
-                                whiteSpace: "nowrap",
-                                textOverflow: "ellipsis",
-                                textAlign: cx < 3 ? "left" : "right",
-                              }}
-                            >
-                              {cell}
-                            </td>
-                          )
-                        })}
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            </table>
-            <LoadingSpinner loading={isLoading} />
-          </div>
+        <div style={{ overflowY: "auto", overflowX: "auto" }}>
+          <table className="table table-striped table-sm">
+            <thead>
+              <tr>
+                {reportHeader.map((h, hx) => (
+                  <th
+                    key={h.replace(" ", "-").toLowerCase()}
+                    style={{ textAlign: hx < 3 ? "left" : "right" }}
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {!isLoading &&
+                reportData.map((row, rx) => {
+                  return (
+                    <tr key={rx}>
+                      {row.map((cell, cx) => {
+                        return (
+                          <td
+                            key={`${cx}-${cell}`}
+                            style={{
+                              fontSize: ".9rem",
+                              maxWidth: "200px",
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                              overflow: "hidden",
+                              textAlign: cx < 3 ? "left" : "right",
+                            }}
+                          >
+                            {cell}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+            </tbody>
+          </table>
+          <LoadingSpinner loading={isLoading} />
         </div>
       </div>
     </div>

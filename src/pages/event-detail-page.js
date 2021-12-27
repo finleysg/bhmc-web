@@ -6,18 +6,19 @@ import { OverlaySpinner } from "components/spinners"
 import { parse } from "date-fns"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
+import { useSettings } from "hooks/use-settings"
 import { loadingEvent } from "models/club-event"
 import { useNavigate, useParams } from "react-router-dom"
-import * as config from "utils/app-config"
 import { getClubEvent } from "utils/event-utils"
 
 function EventDetailPage() {
+  const { seasonEventId, seasonMatchPlayId } = useSettings()
   const { eventDate, eventName } = useParams()
   const [clubEvent, setClubEvent] = React.useState(loadingEvent)
   const startDate = parse(eventDate, "yyyy-MM-dd", new Date())
   const clubEvents = useClubEvents(startDate.getFullYear())
   const hasSignedUp = useRegistrationStatus(clubEvent.id)
-  const isMember = useRegistrationStatus(config.seasonEventId)
+  const isMember = useRegistrationStatus(seasonEventId)
 
   React.useEffect(() => {
     if (clubEvents && clubEvents.length > 0) {
@@ -29,16 +30,18 @@ function EventDetailPage() {
   const navigate = useNavigate()
   const isLoading = !clubEvent.id
 
-  if (clubEvent.id === config.seasonEventId) {
+  if (clubEvent.id === seasonEventId) {
     navigate("/membership")
-  } else if (clubEvent.id === config.seasonMatchPlayId) {
+  } else if (clubEvent.id === seasonMatchPlayId) {
     navigate("/match-play")
   }
 
   return (
     <div className="content__inner">
       <OverlaySpinner loading={isLoading} />
-      {!isLoading && clubEvent.paymentsAreOpen && <EventRegistrationManager clubEvent={clubEvent} />}
+      {!isLoading && clubEvent.paymentsAreOpen && (
+        <EventRegistrationManager clubEvent={clubEvent} />
+      )}
       {(!isLoading && clubEvent.paymentsAreOpen) || (
         <EventView clubEvent={clubEvent} hasSignedUp={hasSignedUp} isMember={isMember} />
       )}

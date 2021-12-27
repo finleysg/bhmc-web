@@ -3,21 +3,16 @@ import React from "react"
 import EventPlayerAdmin from "components/admin/event-player-admin"
 import { OverlaySpinner } from "components/spinners"
 import { useEventAdmin } from "context/admin-context"
-import { useParams } from "react-router-dom"
 
 function AdminManagePlayersPage() {
-  const { eventId } = useParams()
-  const { clubEvent, loadEvent } = useEventAdmin()
+  const { clubEvent } = useEventAdmin()
 
-  React.useEffect(() => {
-    if (!clubEvent?.id) loadEvent(+eventId)
-  }, [loadEvent, clubEvent, eventId])
-
-  if (clubEvent?.id) {
-    return <EventPlayerAdmin clubEvent={clubEvent} />
-  } else {
-    return <OverlaySpinner loading={true} />
-  }
+  return (
+    <div className="col-12">
+      <OverlaySpinner loading={!clubEvent?.id} />
+      {clubEvent && <EventPlayerAdmin clubEvent={clubEvent} />}
+    </div>
+  )
 }
 
 export default AdminManagePlayersPage

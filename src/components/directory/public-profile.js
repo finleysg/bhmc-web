@@ -7,9 +7,9 @@ import React from "react"
 import clsx from "clsx"
 import { OverlaySpinner } from "components/spinners"
 import { useBoardMembers, usePlayer, usePlayerChampionships, usePlayerEvents } from "hooks/player-hooks"
+import { useSettings } from "hooks/use-settings"
 import { MdPerson } from "react-icons/md"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
 
 import defaultProfilePic from "../../assets/img/unknown.jpg"
 
@@ -39,10 +39,12 @@ function PlayerDetail({ label, children }) {
 }
 
 function MemberBadge({ isMember }) {
+  const { currentSeason } = useSettings()
+
   if (isMember) {
     return (
       <h6 className="text-teal" style={{ marginBottom: "1rem" }}>
-        🏌️‍♂️ {config.currentSeason} Member
+        🏌️‍♂️ {currentSeason} Member
       </h6>
     )
   }
@@ -61,10 +63,12 @@ function BoardBadge({ boardMember }) {
 }
 
 function ChampionshipBadges({ championships }) {
+  const { currentSeason } = useSettings()
+
   return (
     <React.Fragment>
       {championships
-        .filter((c) => c.season >= config.currentSeason - 1)
+        .filter((c) => c.season >= currentSeason - 1)
         .map((c) => (
           <h6 key={c.id} className="text-indigo" style={{ marginBottom: ".8rem" }}>
             🏆 {c.season} {c.event_name}
@@ -75,12 +79,13 @@ function ChampionshipBadges({ championships }) {
 }
 
 function PlayerProfile({ playerId }) {
+  const { seasonEventId } = useSettings()
   const player = usePlayer(playerId)
   const events = usePlayerEvents(playerId)
   const boardMembers = useBoardMembers()
   const championships = usePlayerChampionships(playerId)
 
-  const isMember = events.indexOf(config.seasonEventId) >= 0
+  const isMember = events.indexOf(seasonEventId) >= 0
   const boardMember = boardMembers.find((m) => m.player.id === playerId)
 
   const cardBorder = clsx({
@@ -104,7 +109,9 @@ function PlayerProfile({ playerId }) {
           <MdPerson style={{ fontSize: "2rem", marginRight: "1rem" }} />
           <span>{player.name}</span>
         </div>
-        <div style={{ color: colors.white, fontSize: "1rem" }}>{boardMember && <span>{boardMember.role}</span>}</div>
+        <div style={{ color: colors.white, fontSize: "1rem" }}>
+          {boardMember && <span>{boardMember.role}</span>}
+        </div>
       </div>
       <div className="card-body">
         <div className="row">

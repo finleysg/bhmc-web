@@ -3,6 +3,7 @@ import React from "react"
 import { useLayout } from "context/layout-context"
 import { Groups, useGroups } from "hooks/account-hooks"
 import { useSelectedMonth } from "hooks/calendar-hooks"
+import { useSettings } from "hooks/use-settings"
 import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
 import { GiGolfFlag, GiGolfTee, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
@@ -10,11 +11,11 @@ import { GrOrderedList } from "react-icons/gr"
 import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { RiGalleryFill } from "react-icons/ri"
 import { TiContacts } from "react-icons/ti"
-import * as config from "utils/app-config"
 
 import { MenuItem } from "./menu-item"
 
 function Sidebar() {
+  const { currentSeason } = useSettings()
   const { sidebarOpen } = useLayout()
   const groups = useGroups()
   const [selectedMonth] = useSelectedMonth()
@@ -24,14 +25,14 @@ function Sidebar() {
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
         <MenuItem path="scorecards/east-west" icon={<GiGolfTee />} name="Gold/White Combo Tees" />
-        <MenuItem path="membership" icon={<GoPlus />} name={`${config.currentSeason} Signup Page`} />
+        <MenuItem path="membership" icon={<GoPlus />} name={`${currentSeason} Signup Page`} />
         <MenuItem
           path={`calendar/${selectedMonth.year}/${selectedMonth.monthName.toLowerCase()}`}
           icon={<GoCalendar />}
           name="Event Calendar"
         />
         <MenuItem
-          path={`results/weeknight-events/${config.currentSeason}`}
+          path={`results/weeknight-events/${currentSeason}`}
           icon={<GrOrderedList />}
           name="Event Results"
         />

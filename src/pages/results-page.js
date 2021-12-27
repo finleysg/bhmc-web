@@ -2,16 +2,17 @@ import React from "react"
 
 import ResultDetail from "components/results/result-detail"
 import { Tab, Tabs } from "components/tabs"
+import { useSettings } from "hooks/use-settings"
 import { FaCalendarAlt } from "react-icons/fa"
 import { Link, useParams } from "react-router-dom"
-import * as config from "utils/app-config"
 
 function ResultSeasonMenu({ eventType, season }) {
+  const { currentSeason } = useSettings()
   const [showMenu, setShowMenu] = React.useState(false)
 
   const seasons = () => {
     const startAt = 2013
-    const size = config.currentSeason - startAt + 1
+    const size = currentSeason - startAt + 1
     return [...Array(size).keys()].map((i) => i + startAt)
   }
 

@@ -3,8 +3,9 @@ import { SavedCard } from "models/payment"
 import Player from "models/player"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { toast } from "react-toastify"
-import * as config from "utils/app-config"
 import { useFormClient } from "utils/form-client"
+
+import { useSettings } from "./use-settings"
 
 const Groups = {
   Guests: "Guests",
@@ -40,6 +41,7 @@ function usePlayer() {
 }
 
 function useMyEvents() {
+  const { currentSeason } = useSettings()
   const { user } = useAuth()
   const player = usePlayer()
   const client = useClient()
@@ -51,8 +53,8 @@ function useMyEvents() {
     () => {
       if (enable) {
         return client(
-          `registration-slots/?player_id=${playerId}&seasons=${config.currentSeason}&seasons=${
-            config.currentSeason - 1
+          `registration-slots/?player_id=${playerId}&seasons=${currentSeason}&seasons=${
+            currentSeason - 1
           }`,
         ).then((data) => {
           if (data) return data.filter((s) => s.status === "R").map((s) => s.event)
@@ -83,12 +85,10 @@ function useMyCards() {
 function useRegistrationStatus(eventId) {
   const { user } = useAuth()
   const myEvents = useMyEvents()
-  // return React.useCallback(() => {
   if (user?.is_authenticated && myEvents && myEvents.length > 0) {
     return myEvents.indexOf(eventId) >= 0
   }
   return false
-  // }, [eventId, user, myEvents])
 }
 
 function useUpdatePlayer() {
@@ -135,7 +135,10 @@ function useFriends({ eventId }) {
 
   const { data: players } = useQuery(
     ["friends", eventId],
-    () => client(`friends/${player.id}/?event_id=${eventId}`).then((data) => data.map((p) => new Player(p))),
+    () =>
+      client(`friends/${player.id}/?event_id=${eventId}`).then((data) =>
+        data.map((p) => new Player(p)),
+      ),
     {
       cacheTime: 1000 * 60 * 5,
       staleTime: 1000 * 60 * 5,

@@ -5,18 +5,12 @@ import { DocumentUpload } from "components/document/document-upload"
 import { OverlaySpinner } from "components/spinners"
 import { useEventAdmin } from "context/admin-context"
 import { useEventDocuments } from "hooks/document-hooks"
-import { useParams } from "react-router-dom"
 
 function AdminManageEventDocumentsPage() {
-  const { eventId } = useParams()
-  const { clubEvent, loadEvent } = useEventAdmin()
+  const { clubEvent } = useEventAdmin()
   const documents = useEventDocuments(clubEvent?.id)
   const [showAdd, setShowAdd] = React.useState(false)
   const [documentType, setdocumentType] = React.useState("O")
-
-  React.useEffect(() => {
-    if (!clubEvent?.id) loadEvent(+eventId)
-  }, [loadEvent, clubEvent, eventId])
 
   const handleAddDocument = (docType) => {
     setdocumentType(docType)
@@ -24,9 +18,9 @@ function AdminManageEventDocumentsPage() {
   }
 
   return (
-    <div className="row">
-      <OverlaySpinner loading={!clubEvent?.id} />
+    <>
       <div className="col-md-6 col-lg-4 col-xl-3">
+        <OverlaySpinner loading={!clubEvent?.id} />
         <DocumentAdmin
           documents={documents}
           title="Manage Event Documents"
@@ -44,7 +38,7 @@ function AdminManageEventDocumentsPage() {
           />
         )}
       </div>
-    </div>
+    </>
   )
 }
 

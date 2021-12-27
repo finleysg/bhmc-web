@@ -8,10 +8,11 @@ import { PhotoUploader } from "components/photo/photo-uploader"
 import { RandomPicList } from "components/photo/random-pic-list"
 import HoleInOne from "components/results/aces"
 import { LowScoreList } from "components/results/low-score-list"
+import { useSettings } from "hooks/use-settings"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
 
 function HomePage() {
+  const { currentSeason } = useSettings()
   const scrollToTop = () => window.scrollTo(0, 0)
 
   React.useLayoutEffect(() => {
@@ -36,7 +37,9 @@ function HomePage() {
         <div className="col-xl-3 col-lg-4">
           <div className="card">
             <div className="card-header bg-primary">
-              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Upcoming Events</span>
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+                Upcoming Events
+              </span>
             </div>
             <div className="card-body">
               <UpcomingEvents />
@@ -44,7 +47,9 @@ function HomePage() {
           </div>
           <div className="card">
             <div className="card-header bg-indigo">
-              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Quick Links</span>
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+                Quick Links
+              </span>
             </div>
             <div className="card-body">
               <QuickLinks />
@@ -52,7 +57,9 @@ function HomePage() {
           </div>
           <div className="card">
             <div className="card-header bg-teal">
-              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Club Documents</span>
+              <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+                Club Documents
+              </span>
             </div>
             <div className="card-body">
               <StaticDocument code="BYLAW" documentType="O" />
@@ -65,7 +72,7 @@ function HomePage() {
         </div>
         <div className="col-xl-3 col-lg-4">
           <HoleInOne headerColor="success" />
-          <LowScoreList season={config.currentSeason} />
+          <LowScoreList season={currentSeason} />
         </div>
       </div>
     </div>

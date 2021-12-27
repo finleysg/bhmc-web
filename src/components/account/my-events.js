@@ -3,14 +3,16 @@ import React from "react"
 import { format } from "date-fns"
 import { usePlayer } from "hooks/account-hooks"
 import { useClubEvents, usePlayerRegistrations } from "hooks/event-hooks"
+import { useSettings } from "hooks/use-settings"
 import { Link } from "react-router-dom"
-import * as config from "utils/app-config"
 
 function EventView({ eventRegistration, ...rest }) {
+  const { seasonEventId, seasonMatchPlayId } = useSettings()
+
   const eventUrl = () => {
-    if (eventRegistration.id === config.seasonEventId) {
+    if (eventRegistration.id === seasonEventId) {
       return "/membership"
-    } else if (eventRegistration.id === config.seasonMatchPlayId) {
+    } else if (eventRegistration.id === seasonMatchPlayId) {
       return "/match-play"
     } else {
       return eventRegistration.eventUrl
@@ -32,7 +34,8 @@ function EventView({ eventRegistration, ...rest }) {
           <span className="text-success">{eventRegistration.name}</span>
         </p>
         <p className="text-muted" style={{ fontSize: ".8rem", margin: 0 }}>
-          Signed up by {eventRegistration.signedUpBy} on {format(eventRegistration.signupDate, "MM/dd/yyyy h:mm aaaa")}
+          Signed up by {eventRegistration.signedUpBy} on{" "}
+          {format(eventRegistration.signupDate, "MM/dd/yyyy h:mm aaaa")}
         </p>
       </div>
     </Link>

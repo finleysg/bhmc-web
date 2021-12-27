@@ -1,5 +1,4 @@
 import produce from "immer"
-import * as config from "utils/app-config"
 
 const EventAdminSteps = {
   Pending: {
@@ -64,6 +63,11 @@ const eventAdminReducer = produce((draft, action) => {
   const { type, payload } = action
   switch (type) {
     case EventAdminActions.LoadEvent: {
+      console.log("In EventAdminActions.LoadEvent. Event = " + payload?.id)
+      if (payload === null) {
+        // eslint-disable-next-line no-debugger
+        debugger
+      }
       draft.clubEvent = payload
       draft.registration = null
       draft.payment = null
@@ -114,15 +118,17 @@ const eventAdminReducer = produce((draft, action) => {
       return
     }
     case EventAdminActions.AddPlayer: {
-      const { slot, player } = payload
+      const { slot, player, seasonEventId } = payload
       const slotToUpdate = draft.registration.slots.find((s) => s.id === slot.id)
       slotToUpdate.playerId = player.id
       slotToUpdate.playerName = player.name
-      if (draft.clubEvent.id === config.seasonEventId) {
+      if (draft.clubEvent.id === seasonEventId) {
         draft.clubEvent.fees
           .filter((f) => f.isRequired)
           .filter((f) =>
-            player.isReturningMember ? f.restriction === "Returning Members" : f.restriction === "New Members",
+            player.isReturningMember
+              ? f.restriction === "Returning Members"
+              : f.restriction === "New Members",
           )
           .forEach((fee) => {
             draft.payment.details.push({

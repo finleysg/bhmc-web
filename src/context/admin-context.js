@@ -1,8 +1,11 @@
-import { useClubEvents } from "hooks/event-hooks"
+import React from "react"
+
+import { useSettings } from "hooks/use-settings"
+import { ClubEvent } from "models/club-event"
 import { Payment } from "models/payment"
 import { Registration } from "models/registration"
-import React from "react"
 import { useMutation, useQueryClient } from "react-query"
+
 import { EventAdminActions, eventAdminReducer } from "./admin-reducer"
 import { useAuth, useClient } from "./auth-context"
 
@@ -10,11 +13,11 @@ const EventAdminContext = React.createContext()
 EventAdminContext.displayName = "EventAdminContext"
 
 function EventAdminProvider(props) {
+  const { seasonEventId } = useSettings()
   const [state, dispatch] = React.useReducer(eventAdminReducer)
 
   const eventId = state?.clubEvent?.id
   const { user } = useAuth()
-  const events = useClubEvents()
   const client = useClient()
   const queryClient = useQueryClient()
 
@@ -31,13 +34,12 @@ function EventAdminProvider(props) {
   }, [eventId, user])
 
   const loadEvent = React.useCallback(
-    (id) => {
-      const event = events.find((evt) => evt.id === id)
-      if (event) {
-        dispatch({ type: EventAdminActions.LoadEvent, payload: event })
-      }
+    (eventId) => {
+      return client(`events/${eventId}/`).then((data) => {
+        dispatch({ type: EventAdminActions.LoadEvent, payload: new ClubEvent(data) })
+      })
     },
-    [events],
+    [client],
   )
 
   const updateStep = React.useCallback((step) => {
@@ -56,7 +58,7 @@ function EventAdminProvider(props) {
       })
     },
     {
-      onSuccess: (data, variables) => {
+      onSuccess: (data) => {
         const placeholder = paymentPlaceholder()
         dispatch({
           type: EventAdminActions.CreateRegistration,
@@ -74,16 +76,18 @@ function EventAdminProvider(props) {
     (registrationId) => {
       return client(`registration/${registrationId}/`).then((data) => {
         const registration = new Registration(data)
-        return client(`registration-fees/?registration_id=${registrationId}&confirmed=true`).then((fees) => {
-          dispatch({
-            type: EventAdminActions.LoadRegistration,
-            payload: {
-              registration: registration,
-              payment: paymentPlaceholder(),
-              existingFees: fees,
-            },
-          })
-        })
+        return client(`registration-fees/?registration_id=${registrationId}&confirmed=true`).then(
+          (fees) => {
+            dispatch({
+              type: EventAdminActions.LoadRegistration,
+              payload: {
+                registration: registration,
+                payment: paymentPlaceholder(),
+                existingFees: fees,
+              },
+            })
+          },
+        )
       })
     },
     [client, paymentPlaceholder],
@@ -102,7 +106,7 @@ function EventAdminProvider(props) {
       })
     },
     {
-      onSuccess: (data, variables) => {
+      onSuccess: (data) => {
         dispatch({
           type: EventAdminActions.UpdateRegistration,
           payload: new Registration(data),
@@ -160,7 +164,7 @@ function EventAdminProvider(props) {
   )
 
   const completeRegistration = React.useCallback(() => {
-    dispatch({ type: EventAdminActions.LoadEvent, payload: null })
+    dispatch({ type: EventAdminActions.ResetRegistration })
   }, [])
 
   const { mutate: createPayment } = useMutation(
@@ -212,14 +216,13 @@ function EventAdminProvider(props) {
   )
 
   const addPlayer = (slot, player) => {
-    // React.useCallback(
     updateRegistrationSlotPlayer(
       { slotId: slot.id, playerId: player.id },
       {
         onSuccess: () => {
           dispatch({
             type: EventAdminActions.AddPlayer,
-            payload: { slot, player },
+            payload: { slot, player, seasonEventId },
           })
         },
         onError: (error) => {
@@ -228,8 +231,6 @@ function EventAdminProvider(props) {
       },
     )
   }
-  //     [updateRegistrationSlotPlayer, queryClient, eventId, state.clubEvent.fees, state.payment],
-  //   )
 
   const removePlayer = React.useCallback(
     (slot) => {

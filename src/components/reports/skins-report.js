@@ -32,42 +32,42 @@ function SkinsReport({ eventId, clubEvent }) {
       <div className="card-body">
         <h4 className="card-title text-success">{clubEvent.name} Skins Report</h4>
         <DownloadButton data={getDownloadFile()} filename={reportName} />
-        <div className="card-text">
-          <div style={{ overflowY: "auto", overflowX: "auto" }}>
-            <table className="table table-striped table-sm">
-              <thead>
-                <tr>
-                  {reportHeader.map((h) => (
-                    <th key={h.replace(" ", "-").toLowerCase()}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {!isLoading &&
-                  reportData.map((row, rx) => {
-                    return (
-                      <tr key={rx}>
-                        {row.map((cell, cx) => {
-                          return (
-                            <td
-                              key={`${cx}-${cell}`}
-                              style={{
-                                fontSize: ".9rem",
-                                whiteSpace: "nowrap",
-                                textOverflow: "ellipsis",
-                              }}
-                            >
-                              {cell}
-                            </td>
-                          )
-                        })}
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            </table>
-            <LoadingSpinner loading={isLoading} />
-          </div>
+        <div style={{ overflowY: "auto", overflowX: "auto" }}>
+          <table className="table table-striped table-sm">
+            <thead>
+              <tr>
+                {reportHeader.map((h) => (
+                  <th key={h.replace(" ", "-").toLowerCase()}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {!isLoading &&
+                reportData.map((row, rx) => {
+                  return (
+                    <tr key={rx}>
+                      {row.map((cell, cx) => {
+                        return (
+                          <td
+                            key={`${cx}-${cell}`}
+                            style={{
+                              fontSize: ".9rem",
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                              overflow: "hidden",
+                              maxWidth: "200px",
+                            }}
+                          >
+                            {cell}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  )
+                })}
+            </tbody>
+          </table>
+          <LoadingSpinner loading={isLoading} />
         </div>
       </div>
     </div>

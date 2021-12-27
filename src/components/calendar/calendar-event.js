@@ -3,9 +3,9 @@ import styled from "@emotion/styled/macro"
 import React from "react"
 
 import { AdminLink } from "components/button/admin-buttons"
+import { useSettings } from "hooks/use-settings"
 import { Link } from "react-router-dom"
 import * as colors from "styles/colors"
-import * as config from "utils/app-config"
 
 const EventContainer = styled.div({
   position: "relative",
@@ -14,12 +14,13 @@ const EventContainer = styled.div({
 })
 
 function CalendarEvent({ clubEvent }) {
+  const { seasonEventId, seasonMatchPlayId } = useSettings()
   const { name, eventTypeClass, externalUrl, startTime, startType } = clubEvent
 
   const eventUrl = () => {
-    if (clubEvent.id === config.seasonEventId) {
+    if (clubEvent.id === seasonEventId) {
       return "/membership"
-    } else if (clubEvent.id === config.seasonMatchPlayId) {
+    } else if (clubEvent.id === seasonMatchPlayId) {
       return "/match-play"
     } else {
       return clubEvent.eventUrl
@@ -44,7 +45,11 @@ function CalendarEvent({ clubEvent }) {
               </p>
             </div>
           </Link>
-          <AdminLink to={clubEvent.adminUrl} label="Event administration home" color={colors.teal} />
+          <AdminLink
+            to={clubEvent.adminUrl}
+            label="Event administration home"
+            color={colors.teal}
+          />
         </EventContainer>
       )}
     </React.Fragment>

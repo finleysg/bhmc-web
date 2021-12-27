@@ -2,13 +2,14 @@ import React from "react"
 
 import { DocumentCard } from "components/document/document-card"
 import { useRegistrationStatus } from "hooks/account-hooks"
+import { useSettings } from "hooks/use-settings"
 import ReactMarkdown from "react-markdown"
 import gfm from "remark-gfm"
-import * as config from "utils/app-config"
 
 function AnnouncementCard(props) {
   const { announcement } = props
-  const isMember = useRegistrationStatus(config.seasonEventId)
+  const { seasonEventId } = useSettings()
+  const isMember = useRegistrationStatus(seasonEventId)
 
   const show = (visibility) => {
     if (visibility === "A") {
