@@ -144,8 +144,8 @@ function useAces(season) {
 
 function usePlayerAces(playerId) {
   const client = useClient()
-  const { data: lowScores } = useQuery(
-    ["aces", playerId],
+  const { data: aces } = useQuery(
+    ["player-aces", playerId],
     () => client(`aces/?player_id=${playerId}`).then((data) => data),
     {
       cacheTime: Infinity,
@@ -153,7 +153,7 @@ function usePlayerAces(playerId) {
     },
   )
 
-  return lowScores ?? []
+  return aces ?? []
 }
 
 function useTopPoints(category, topN) {

@@ -5,22 +5,15 @@ Account / profile:
 - Save image in a separate folder
 - Remove images no longer selected
 
-Public profile:
-- Ace badge
-- Last season person was a member (if any)
-- Link to all championships for a player, or just spill the list down
-
-Event:
-
 Results:
 - Import all major data
 - Gather and import low scores
-- Random image component and/or champion images on results
 - Champion images on event detail?
-- Link to gallery
 
 Season Long Points:
 - View points by event
+- Points by player
+- Season long points report
 
 Registration:
 - Enforce require ghin at the server level
@@ -35,28 +28,17 @@ General:
 - Don't constrain width (as much, at least)
 - Review and fix rendering issues (polypane)
 - Logout should not result in a 401
-- Admin 404 issue
 - Logo file error in console
 - Table sorting / searching
 
 Administration:
-- Clone Event
-- Upload photo
-- Replace dam cup photo
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
-- Missing slots warning
-
-Reports:
+- Fix bugs in admin signup
 - Membership report
-- Season long points report
 
 Testing:
 - Organize test utilities and test data
 
 Styling:
 - Move to classes as much as possible
-
-Bugs / Warnings:
-- unmount warning from season-event-detail
-- Intermittent bomb: payment-reducer.js ln 82

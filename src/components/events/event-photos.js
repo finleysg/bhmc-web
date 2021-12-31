@@ -16,24 +16,26 @@ function EventPhotos({ clubEvent }) {
     }
   }, [clubEvent])
 
-  return (
-    <div className="card">
-      <div className={`card-header bg-info`}>
-        <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>Event Photos</span>
+  if (clubEvent.defaultTag) {
+    return (
+      <div className="card">
+        <div className={`card-header bg-info`}>
+          <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+            Event Photos
+          </span>
+        </div>
+        <div className="card-body">
+          <PhotoUploader defaultTags={tags} />
+          <RandomPicList tag={clubEvent.defaultTag} take={1} />
+          <NavLink to={`/gallery?tag=${clubEvent.defaultTag}`}>
+            Go to the {clubEvent.defaultTag} photo gallery
+          </NavLink>
+        </div>
       </div>
-      <div className="card-body">
-        <PhotoUploader defaultTags={tags} />
-        {clubEvent.defaultTag && (
-          <>
-            <RandomPicList tag={clubEvent.defaultTag} take={1} />
-            <NavLink to={`/gallery?tag=${clubEvent.defaultTag}`}>
-              Go to the {clubEvent.defaultTag} photo gallery
-            </NavLink>
-          </>
-        )}
-      </div>
-    </div>
-  )
+    )
+  }
+
+  return null
 }
 
 export default EventPhotos

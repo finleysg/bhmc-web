@@ -2,16 +2,16 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/react"
 
-import React from "react"
-
 import clsx from "clsx"
 import { OverlaySpinner } from "components/spinners"
-import { useBoardMembers, usePlayer, usePlayerChampionships, usePlayerEvents } from "hooks/player-hooks"
+import { useBoardMembers, usePlayer, usePlayerAces, usePlayerChampionships, usePlayerEvents } from "hooks/player-hooks"
 import { useSettings } from "hooks/use-settings"
+import { GiFireAce } from "react-icons/gi"
 import { MdPerson } from "react-icons/md"
 import * as colors from "styles/colors"
 
 import defaultProfilePic from "../../assets/img/unknown.jpg"
+import Trophies from "./trophies"
 
 function ProfileImage({ player }) {
   const profileCss = { maxWidth: "100%", height: "auto", display: "block", margin: "auto" }
@@ -62,20 +62,19 @@ function BoardBadge({ boardMember }) {
   return null
 }
 
-function ChampionshipBadges({ championships }) {
-  const { currentSeason } = useSettings()
-
-  return (
-    <React.Fragment>
-      {championships
-        .filter((c) => c.season >= currentSeason - 1)
-        .map((c) => (
-          <h6 key={c.id} className="text-indigo" style={{ marginBottom: ".8rem" }}>
-            🏆 {c.season} {c.event_name}
+function AceBadge({ aces }) {
+  if (aces && aces.length > 0) {
+    return (
+      <div>
+        {aces.map((a) => (
+          <h6 key={a.id} className="text-dark" style={{ marginBottom: ".8rem" }}>
+            <GiFireAce style={{ color: "red" }} /> {a.hole_name} ({a.shot_date})
           </h6>
         ))}
-    </React.Fragment>
-  )
+      </div>
+    )
+  }
+  return null
 }
 
 function PlayerProfile({ playerId }) {
@@ -84,6 +83,7 @@ function PlayerProfile({ playerId }) {
   const events = usePlayerEvents(playerId)
   const boardMembers = useBoardMembers()
   const championships = usePlayerChampionships(playerId)
+  const aces = usePlayerAces(playerId)
 
   const isMember = events.indexOf(seasonEventId) >= 0
   const boardMember = boardMembers.find((m) => m.player.id === playerId)
@@ -128,7 +128,8 @@ function PlayerProfile({ playerId }) {
             <PlayerDetail label="Tees">{player.tee}</PlayerDetail>
             <BoardBadge boardMember={boardMember} />
             <MemberBadge isMember={isMember} />
-            <ChampionshipBadges championships={championships} />
+            <AceBadge aces={aces} />
+            <Trophies championships={championships} />
           </div>
         </div>
       </div>

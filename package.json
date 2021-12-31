@@ -1,6 +1,6 @@
 {
   "name": "bhmc-web",
-  "version": "5.6.1",
+  "version": "5.7.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.0",
