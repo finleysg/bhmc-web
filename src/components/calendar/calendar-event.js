@@ -33,7 +33,10 @@ function CalendarEvent({ clubEvent }) {
     <React.Fragment>
       {externalUrl ? (
         <a target="_blank" rel="noreferrer" href={externalUrl}>
-          <div className={`calendar-event ${eventTypeClass}`}>{name}</div>
+          <div className={`calendar-event ${eventTypeClass}`}>
+            <p>{name}</p>
+            <p>{startTime}</p>
+          </div>
         </a>
       ) : (
         <EventContainer className={clubEvent.status === "Canceled" ? "canceled" : ""}>

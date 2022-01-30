@@ -20,7 +20,7 @@ function SeasonSignupPage() {
     }
   }, [clubEvents, setClubEvent])
 
-  const isLoading = !clubEvent.id
+  const isLoading = !clubEvent?.id
 
   return (
     <div className="content__inner">

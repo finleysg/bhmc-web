@@ -4,7 +4,7 @@ import { Children } from "react"
 
 import { usePageContent } from "hooks/use-page-content"
 import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 import * as colors from "styles/colors"
 
 function CardContent(props) {
@@ -15,7 +15,7 @@ function CardContent(props) {
       <div className="card-body">
         <h3 className="card-title text-primary">{pageContent.title}</h3>
         <div className="card-text">
-          <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+          <ReactMarkdown plugins={[remarkGfm]} escapeHtml={true}>
             {pageContent.content}
           </ReactMarkdown>
         </div>
@@ -31,10 +31,12 @@ function CardContentSolid(props) {
   return (
     <div className="card">
       <div className={`card-header bg-${props.headerColor}`}>
-        <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>{pageContent.title}</span>
+        <span style={{ color: colors.white, fontSize: "1.2rem", marginRight: "1rem" }}>
+          {pageContent.title}
+        </span>
       </div>
       <div className="card-body">
-        <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
+        <ReactMarkdown plugins={[remarkGfm]} escapeHtml={true}>
           {pageContent.content}
         </ReactMarkdown>
       </div>

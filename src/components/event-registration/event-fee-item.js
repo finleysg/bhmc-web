@@ -55,7 +55,9 @@ function UnrestrictedEventFeeItem({ fee, mode, selected, disabled, onToggleFee }
       <div className="fee-item fee-item--description">
         {fee.name} (${fee.amount})
       </div>
-      <div className="fee-item fee-item--amount">${selected ? fee.amount.toFixed(2) : "0.00"}</div>
+      <div className="fee-item fee-item--amount">
+        ${isSelected ? fee.amount.toFixed(2) : "0.00"}
+      </div>
     </div>
   )
 }

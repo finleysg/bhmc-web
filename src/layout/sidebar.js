@@ -5,7 +5,7 @@ import { Groups, useGroups } from "hooks/account-hooks"
 import { useSelectedMonth } from "hooks/calendar-hooks"
 import { useSettings } from "hooks/use-settings"
 import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
-import { GiGolfFlag, GiGolfTee, GiTrophyCup } from "react-icons/gi"
+import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
 import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
@@ -24,7 +24,7 @@ function Sidebar() {
     <aside className={sidebarOpen ? "sidebar sidebar--bg toggled" : "sidebar sidebar--bg"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
-        <MenuItem path="scorecards/east-west" icon={<GiGolfTee />} name="Gold/White Combo Tees" />
+        {/* <MenuItem path="scorecards/east-west" icon={<GiGolfTee />} name="Gold/White Combo Tees" /> */}
         <MenuItem path="membership" icon={<GoPlus />} name={`${currentSeason} Signup Page`} />
         <MenuItem
           path={`calendar/${selectedMonth.year}/${selectedMonth.monthName.toLowerCase()}`}

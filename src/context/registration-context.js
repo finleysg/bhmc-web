@@ -52,6 +52,16 @@ function EventRegistrationProvider(props) {
 
   const isReturning = useRegistrationStatus(previousSeasonEventId)
 
+  const evaluateRestriction = (fee) => {
+    if (fee.restriction === "None") {
+      return true
+    } else {
+      return isReturning
+        ? fee.restriction === "Returning Members"
+        : fee.restriction === "New Members"
+    }
+  }
+
   /**
    * Creates an empty payment object, used to collect payment details.
    */
@@ -121,9 +131,7 @@ function EventRegistrationProvider(props) {
         if (state.clubEvent.id === seasonEventId) {
           state.clubEvent.fees
             .filter((f) => f.isRequired)
-            .filter((f) =>
-              isReturning ? f.restriction === "Returning Members" : f.restriction === "New Members",
-            )
+            .filter((f) => evaluateRestriction(f))
             .forEach((fee) => {
               placeholder.details.push({
                 eventFeeId: fee.id,

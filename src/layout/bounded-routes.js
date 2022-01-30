@@ -20,8 +20,8 @@ function BoundedRoutes() {
           <div className="card-header text-white bg-danger">Network or Server Failure</div>
           <div className="card-body">
             <p>
-              An error occurred and we cannot continue loading the page. This may be temporary. Click the Refresh button
-              to reload this page. If this problem persists, please contact{" "}
+              An error occurred and we cannot continue loading the page. This may be temporary.
+              Click the Refresh button to reload this page. If this problem persists, please contact{" "}
               <a href="mailto:admin@bhmc.org">admin@bhmc.org</a>.
             </p>
             <pre>{error}</pre>

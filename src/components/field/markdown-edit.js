@@ -1,5 +1,4 @@
 import "@toast-ui/editor/dist/toastui-editor.css"
-import "codemirror/lib/codemirror.css"
 
 import { Editor } from "@toast-ui/react-editor"
 

@@ -17,7 +17,7 @@ function AnnouncementList() {
     <div>
       <LoadingSpinner loading={isLoading} />
       {!isLoading &&
-        announcements.map((a) => {
+        announcements?.map((a) => {
           return <AnnouncementCard key={a.id} announcement={a} />
         })}
     </div>
