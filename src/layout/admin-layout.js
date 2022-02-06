@@ -16,6 +16,7 @@ import AdminManageEventDocumentsPage from "pages/admin-manage-event-documents-pa
 import AdminManagePlayersPage from "pages/admin-manage-players-page"
 import AdminSlpPage from "pages/admin-slp-page"
 import EventReportPage from "pages/event-report-page"
+import MembershipReportPage from "pages/membership-report-page"
 import { NotFoundScreen } from "pages/not-found"
 import PaymentReportPage from "pages/payment-report-page"
 import SkinsReportPage from "pages/skins-report-page"
@@ -48,6 +49,7 @@ function AdminRoutes() {
         <Route path="/event/:eventId/edit-event" element={<AdminEditFormatPage />} />
       </Route>
       <Route path="/event-copy" element={<AdminCopyEventPage />} />
+      <Route path="/membership" element={<MembershipReportPage />} />
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
   )

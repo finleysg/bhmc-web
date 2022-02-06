@@ -19,16 +19,16 @@ function useSettings() {
           const previousSeason = data.find((d) => d.season === activeSeason.season - 1)
           return {
             currentSeason: +activeSeason.season,
-            previousSeasonEventId: +(previousSeason?.member_event_id || 0),
-            seasonEventId: +activeSeason.member_event_id,
-            seasonMatchPlayId: +activeSeason.match_play_event_id,
+            previousSeasonEventId: +(previousSeason?.member_event || 0),
+            seasonEventId: +activeSeason.member_event,
+            seasonMatchPlayId: +activeSeason.match_play_event,
           }
         }
         return undefined
       }),
     config: {
-      staleTime: Infinity,
-      cacheTime: Infinity,
+      staleTime: 1000 * 60 * 60,
+      cacheTime: 1000 * 60 * 60,
     },
   })
 
