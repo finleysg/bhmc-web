@@ -34,9 +34,7 @@ function MembershipScreen() {
                   Registration open: {clubEvent.signupWindow}
                 </h6>
                 <div className="card-text">
-                  <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
-                    {clubEvent.notes}
-                  </ReactMarkdown>
+                  <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
                   <div className="col-12">
                     <p className="text-primary">
                       You need to have an account with us and be logged in to register for the{" "}

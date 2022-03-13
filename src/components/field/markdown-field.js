@@ -9,9 +9,7 @@ function MarkdownField({ text, mode, onChange }) {
   return (
     <div>
       {mode === "view" ? (
-        <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
-          {text}
-        </ReactMarkdown>
+        <ReactMarkdown plugins={[gfm]}>{text}</ReactMarkdown>
       ) : (
         <MarkdownEditor text={text} onChange={onChange} />
       )}

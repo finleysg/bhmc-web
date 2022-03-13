@@ -33,9 +33,7 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
               Registration open: {clubEvent.signupWindow}
             </h6>
             <div className="card-text">
-              <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
-                {clubEvent.notes}
-              </ReactMarkdown>
+              <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
               <div className="row">
                 {!hasSignedUp && (
                   <div className="col-12">

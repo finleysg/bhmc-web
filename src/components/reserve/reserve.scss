@@ -76,6 +76,11 @@
       color: $white;
       background-color: $orange;
     }
+
+    &__unavailable {
+      cursor: not-allowed;
+      background-color: $gray-200;
+    }
   }
 }
 

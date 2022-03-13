@@ -171,7 +171,7 @@ const getMembershipReportRow = (obj, index) => {
   values.push(obj.registration_id)
   values.push(obj.ghin)
   values.push(obj.last_name)
-  values.push(obj.last_name)
+  values.push(obj.first_name)
   values.push(obj.email)
   values.push(isoDayFormat(parseISO(obj.birth_date)))
   values.push(obj.tee)

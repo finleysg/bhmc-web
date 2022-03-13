@@ -63,7 +63,8 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
           <div className="registration-start-item">
             <div className="label">Start:</div>
             <div className="value">
-              {clubEvent.startTime} {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
+              {clubEvent.startTime}{" "}
+              {clubEvent.startType === "Not Applicable" ? "" : clubEvent.startType}
             </div>
           </div>
           {clubEvent.registrationType !== "None" && (
@@ -94,9 +95,7 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
           <h5 className="text-success" style={{ marginTop: "2rem" }}>
             Notes
           </h5>
-          <ReactMarkdown plugins={[gfm]} escapeHtml={true}>
-            {clubEvent.notes}
-          </ReactMarkdown>
+          <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
         </div>
       </div>
     </div>
