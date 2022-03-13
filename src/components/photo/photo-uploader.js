@@ -4,9 +4,10 @@ import { jsx } from "@emotion/react"
 
 import React from "react"
 
+import { isAdmin } from "components/button/admin-buttons"
 import { IconActionButton } from "components/button/buttons"
 import { OverlaySpinner } from "components/spinners"
-import { useAuth } from "context/auth-context"
+import { useGroups } from "hooks/account-hooks"
 import { useCreatePhoto } from "hooks/photo-hooks"
 import { MdCamera } from "react-icons/md"
 import * as colors from "styles/colors"
@@ -23,7 +24,7 @@ function PhotoUploader(props) {
   const { season, defaultTags } = props
   const [upload, setUpload] = React.useState(false)
   const { mutate: savePhoto, isLoading } = useCreatePhoto()
-  const { user } = useAuth()
+  const groups = useGroups()
 
   const handleSave = (values) => {
     const form = new FormData()
@@ -39,11 +40,15 @@ function PhotoUploader(props) {
     })
   }
 
-  if (user.is_staff) {
+  if (isAdmin(groups)) {
     if (!upload) {
       return (
         <div css={containerCss}>
-          <IconActionButton label="Upload a picture" color={colors.deepPurple} onAction={() => setUpload(true)}>
+          <IconActionButton
+            label="Upload a picture"
+            color={colors.deepPurple}
+            onAction={() => setUpload(true)}
+          >
             <MdCamera style={{ fontSize: "3rem" }} />
           </IconActionButton>
         </div>

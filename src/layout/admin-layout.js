@@ -5,6 +5,7 @@ import React from "react"
 
 import { EventAdminProvider } from "context/admin-context"
 import { useLayout } from "context/layout-context"
+import { Groups, useGroups } from "hooks/account-hooks"
 import AdminAddPlayerPage from "pages/admin-add-player-page"
 import AdminCopyEventPage from "pages/admin-copy-event-page"
 import AdminEditFormatPage from "pages/admin-edit-format-page"
@@ -27,29 +28,38 @@ import { AdminHeader } from "./admin-header"
 import { AdminSidebar } from "./admin-sidebar"
 
 function AdminRoutes() {
+  const groups = useGroups()
+
   return (
     <Routes>
-      <Route element={<AdminEventPage />}>
-        <Route path="/event/:eventId" element={<AdminHomePage />} />
-        <Route path="/event/:eventId/event-report" element={<EventReportPage />} />
-        <Route path="/event/:eventId/payment-report" element={<PaymentReportPage />} />
-        <Route path="/event/:eventId/skins-report" element={<SkinsReportPage />} />
-        <Route path="/event/:eventId/add-player" element={<AdminAddPlayerPage />} />
-        <Route path="/event/:eventId/manage-players" element={<AdminManagePlayersPage />} />
-        <Route
-          path="/event/:eventId/manage-players/:registrationId"
-          element={<AdminEditRegistrationPage />}
-        />
-        <Route path="/event/:eventId/event-portal" element={<AdminEditPortalPage />} />
-        <Route
-          path="/event/:eventId/manage-documents"
-          element={<AdminManageEventDocumentsPage />}
-        />
-        <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />
-        <Route path="/event/:eventId/edit-event" element={<AdminEditFormatPage />} />
-      </Route>
-      <Route path="/event-copy" element={<AdminCopyEventPage />} />
-      <Route path="/membership" element={<MembershipReportPage />} />
+      {(groups.indexOf(Groups.Administrators) >= 0 ||
+        groups.indexOf(Groups.TournamentAdmins) >= 0) && (
+        <Route element={<AdminEventPage />}>
+          <Route path="/event/:eventId" element={<AdminHomePage />} />
+          <Route path="/event/:eventId/event-report" element={<EventReportPage />} />
+          <Route path="/event/:eventId/payment-report" element={<PaymentReportPage />} />
+          <Route path="/event/:eventId/skins-report" element={<SkinsReportPage />} />
+          <Route path="/event/:eventId/add-player" element={<AdminAddPlayerPage />} />
+          <Route path="/event/:eventId/manage-players" element={<AdminManagePlayersPage />} />
+          <Route
+            path="/event/:eventId/manage-players/:registrationId"
+            element={<AdminEditRegistrationPage />}
+          />
+          <Route path="/event/:eventId/event-portal" element={<AdminEditPortalPage />} />
+          <Route
+            path="/event/:eventId/manage-documents"
+            element={<AdminManageEventDocumentsPage />}
+          />
+          <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />
+          <Route path="/event/:eventId/edit-event" element={<AdminEditFormatPage />} />
+        </Route>
+      )}
+      {groups.indexOf(Groups.Administrators) >= 0 && (
+        <Route path="/event-copy" element={<AdminCopyEventPage />} />
+      )}
+      {groups.indexOf(Groups.Administrators) >= 0 && (
+        <Route path="/membership" element={<MembershipReportPage />} />
+      )}
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
   )

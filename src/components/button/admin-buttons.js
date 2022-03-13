@@ -3,7 +3,7 @@
 import { jsx } from "@emotion/react"
 import styled from "@emotion/styled/macro"
 
-import { useAuth } from "context/auth-context"
+import { Groups, useGroups } from "hooks/account-hooks"
 import { HiExternalLink } from "react-icons/hi"
 import { RiDeleteBin5Line, RiHomeGearLine } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
@@ -32,6 +32,9 @@ const ActionLink = styled.a`
     color: ${(props) => props.color};
   }
 `
+export const isAdmin = (groups) => {
+  return groups.indexOf(Groups.Administrators) >= 0 || groups.indexOf(Groups.TournamentAdmins) >= 0
+}
 
 function PhotoLink({ to, color, ...rest }) {
   return (
@@ -44,14 +47,14 @@ function PhotoLink({ to, color, ...rest }) {
 }
 
 function AdminLink({ to, color, label, ...rest }) {
-  const { user } = useAuth()
+  const groups = useGroups()
   const navigate = useNavigate()
 
   const handleClick = () => {
     navigate(to)
   }
 
-  if (user.is_staff) {
+  if (isAdmin(groups)) {
     return (
       <div css={containerCss} {...rest}>
         <IconActionButton color={color} label={label} onAction={handleClick}>
@@ -64,9 +67,9 @@ function AdminLink({ to, color, label, ...rest }) {
 }
 
 function AdminAction({ id, color, label, onAction, ...rest }) {
-  const { user } = useAuth()
+  const groups = useGroups()
 
-  if (user.is_staff) {
+  if (isAdmin(groups)) {
     return (
       <div css={containerCss} {...rest}>
         <IconActionButton color={color} label={label} onAction={() => onAction(id)}>
@@ -79,9 +82,9 @@ function AdminAction({ id, color, label, onAction, ...rest }) {
 }
 
 function AdminAction2({ id, color, label, onAction, children, ...rest }) {
-  const { user } = useAuth()
+  const groups = useGroups()
 
-  if (user.is_staff) {
+  if (isAdmin(groups)) {
     return (
       <div css={containerCss} {...rest}>
         <IconActionButton color={color} label={label} onAction={() => onAction(id)}>

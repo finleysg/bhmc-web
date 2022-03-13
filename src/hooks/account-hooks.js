@@ -12,6 +12,7 @@ const Groups = {
   AuthenticatedUsers: "Authenticated Users",
   Administrators: "Administrators",
   PaulHelpers: "Paul Helpers",
+  TournamentAdmins: "Tournament Admins",
 }
 
 function usePlayer() {
