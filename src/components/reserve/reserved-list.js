@@ -7,6 +7,26 @@ import { Link } from "react-router-dom"
 function ReservedList({ registrations, sortBy }) {
   const { user } = useAuth()
 
+  const sortByName = (playerA, playerB) => {
+    if (playerA.sortName < playerB.sortName) {
+      return -1
+    }
+    if (playerA.sortName > playerB.sortName) {
+      return 1
+    }
+    return 0
+  }
+
+  const sortByDate = (playerA, playerB) => {
+    if (isBefore(playerA.signupDate, playerB.signupDate)) {
+      return -1
+    }
+    if (isAfter(playerA.signupDate, playerB.signupDate)) {
+      return 1
+    }
+    return 0
+  }
+
   const getPlayers = React.useCallback(() => {
     const registered = []
     registrations.forEach((r) => {
@@ -16,7 +36,7 @@ function ReservedList({ registrations, sortBy }) {
           registered.push({
             id: s.playerId,
             name: s.playerName,
-            sortName: s.playerName.toUpperCase(),
+            sortName: s.playerName?.toUpperCase(),
             signedUpBy: r.signedUpBy,
             signupDate: r.createdDate,
           })
@@ -24,25 +44,9 @@ function ReservedList({ registrations, sortBy }) {
     })
 
     if (sortBy === "player") {
-      return registered.sort((a, b) => {
-        if (a.sortName < b.sortName) {
-          return -1
-        }
-        if (a.sortName > b.sortName) {
-          return 1
-        }
-        return 0
-      })
+      return registered.sort((a, b) => sortByName(a, b))
     } else {
-      return registered.sort((a, b) => {
-        if (isBefore(a.signupDate, b.signupDate)) {
-          return -1
-        }
-        if (isAfter(a.signupDate, b.signupDate)) {
-          return 1
-        }
-        return 0
-      })
+      return registered.sort((a, b) => sortByDate(a, b))
     }
   }, [registrations, sortBy])
 
