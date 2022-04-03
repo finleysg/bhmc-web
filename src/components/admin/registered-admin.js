@@ -22,7 +22,7 @@ const PlayerContainerCss = {
   position: "relative",
   padding: 0,
   margin: "5px",
-  width: "160px",
+  width: "150px",
   display: "inline-block",
 }
 

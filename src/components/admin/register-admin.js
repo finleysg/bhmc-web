@@ -17,8 +17,16 @@ import RegisterDone from "./register-done"
 import RegisterInfo from "./register-info"
 
 function RegisterAdmin({ selectedStart, mode, onCancel }) {
-  const { clubEvent, registration, payment, existingFees, currentStep, cancelRegistration, updateStep, addPlayer } =
-    useEventAdmin()
+  const {
+    clubEvent,
+    registration,
+    payment,
+    existingFees,
+    currentStep,
+    cancelRegistration,
+    updateStep,
+    addPlayer,
+  } = useEventAdmin()
 
   const [busy, setBusy] = React.useState(false)
   const issueRefunds = useIssueRefunds()
@@ -33,7 +41,11 @@ function RegisterAdmin({ selectedStart, mode, onCancel }) {
   }, [mode, updateStep])
 
   const layout =
-    clubEvent?.maximumSignupGroupSize === 1 ? "vertical" : clubEvent?.fees.length > 5 ? "vertical" : "horizontal"
+    clubEvent?.maximumSignupGroupSize === 1
+      ? "vertical"
+      : clubEvent?.fees.length > 5
+      ? "vertical"
+      : "horizontal"
 
   const handlePlayerSelect = (player) => {
     const slot = registration.slots.find((slot) => !slot.playerId)
@@ -86,7 +98,7 @@ function RegisterAdmin({ selectedStart, mode, onCancel }) {
 
   return (
     <div className="row">
-      <div className="col-12 col-md-6">
+      <div className="col-md-12 col-lg-6 col-xl-4">
         <OverlaySpinner loading={busy} />
         {currentStep === EventAdminSteps.Register && (
           <div>

@@ -10,7 +10,7 @@ import { RegisteredButton } from "components/button/registered-button"
 import { OverlaySpinner } from "components/spinners"
 import { RegistrationSteps } from "context/registration-context"
 import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 import * as colors from "styles/colors"
 import { dayAndDateFormat, dayDateAndTimeFormat } from "utils/event-utils"
 
@@ -95,7 +95,7 @@ function EventDetail({ clubEvent, hasSignedUp, isMember, onRegister, onEditRegis
           <h5 className="text-success" style={{ marginTop: "2rem" }}>
             Notes
           </h5>
-          <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{clubEvent.notes}</ReactMarkdown>
         </div>
       </div>
     </div>

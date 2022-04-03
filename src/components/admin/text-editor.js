@@ -2,11 +2,11 @@ import React from "react"
 
 import { MarkdownEditor } from "components/field/markdown-edit"
 import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 
 function TextEditor(props) {
   const { text, layout, onSave } = props
-  const [updatedText, setUpdatedText] = React.useState(text)
+  const [updatedText, setUpdatedText] = React.useState(text || "")
 
   const handleChange = (e) => {
     setUpdatedText(e.content)
@@ -31,7 +31,7 @@ function TextEditor(props) {
           </div>
           <div className="col-md-6">
             <h6 className="text-success">Rendered on the Website</h6>
-            <ReactMarkdown plugins={[gfm]}>{updatedText}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{updatedText}</ReactMarkdown>
           </div>
         </div>
       )}
@@ -48,7 +48,7 @@ function TextEditor(props) {
           </div>
           <div>
             <h6 className="text-success">Rendered on the Website</h6>
-            <ReactMarkdown plugins={[gfm]}>{updatedText}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{updatedText}</ReactMarkdown>
           </div>
         </React.Fragment>
       )}

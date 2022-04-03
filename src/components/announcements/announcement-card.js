@@ -25,7 +25,7 @@ function AnnouncementCard(props) {
     return (
       <div style={{ marginBottom: "2rem" }}>
         <h4 className="text-primary">{announcement.title}</h4>
-        <ReactMarkdown plugins={[gfm]}>{announcement.text}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[gfm]}>{announcement.text}</ReactMarkdown>
         <div>
           {announcement.documents &&
             announcement.documents.map((doc) => {

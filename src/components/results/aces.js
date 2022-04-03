@@ -1,7 +1,7 @@
 import { usePageContent } from "hooks/use-page-content"
 import { useSettings } from "hooks/use-settings"
 import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 import * as colors from "styles/colors"
 
 import { HoleInOneList } from "./hole-in-one-list"
@@ -18,7 +18,7 @@ function HoleInOne(props) {
         </span>
       </div>
       <div className="card-body">
-        <ReactMarkdown plugins={[gfm]}>{pageContent.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageContent.content}</ReactMarkdown>
         <HoleInOneList season={currentSeason} />
       </div>
     </div>

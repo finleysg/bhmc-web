@@ -6,7 +6,7 @@ import { GiGolfFlag } from "react-icons/gi"
 import { GoSettings } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
 import { HiDocumentReport, HiDocumentText } from "react-icons/hi"
-import { MdEdit, MdPeopleOutline, MdPersonAdd } from "react-icons/md"
+import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { TiArrowBackOutline, TiHome } from "react-icons/ti"
 
 import { MenuItem } from "./menu-item"
@@ -70,11 +70,11 @@ function AdminSidebar() {
           icon={<GrOrderedList />}
           name="Import Season Long Points"
         />
-        <MenuItem
+        {/* <MenuItem
           path={`/admin/event/${eventId}/edit-event`}
           icon={<MdEdit />}
           name="Edit Event Notes"
-        />
+        /> */}
         <li>
           <a
             href={`${ADMIN_BASE}/events/event/${eventId}/change/`}

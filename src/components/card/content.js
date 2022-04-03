@@ -15,7 +15,7 @@ function CardContent(props) {
       <div className="card-body">
         <h3 className="card-title text-primary">{pageContent.title}</h3>
         <div className="card-text">
-          <ReactMarkdown plugins={[remarkGfm]}>{pageContent.content}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageContent.content}</ReactMarkdown>
         </div>
         {props.children && Children.only(props.children)}
       </div>
@@ -34,7 +34,7 @@ function CardContentSolid(props) {
         </span>
       </div>
       <div className="card-body">
-        <ReactMarkdown plugins={[remarkGfm]}>{pageContent.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{pageContent.content}</ReactMarkdown>
       </div>
     </div>
   )

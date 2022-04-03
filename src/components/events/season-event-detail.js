@@ -9,7 +9,7 @@ import { usePlayer, useRegistrationStatus } from "hooks/account-hooks"
 import { useSettings } from "hooks/use-settings"
 import ReactMarkdown from "react-markdown"
 import { Link } from "react-router-dom"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 import * as colors from "styles/colors"
 
 function SeasonEventDetail({ clubEvent, onRegister }) {
@@ -33,7 +33,7 @@ function SeasonEventDetail({ clubEvent, onRegister }) {
               Registration open: {clubEvent.signupWindow}
             </h6>
             <div className="card-text">
-              <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{clubEvent.notes}</ReactMarkdown>
               <div className="row">
                 {!hasSignedUp && (
                   <div className="col-12">

@@ -73,8 +73,8 @@ function SmallPhoto(props) {
         src={mobileImageUrl(pic)}
         alt={pic.caption}
         style={{
-          maxWidth: "360px",
-          maxHeight: "280px",
+          maxWidth: "100%",
+          maxHeight: "240px",
           objectFit: "contain",
           position: "relative",
         }}

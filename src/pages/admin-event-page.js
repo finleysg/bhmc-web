@@ -13,7 +13,7 @@ function AdminEventPage() {
   }, [loadEvent, eventId])
 
   return (
-    <div className="row">
+    <div>
       <OverlaySpinner loading={!clubEvent?.id} />
       <Outlet />
     </div>

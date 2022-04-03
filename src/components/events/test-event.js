@@ -3,7 +3,7 @@ import React from "react"
 import { LoadingSpinner } from "components/spinners"
 import { RegistrationSteps, useEventRegistration } from "context/registration-context"
 import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 
 function TestEvent() {
   const { clubEvent, currentStep, startRegistration } = useEventRegistration()
@@ -19,7 +19,7 @@ function TestEvent() {
           <React.Fragment>
             <h6 className="card-subtitle">Registration open: {clubEvent.signupWindow}</h6>
             <div className="card-text">
-              <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{clubEvent.notes}</ReactMarkdown>
               <div className="row">
                 <div className="col-12">
                   <button

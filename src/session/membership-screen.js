@@ -7,7 +7,7 @@ import { useClubEvents } from "hooks/event-hooks"
 import { useSettings } from "hooks/use-settings"
 import { loadingEvent } from "models/club-event"
 import ReactMarkdown from "react-markdown"
-import gfm from "remark-gfm"
+import remarkGfm from "remark-gfm"
 import { getClubEvent } from "utils/event-utils"
 
 function MembershipScreen() {
@@ -34,7 +34,7 @@ function MembershipScreen() {
                   Registration open: {clubEvent.signupWindow}
                 </h6>
                 <div className="card-text">
-                  <ReactMarkdown plugins={[gfm]}>{clubEvent.notes}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{clubEvent.notes}</ReactMarkdown>
                   <div className="col-12">
                     <p className="text-primary">
                       You need to have an account with us and be logged in to register for the{" "}
