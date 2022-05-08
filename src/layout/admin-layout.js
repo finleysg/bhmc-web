@@ -15,6 +15,7 @@ import AdminEventPage from "pages/admin-event-page"
 import AdminHomePage from "pages/admin-home-page"
 import AdminManageEventDocumentsPage from "pages/admin-manage-event-documents-page"
 import AdminManagePlayersPage from "pages/admin-manage-players-page"
+import AdminScoresPage from "pages/admin-scores-page"
 import AdminSlpPage from "pages/admin-slp-page"
 import EventReportPage from "pages/event-report-page"
 import MembershipReportPage from "pages/membership-report-page"
@@ -51,6 +52,7 @@ function AdminRoutes() {
             element={<AdminManageEventDocumentsPage />}
           />
           <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />
+          <Route path="/event/:eventId/import-scores" element={<AdminScoresPage />} />
           <Route path="/event/:eventId/edit-event" element={<AdminEditFormatPage />} />
         </Route>
       )}

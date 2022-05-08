@@ -70,6 +70,11 @@ function AdminSidebar() {
           icon={<GrOrderedList />}
           name="Import Season Long Points"
         />
+        <MenuItem
+          path={`/admin/event/${eventId}/import-scores`}
+          icon={<GrOrderedList />}
+          name="Import Event Scores"
+        />
         {/* <MenuItem
           path={`/admin/event/${eventId}/edit-event`}
           icon={<MdEdit />}
