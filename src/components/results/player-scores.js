@@ -25,12 +25,48 @@ function RoundTotal(props) {
   )
 }
 
+function HoleNumbers(props) {
+  const { course } = props
+
+  return (
+    <div style={{ display: "flex" }}>
+      <div className="round" style={{ flex: 1 }}></div>
+      <div className="hole-numbers">
+        {course.holes.map((hole) => {
+          return <div key={hole.id}>{hole.holeNumber}</div>
+        })}
+        <div className="total"></div>
+      </div>
+    </div>
+  )
+}
+
+function HolePars(props) {
+  const { course } = props
+
+  return (
+    <div style={{ display: "flex" }}>
+      <div className="round" style={{ flex: 1 }}>
+        Par
+      </div>
+      <div className="scores">
+        {course.holes.map((hole) => {
+          return <div key={hole.id}>{hole.par}</div>
+        })}
+        <div className="total">36</div>
+      </div>
+    </div>
+  )
+}
+
 function Round(props) {
   const { round } = props
 
   return (
     <div style={{ display: "flex" }}>
-      <div style={{ flex: 1 }}>{round.eventDate}</div>
+      <div className="round" style={{ flex: 1 }}>
+        {round.eventDate}
+      </div>
       <div className="scores">
         {round.scores.map((score) => {
           return <HoleScore key={score.hole.id} score={score} />
@@ -46,7 +82,9 @@ function AverageRound(props) {
 
   return (
     <div style={{ display: "flex" }}>
-      <div style={{ flex: 1 }}>Average</div>
+      <div className="round" style={{ flex: 1 }}>
+        Average
+      </div>
       <div className="scores">
         {scores.map((score) => {
           return <HoleScore key={score.hole.id} score={score} />
@@ -62,7 +100,9 @@ function BestBallRound(props) {
 
   return (
     <div style={{ display: "flex" }}>
-      <div style={{ flex: 1 }}>Best Ball</div>
+      <div className="round" style={{ flex: 1 }}>
+        Best Ball
+      </div>
       <div className="scores">
         {scores.map((score) => {
           return <HoleScore key={score.hole.id} score={score} />
@@ -121,6 +161,8 @@ function RoundsByCourse(props) {
         </span>
       </div>
       <div className="card-body">
+        <HoleNumbers course={course} />
+        <HolePars course={course} />
         {rounds.map((round) => {
           return <Round key={round.eventDate} round={round} />
         })}

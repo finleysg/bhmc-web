@@ -14,7 +14,17 @@
     padding-top: 4px;
   }
 }
-
+.hole-numbers {
+  flex: 2;
+  display: flex;
+  & div {
+    text-align: center;
+    width: 30px;
+    max-width: 30px;
+    color: #000000;
+    font-weight: 600;
+  }
+}
 .par {
   background-color: #ffffff;
 }
@@ -61,23 +71,38 @@
 }
 
 @media only screen and (max-width: 480px) {
+  .round {
+    font-size: .8em;
+  }
   .scores {
     flex: 2;
     display: flex;
   
     & div {
+      font-size: .9em;
       border: solid gray 1px;
-      height: 24px;
-      width: 24px;
-      max-width: 24px;
+      height: 22px;
+      width: 22px;
+      max-width: 22px;
       text-align: center;
       color: #000000;
       padding-top: 0;
     }
   }
+  .hole-numbers {
+    flex: 2;
+    display: flex;
+    & div {
+      text-align: center;
+      width: 22px;
+      max-width: 22px;
+      color: #000000;
+      font-weight: 600;
+    }
+  }
   .total {
     font-weight: 600;
-    width: 36 !important;
-    max-width: 36px !important;
+    width: 32 !important;
+    max-width: 32px !important;
   }
 }
