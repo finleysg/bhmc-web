@@ -61,13 +61,21 @@
 .bg-east {
   background-color: $red !important;
 }
+.bg-east-pale {
+  background-color: rgb(255, 107, 104, 0.5) !important;
+}
 
 .bg-north {
   background-color: $blue !important;
 }
-
+.bg-north-pale {
+  background-color: rgb(33, 150, 243, 0.5);
+}
 .bg-west {
   background-color: $amber !important;
+}
+.bg-west-pale {
+  background-color: rgb(255, 199, 33, 0.5);
 }
 
 @media only screen and (max-width: 480px) {

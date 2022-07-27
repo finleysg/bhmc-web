@@ -46,14 +46,16 @@ function HolePars(props) {
 
   return (
     <div style={{ display: "flex" }}>
-      <div className="round" style={{ flex: 1 }}>
-        Par
-      </div>
+      <div className="round" style={{ flex: 1 }}></div>
       <div className="scores">
         {course.holes.map((hole) => {
-          return <div key={hole.id}>{hole.par}</div>
+          return (
+            <div className={`bg-${course.name.toLowerCase()}-pale`} key={hole.id}>
+              {hole.par}
+            </div>
+          )
         })}
-        <div className="total">36</div>
+        <div className={`total bg-${course.name.toLowerCase()}-pale`}>36</div>
       </div>
     </div>
   )
@@ -166,6 +168,7 @@ function RoundsByCourse(props) {
         {rounds.map((round) => {
           return <Round key={round.eventDate} round={round} />
         })}
+        <hr />
         <AverageRound scores={averageScores()} />
         <BestBallRound scores={bestScores()} />
       </div>
