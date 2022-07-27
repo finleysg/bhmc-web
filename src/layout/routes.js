@@ -12,6 +12,7 @@ import MatchPlayPage from "pages/match-play--page"
 import { NotFoundScreen } from "pages/not-found"
 import PhotoGalleryPage from "pages/photo-gallery-page"
 import PlayerProfilePage from "pages/player-profile-page"
+import PlayerScoresPage from "pages/player-scores-page"
 import PolicyPage from "pages/policy-page"
 import ReservedPage from "pages/reserved-page"
 import ResultsPage from "pages/results-page"
@@ -38,8 +39,8 @@ const mainRoutes = (user) =>
         { path: "/event/:eventDate/:eventName/register", element: <UnfinishedPage /> },
         { path: "/event/:eventDate/:eventName/registrations", element: <ReservedPage /> },
         { path: "/results/:eventType/:season", element: <ResultsPage /> },
+        { path: "/my-scores/:scoreType", element: <PlayerScoresPage /> },
         { path: "/policies/:policyType", element: <PolicyPage /> },
-        // { path: "/scorecards/:rotation", element: <ScorecardPage /> },
         { path: "/match-play", element: <MatchPlayPage /> },
         { path: "/season-long-points", element: <SeasonLongPointsPage /> },
         { path: "/dam-cup", element: <DamCupPage /> },

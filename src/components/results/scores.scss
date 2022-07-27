@@ -1,0 +1,83 @@
+@import "../../assets/scss/variables";
+
+.scores {
+  flex: 2;
+  display: flex;
+
+  & div {
+    border: solid gray 1px;
+    height: 30px;
+    width: 30px;
+    max-width: 30px;
+    text-align: center;
+    color: #000000;
+    padding-top: 4px;
+  }
+}
+
+.par {
+  background-color: #ffffff;
+}
+.birdie {
+  background-color: #90ee90;
+}
+.eagle {
+  background-color: #00bfff;
+}
+.double-eagle {
+  background-color: #9932cc;
+}
+.bogey {
+  background-color: #ffe4c4;
+}
+.double-bogey {
+  background-color: #deb887;
+}
+.other {
+  background-color: #b8860b;
+}
+.below-par {
+  color: red !important;
+}
+.above-par {
+  color: black !important;
+}
+.total {
+  font-weight: 600;
+  width: 36px !important;
+  max-width: 36px !important;
+}
+
+.bg-east {
+  background-color: $red !important;
+}
+
+.bg-north {
+  background-color: $blue !important;
+}
+
+.bg-west {
+  background-color: $amber !important;
+}
+
+@media only screen and (max-width: 480px) {
+  .scores {
+    flex: 2;
+    display: flex;
+  
+    & div {
+      border: solid gray 1px;
+      height: 24px;
+      width: 24px;
+      max-width: 24px;
+      text-align: center;
+      color: #000000;
+      padding-top: 0;
+    }
+  }
+  .total {
+    font-weight: 600;
+    width: 36 !important;
+    max-width: 36px !important;
+  }
+}

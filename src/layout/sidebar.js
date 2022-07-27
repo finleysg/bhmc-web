@@ -8,7 +8,7 @@ import { BiEnvelope, BiLogInCircle } from "react-icons/bi"
 import { GiGolfFlag, GiTrophyCup } from "react-icons/gi"
 import { GoCalendar, GoHome, GoInfo, GoPlus, GoQuestion } from "react-icons/go"
 import { GrOrderedList } from "react-icons/gr"
-import { MdPeopleOutline, MdPersonAdd } from "react-icons/md"
+import { MdGridOn, MdPeopleOutline, MdPersonAdd } from "react-icons/md"
 import { RiGalleryFill } from "react-icons/ri"
 import { TiContacts } from "react-icons/ti"
 
@@ -24,7 +24,6 @@ function Sidebar() {
     <aside className={sidebarOpen ? "sidebar sidebar--bg toggled" : "sidebar sidebar--bg"}>
       <ul className="navigation">
         <MenuItem path="home" icon={<GoHome />} name="Home" />
-        {/* <MenuItem path="scorecards/east-west" icon={<GiGolfTee />} name="Gold/White Combo Tees" /> */}
         <MenuItem path="membership" icon={<GoPlus />} name={`${currentSeason} Signup Page`} />
         <MenuItem
           path={`calendar/${selectedMonth.year}/${selectedMonth.monthName.toLowerCase()}`}
@@ -36,6 +35,13 @@ function Sidebar() {
           icon={<GrOrderedList />}
           name="Event Results"
         />
+        {groups.indexOf(Groups.AuthenticatedUsers) >= 0 && (
+          <MenuItem
+            path="my-scores/gross"
+            icon={<MdGridOn />}
+            name={`My ${currentSeason} Scores`}
+          />
+        )}
         <MenuItem path="policies/policies-and-procedures" icon={<GoInfo />} name="Policies" />
         <MenuItem path="match-play" icon={<MdPeopleOutline />} name="Match Play" />
         <MenuItem path="season-long-points" icon={<GiGolfFlag />} name="Season Long Points" />
