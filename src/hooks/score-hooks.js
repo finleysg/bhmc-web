@@ -19,7 +19,7 @@ function useCourses() {
 function usePlayerScores(season, playerId, isNet) {
   const client = useClient()
 
-  const { data: scores } = useQuery(
+  const { data, status } = useQuery(
     ["scores", season, playerId, isNet],
     () =>
       client(`scores/?season=${season}&player_id=${playerId}&is_net=${isNet}`).then((data) =>
@@ -31,7 +31,7 @@ function usePlayerScores(season, playerId, isNet) {
     },
   )
 
-  return scores ?? []
+  return { scores: data ?? [], status }
 }
 
 export { useCourses, usePlayerScores }

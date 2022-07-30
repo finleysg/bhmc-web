@@ -15,13 +15,15 @@ function HoleScore(props) {
 }
 
 function RoundTotal(props) {
-  const { scores } = props
+  const { scores, places } = props
 
   const totalScore = scores.reduce((total, score) => total + +score.score, 0)
   const par = scores.reduce((total, score) => total + +score.par, 0)
 
   return (
-    <div className={totalScore < par ? "total below-par" : "total above-par"}>{totalScore}</div>
+    <div className={totalScore < par ? "total below-par" : "total above-par"}>
+      {Number.parseFloat(totalScore).toFixed(places)}
+    </div>
   )
 }
 
@@ -73,7 +75,7 @@ function Round(props) {
         {round.scores.map((score) => {
           return <HoleScore key={score.hole.id} score={score} />
         })}
-        <RoundTotal scores={round.scores} />
+        <RoundTotal scores={round.scores} places={0} />
       </div>
     </div>
   )
@@ -91,7 +93,7 @@ function AverageRound(props) {
         {scores.map((score) => {
           return <HoleScore key={score.hole.id} score={score} />
         })}
-        <RoundTotal scores={scores} />
+        <RoundTotal scores={scores} places={1} />
       </div>
     </div>
   )
@@ -109,7 +111,7 @@ function BestBallRound(props) {
         {scores.map((score) => {
           return <HoleScore key={score.hole.id} score={score} />
         })}
-        <RoundTotal scores={scores} />
+        <RoundTotal scores={scores} places={0} />
       </div>
     </div>
   )
@@ -162,16 +164,20 @@ function RoundsByCourse(props) {
           {course.name}
         </span>
       </div>
-      <div className="card-body">
-        <HoleNumbers course={course} />
-        <HolePars course={course} />
-        {rounds.map((round) => {
-          return <Round key={round.eventDate} round={round} />
-        })}
-        <hr />
-        <AverageRound scores={averageScores()} />
-        <BestBallRound scores={bestScores()} />
-      </div>
+      {rounds.length > 0 ? (
+        <div className="card-body">
+          <HoleNumbers course={course} />
+          <HolePars course={course} />
+          {rounds.map((round) => {
+            return <Round key={round.eventDate} round={round} />
+          })}
+          <hr />
+          <AverageRound scores={averageScores()} />
+          <BestBallRound scores={bestScores()} />
+        </div>
+      ) : (
+        <div className="card-body">No rounds played</div>
+      )}
     </div>
   )
 }
@@ -182,11 +188,11 @@ export function PlayerScores(props) {
   const player = usePlayer()
   const events = useClubEvents(currentSeason)
   const courses = useCourses()
-  const scores = usePlayerScores(currentSeason, player?.id, isNet)
+  const { scores, status } = usePlayerScores(currentSeason, player?.id, isNet)
 
   const rounds = LoadRounds(courses, events, scores)
 
-  const busy = !player?.id || events?.length === 0 || courses?.length === 0 || scores?.length === 0
+  const busy = !player?.id || events?.length === 0 || courses?.length === 0 || status === "loading"
 
   return (
     <div className="row">
