@@ -1,4 +1,4 @@
-import React from "react"
+import "./news.scss"
 
 import { DocumentCard } from "components/document/document-card"
 import { useRegistrationStatus } from "hooks/account-hooks"
@@ -23,7 +23,7 @@ function AnnouncementCard(props) {
 
   if (show(announcement.visibility)) {
     return (
-      <div style={{ marginBottom: "2rem" }}>
+      <div className="announcement" style={{ marginBottom: "2rem" }}>
         <h4 className="text-primary">{announcement.title}</h4>
         <ReactMarkdown remarkPlugins={[gfm]}>{announcement.text}</ReactMarkdown>
         <div>

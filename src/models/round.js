@@ -75,7 +75,7 @@ export function Hole(json) {
 
 export const LoadRounds = (courses, events, scores) => {
   const rounds = []
-  const scoresByEvent = scores.reduce((byEvent, score) => {
+  const scoresByEvent = scores?.reduce((byEvent, score) => {
     if (!byEvent[score.eventId]) {
       byEvent[score.eventId] = []
     }
@@ -94,5 +94,5 @@ export const LoadRounds = (courses, events, scores) => {
 }
 
 const getCourse = (courses, firstHole) => {
-  return courses.find((course) => course.holes.findIndex((hole) => hole.id === firstHole.id) >= 0)
+  return courses?.find((course) => course.holes.findIndex((hole) => hole.id === firstHole.id) >= 0)
 }
