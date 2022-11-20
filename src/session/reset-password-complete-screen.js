@@ -1,7 +1,3 @@
-import "./session.scss"
-
-import React from "react"
-
 import { Button } from "components/button/buttons"
 import { MdAccountCircle } from "react-icons/md"
 import { useNavigate } from "react-router-dom"

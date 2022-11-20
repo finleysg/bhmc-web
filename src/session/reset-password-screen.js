@@ -1,7 +1,3 @@
-import "./session.scss"
-
-import React from "react"
-
 import { useAuth } from "context/auth-context"
 import { MdAccountCircle } from "react-icons/md"
 import { RoutingMenu } from "session/routing-menu"
@@ -30,8 +26,8 @@ function ResetPasswordScreen() {
 
         <div className="login__body">
           <p>
-            Enter your email below. If you have an account with us with that email address, we will email you a link you
-            can use to create a new password.
+            Enter your email below. If you have an account with us with that email address, we will
+            email you a link you can use to create a new password.
           </p>
           <ResetPasswordForm onSubmit={requestPasswordReset} />
         </div>

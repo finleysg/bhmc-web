@@ -1,5 +1,3 @@
-import React from "react"
-
 import { useEventAdmin } from "context/admin-context"
 import { useLayout } from "context/layout-context"
 import { GiGolfFlag } from "react-icons/gi"

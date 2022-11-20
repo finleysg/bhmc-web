@@ -1,5 +1,3 @@
-import "./account.scss"
-
 import { PlayerInfo } from "./player-info"
 import { PlayerPassword } from "./player-password"
 import { ProfilePic } from "./profile-pic"

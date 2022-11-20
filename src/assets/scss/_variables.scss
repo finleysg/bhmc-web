@@ -59,15 +59,26 @@ $colors: (
   "blue-grey": $blue-grey,
 );
 
-// Theme Colors
+// First override some or all individual color variables
+$primary: $blue;
+$secondary: $gray-600;
+$success: $green;
+$info: $light-blue;
+$warning: $orange;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-800;
+
+// Then add them to your custom theme-colors map, together with any additional colors you might need
 $theme-colors: (
-  "primary": $blue,
-  "secondary": $gray-600,
-  "success": $green,
-  "info": $light-blue,
-  "warning": $orange,
-  "danger": $red,
-  "dark": $gray-700,
+  primary: $primary,
+  secondary: $secondary,
+  success: $success,
+  info: $info,
+  warning: $warning,
+  danger: $danger,
+  light: $light,
+  dark: $dark,
 );
 
 $yiq-text-dark: #525a62;

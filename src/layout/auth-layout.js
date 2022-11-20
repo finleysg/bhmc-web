@@ -1,7 +1,3 @@
-import "./auth-layout.scss"
-
-import React from "react"
-
 import { NotFoundScreen } from "pages/not-found"
 import { Route, Routes } from "react-router-dom"
 import { ToastContainer } from "react-toastify"

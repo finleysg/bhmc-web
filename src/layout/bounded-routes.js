@@ -1,8 +1,4 @@
-import "./main-layout.scss"
-
 import * as Sentry from "@sentry/react"
-
-import React from "react"
 
 import { useAuth } from "context/auth-context"
 import { useRoutes } from "react-router-dom"

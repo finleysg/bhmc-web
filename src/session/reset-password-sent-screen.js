@@ -1,7 +1,3 @@
-import "./session.scss"
-
-import React from "react"
-
 import { useAuth } from "context/auth-context"
 import { MdAccountCircle } from "react-icons/md"
 import { Link } from "react-router-dom"
@@ -25,10 +21,10 @@ function ResetPasswordSentScreen() {
             A password reset email has been sent to: <strong>{user?.email}</strong>.
           </p>
           <p>
-            If you don't receive a reset link within a few minutes, check to ensure that your email client is not
-            routing email from bhmc.org to junk or spam. If we don't have an account record with this email, that would
-            be another reason you might not receive a reset link. In that case, please{" "}
-            <Link to="/session/account">create an account</Link>.
+            If you don't receive a reset link within a few minutes, check to ensure that your email
+            client is not routing email from bhmc.org to junk or spam. If we don't have an account
+            record with this email, that would be another reason you might not receive a reset link.
+            In that case, please <Link to="/session/account">create an account</Link>.
           </p>
         </div>
       </div>

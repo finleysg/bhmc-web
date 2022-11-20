@@ -1,6 +1,3 @@
-import "./register.scss"
-import "../reserve/reserve.scss"
-
 import React from "react"
 
 import { StandardConfirmDialog } from "components/dialog/confirm"
@@ -17,15 +14,26 @@ import RegistrationForm from "./registration-form"
 import RegistrationPayment from "./registration-payment"
 
 function RegisterView({ selectedStart, mode, onCancel }) {
-  const { clubEvent, registration, payment, currentStep, cancelRegistration, updateStep, addPlayer } =
-    useEventRegistration()
+  const {
+    clubEvent,
+    registration,
+    payment,
+    currentStep,
+    cancelRegistration,
+    updateStep,
+    addPlayer,
+  } = useEventRegistration()
   const { mutate: addFriend } = useAddFriend()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
   const cancelRef = React.useRef()
 
   const layout =
-    clubEvent?.maximumSignupGroupSize === 1 ? "vertical" : clubEvent?.fees.length > 5 ? "vertical" : "horizontal"
+    clubEvent?.maximumSignupGroupSize === 1
+      ? "vertical"
+      : clubEvent?.fees.length > 5
+      ? "vertical"
+      : "horizontal"
   const showPickers = mode === "new" && clubEvent?.maximumSignupGroupSize > 1
 
   const handleFriendSelect = (friend) => {

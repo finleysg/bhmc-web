@@ -1,7 +1,3 @@
-import "./session.scss"
-
-import React from "react"
-
 import { useAuth } from "context/auth-context"
 import { MdAccountCircle } from "react-icons/md"
 import { RegisterForm } from "session/register-form"

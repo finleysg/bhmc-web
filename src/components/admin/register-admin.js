@@ -1,6 +1,3 @@
-import "../event-registration/register.scss"
-import "../reserve/reserve.scss"
-
 import React from "react"
 
 import PaymentInfo from "components/admin/payment-info"

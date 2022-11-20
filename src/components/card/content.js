@@ -1,5 +1,3 @@
-import "./card-table.scss"
-
 import { Children } from "react"
 
 import { usePageContent } from "hooks/use-page-content"

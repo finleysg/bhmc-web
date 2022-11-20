@@ -1,8 +1,3 @@
-import "./admin-layout.scss"
-import "./main-layout.scss"
-
-import React from "react"
-
 import { EventAdminProvider } from "context/admin-context"
 import { useLayout } from "context/layout-context"
 import { Groups, useGroups } from "hooks/account-hooks"

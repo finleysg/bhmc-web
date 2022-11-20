@@ -1,5 +1,3 @@
-import "./events.scss"
-
 import React from "react"
 
 import { AdminLink } from "components/button/admin-buttons"

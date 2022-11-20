@@ -1,7 +1,3 @@
-import "./session.scss"
-
-import React from "react"
-
 import { useAuth } from "context/auth-context"
 import { MdAccountCircle } from "react-icons/md"
 
@@ -24,8 +20,9 @@ function AccountConfirmScreen() {
             A verification email was sent to: <strong>{user.email}</strong>.
           </p>
           <p>
-            Open this email and click the link to activate your account. If you did not receive this email, please check
-            your spam and/or junk email folder. You need to allow emails from postmaster@bhmc.org.
+            Open this email and click the link to activate your account. If you did not receive this
+            email, please check your spam and/or junk email folder. You need to allow emails from
+            postmaster@bhmc.org.
           </p>
         </div>
       </div>

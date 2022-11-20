@@ -1,5 +1,3 @@
-import "./news.scss"
-
 import { DocumentCard } from "components/document/document-card"
 import { useRegistrationStatus } from "hooks/account-hooks"
 import { useSettings } from "hooks/use-settings"

@@ -1,5 +1,3 @@
-import "./calendar.scss"
-
 import { FullPageSpinner } from "components/spinners"
 
 import { CalendarDay } from "./calendar-day"
@@ -39,7 +37,13 @@ function EventCalendar(props) {
             return (
               <ul key={week.nbr} className="days">
                 {week.days.map((day) => {
-                  return <CalendarDay key={day.date.toString()} day={day} currentMonthNbr={getMonth(monthName)} />
+                  return (
+                    <CalendarDay
+                      key={day.date.toString()}
+                      day={day}
+                      currentMonthNbr={getMonth(monthName)}
+                    />
+                  )
                 })}
               </ul>
             )

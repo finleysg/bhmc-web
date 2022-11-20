@@ -6,19 +6,24 @@
 @import "node_modules/bootstrap/scss/bootstrap.scss";
 
 // Site Styles
-@import "../assets/scss/fonts";
+@import "../assets/scss/account";
 @import "../assets/scss/base";
-@import "../assets/scss/utilities";
-@import "../assets/scss/layout";
-@import "../assets/scss/misc";
-@import "../assets/scss/listview";
-@import "../assets/scss/todo";
+@import "../assets/scss/calendar";
+@import "../assets/scss/contacts";
+@import "../assets/scss/events";
+@import "../assets/scss/fonts";
 @import "../assets/scss/forms/toggle-switch";
 @import "../assets/scss/forms/icon-toggles";
-@import "../assets/scss/toolbars";
+@import "../assets/scss/layout";
+@import "../assets/scss/listview";
+@import "../assets/scss/misc";
 @import "../assets/scss/photos";
-@import "../assets/scss/contacts";
+@import "../assets/scss/registration";
+@import "../assets/scss/session";
 @import "../assets/scss/theme";
+@import "../assets/scss/todo";
+@import "../assets/scss/toolbars";
+@import "../assets/scss/utilities";
 
 // Bootstrap Overrides
 @import "../assets/scss/bootstrap-overrides/buttons";

@@ -1,7 +1,3 @@
-import "./main-layout.scss"
-
-import React from "react"
-
 import { useAuth } from "context/auth-context"
 import { useLayout } from "context/layout-context"
 import { ToastContainer } from "react-toastify"
