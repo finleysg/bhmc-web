@@ -1,6 +1,6 @@
-@import "../assets/scss/bootstrap/_functions.scss";
-@import "../assets/scss/bootstrap/mixins";
-@import "../assets/scss/bootstrap/_variables.scss";
+@import "node_modules/bootstrap/scss/_functions.scss";
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/_variables.scss";
 @import "../assets/scss/variables";
 @import "../assets/scss/mixins";
 
@@ -17,14 +17,6 @@
   padding: 1.2rem;
   @include animate(fadeInUp, 300ms);
   @include card();
-
-  //   @include media-breakpoint-up(sm) {
-  //     &:hover {
-  //       .login__actions .dropdown {
-  //         display: block;
-  //       }
-  //     }
-  //   }
 }
 
 .login__header {

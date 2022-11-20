@@ -8,7 +8,8 @@
   cursor: pointer;
 
   &:before {
-    @include size(calc(100% - 30px), calc(100% - 30px));
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
     position: absolute;
     left: 15px;
     top: 15px;
