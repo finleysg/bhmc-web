@@ -73,11 +73,6 @@ function AdminSidebar() {
           icon={<GrOrderedList />}
           name="Import Event Scores"
         />
-        {/* <MenuItem
-          path={`/admin/event/${eventId}/edit-event`}
-          icon={<MdEdit />}
-          name="Edit Event Notes"
-        /> */}
         <li>
           <a
             href={`${ADMIN_BASE}/events/event/${eventId}/change/`}

@@ -3,7 +3,6 @@ import { useLayout } from "context/layout-context"
 import { Groups, useGroups } from "hooks/account-hooks"
 import AdminAddPlayerPage from "pages/admin-add-player-page"
 import AdminCopyEventPage from "pages/admin-copy-event-page"
-import AdminEditFormatPage from "pages/admin-edit-format-page"
 import AdminEditPortalPage from "pages/admin-edit-portal-page"
 import AdminEditRegistrationPage from "pages/admin-edit-registration-page"
 import AdminEventPage from "pages/admin-event-page"
@@ -48,7 +47,6 @@ function AdminRoutes() {
           />
           <Route path="/event/:eventId/import-points" element={<AdminSlpPage />} />
           <Route path="/event/:eventId/import-scores" element={<AdminScoresPage />} />
-          <Route path="/event/:eventId/edit-event" element={<AdminEditFormatPage />} />
         </Route>
       )}
       {groups.indexOf(Groups.Administrators) >= 0 && (
