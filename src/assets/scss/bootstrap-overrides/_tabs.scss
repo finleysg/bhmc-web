@@ -1,5 +1,5 @@
 .nav-tabs {
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-only(xs) {
     flex-direction: column;
   }
 

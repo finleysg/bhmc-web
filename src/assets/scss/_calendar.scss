@@ -147,7 +147,7 @@ a.month-nav {
 /* ============================
     Mobile Responsiveness
 ============================*/
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-only(xs) {
   .calendar {
     .date {
       float: none;
