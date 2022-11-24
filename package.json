@@ -7,7 +7,6 @@
     "@emotion/styled": "^11.8.1",
     "@reach/alert-dialog": "^0.16.2",
     "@reach/dialog": "^0.16.2",
-    "@reach/tooltip": "^0.16.2",
     "@reach/visually-hidden": "^0.16.0",
     "@sentry/react": "^6.19.3",
     "@stripe/react-stripe-js": "^1.7.0",

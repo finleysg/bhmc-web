@@ -1,8 +1,4 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
 import styled from "@emotion/styled/macro"
-import Tooltip from "@reach/tooltip"
 
 import { Link as RouterLink } from "react-router-dom"
 import * as colors from "styles/colors"
@@ -12,8 +8,8 @@ import { Spinner } from "../spinners"
 const CircleButton = styled.button({
   borderRadius: "30px",
   padding: "0",
-  width: "40px",
-  height: "40px",
+  width: "28px",
+  height: "28px",
   lineHeight: "1",
   display: "flex",
   alignItems: "center",
@@ -22,6 +18,7 @@ const CircleButton = styled.button({
   color: colors.text,
   border: `1px solid ${colors.gray10}`,
   cursor: "pointer",
+  fontsize: "1.3rem",
 })
 
 const buttonVariants = {
@@ -85,47 +82,19 @@ const Link = styled(RouterLink)({
   },
 })
 
-function TooltipButton({ label, highlight, onClick, icon, ...rest }) {
-  return (
-    <Tooltip label={label}>
-      <CircleButton
-        css={{
-          backgroundColor: "white",
-          width: "28px",
-          height: "28px",
-          color: highlight,
-          fontsize: "1.3rem",
-          ":hover,:focus": {
-            color: highlight,
-          },
-        }}
-        onClick={onClick}
-        aria-label={label}
-        {...rest}
-      >
-        {icon}
-      </CircleButton>
-    </Tooltip>
-  )
-}
-
 function SolidIconActionButton({ onAction, color, label, children }) {
   return (
-    <Tooltip label={label}>
-      <ActionButtonSolid color={color} onClick={onAction}>
-        {children}
-      </ActionButtonSolid>
-    </Tooltip>
+    <ActionButtonSolid title={label} color={color} onClick={onAction}>
+      {children}
+    </ActionButtonSolid>
   )
 }
 
 function IconActionButton({ onAction, color, label, children }) {
   return (
-    <Tooltip label={label}>
-      <ActionButton color={color} onClick={onAction}>
-        {children}
-      </ActionButton>
-    </Tooltip>
+    <ActionButton title={label} color={color} onClick={onAction}>
+      {children}
+    </ActionButton>
   )
 }
 
@@ -160,7 +129,13 @@ function SubmitButton({ loading, ...props }) {
 
 function CancelButton({ loading, onCancel, ...props }) {
   return (
-    <button type="button" className="btn btn-light" disabled={loading} onClick={onCancel} {...props}>
+    <button
+      type="button"
+      className="btn btn-light"
+      disabled={loading}
+      onClick={onCancel}
+      {...props}
+    >
       Cancel
     </button>
   )
@@ -176,5 +151,4 @@ export {
   Link,
   SolidIconActionButton,
   SubmitButton,
-  TooltipButton,
 }
