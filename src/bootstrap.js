@@ -1,4 +1,3 @@
-import "@reach/dialog/styles.css"
 import "react-toastify/dist/ReactToastify.css"
 import "stop-runaway-react-effects/hijack"
 import "./styles/global.css"

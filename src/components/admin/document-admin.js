@@ -20,7 +20,6 @@ const DocumentContainer = styled.div({
 function DocumentAdmin({ documents, title, noResultMessage, onAddNew }) {
   const [showConfirm, setShowConfirm] = React.useState(false)
   const [idToDelete, setidToDelete] = React.useState(0)
-  const deleteRef = React.useRef()
   const { mutate: deleteDocument } = useEventDocumentDelete()
 
   const hasDocuments = Boolean(documents) && documents.length > 0
@@ -48,7 +47,12 @@ function DocumentAdmin({ documents, title, noResultMessage, onAddNew }) {
           {hasDocuments &&
             documents.map((doc) => (
               <DocumentContainer key={doc.id}>
-                <AdminAction color={colors.red} label="Delete document" id={doc.id} onAction={handleDelete} />
+                <AdminAction
+                  color={colors.red}
+                  label="Delete document"
+                  id={doc.id}
+                  onAction={handleDelete}
+                />
                 <DocumentCard document={doc} />
               </DocumentContainer>
             ))}
@@ -68,13 +72,12 @@ function DocumentAdmin({ documents, title, noResultMessage, onAddNew }) {
           </button>
         </div>
       </div>
-      {showConfirm && (
-        <StandardConfirmDialog
-          confirmRef={deleteRef}
-          onCancel={() => setShowConfirm(false)}
-          onConfirm={handleDeleteConfirm}
-        />
-      )}
+      <StandardConfirmDialog
+        show={showConfirm}
+        message="Permanently delete document?"
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   )
 }

@@ -1,6 +1,4 @@
 /** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
 
 import React from "react"
 
@@ -30,7 +28,6 @@ function RegisteredAdmin({ clubEvent }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])
   const [showDrop, setShowDrop] = React.useState(false)
   const [busy, setBusy] = React.useState(false)
-  const dropRef = React.useRef()
   const navigate = useNavigate()
   const registrations = useEventRegistrations(clubEvent.id)
   const { mutate: dropPlayers } = useDropPlayers()
@@ -121,15 +118,13 @@ function RegisteredAdmin({ clubEvent }) {
           )
         })}
       </div>
-      {showDrop && (
-        <DropPlayers
-          dropRef={dropRef}
-          clubEvent={clubEvent}
-          slots={selectedSlots}
-          onCancel={handleCancel}
-          onDrop={handleDropConfirm}
-        />
-      )}
+      <DropPlayers
+        showDrop={showDrop}
+        clubEvent={clubEvent}
+        slots={selectedSlots}
+        onCancel={handleCancel}
+        onDrop={handleDropConfirm}
+      />
     </div>
   )
 }

@@ -26,7 +26,6 @@ function RegisterView({ selectedStart, mode, onCancel }) {
   const { mutate: addFriend } = useAddFriend()
 
   const [showConfirm, setShowConfirm] = React.useState(false)
-  const cancelRef = React.useRef()
 
   const layout =
     clubEvent?.maximumSignupGroupSize === 1
@@ -120,13 +119,12 @@ function RegisterView({ selectedStart, mode, onCancel }) {
             selectedStart={selectedStart}
           />
         )}
-        {showConfirm && (
-          <StandardConfirmDialog
-            confirmRef={cancelRef}
-            onCancel={() => setShowConfirm(false)}
-            onConfirm={handleCancel}
-          />
-        )}
+        <StandardConfirmDialog
+          show={showConfirm}
+          message="Cancel registration?"
+          onCancel={() => setShowConfirm(false)}
+          onConfirm={handleCancel}
+        />
       </div>
       {showPickers && (
         <div className="col-12 col-md-3">

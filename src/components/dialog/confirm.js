@@ -1,34 +1,22 @@
-import styled from "@emotion/styled/macro"
-import { AlertDialog, AlertDialogDescription, AlertDialogLabel } from "@reach/alert-dialog"
+import Button from "react-bootstrap/Button"
+import Modal from "react-bootstrap/Modal"
 
-import * as mq from "styles/media-queries"
-
-const ConfirmAlertDialog = styled(AlertDialog)({
-  maxWidth: "360px",
-  margin: "20vh auto",
-  [mq.mobile]: {
-    width: "90vw",
-    margin: "10vh auto",
-  },
-})
-
-function StandardConfirmDialog({ confirmRef, onConfirm, onCancel, children }) {
+function StandardConfirmDialog({ show, onConfirm, onCancel, message }) {
   return (
-    <ConfirmAlertDialog leastDestructiveRef={confirmRef}>
-      <AlertDialogLabel>
-        <h4 className="text-primary">Please Confirm!</h4>
-      </AlertDialogLabel>
-      <AlertDialogDescription style={{ padding: "1rem 0" }}>{children}</AlertDialogDescription>
-      <div style={{ textAlign: "center" }} className="alert-buttons">
-        <button style={{ marginRight: ".5rem" }} className="btn btn-primary" onClick={onConfirm}>
+    <Modal show={show} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Header>
+        <Modal.Title>{message}</Modal.Title>
+      </Modal.Header>
+      <Modal.Footer>
+        <Button variant="primary" onClick={onConfirm}>
           Yes
-        </button>
-        <button style={{ marginLeft: ".5rem" }} className="btn btn-light" ref={confirmRef} onClick={onCancel}>
+        </Button>
+        <Button variant="light" onClick={onCancel}>
           No
-        </button>
-      </div>
-    </ConfirmAlertDialog>
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
 
-export { ConfirmAlertDialog, StandardConfirmDialog }
+export { StandardConfirmDialog }

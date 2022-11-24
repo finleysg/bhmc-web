@@ -19,7 +19,6 @@ function MyCards() {
   const [showConfirm, setShowConfirm] = React.useState(false)
   const [currentCard, setCurrentCard] = React.useState()
 
-  const removeRef = React.useRef()
   const { user } = useAuth()
   const myCards = useMyCards()
   const stripe = useStripe()
@@ -87,7 +86,11 @@ function MyCards() {
         <React.Fragment>
           <div className="row" style={{ marginBottom: "1rem", marginTop: "2rem" }}>
             <div className="col-12">
-              <ManageCreditCards cards={myCards} onAdd={() => setAction("add")} onRemove={handleRemoveCard} />
+              <ManageCreditCards
+                cards={myCards}
+                onAdd={() => setAction("add")}
+                onRemove={handleRemoveCard}
+              />
             </div>
           </div>
           {action === "add" && (
@@ -120,15 +123,12 @@ function MyCards() {
           </div>
         </React.Fragment>
       </CardContent>
-      {showConfirm && (
-        <StandardConfirmDialog
-          confirmRef={removeRef}
-          onCancel={() => setShowConfirm(false)}
-          onConfirm={handleRemoveCard}
-        >
-          <p>Are you sure you want to remove this card?</p>
-        </StandardConfirmDialog>
-      )}
+      <StandardConfirmDialog
+        show={showConfirm}
+        message="Remove this card?"
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={handleRemoveCard}
+      />
     </React.Fragment>
   )
 }

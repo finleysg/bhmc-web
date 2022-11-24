@@ -1,23 +1,15 @@
 import styled from "@emotion/styled/macro"
-import Dialog from "@reach/dialog"
 
 import React from "react"
 
-import { IconActionButton } from "components/button/buttons"
+import Modal from "react-bootstrap/Modal"
 import { GoScreenFull } from "react-icons/go"
-import { RiCloseFill } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 import * as colors from "styles/colors"
 import { isMobile, isSmall } from "styles/media-queries"
 import { mobileImageUrl } from "utils/image-utils"
 
 import { GalleryImage } from "./gallery-image"
-
-const containerCss = {
-  position: "absolute",
-  top: 3,
-  right: 3,
-}
 
 const PhotoButton = styled.a`
   padding: 2px;
@@ -37,7 +29,7 @@ const PhotoButton = styled.a`
 
 function OpenFullImage({ color, ...rest }) {
   return (
-    <div css={containerCss}>
+    <div className="mt-1">
       <PhotoButton color={color} {...rest}>
         <GoScreenFull />
       </PhotoButton>
@@ -80,18 +72,20 @@ function SmallPhoto(props) {
         }}
       />
       <OpenFullImage onClick={open} color={colors.blue} />
-      {showFullImage && (
-        <Dialog onDismiss={close} aria-label={pic.caption}>
-          <div style={{ position: "relative" }}>
-            <GalleryImage pic={pic} />
-            <div style={{ position: "absolute", top: "0", right: "0" }}>
-              <IconActionButton onAction={close} label="close" color={colors.black}>
-                <RiCloseFill />
-              </IconActionButton>
-            </div>
-          </div>
-        </Dialog>
-      )}
+      <Modal
+        show={showFullImage}
+        onHide={close}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>&nbsp;</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <GalleryImage pic={pic} />
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

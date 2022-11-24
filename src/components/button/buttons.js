@@ -5,22 +5,6 @@ import * as colors from "styles/colors"
 
 import { Spinner } from "../spinners"
 
-const CircleButton = styled.button({
-  borderRadius: "30px",
-  padding: "0",
-  width: "28px",
-  height: "28px",
-  lineHeight: "1",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  background: colors.base,
-  color: colors.text,
-  border: `1px solid ${colors.gray10}`,
-  cursor: "pointer",
-  fontsize: "1.3rem",
-})
-
 const buttonVariants = {
   primary: {
     background: colors.green,
@@ -144,7 +128,6 @@ function CancelButton({ loading, onCancel, ...props }) {
 export {
   Button,
   CancelButton,
-  CircleButton,
   IconActionButton,
   IconButton,
   IconSubmitButton,

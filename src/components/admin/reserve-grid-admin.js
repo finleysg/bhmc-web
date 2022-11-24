@@ -13,7 +13,6 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
   const [selectedRegistration, setSelectedRegistration] = React.useState(0)
   const [mode, setMode] = React.useState("select")
   const [showDrop, setShowDrop] = React.useState(false)
-  const dropRef = React.useRef()
   const navigate = useNavigate()
 
   const handlePlayerSelect = (slot) => {
@@ -118,15 +117,13 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
             onMoveConfirm={handleMoveConfirm}
           />
         ))}
-      {showDrop && (
-        <DropPlayers
-          dropRef={dropRef}
-          clubEvent={clubEvent}
-          slots={selectedSlots}
-          onCancel={handleCancel}
-          onDrop={handleDropConfirm}
-        />
-      )}
+      <DropPlayers
+        showDrop={showDrop}
+        clubEvent={clubEvent}
+        slots={selectedSlots}
+        onCancel={handleCancel}
+        onDrop={handleDropConfirm}
+      />
     </div>
   )
 }

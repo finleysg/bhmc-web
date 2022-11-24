@@ -1,11 +1,9 @@
-import styled from "@emotion/styled/macro"
-import { AlertDialog, AlertDialogDescription, AlertDialogLabel } from "@reach/alert-dialog"
-
 import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
 import { useClient } from "context/auth-context"
 import { ReserveSlot } from "models/reserve"
+import Modal from "react-bootstrap/Modal"
 import { useAsync } from "utils/use-async"
 
 import { RefundSlotDetail } from "./refund-slot-detail"
@@ -42,11 +40,7 @@ const createRefundDetails = (slots, payments, eventFeeMap) => {
   return transformedSlots
 }
 
-const DropPlayersAlertDialog = styled(AlertDialog)({
-  maxWidth: "560px",
-})
-
-function DropPlayers({ clubEvent, slots, dropRef, onDrop, onCancel }) {
+function DropPlayers({ clubEvent, slots, showDrop, onDrop, onCancel }) {
   const [dropSlots, setDropSlots] = React.useState([])
   const [dropNotes, setDropNotes] = React.useState("")
   const { data, isLoading, run } = useAsync()
@@ -93,11 +87,11 @@ function DropPlayers({ clubEvent, slots, dropRef, onDrop, onCancel }) {
   }
 
   return (
-    <DropPlayersAlertDialog leastDestructiveRef={dropRef}>
-      <AlertDialogLabel>
-        <h4 className="text-danger">Drop Players</h4>
-      </AlertDialogLabel>
-      <AlertDialogDescription style={{ padding: "1rem 0" }}>
+    <Modal show={showDrop} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+      <Modal.Header>
+        <Modal.Title>Drop Players</Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ padding: "1rem 0" }}>
         <div className="card border border-danger">
           <div className="card-body">
             <OverlaySpinner loading={isLoading} />
@@ -116,8 +110,8 @@ function DropPlayers({ clubEvent, slots, dropRef, onDrop, onCancel }) {
             </div>
           </div>
         </div>
-      </AlertDialogDescription>
-      <div style={{ display: "flex" }}>
+      </Modal.Body>
+      <Modal.Footer>
         <div style={{ flex: 1, fontWeight: "bold" }}>Refund amount: ${refundAmount()}</div>
         <button className="btn btn-light mr-2" onClick={onCancel}>
           Cancel
@@ -125,8 +119,8 @@ function DropPlayers({ clubEvent, slots, dropRef, onDrop, onCancel }) {
         <button className="btn btn-danger" onClick={handleDrop}>
           Confirm Drop
         </button>
-      </div>
-    </DropPlayersAlertDialog>
+      </Modal.Footer>
+    </Modal>
   )
 }
 
