@@ -1,6 +1,4 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
+import styled from "@emotion/styled"
 
 import React from "react"
 
@@ -14,11 +12,11 @@ import * as colors from "styles/colors"
 
 import { PhotoUploadForm } from "./photo-upload-form"
 
-const containerCss = {
+const UploadContainer = styled.div({
   position: "absolute",
   top: 3,
   right: 50,
-}
+})
 
 function PhotoUploader(props) {
   const { season, defaultTags } = props
@@ -43,7 +41,7 @@ function PhotoUploader(props) {
   if (isAdmin(groups)) {
     if (!upload) {
       return (
-        <div css={containerCss}>
+        <UploadContainer>
           <IconActionButton
             label="Upload a picture"
             color={colors.deepPurple}
@@ -51,7 +49,7 @@ function PhotoUploader(props) {
           >
             <MdCamera style={{ fontSize: "3rem" }} />
           </IconActionButton>
-        </div>
+        </UploadContainer>
       )
     } else {
       return (

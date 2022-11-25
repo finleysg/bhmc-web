@@ -149,7 +149,7 @@ test("renders a link to event admin for administrators", async () => {
       rounds: 1,
     }),
   )
-  render(<CalendarDay day={day} currentMonthNbr={10} />, { user: user })
+  render(<CalendarDay day={day} currentMonthNbr={10} />, { user })
   await waitForLoadingToFinish()
 
   expect(screen.getByRole("button")).toBeInTheDocument()
@@ -169,7 +169,7 @@ test("does not render a link to event admin for non-administrators", async () =>
       rounds: 1,
     }),
   )
-  render(<CalendarDay day={day} currentMonthNbr={10} />, { user: user })
+  render(<CalendarDay day={day} currentMonthNbr={10} />, { user })
   await waitForLoadingToFinish()
 
   expect(screen.queryByRole("button")).not.toBeInTheDocument()

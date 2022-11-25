@@ -3,13 +3,13 @@ import "./bootstrap"
 import * as Sentry from "@sentry/react"
 
 import React, { Suspense } from "react"
-import ReactDOM from "react-dom"
 
 import { FullPageSpinner } from "components/spinners"
 import { AppProviders } from "context"
 import { enableMapSet } from "immer"
 import AuthLayout from "layout/auth-layout"
 import MainLayout from "layout/main-layout"
+import { createRoot } from "react-dom/client"
 import { Route, Routes } from "react-router-dom"
 import * as config from "utils/app-config"
 
@@ -27,7 +27,9 @@ if (config.currentEnvironment !== "development") {
 
 enableMapSet()
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"))
+
+root.render(
   <React.StrictMode>
     <AppProviders>
       <Suspense fallback={<FullPageSpinner />}>
@@ -39,7 +41,6 @@ ReactDOM.render(
       </Suspense>
     </AppProviders>
   </React.StrictMode>,
-  document.getElementById("root"),
 )
 
 // If you want to start measuring performance in your app, pass a function

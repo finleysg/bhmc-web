@@ -101,7 +101,7 @@ function EventRegistrationProvider(props) {
             dispatch({
               type: EventRegistrationActions.LoadRegistration,
               payload: {
-                registration: registration,
+                registration,
                 payment: paymentPlaceholder(),
                 existingFees: fees,
               },

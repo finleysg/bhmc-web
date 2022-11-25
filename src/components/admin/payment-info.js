@@ -30,7 +30,7 @@ function PaymentInfo(props) {
     updatedPayment.paymentAmount = amountDue
 
     createPayment(
-      { payment: updatedPayment, player: player },
+      { payment: updatedPayment, player },
       {
         onSuccess: () => {
           if (mode === "edit") {

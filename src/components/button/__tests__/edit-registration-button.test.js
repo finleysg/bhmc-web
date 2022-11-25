@@ -31,7 +31,7 @@ test("renders the button if sign-ups have started and user is registered", async
 
   renderWithEventRegistration(
     <EditRegistrationButton clubEvent={testEvent} hasSignedUp={true} onClick={jest.fn()} />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
@@ -46,7 +46,7 @@ test("does not render the button if registration as not started", async () => {
   renderWithEventRegistration(
     <EditRegistrationButton clubEvent={testEvent} onClick={jest.fn()} />,
     {
-      user: user,
+      user,
     },
   )
 
@@ -61,7 +61,7 @@ test("does not render the button if there is no registration", async () => {
   renderWithEventRegistration(
     <EditRegistrationButton clubEvent={testEvent} onClick={jest.fn()} />,
     {
-      user: user,
+      user,
     },
   )
 

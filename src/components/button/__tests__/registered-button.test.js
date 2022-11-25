@@ -26,7 +26,7 @@ test("does not render the button if registration as not started", async () => {
 
   const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.shotgun, state: "future" }))
   renderWithEventRegistration(<RegisteredButton clubEvent={testEvent} onClick={jest.fn()} />, {
-    user: user,
+    user,
   })
 
   await waitFor(() => expect(screen.queryByRole("link", { name: /👀 registered/i })).not.toBeInTheDocument())
@@ -38,7 +38,7 @@ test("does not render the button if there is no registration", async () => {
   const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.deadline }))
 
   renderWithEventRegistration(<RegisteredButton clubEvent={testEvent} onClick={jest.fn()} />, {
-    user: user,
+    user,
   })
 
   await waitFor(() => expect(screen.queryByRole("link", { name: /👀 registered/i })).not.toBeInTheDocument())

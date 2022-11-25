@@ -128,7 +128,7 @@ function RoundsByCourse(props) {
       })
       const total = scores.reduce((total, score) => total + +score.score, 0)
       return new AverageScore({
-        hole: hole,
+        hole,
         score: total / scores.length,
       })
     })

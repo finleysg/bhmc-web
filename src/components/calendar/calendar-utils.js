@@ -157,7 +157,7 @@ function Calendar(year, monthName) {
     for (let i = 0; i < 6; i++) {
       const days = this.buildWeek(addDays(firstSunday, i * 7))
       if (i === 0 || isSameMonth(firstDay, days[0].date)) {
-        weeks.push({ nbr: i, days: days })
+        weeks.push({ nbr: i, days })
       }
     }
     return weeks

@@ -38,7 +38,7 @@ const createRefundDetails = (registration, payment, payments, eventFeeMap) => {
             id: detail.id,
             eventFee: eventFeeMap.get(detail.event_fee),
             paidBy: `${payment.user_first_name} ${payment.user_last_name}`,
-            payment: payment,
+            payment,
             selected: true,
           })
         }

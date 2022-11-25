@@ -81,7 +81,7 @@ const createRefunds = (slots, notes) => {
         acc.set(curr.payment.id, {
           payment: curr.payment.id,
           refund_amount: curr.eventFee.amount,
-          notes: notes,
+          notes,
         })
       }
       return acc

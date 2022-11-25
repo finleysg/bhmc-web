@@ -78,7 +78,7 @@ test("renders the button for an authenticated user in the season sign-up event",
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
@@ -113,7 +113,7 @@ test("renders null for an authenticated user who has already signed up for the s
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
@@ -148,7 +148,7 @@ test("renders the button for a member and a weeknight event", async () => {
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
@@ -183,7 +183,7 @@ test("renders null for a non-member and a weeknight event", async () => {
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
@@ -218,7 +218,7 @@ test("renders null for a member and a weeknight event in the future", async () =
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
@@ -253,7 +253,7 @@ test("renders null for a member and a weeknight event in the past", async () => 
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
@@ -288,7 +288,7 @@ test("renders the button for a non-member and an open event", async () => {
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
@@ -324,7 +324,7 @@ test("renders null for a non-member without a ghin and an open event", async () 
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
@@ -359,7 +359,7 @@ test("renders null for a non-member and a member-guest event", async () => {
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
@@ -399,7 +399,7 @@ test("renders null for an event without registration", async () => {
       currentStep={RegistrationSteps.Pending}
       onClick={jest.fn()}
     />,
-    { user: user },
+    { user },
   )
 
   await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())

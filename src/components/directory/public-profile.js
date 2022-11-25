@@ -1,7 +1,3 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
-
 import clsx from "clsx"
 import { OverlaySpinner } from "components/spinners"
 import { useBoardMembers, usePlayer, usePlayerAces, usePlayerChampionships, usePlayerEvents } from "hooks/player-hooks"
@@ -14,20 +10,18 @@ import defaultProfilePic from "../../assets/img/unknown.jpg"
 import Trophies from "./trophies"
 
 function ProfileImage({ player }) {
-  const profileCss = { maxWidth: "100%", height: "auto", display: "block", margin: "auto" }
-
   if (player.imageUrl()) {
     return (
       <div style={{ position: "relative" }}>
         <picture>
           <source srcSet={player.mobileImageUrl()} media="(max-width: 600px)" />
           <source srcSet={player.webImageUrl()} media="(max-width: 1200px)" />
-          <img className="img-responsive" src={player.imageUrl()} css={profileCss} alt="Profile" />
+          <img className="img-responsive" src={player.imageUrl()} alt="Profile" />
         </picture>
       </div>
     )
   }
-  return <img className="img-responsive" css={profileCss} src={defaultProfilePic} alt="Profile" />
+  return <img className="img-responsive" src={defaultProfilePic} alt="Profile" />
 }
 
 function PlayerDetail({ label, children }) {

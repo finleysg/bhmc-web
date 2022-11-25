@@ -17,7 +17,7 @@ function ReserveAdmin({ clubEvent, reserveTables }) {
 
   const handleMove = ({ registrationId, sourceSlots, destinationSlots }) => {
     movePlayers({
-      registrationId: registrationId,
+      registrationId,
       sourceSlotIds: sourceSlots.map((s) => s.id),
       destinationSlotIds: destinationSlots.map((d) => d.id),
     })

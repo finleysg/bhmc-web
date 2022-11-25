@@ -32,7 +32,7 @@ function StaticDocumentUpload(props) {
       )
     } else {
       create(
-        { code: code, formData: form },
+        { code, formData: form },
         {
           onSuccess: () => {
             toast.success("📄 Your document has been created.")

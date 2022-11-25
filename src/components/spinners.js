@@ -1,13 +1,11 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx, keyframes } from "@emotion/react"
+import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled/macro"
 
 import { ImSpinner9 } from "react-icons/im"
 import * as colors from "styles/colors"
 import { rgba } from "styles/rgba"
 
-const loaderCss = {
+const Loader = styled.div({
   position: "absolute",
   margin: "auto",
   width: "3rem",
@@ -19,16 +17,16 @@ const loaderCss = {
   right: 0,
   color: colors.green,
   zIndex: 10,
-}
+})
 
-const overlayCss = {
+const Overlay = styled.div({
   position: "absolute",
   top: 0,
   left: 0,
   width: "100%",
   height: "100%",
   backgroundColor: rgba(colors.white, 0.5),
-}
+})
 
 const spin = keyframes({
   "0%": { transform: "rotate(0deg)" },
@@ -46,11 +44,11 @@ function OverlaySpinner(props) {
   const { loading } = props
   if (loading) {
     return (
-      <div css={overlayCss}>
-        <div css={loaderCss}>
+      <Overlay>
+        <Loader>
           <Spinner />
-        </div>
-      </div>
+        </Loader>
+      </Overlay>
     )
   }
   return null
@@ -61,7 +59,7 @@ function LoadingSpinner(props) {
   if (loading) {
     return (
       <div
-        css={{
+        style={{
           fontSize: "3em",
           paddingTop: offset ?? "120px",
           display: "flex",
@@ -80,7 +78,7 @@ function LoadingSpinner(props) {
 function FullPageSpinner() {
   return (
     <div
-      css={{
+      style={{
         fontSize: "4em",
         height: "100vh",
         display: "flex",

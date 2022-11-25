@@ -1,6 +1,4 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
+import styled from "@emotion/styled/macro"
 import { CardElement } from "@stripe/react-stripe-js"
 
 import React from "react"
@@ -12,11 +10,10 @@ import { GoPlusSmall } from "react-icons/go"
 import { MdRemoveCircle } from "react-icons/md"
 import * as colors from "styles/colors"
 
-const cardStyle = {
+const CardImageContainer = styled.div({
   fontSize: "2rem",
   height: "24px",
-  //   textAlign: "center",
-}
+})
 
 const cardImage = (brand) => {
   switch (brand) {
@@ -89,7 +86,12 @@ function CreditCardList(props) {
             />
           )
         })}
-      <CreditCard card={newCard} onSelect={handleSelection} selected={selectedCard === "new"} {...props} />
+      <CreditCard
+        card={newCard}
+        onSelect={handleSelection}
+        selected={selectedCard === "new"}
+        {...props}
+      />
     </div>
   )
 }
@@ -101,11 +103,18 @@ function ManageCreditCards(props) {
     <div>
       {cards &&
         cards.map((card) => {
-          return <ManagedCreditCard key={card.paymentMethod} card={card} onRemove={onRemove} {...props} />
+          return (
+            <ManagedCreditCard
+              key={card.paymentMethod}
+              card={card}
+              onRemove={onRemove}
+              {...props}
+            />
+          )
         })}
       <div style={{ display: "flex", cursor: "pointer" }} onClick={() => onAdd()}>
         <div style={{ flex: "1" }}>
-          <div css={cardStyle}>{cardImage("add")}</div>
+          <CardImageContainer>{cardImage("add")}</CardImageContainer>
         </div>
         <div style={{ flex: "7" }}>
           <span style={{ marginLeft: "8px" }}>
@@ -127,7 +136,7 @@ function CreditCard(props) {
       onClick={() => onSelect(card.paymentMethod)}
     >
       <div style={{ flex: "1" }}>
-        <div css={cardStyle}>{cardImage(card.brand)}</div>
+        <CardImageContainer>{cardImage(card.brand)}</CardImageContainer>
       </div>
       <div style={{ flex: "4" }}>
         <span style={{ marginLeft: "8px" }}>
@@ -151,7 +160,7 @@ function ManagedCreditCard(props) {
   return (
     <div style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
       <div style={{ flex: "1" }}>
-        <div css={cardStyle}>{cardImage(card.brand)}</div>
+        <CardImageContainer>{cardImage(card.brand)}</CardImageContainer>
       </div>
       <div style={{ flex: "4" }}>
         <span style={{ marginLeft: "8px" }}>
@@ -172,7 +181,11 @@ function ManagedCreditCard(props) {
         )}
       </div>
       <div style={{ flex: "1", height: "1.5rem", textAlign: "right" }}>
-        <span className="text-danger" style={{ fontSize: "1.5rem", cursor: "pointer" }} onClick={() => onRemove(card)}>
+        <span
+          className="text-danger"
+          style={{ fontSize: "1.5rem", cursor: "pointer" }}
+          onClick={() => onRemove(card)}
+        >
           <MdRemoveCircle />
         </span>
       </div>

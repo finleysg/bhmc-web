@@ -1,4 +1,4 @@
-/** @jsxRuntime classic */
+import styled from "@emotion/styled/macro"
 
 import React from "react"
 
@@ -16,13 +16,13 @@ import { createRefunds } from "utils/payment-utils"
 
 import DropPlayers from "./drop-players"
 
-const PlayerContainerCss = {
+const PlayerContainer = styled.div({
   position: "relative",
   padding: 0,
   margin: "5px",
   width: "150px",
   display: "inline-block",
-}
+})
 
 function RegisteredAdmin({ clubEvent }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])
@@ -96,7 +96,7 @@ function RegisteredAdmin({ clubEvent }) {
         <h4 className="card-title text-primary">Manage Players</h4>
         {getPlayers().map((p) => {
           return (
-            <div key={p.id} css={PlayerContainerCss}>
+            <PlayerContainer key={p.id}>
               <AdminAction2
                 color={colors.blue}
                 label="Edit registration"
@@ -114,7 +114,7 @@ function RegisteredAdmin({ clubEvent }) {
                 <RiDeleteBin6Line />
               </AdminAction2>
               <ReservedPlayer playerRegistration={p} isLink={false} />
-            </div>
+            </PlayerContainer>
           )
         })}
       </div>

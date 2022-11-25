@@ -49,7 +49,7 @@ function PointsAdmin({ clubEvent, documents, title, noResultMessage }) {
     importPoints({
       eventId: clubEvent.id,
       documentId: document.id,
-      info: info,
+      info,
     })
     setIsImporting(false)
   }

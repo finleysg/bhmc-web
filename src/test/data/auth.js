@@ -54,7 +54,7 @@ const buildRegisterForm = build({
     lastName: fake((f) => f.name.lastName()),
     email: fake((f) => f.internet.email()),
     ghin: fake((f) => f.datatype.number(7).toString()),
-    password: password,
+    password,
     rePassword: password,
   },
 })

@@ -30,8 +30,8 @@ function DocumentForm({ onSubmit, onCancel, title, documentType, isLoading, erro
   return (
     <Formik
       initialValues={{
-        title: title,
-        documentType: documentType,
+        title,
+        documentType,
       }}
       validationSchema={Yup.object({
         title: Yup.string().required("A document title is required"),

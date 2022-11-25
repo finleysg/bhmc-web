@@ -7,7 +7,7 @@ import * as Yup from "yup"
 function RefundForm({ refundAmount, isBusy, onSubmit, onCancel }) {
   return (
     <Formik
-      initialValues={{ issueRefund: false, refundAmount: refundAmount, notes: "" }}
+      initialValues={{ issueRefund: false, refundAmount, notes: "" }}
       validationSchema={Yup.object({
         issueRefund: Yup.bool(),
         refundAmount: Yup.number().when("issueRefund", {

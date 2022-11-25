@@ -1,6 +1,3 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from "@emotion/react"
 import styled from "@emotion/styled/macro"
 
 import { Groups, useGroups } from "hooks/account-hooks"
@@ -11,11 +8,11 @@ import * as colors from "styles/colors"
 
 import { IconActionButton } from "./buttons"
 
-const containerCss = {
+const ActionContainer = styled.div({
   position: "absolute",
   top: 3,
   right: 3,
-}
+})
 
 const ActionLink = styled.a`
   padding: 2px;
@@ -38,11 +35,11 @@ export const isAdmin = (groups) => {
 
 function PhotoLink({ to, color, ...rest }) {
   return (
-    <div css={containerCss} {...rest}>
+    <ActionContainer {...rest}>
       <ActionLink color={color} href={to} target="_blank">
         <HiExternalLink />
       </ActionLink>
-    </div>
+    </ActionContainer>
   )
 }
 
@@ -56,11 +53,11 @@ function AdminLink({ to, color, label, ...rest }) {
 
   if (isAdmin(groups)) {
     return (
-      <div css={containerCss} {...rest}>
+      <ActionContainer {...rest}>
         <IconActionButton color={color} label={label} onAction={handleClick}>
           <RiHomeGearLine />
         </IconActionButton>
-      </div>
+      </ActionContainer>
     )
   }
   return null
@@ -71,11 +68,11 @@ function AdminAction({ id, color, label, onAction, ...rest }) {
 
   if (isAdmin(groups)) {
     return (
-      <div css={containerCss} {...rest}>
+      <ActionContainer {...rest}>
         <IconActionButton color={color} label={label} onAction={() => onAction(id)}>
           <RiDeleteBin5Line />
         </IconActionButton>
-      </div>
+      </ActionContainer>
     )
   }
   return null
@@ -86,11 +83,11 @@ function AdminAction2({ id, color, label, onAction, children, ...rest }) {
 
   if (isAdmin(groups)) {
     return (
-      <div css={containerCss} {...rest}>
+      <ActionContainer {...rest}>
         <IconActionButton color={color} label={label} onAction={() => onAction(id)}>
           {children}
         </IconActionButton>
-      </div>
+      </ActionContainer>
     )
   }
   return null

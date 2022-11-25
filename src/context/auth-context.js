@@ -72,7 +72,7 @@ function AuthProvider(props) {
           const user = {
             first_name: "unknown",
             last_name: "unknown",
-            email: email,
+            email,
           }
           setData(user)
         }) // anonymous user, but set the email

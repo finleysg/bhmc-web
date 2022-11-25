@@ -81,7 +81,7 @@ function EventAdminProvider(props) {
             dispatch({
               type: EventAdminActions.LoadRegistration,
               payload: {
-                registration: registration,
+                registration,
                 payment: paymentPlaceholder(),
                 existingFees: fees,
               },

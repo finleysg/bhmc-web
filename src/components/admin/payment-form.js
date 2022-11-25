@@ -7,7 +7,7 @@ import * as Yup from "yup"
 function PaymentForm({ amountDue, isBusy, onSubmit, onCancel, onBack }) {
   return (
     <Formik
-      initialValues={{ amountDue: amountDue, paymentCode: "" }}
+      initialValues={{ amountDue, paymentCode: "" }}
       validationSchema={Yup.object({
         amountDue: Yup.number().required("An amount is required (0 is ok)"),
         paymentCode: Yup.string().max(40).required("Cash, check #, waived, etc."),
