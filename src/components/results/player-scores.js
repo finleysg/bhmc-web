@@ -4,7 +4,6 @@ import { OverlaySpinner } from "components/spinners"
 import { usePlayer } from "hooks/account-hooks"
 import { useClubEvents } from "hooks/event-hooks"
 import { useCourses, usePlayerScores } from "hooks/score-hooks"
-import { useSettings } from "hooks/use-settings"
 import { AverageScore, LoadRounds, Score } from "models/round"
 import * as colors from "styles/colors"
 
@@ -183,12 +182,11 @@ function RoundsByCourse(props) {
 }
 
 export function PlayerScores(props) {
-  const { isNet } = props
-  const { currentSeason } = useSettings()
+  const { isNet, season } = props
   const player = usePlayer()
-  const events = useClubEvents(currentSeason)
+  const events = useClubEvents(season)
   const courses = useCourses()
-  const { scores, status } = usePlayerScores(currentSeason, player?.id, isNet)
+  const { scores, status } = usePlayerScores(season, player?.id, isNet)
 
   const rounds = LoadRounds(courses, events, scores)
 

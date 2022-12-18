@@ -6,12 +6,11 @@ import { useSettings } from "hooks/use-settings"
 import { FaCalendarAlt } from "react-icons/fa"
 import { Link, useParams } from "react-router-dom"
 
-function ResultSeasonMenu({ eventType, season }) {
+export function SeasonMenu({ baseUrl, season, startAt }) {
   const { currentSeason } = useSettings()
   const [showMenu, setShowMenu] = React.useState(false)
 
   const seasons = () => {
-    const startAt = 2013
     const size = currentSeason - startAt + 1
     return [...Array(size).keys()].map((i) => i + startAt)
   }
@@ -31,7 +30,7 @@ function ResultSeasonMenu({ eventType, season }) {
                 <Link
                   key={year}
                   onClick={() => setShowMenu(false)}
-                  to={`/results/${eventType}/${year}`}
+                  to={`${baseUrl}/${year}`}
                   className="dropdown-item"
                 >
                   {year}
@@ -49,7 +48,7 @@ function ResultsPage() {
 
   return (
     <div className="content__inner">
-      <ResultSeasonMenu eventType={eventType} season={season} />
+      <SeasonMenu baseUrl={`/results/${eventType}`} season={season} startAt={2013} />
       <div>
         <Tabs>
           <Tab to={`/results/weeknight-events/${season}`}>Weeknight Events</Tab>

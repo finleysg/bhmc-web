@@ -37,9 +37,9 @@ function Sidebar() {
         />
         {groups.indexOf(Groups.AuthenticatedUsers) >= 0 && (
           <MenuItem
-            path="my-scores/gross"
+            path={`my-scores/gross/${currentSeason}`}
             icon={<MdGridOn />}
-            name={`My ${currentSeason} Scores`}
+            name={`My Scores`}
           />
         )}
         <MenuItem path="policies/policies-and-procedures" icon={<GoInfo />} name="Policies" />

@@ -39,7 +39,7 @@ const mainRoutes = (user) =>
         { path: "/event/:eventDate/:eventName/register", element: <UnfinishedPage /> },
         { path: "/event/:eventDate/:eventName/registrations", element: <ReservedPage /> },
         { path: "/results/:eventType/:season", element: <ResultsPage /> },
-        { path: "/my-scores/:scoreType", element: <PlayerScoresPage /> },
+        { path: "/my-scores/:scoreType/:season", element: <PlayerScoresPage /> },
         { path: "/policies/:policyType", element: <PolicyPage /> },
         { path: "/match-play", element: <MatchPlayPage /> },
         { path: "/season-long-points", element: <SeasonLongPointsPage /> },
