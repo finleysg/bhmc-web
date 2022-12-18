@@ -2,6 +2,7 @@ import React from "react"
 
 import { isBefore } from "date-fns"
 import { Link } from "react-router-dom"
+import * as colors from "styles/colors"
 
 function RegisteredButton({ clubEvent, ...rest }) {
   const [canView, setCanView] = React.useState(false)
@@ -18,7 +19,12 @@ function RegisteredButton({ clubEvent, ...rest }) {
 
   if (canView) {
     return (
-      <Link className="btn btn-info btn-sm" to={clubEvent?.eventUrl + "/registrations"} {...rest}>
+      <Link
+        className="btn btn-info btn-sm"
+        style={{ color: colors.white }}
+        to={clubEvent?.eventUrl + "/registrations"}
+        {...rest}
+      >
         👀 Registered
       </Link>
     )

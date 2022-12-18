@@ -62,7 +62,7 @@ $colors: (
 
 // First override some or all individual color variables
 $primary: $blue;
-$secondary: $gray-600;
+$secondary: $blue-grey;
 $success: $green;
 $info: $light-blue;
 $warning: $orange;
@@ -189,7 +189,8 @@ $navigation-link-color: $body-color;
 $navigation-link-active-color: $white;
 $navigation-link-hover-bg: rgba(0, 0, 0, 0.04);
 
-// Tabels
+// Tables
+$table-striped-bg: $gray-50;
 $table-border-color: lighten($gray-200, 3%);
 $table-dark-bg: #313a44;
 $table-dark-border-color: #3e464e;

@@ -1,5 +1,3 @@
-import React from "react"
-
 import * as colors from "styles/colors"
 
 function EventPortalButton({ clubEvent, ...rest }) {
@@ -13,7 +11,7 @@ function EventPortalButton({ clubEvent, ...rest }) {
         rel="noreferrer"
         {...rest}
       >
-        🌐 Event Portal
+        ⛳ Leaderboard
       </a>
     )
   }
