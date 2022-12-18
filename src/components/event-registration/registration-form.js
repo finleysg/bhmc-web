@@ -9,13 +9,24 @@ import RegistrationAmountDue from "./registration-amount-due"
 import RegistrationGroup from "./registration-group"
 
 function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, mode, ...rest }) {
-  const { clubEvent, registration, payment, updateRegistration, savePayment, removePlayer, addFee, removeFee } =
-    useEventRegistration()
+  const {
+    clubEvent,
+    registration,
+    payment,
+    updateRegistration,
+    savePayment,
+    removePlayer,
+    addFee,
+    removeFee,
+  } = useEventRegistration()
 
   const isBusy = registration === undefined || registration.id === undefined
 
   // Update the registration with changes to the notes.
-  const updateNotes = React.useMemo(() => debounceFn(updateRegistration, { wait: 500 }), [updateRegistration])
+  const updateNotes = React.useMemo(
+    () => debounceFn(updateRegistration, { wait: 500 }),
+    [updateRegistration],
+  )
 
   const handleNotesChange = (e) => {
     const reg = Object.assign({}, registration, { notes: e.target.value })
@@ -60,18 +71,27 @@ function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, 
               className="form-control fc-alt"
               defaultValue={registration.notes}
               onChange={handleNotesChange}
-              rows="4"
               name="notes"
               readOnly={mode === "edit"}
+              style={{ height: "100px" }}
             ></textarea>
           </div>
         </div>
         <div className="row" style={{ marginTop: "1rem", textAlign: "right" }}>
           <div className="col-12">
-            <button className="btn btn-light" disabled={isBusy} onClick={() => onCancel(registration.id)}>
+            <button
+              className="btn btn-light"
+              disabled={isBusy}
+              onClick={() => onCancel(registration.id)}
+            >
               Cancel
             </button>
-            <button className="btn btn-success" disabled={isBusy} style={{ marginLeft: ".5rem" }} onClick={confirm}>
+            <button
+              className="btn btn-success"
+              disabled={isBusy}
+              style={{ marginLeft: ".5rem" }}
+              onClick={confirm}
+            >
               Confirm & Pay
             </button>
           </div>
