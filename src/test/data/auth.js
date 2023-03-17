@@ -20,6 +20,7 @@ const buildUser = build({
     is_active: true,
     is_authenticated: true,
     is_staff: false,
+    groups: [],
   },
 })
 
@@ -32,6 +33,7 @@ const buildAdminUser = build({
     is_active: true,
     is_authenticated: true,
     is_staff: true,
+    groups: [],
   },
 })
 
@@ -45,6 +47,7 @@ const buildUserWithToken = build({
     is_authenticated: true,
     is_staff: false,
     token: fake((f) => f.datatype.uuid()),
+    groups: [],
   },
 })
 

@@ -1,18 +1,16 @@
 import userEvent from "@testing-library/user-event"
 
-import React from "react"
-
 import { LoginScreen } from "session/login-screen"
 import { buildLoginForm } from "test/data/auth"
 import { rest, server } from "test/test-server"
-import { renderSession, screen, waitFor, waitForLoadingToFinish } from "test/test-utils"
+import {
+  createHistory,
+  renderSession,
+  screen,
+  waitFor,
+  waitForLoadingToFinish,
+} from "test/test-utils"
 import { apiUrl, authUrl } from "utils/client-utils"
-
-const mockNav = jest.fn()
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => mockNav,
-}))
 
 afterEach(() => {
   // TODO: this is a useAuth implementation detail -- alternative?
@@ -20,36 +18,41 @@ afterEach(() => {
 })
 
 test("successful login", async () => {
+  const history = createHistory("/session/login")
+
   // post-login calls to bootstrap a user
   server.use(
-    rest.get(apiUrl(`players`), async (req, res, ctx) => {
-      return res(ctx.json([{}]))
+    rest.get(apiUrl(`players`), async (_, response, context) => {
+      return response(context.json([{}]))
     }),
-    rest.get(apiUrl(`registration-slots`), async (req, res, ctx) => {
-      return res(ctx.json([]))
+    rest.get(apiUrl(`registration-slots`), async (_, response, context) => {
+      return response(context.json([]))
     }),
   )
 
-  renderSession(<LoginScreen />)
+  renderSession(<LoginScreen />, { history })
 
   await waitForLoadingToFinish()
 
   const { email, password } = buildLoginForm()
 
-  userEvent.type(screen.getByRole("textbox", { name: /email/i }), email)
-  userEvent.type(screen.getByLabelText(/password/i), password)
-  userEvent.click(screen.getByRole("button"))
+  await userEvent.type(screen.getByRole("textbox", { name: /email/i }), email)
+  await userEvent.type(screen.getByLabelText(/password/i), password)
+  await userEvent.click(screen.getByRole("button"))
 
-  await waitFor(() => expect(mockNav).toHaveBeenCalledWith("home"))
+  waitFor(() => expect(history.location.pathname).toEqual("/home")).then(() => {
+    // navigation finished
+  })
 })
 
 test("invalid credentials displays the error message", async () => {
   const testErrorMessage = ["Unable to log in with provided credentials."]
   const loginUrl = authUrl("token/login")
+
   server.use(
-    rest.post(loginUrl, async (req, res, ctx) => {
-      const err = ctx.json({ non_field_errors: testErrorMessage })
-      return res(ctx.status(400), err)
+    rest.post(loginUrl, async (_, response, context) => {
+      const err = context.json({ non_field_errors: testErrorMessage })
+      return response(context.status(400), err)
     }),
   )
 
@@ -59,9 +62,9 @@ test("invalid credentials displays the error message", async () => {
 
   const { email, password } = buildLoginForm()
 
-  userEvent.type(screen.getByRole("textbox", { name: /email/i }), email)
-  userEvent.type(screen.getByLabelText(/password/i), password)
-  userEvent.click(screen.getByRole("button"))
+  await userEvent.type(screen.getByRole("textbox", { name: /email/i }), email)
+  await userEvent.type(screen.getByLabelText(/password/i), password)
+  await userEvent.click(screen.getByRole("button"))
 
   const alert = await screen.findByRole("alert")
 

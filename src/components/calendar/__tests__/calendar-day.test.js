@@ -1,5 +1,3 @@
-import React from "react"
-
 import { addDays, parseISO, subDays } from "date-fns"
 import { ClubEvent } from "models/club-event"
 import { buildAdminUser, buildUser } from "test/data/auth"
@@ -82,9 +80,9 @@ test("overrides the link to the season event", async () => {
     new ClubEvent({
       id: 1,
       name: "Season Sign Up",
-      start_date: "2020-11-15",
-      signup_start: subDays(new Date("2020-11-15"), 1).toISOString(),
-      signup_end: addDays(new Date("2020-11-15"), 7).toISOString(),
+      start_date: "2021-1-15",
+      signup_start: subDays(new Date("2021-1-15"), 1).toISOString(),
+      signup_end: addDays(new Date("2021-4-15"), 7).toISOString(),
       rounds: 1,
     }),
   )
@@ -92,7 +90,10 @@ test("overrides the link to the season event", async () => {
   render(<CalendarDay day={day} currentMonthNbr={10} />)
   await waitForLoadingToFinish()
 
-  expect(screen.getByRole("link", { name: /season sign up/i })).toHaveAttribute("href", "/membership")
+  expect(screen.getByRole("link", { name: /season sign up/i })).toHaveAttribute(
+    "href",
+    "/membership",
+  )
 })
 
 test("overrides the link to the match play event", async () => {
@@ -111,7 +112,10 @@ test("overrides the link to the match play event", async () => {
   render(<CalendarDay day={day} currentMonthNbr={10} />)
   await waitForLoadingToFinish()
 
-  expect(screen.getByRole("link", { name: /season long match play/i })).toHaveAttribute("href", "/match-play")
+  expect(screen.getByRole("link", { name: /season long match play/i })).toHaveAttribute(
+    "href",
+    "/match-play",
+  )
 })
 
 test("renders an external url for non-club events", async () => {
@@ -136,7 +140,7 @@ test("renders an external url for non-club events", async () => {
 })
 
 test("renders a link to event admin for administrators", async () => {
-   const user = buildAdminUser()
+  const user = buildAdminUser()
 
   const day = new Day(parseISO("2020-11-15"))
   day.events.push(

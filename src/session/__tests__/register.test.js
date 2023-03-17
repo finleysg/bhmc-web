@@ -1,11 +1,15 @@
 import userEvent from "@testing-library/user-event"
 
-import React from "react"
-
 import { RegisterScreen } from "session/register-screen"
 import { buildRegisterForm } from "test/data/auth"
 import { rest, server } from "test/test-server"
-import { renderSession, screen, waitFor, waitForLoadingToFinish } from "test/test-utils"
+import {
+  createHistory,
+  renderSession,
+  screen,
+  waitFor,
+  waitForLoadingToFinish,
+} from "test/test-utils"
 import { authUrl } from "utils/client-utils"
 
 const mockNav = jest.fn()
@@ -15,22 +19,25 @@ jest.mock("react-router-dom", () => ({
 }))
 
 test("successful registration", async () => {
-  renderSession(<RegisterScreen />)
+  const history = createHistory("/session/account")
+  renderSession(<RegisterScreen />, { history })
 
   await waitForLoadingToFinish()
 
   const { firstName, lastName, email, ghin, password, rePassword } = buildRegisterForm()
 
-  userEvent.type(screen.getByLabelText(/first name/i, { exact: true }), firstName)
-  userEvent.type(screen.getByLabelText(/last name/i), lastName)
-  userEvent.type(screen.getByLabelText(/email/i), email)
-  userEvent.type(screen.getByLabelText(/ghin/i), ghin)
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), rePassword)
+  await userEvent.type(screen.getByLabelText(/first name/i, { exact: true }), firstName)
+  await userEvent.type(screen.getByLabelText(/last name/i), lastName)
+  await userEvent.type(screen.getByLabelText(/email/i), email)
+  await userEvent.type(screen.getByLabelText(/ghin/i), ghin)
+  await userEvent.type(screen.getByLabelText("Password", { exact: true }), password)
+  await userEvent.type(screen.getByLabelText(/confirm password/i), rePassword)
 
-  userEvent.click(screen.getByRole("button"))
+  await userEvent.click(screen.getByRole("button"))
 
-  await waitFor(() => expect(mockNav).toHaveBeenCalledWith("session/account/confirm"))
+  waitFor(() => expect(history.location.pathname).toEqual("/session/account/confirm")).then(() => {
+    // navigation finished
+  })
 })
 
 test("duplicate email displays custom message", async () => {
@@ -48,13 +55,13 @@ test("duplicate email displays custom message", async () => {
 
   const { firstName, lastName, email, password, rePassword } = buildRegisterForm()
 
-  userEvent.type(screen.getByLabelText(/first name/i, { exact: true }), firstName)
-  userEvent.type(screen.getByLabelText(/last name/i), lastName)
-  userEvent.type(screen.getByLabelText(/email/i), email)
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), password)
-  userEvent.type(screen.getByLabelText(/confirm password/i), rePassword)
+  await userEvent.type(screen.getByLabelText(/first name/i, { exact: true }), firstName)
+  await userEvent.type(screen.getByLabelText(/last name/i), lastName)
+  await userEvent.type(screen.getByLabelText(/email/i), email)
+  await userEvent.type(screen.getByLabelText("Password", { exact: true }), password)
+  await userEvent.type(screen.getByLabelText(/confirm password/i), rePassword)
 
-  userEvent.click(screen.getByRole("button"))
+  await userEvent.click(screen.getByRole("button"))
 
   const alert = await screen.findByRole("alert")
 

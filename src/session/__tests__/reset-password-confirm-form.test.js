@@ -1,8 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
-import React from "react"
-
 import * as faker from "faker"
 import { ResetPasswordConfirmForm } from "session/reset-password-confirm-form"
 import { formSubmitSpy } from "test/test-utils"
@@ -20,11 +18,9 @@ test("submitting the reset password confirm form calls onSubmit", async () => {
   const newPassword = faker.internet.password()
   const reNewPassword = newPassword
 
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
-  userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
-  userEvent.click(screen.getByRole("button"))
-
-  await screen.findByTitle("loading")
+  await userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
+  await userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
+  await userEvent.click(screen.getByRole("button"))
 
   expect(handleSubmit).toHaveBeenCalledWith({
     new_password: newPassword,
@@ -42,9 +38,9 @@ test("submitting the login form with mismatched passwords fails validation", asy
   const newPassword = faker.internet.password()
   const reNewPassword = "bogus"
 
-  userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
-  userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
-  userEvent.click(screen.getByRole("button"))
+  await userEvent.type(screen.getByLabelText("Password", { exact: true }), newPassword)
+  await userEvent.type(screen.getByLabelText(/confirm password/i), reNewPassword)
+  await userEvent.click(screen.getByRole("button"))
 
   await screen.findByText(/passwords must match/i)
 

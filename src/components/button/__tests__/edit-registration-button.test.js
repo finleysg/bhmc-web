@@ -1,10 +1,13 @@
-import React from "react"
-
 import { ClubEvent } from "models/club-event"
 import { buildPlayer } from "test/data/account"
 import { buildUser, buildUserWithToken } from "test/data/auth"
 import { getTestEvent, TestEventType } from "test/data/test-events"
-import { renderWithEventRegistration, screen, testingQueryClient, waitFor } from "test/test-utils"
+import {
+  renderWithEventRegistration,
+  screen,
+  testingQueryClient,
+  waitForLoadingToFinish,
+} from "test/test-utils"
 
 import { EditRegistrationButton } from "../edit-registration-button"
 
@@ -30,11 +33,13 @@ test("renders the button if sign-ups have started and user is registered", async
   )
 
   renderWithEventRegistration(
-    <EditRegistrationButton clubEvent={testEvent} hasSignedUp={true} onClick={jest.fn()} />,
+    <div>
+      <EditRegistrationButton clubEvent={testEvent} hasSignedUp={true} onClick={jest.fn()} />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
+  await screen.findByRole("button")
 })
 
 test("does not render the button if registration as not started", async () => {
@@ -44,13 +49,16 @@ test("does not render the button if registration as not started", async () => {
     getTestEvent({ eventType: TestEventType.shotgun, state: "future" }),
   )
   renderWithEventRegistration(
-    <EditRegistrationButton clubEvent={testEvent} onClick={jest.fn()} />,
+    <div>
+      <EditRegistrationButton clubEvent={testEvent} onClick={jest.fn()} />
+    </div>,
     {
       user,
     },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("does not render the button if there is no registration", async () => {
@@ -59,11 +67,14 @@ test("does not render the button if there is no registration", async () => {
   const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.deadline }))
 
   renderWithEventRegistration(
-    <EditRegistrationButton clubEvent={testEvent} onClick={jest.fn()} />,
+    <div>
+      <EditRegistrationButton clubEvent={testEvent} onClick={jest.fn()} />
+    </div>,
     {
       user,
     },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })

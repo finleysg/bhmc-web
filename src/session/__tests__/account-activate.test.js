@@ -1,7 +1,5 @@
-import React from "react"
-
 import { rest, server } from "test/test-server"
-import { renderSession, screen, waitFor, waitForLoadingToFinish } from "test/test-utils"
+import { renderSession, screen, waitForLoadingToFinish } from "test/test-utils"
 import { authUrl } from "utils/client-utils"
 
 import { AccountActivateScreen } from "../account-activate-screen"
@@ -16,7 +14,7 @@ test("successful activation", async () => {
 
   await waitForLoadingToFinish()
 
-  await waitFor(() => expect(screen.queryByText(/your account is active/i)).toBeInTheDocument())
+  await screen.findByText(/your account is active/i)
 })
 
 test("failed activation", async () => {

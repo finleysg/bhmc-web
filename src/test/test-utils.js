@@ -3,6 +3,7 @@ import { render as rtlRender, screen, waitForElementToBeRemoved } from "@testing
 
 import { AuthProvider } from "context/auth-context"
 import { EventRegistrationProvider } from "context/registration-context"
+import { createMemoryHistory } from "history"
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query"
 import { MemoryRouter as Router } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
@@ -17,14 +18,17 @@ const formSubmitSpy = () => {
 }
 
 const waitForLoadingToFinish = () =>
-  waitForElementToBeRemoved(() => [...screen.queryAllByLabelText(/loading/i), ...screen.queryAllByText(/loading/i)], {
-    timeout: 4000,
-  })
+  waitForElementToBeRemoved(
+    () => [...screen.queryAllByLabelText(/loading/i), ...screen.queryAllByText(/loading/i)],
+    {
+      timeout: 4000,
+    },
+  )
 
-function render(ui, { user = guestUser, ...options } = {}) {
+function render(ui, { user = guestUser, history, ...options } = {}) {
   const Wrapper = ({ children }) => (
     <QueryClientProvider client={testingQueryClient}>
-      <Router>
+      <Router history={history}>
         <AuthProvider value={{ user }}>
           <div>
             <ToastContainer />
@@ -55,10 +59,10 @@ function renderWithEventRegistration(ui, { user = guestUser, ...options } = {}) 
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
-function renderSession(ui, { ...options } = {}) {
+function renderSession(ui, { history, ...options } = {}) {
   const Wrapper = ({ children }) => (
     <QueryClientProvider client={testingQueryClient}>
-      <Router>
+      <Router history={history}>
         <AuthProvider>
           <div>
             <ToastContainer />
@@ -76,8 +80,27 @@ function simpleRender(ui, { user = null, ...options } = {}) {
   return rtlRender(ui, { wrapper: Wrapper, ...options })
 }
 
+function createHistory(startingRoute) {
+  return createMemoryHistory({
+    initialEntries: [startingRoute ?? "/"],
+  })
+}
+
+const deferred = () => {
+  let resolve
+  let reject
+  // eslint-disable-next-line promise/param-names
+  const promise = new Promise((res, rej) => {
+    resolve = res
+    reject = rej
+  })
+  return { promise, resolve, reject }
+}
+
 export * from "@testing-library/react"
 export {
+  createHistory,
+  deferred,
   formSubmitSpy,
   render,
   renderSession,

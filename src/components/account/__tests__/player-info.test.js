@@ -1,5 +1,3 @@
-import React from "react"
-
 import Player from "models/player"
 import { rest } from "msw"
 import { buildPlayer } from "test/data/account"

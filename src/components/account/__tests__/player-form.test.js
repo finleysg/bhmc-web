@@ -1,7 +1,5 @@
 import userEvent from "@testing-library/user-event"
 
-import React from "react"
-
 import Player from "models/player"
 import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
@@ -25,11 +23,11 @@ test("player form happy path", async () => {
   await waitForLoadingToFinish()
 
   // perform an update
-  userEvent.clear(screen.getByRole("textbox", { name: /ghin/i }))
-  userEvent.type(screen.getByRole("textbox", { name: /ghin/i }), "1234567")
-  userEvent.click(screen.getByRole("button", { name: /save/i }))
+  await userEvent.clear(screen.getByRole("textbox", { name: /ghin/i }))
+  await userEvent.type(screen.getByRole("textbox", { name: /ghin/i }), "1234567")
+  await userEvent.click(screen.getByRole("button", { name: /save/i }))
 
-  await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument()) // the toast
+  await screen.findByRole("alert") // the toast
   await waitFor(() => expect(close).toHaveBeenCalledTimes(1))
 })
 
@@ -49,9 +47,9 @@ test("submitting the player form when it fails validation", async () => {
   await waitForLoadingToFinish()
 
   // perform an invalid update
-  userEvent.clear(screen.getByRole("textbox", { name: /email/i }))
-  userEvent.type(screen.getByRole("textbox", { name: /email/i }), "not valid")
-  userEvent.click(screen.getByRole("button", { name: /save/i }))
+  await userEvent.clear(screen.getByRole("textbox", { name: /email/i }))
+  await userEvent.type(screen.getByRole("textbox", { name: /email/i }), "not valid")
+  await userEvent.click(screen.getByRole("button", { name: /save/i }))
 
   await screen.findByText(/invalid email address/i)
 

@@ -8,8 +8,8 @@ const handlers = [
     return res(
       ctx.delay(delay),
       ctx.json([
-        { current_season: 2021, member_event_id: 1, match_play_event_id: 2, is_active: true },
-        { current_season: 2020, member_event_id: -1, match_play_event_id: -2, is_active: false },
+        { season: 2021, member_event: 1, match_play_event: 2, is_active: true },
+        { season: 2020, member_event: -1, match_play_event: -2, is_active: false },
       ]),
     )
   }),

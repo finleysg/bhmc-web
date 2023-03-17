@@ -1,5 +1,3 @@
-import React from "react"
-
 import { RegistrationSteps } from "context/registration-context"
 import { format } from "date-fns"
 import { ClubEvent } from "models/club-event"
@@ -7,7 +5,12 @@ import { buildPlayer } from "test/data/account"
 import { buildUserWithToken } from "test/data/auth"
 import { getTestEvent, TestEventType } from "test/data/test-events"
 import { rest, server } from "test/test-server"
-import { renderWithEventRegistration, screen, testingQueryClient, waitFor } from "test/test-utils"
+import {
+  renderWithEventRegistration,
+  screen,
+  testingQueryClient,
+  waitForLoadingToFinish,
+} from "test/test-utils"
 import { apiUrl } from "utils/client-utils"
 
 import { RegisterButton } from "../register-button"
@@ -68,20 +71,24 @@ test("renders the button for an authenticated user in the season sign-up event",
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.season, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.season, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={false}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={false}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
+  await screen.findByRole("button")
 })
 
 test("renders null for an authenticated user who has already signed up for the season sign-up event", async () => {
@@ -103,20 +110,25 @@ test("renders null for an authenticated user who has already signed up for the s
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.season, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.season, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={true}
-      isMember={true}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={true}
+        isMember={true}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("renders the button for a member and a weeknight event", async () => {
@@ -138,20 +150,24 @@ test("renders the button for a member and a weeknight event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={true}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={true}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
+  await screen.findByRole("button")
 })
 
 test("renders null for a non-member and a weeknight event", async () => {
@@ -173,20 +189,25 @@ test("renders null for a non-member and a weeknight event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.weeknight, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={false}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={false}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("renders null for a member and a weeknight event in the future", async () => {
@@ -208,20 +229,25 @@ test("renders null for a member and a weeknight event in the future", async () =
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "future" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.weeknight, state: "future" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={true}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={true}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("renders null for a member and a weeknight event in the past", async () => {
@@ -243,20 +269,25 @@ test("renders null for a member and a weeknight event in the past", async () => 
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.weeknight, state: "past" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.weeknight, state: "past" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={true}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={true}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("renders the button for a non-member and an open event", async () => {
@@ -278,20 +309,24 @@ test("renders the button for a non-member and an open event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.open, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.open, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={false}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={false}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).toBeInTheDocument())
+  await screen.findByRole("button")
 })
 
 test("renders null for a non-member without a ghin and an open event", async () => {
@@ -314,20 +349,25 @@ test("renders null for a non-member without a ghin and an open event", async () 
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.open, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.open, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={false}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={false}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("renders null for a non-member and a member-guest event", async () => {
@@ -349,20 +389,25 @@ test("renders null for a non-member and a member-guest event", async () => {
     }),
   )
 
-  const testEvent = new ClubEvent(getTestEvent({ eventType: TestEventType.guest, state: "registration" }))
+  const testEvent = new ClubEvent(
+    getTestEvent({ eventType: TestEventType.guest, state: "registration" }),
+  )
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={false}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={false}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })
 
 test("renders null for an event without registration", async () => {
@@ -392,15 +437,18 @@ test("renders null for an event without registration", async () => {
   })
 
   renderWithEventRegistration(
-    <RegisterButton
-      clubEvent={testEvent}
-      hasSignedUp={false}
-      isMember={true}
-      currentStep={RegistrationSteps.Pending}
-      onClick={jest.fn()}
-    />,
+    <div>
+      <RegisterButton
+        clubEvent={testEvent}
+        hasSignedUp={false}
+        isMember={true}
+        currentStep={RegistrationSteps.Pending}
+        onClick={jest.fn()}
+      />
+    </div>,
     { user },
   )
 
-  await waitFor(() => expect(screen.queryByRole("button")).not.toBeInTheDocument())
+  expect(screen.queryByRole("button")).not.toBeInTheDocument()
+  await waitForLoadingToFinish()
 })

@@ -7,6 +7,7 @@
   "extends": [
     "standard",
     "plugin:react/recommended",
+    "plugin:testing-library/react",
     "prettier"
   ],
   "parserOptions": {
@@ -18,7 +19,8 @@
   },
   "plugins": [
     "react",
-    "prettier"
+    "prettier",
+    "testing-library"
   ],
   "rules": {
     "react/prop-types": 0,
