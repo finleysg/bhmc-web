@@ -1,7 +1,5 @@
 import styled from "@emotion/styled"
 
-import React from "react"
-
 import { useDropzone } from "react-dropzone"
 
 const getColor = (props) => {
@@ -49,19 +47,22 @@ const defaultFileTypes =
 
 function FilePicker(props) {
   const { multiple, accept, onSelected } = props
-  const { acceptedFiles, getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
-    multiple: multiple || false,
-    accept: accept || defaultFileTypes,
-    onDrop: (acceptedFiles) => {
-      onSelected(acceptedFiles)
-    },
-  })
+  const { acceptedFiles, getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } =
+    useDropzone({
+      multiple: multiple || false,
+      accept: accept || defaultFileTypes,
+      onDrop: (acceptedFiles) => {
+        onSelected(acceptedFiles)
+      },
+    })
 
   const files = acceptedFiles.map((file) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
   ))
+
+  console.log(accept)
 
   return (
     <section className="container">
