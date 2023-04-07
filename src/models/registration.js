@@ -34,4 +34,11 @@ function RegistrationSlot(json) {
   this.paidFeeIds = []
 }
 
-export { Registration, RegistrationSlot }
+function getTeamNumber(slot, teamSize) {
+  if (!teamSize || teamSize === 1) {
+    return 0 // no team number for singles
+  }
+  return slot.slot < teamSize ? 1 : 2
+}
+
+export { getTeamNumber, Registration, RegistrationSlot }

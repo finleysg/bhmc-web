@@ -114,6 +114,7 @@ const sampleEvent = {
   start_type: "SG",
   status: "S",
   total_groups: null,
+  team_size: 1,
 }
 
 const loadingEvent = {
@@ -147,6 +148,7 @@ function EventFee(json) {
   this.code = json.fee_type.code
   this.isRequired = !!json.is_required
   this.restriction = json.fee_type.restriction
+  this.isSkinsFee = this.code === "S" || this.code === "TS"
 }
 
 /**
@@ -193,6 +195,7 @@ function ClubEvent(json) {
   this.totalGroups = json.total_groups
   this.defaultTag = json.default_tag?.name
   this.teeTimeSplits = json.tee_time_splits || ""
+  this.teamSize = json.team_size || 1
 
   // derived properties
   if (this.rounds <= 1) {

@@ -38,10 +38,12 @@ function EventDetailPage() {
   const navigate = useNavigate()
   const isLoading = !clubEvent.id
 
-  if (clubEvent.id === seasonEventId) {
-    navigate("/membership")
-  } else if (clubEvent.id === seasonMatchPlayId) {
-    navigate("/match-play")
+  if (clubEvent.id !== 0) {
+    if (clubEvent.id === seasonEventId) {
+      navigate("/membership")
+    } else if (clubEvent.id === seasonMatchPlayId) {
+      navigate("/match-play")
+    }
   }
 
   return (

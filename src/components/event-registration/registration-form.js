@@ -58,6 +58,8 @@ function RegistrationForm({ onCancel, onComplete, selectedStart, title, layout, 
           removeFee={removeFee}
           layout={layout}
           mode={mode}
+          teamSize={clubEvent.teamSize}
+          skinsType={clubEvent.skinsType}
         />
         <RegistrationAmountDue amountDue={amountDue} />
         {/* <div>

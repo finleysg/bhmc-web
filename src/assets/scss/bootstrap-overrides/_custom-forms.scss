@@ -200,6 +200,7 @@
 
   &:disabled {
     color: $gray-500;
+    background-color: $gray-300;
   }
 }
 
@@ -241,6 +242,7 @@
 
     &:disabled + .checkbox__control {
       color: $gray-500;
+      background-color: $gray-300;
     }
   }
 }

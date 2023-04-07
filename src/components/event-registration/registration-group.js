@@ -1,4 +1,4 @@
-import React from "react"
+import { getTeamNumber } from "models/registration"
 
 import EventFeeHeader from "./event-fee-header"
 import RegistrationSlot from "./registration-slot"
@@ -12,6 +12,8 @@ function RegistrationGroup({
   addFee,
   removeFee,
   mode,
+  teamSize,
+  skinsType,
   ...rest
 }) {
   const handleRemovePlayer = (slot) => {
@@ -38,6 +40,8 @@ function RegistrationGroup({
           eventFees={eventFees}
           onRemovePlayer={handleRemovePlayer}
           onToggleFee={handleToggleFee}
+          team={getTeamNumber(slot, teamSize)}
+          skinsType={skinsType}
           {...rest}
         />
       ))}

@@ -1,9 +1,8 @@
-import React from "react"
-
 import { ErrorDisplay } from "components/errors"
 import { OverlaySpinner } from "components/spinners"
 import { useEventRegistration } from "context/registration-context"
 import { Payment } from "models/payment"
+import { getTeamNumber } from "models/registration"
 import { getAmountDue } from "utils/payment-utils"
 
 import RegistrationSlotReview from "./registration-slot-review"
@@ -31,6 +30,7 @@ function RegistrationConfirm(props) {
                 <RegistrationSlotReview
                   key={slot.id}
                   slot={slot}
+                  team={getTeamNumber(slot, clubEvent.teamSize)}
                   paymentDetails={payment.details}
                   fees={clubEvent.fees}
                 />
@@ -61,10 +61,20 @@ function RegistrationConfirm(props) {
           <button className="btn btn-light" disabled={isBusy} onClick={onBack}>
             Back
           </button>
-          <button className="btn btn-light" disabled={isBusy} style={{ marginLeft: ".5rem" }} onClick={onCancel}>
+          <button
+            className="btn btn-light"
+            disabled={isBusy}
+            style={{ marginLeft: ".5rem" }}
+            onClick={onCancel}
+          >
             Cancel
           </button>
-          <button className="btn btn-success" disabled={isBusy} style={{ marginLeft: ".5rem" }} onClick={onComplete}>
+          <button
+            className="btn btn-success"
+            disabled={isBusy}
+            style={{ marginLeft: ".5rem" }}
+            onClick={onComplete}
+          >
             👍 Looks Good
           </button>
         </div>

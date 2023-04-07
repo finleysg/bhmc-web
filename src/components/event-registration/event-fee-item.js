@@ -42,6 +42,7 @@ function RestrictedEventFeeItem(props) {
 
 function UnrestrictedEventFeeItem({ fee, mode, selected, disabled, onToggleFee }) {
   const isSelected = selected || fee.isRequired
+
   return (
     <div className="fee">
       <div className="fee-item fee-item--select">

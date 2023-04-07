@@ -78,6 +78,8 @@ function RegisterInfo({ onCancel, onComplete, selectedStart, title, layout, mode
               removeFee={handleRemoveFee}
               layout={layout}
               mode={mode}
+              teamSize={clubEvent.teamSize}
+              skinsType={clubEvent.skinsType}
             />
             <RegistrationAmountDue amountDue={amountDue} />
             <hr />

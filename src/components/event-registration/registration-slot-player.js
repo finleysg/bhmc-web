@@ -1,7 +1,7 @@
 import React from "react"
 
 function RegistrationSlotPlayer(props) {
-  const { slot, mode, onRemovePlayer } = props
+  const { slot, mode, team, onRemovePlayer } = props
 
   return (
     <div className="player">
@@ -9,6 +9,11 @@ function RegistrationSlotPlayer(props) {
       {slot.playerId !== 0 && (
         <React.Fragment>
           <span className="text-teal">{slot.playerName}</span>
+          {team > 0 && (
+            <span style={{ marginLeft: "1rem", fontWeight: "bold" }} className="text-muted">
+              Team {team}
+            </span>
+          )}
           {mode === "new" && slot.slot > 0 && (
             <span style={{ marginLeft: "1rem" }}>
               <button

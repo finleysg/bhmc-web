@@ -75,7 +75,7 @@ function RegisterView({ selectedStart, mode, onCancel }) {
     <div className="row">
       <div className="col-12 col-md-6">
         {currentStep === EventRegistrationSteps.Register && (
-          <div>
+          <div style={{ position: "relative" }}>
             <RegistrationForm
               layout={layout}
               mode={mode}

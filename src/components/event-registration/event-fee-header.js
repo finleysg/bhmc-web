@@ -1,8 +1,10 @@
-import React from "react"
-
 function EventFeeHeader({ eventFees }) {
   return (
-    <div className="slot" style={{ marginTop: "-1rem", marginBottom: "1rem" }}>
+    <div
+      className="slot"
+      data-testid="event-fee-header"
+      style={{ marginTop: "-1rem", marginBottom: "1rem" }}
+    >
       <div className="fees" style={{ alignItems: "flex-end" }}>
         {eventFees.map((eventFee) => {
           return (

@@ -1,11 +1,20 @@
-import React from "react"
-
 import * as colors from "styles/colors"
 
 import EventFeeItem from "./event-fee-item"
 import RegistrationSlotPlayer from "./registration-slot-player"
 
-function RegistrationSlot({ layout, slot, mode, payment, eventFees, onRemovePlayer, onToggleFee, ...rest }) {
+function RegistrationSlot({
+  layout,
+  slot,
+  mode,
+  payment,
+  eventFees,
+  onRemovePlayer,
+  onToggleFee,
+  team,
+  skinsType,
+  ...rest
+}) {
   // If there is a payment object created, has a given fee been selected?
   const hasPaymentDetail = (eventFee) => {
     if (payment && payment.details) {
@@ -34,9 +43,27 @@ function RegistrationSlot({ layout, slot, mode, payment, eventFees, onRemovePlay
     }
   }
 
+  const allowTeamFee = (eventFee) => {
+    if (eventFee.isSkinsFee && skinsType === "Team") {
+      // only allow team fee for the first player on a team
+      if (team === 1) {
+        return slot.slot === 0
+      } else if (team === 2) {
+        return slot.slot === 2
+      } else {
+        return false
+      }
+    }
+    return true // no team restriction
+  }
+
   return (
-    <div className="slot" style={{ backgroundColor: colors.gray50 }}>
-      <RegistrationSlotPlayer slot={slot} onRemovePlayer={onRemovePlayer} mode={mode} />
+    <div
+      className="slot"
+      style={{ backgroundColor: colors.gray50 }}
+      data-testid="registration-slot"
+    >
+      <RegistrationSlotPlayer slot={slot} onRemovePlayer={onRemovePlayer} mode={mode} team={team} />
       <div className="fees">
         {eventFees.map((eventFee) => {
           const existing = slot.paidFeeIds.indexOf(eventFee.id) >= 0
@@ -46,9 +73,8 @@ function RegistrationSlot({ layout, slot, mode, payment, eventFees, onRemovePlay
               fee={eventFee}
               playerId={slot.playerId}
               selected={hasPaymentDetail(eventFee) || existing}
-              disabled={slot.playerId === 0 || existing}
+              disabled={slot.playerId === 0 || existing || !allowTeamFee(eventFee)}
               onToggleFee={handleToggleFee}
-              mode={mode}
               {...rest}
             />
           )
