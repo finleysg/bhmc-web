@@ -4,7 +4,6 @@ import EventFeeItem from "./event-fee-item"
 import RegistrationSlotPlayer from "./registration-slot-player"
 
 function RegistrationSlot({
-  layout,
   slot,
   mode,
   payment,

@@ -1,7 +1,7 @@
 import { merge } from "lodash"
 import { EventFee } from "models/club-event"
 import { Payment } from "models/payment"
-import { Registration } from "models/registration"
+import { Registration, RegistrationSlot } from "models/registration"
 
 export const eventFee = (fee) => {
   return new EventFee(
@@ -120,6 +120,28 @@ export const createRegistration = (registration) => {
         ],
       },
       registration,
+    ),
+  )
+}
+
+export const createRegistrationSlot = (slot) => {
+  return new RegistrationSlot(
+    merge(
+      {},
+      {
+        id: 1,
+        event: 1,
+        registration: 1,
+        hole: 1,
+        player: {
+          id: 1,
+          first_name: "John",
+          last_name: "Dough",
+        },
+        starting_order: 0,
+        slot: 0,
+      },
+      slot,
     ),
   )
 }
