@@ -17,7 +17,6 @@ Season Long Points:
 
 Registration:
 - Enforce require ghin at the server level
-* Handle team skins
 - Admin signup review and bug fixes (if any)
 - Selected start is missing on Skins payment flow
 - Validate required fees
@@ -35,7 +34,6 @@ Administration:
 - More contextual links to admin website
 - Go through admin site and fix up all models/screens as needed
 - Fix bugs in admin signup
-- Membership report
 
 Testing:
 - Organize test utilities and test data

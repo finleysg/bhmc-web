@@ -88,7 +88,9 @@ export const LoadRounds = (courses, events, scores) => {
   for (const eventId of Object.keys(scoresByEvent)) {
     const course = getCourse(courses, scoresByEvent[eventId][0].hole)
     const clubEvent = events.find((e) => e.id === +eventId)
-    rounds.push(new Round(course, clubEvent, scoresByEvent[eventId]))
+    if (course && clubEvent) {
+      rounds.push(new Round(course, clubEvent, scoresByEvent[eventId]))
+    }
   }
   return rounds
 }

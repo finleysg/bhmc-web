@@ -98,7 +98,7 @@ function RegisterAdmin({ selectedStart, mode, onCancel }) {
       <div className="col-md-12 col-lg-6 col-xl-4">
         <OverlaySpinner loading={busy} />
         {currentStep === EventAdminSteps.Register && (
-          <div>
+          <div style={{ position: "relative" }}>
             <RegisterInfo
               layout={layout}
               mode={mode}
@@ -116,7 +116,7 @@ function RegisterAdmin({ selectedStart, mode, onCancel }) {
           </div>
         )}
         {currentStep === EventAdminSteps.Edit && (
-          <div>
+          <div style={{ position: "relative" }}>
             <RegisterInfo
               layout={layout}
               mode={mode}
