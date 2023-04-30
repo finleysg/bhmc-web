@@ -7,13 +7,17 @@ function ReserveRowAdmin({
   onPlayerSelect,
   onGroupSelect,
   onDrop,
-  onEdit,
+  onSwap,
   onMove,
   onMoveConfirm,
   ...rest
 }) {
   const disableActions = () => {
     return group.selectedSlotIds().length === 0
+  }
+
+  const disableEdit = () => {
+    return group.selectedSlotIds().length !== 1
   }
 
   return (
@@ -27,8 +31,8 @@ function ReserveRowAdmin({
         >
           {mode === "select" ? "Move" : "Cancel"}
         </button>
-        <button className="btn btn-sm btn-warning" disabled={disableActions()} onClick={onEdit}>
-          Edit
+        <button className="btn btn-sm btn-warning" disabled={disableEdit()} onClick={onSwap}>
+          Swap
         </button>
         <button
           className="btn btn-sm btn-danger"

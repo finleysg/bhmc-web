@@ -2,7 +2,7 @@ import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
 import { IndexTab, Tabs } from "components/tabs"
-import { useDropPlayers, useIssueRefunds, useMovePlayers } from "hooks/admin-hooks"
+import { useDropPlayers, useIssueRefunds, useMovePlayers, useSwapPlayers } from "hooks/admin-hooks"
 import { toast } from "react-toastify"
 
 import { ReserveGridAdmin } from "./reserve-grid-admin"
@@ -13,6 +13,7 @@ function ReserveAdmin({ clubEvent, reserveTables }) {
 
   const { mutate: movePlayers } = useMovePlayers()
   const { mutate: dropPlayers } = useDropPlayers()
+  const { mutate: swapPlayers } = useSwapPlayers()
   const issueRefunds = useIssueRefunds()
 
   const handleMove = ({ registrationId, sourceSlots, destinationSlots }) => {
@@ -29,6 +30,15 @@ function ReserveAdmin({ clubEvent, reserveTables }) {
       .then(() => dropPlayers({ registrationId, slotIds }))
       .catch((err) => toast.error("Failed to issue a refund: " + err))
       .finally(() => setBusy(false))
+  }
+
+  const handleSwap = ({ slot, player }) => {
+    setBusy(true)
+    try {
+      swapPlayers({ slotId: slot.id, playerId: player.id })
+    } finally {
+      setBusy(false)
+    }
   }
 
   return (
@@ -55,6 +65,7 @@ function ReserveAdmin({ clubEvent, reserveTables }) {
             table={reserveTables[selectedTableIndex]}
             onMove={handleMove}
             onDrop={handleDrop}
+            onSwap={handleSwap}
           />
         </div>
       </div>

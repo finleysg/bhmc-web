@@ -1,19 +1,19 @@
 import React from "react"
 
 import { OverlaySpinner } from "components/spinners"
-import { useNavigate } from "react-router"
 import { toast } from "react-toastify"
 import { createRefunds } from "utils/payment-utils"
 
 import DropPlayers from "./drop-players"
 import { ReserveRowAdmin } from "./reserve-row-admin"
+import SwapPlayer from "./swap-players"
 
-function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) {
+function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, onSwap, ...rest }) {
   const [selectedSlots, updateSelectedSlots] = React.useState([])
   const [selectedRegistration, setSelectedRegistration] = React.useState(0)
   const [mode, setMode] = React.useState("select")
   const [showDrop, setShowDrop] = React.useState(false)
-  const navigate = useNavigate()
+  const [showSwap, setShowSwap] = React.useState(false)
 
   const handlePlayerSelect = (slot) => {
     setSelectedRegistration(slot.registrationId)
@@ -41,6 +41,12 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
   const handleDrop = () => {
     if (selectedSlots?.length > 0) {
       setShowDrop(true)
+    }
+  }
+
+  const handleSwap = () => {
+    if (selectedSlots?.length > 0) {
+      setShowSwap(true)
     }
   }
 
@@ -84,13 +90,20 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
     }
   }
 
-  const handleEdit = () => {
-    navigate(selectedRegistration.toString())
+  const handleSwapConfirm = (player) => {
+    setShowSwap(false)
+    try {
+      onSwap({ slot: selectedSlots[0], player })
+    } finally {
+      updateSelectedSlots([])
+      setMode("select")
+    }
   }
 
   const handleCancel = () => {
     updateSelectedSlots([])
     setShowDrop(false)
+    setShowSwap(false)
     setMode("select")
   }
 
@@ -112,7 +125,7 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
             onPlayerSelect={handlePlayerSelect}
             onGroupSelect={handleGroupSelect}
             onDrop={handleDrop}
-            onEdit={handleEdit}
+            onSwap={handleSwap}
             onMove={handleMove}
             onMoveConfirm={handleMoveConfirm}
           />
@@ -123,6 +136,13 @@ function ReserveGridAdmin({ clubEvent, table, error, onMove, onDrop, ...rest }) 
         slots={selectedSlots}
         onCancel={handleCancel}
         onDrop={handleDropConfirm}
+      />
+      <SwapPlayer
+        showSwap={showSwap}
+        clubEvent={clubEvent}
+        selectedSlot={selectedSlots[0]}
+        onCancel={handleCancel}
+        onSwap={handleSwapConfirm}
       />
     </div>
   )

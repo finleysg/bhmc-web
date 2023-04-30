@@ -101,6 +101,31 @@ function useDropPlayers() {
   )
 }
 
+function useSwapPlayers() {
+  const client = useClient()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    ({ slotId, playerId }) => {
+      return client(`registration-slots/${slotId}`, {
+        method: "PATCH",
+        data: {
+          player: playerId,
+        },
+      })
+    },
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to swap player(s).")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("event-registration-slots")
+        toast.success("⛳ Players have been swapped.")
+      },
+    },
+  )
+}
+
 function useIssueRefunds() {
   const client = useClient()
   return React.useCallback(
@@ -227,5 +252,6 @@ export {
   usePoints,
   usePointsImport,
   useScoresImport,
+  useSwapPlayers,
   useSyncRegistrationFees,
 }
