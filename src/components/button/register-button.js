@@ -1,31 +1,31 @@
-import React from "react"
-
 import { RegistrationSteps } from "context/registration-context"
 import { usePlayer } from "hooks/account-hooks"
 
 function RegisterButton({ clubEvent, hasSignedUp, isMember, currentStep, onClick, ...rest }) {
-  const [canRegister, setCanRegister] = React.useState(false)
+  // const [canRegister, setCanRegister] = React.useState(false)
   const player = usePlayer()
 
-  React.useEffect(() => {
+  const canRegister = () => {
     if (!player.id) {
-      setCanRegister(false)
+      return false
     } else if (hasSignedUp) {
-      setCanRegister(false)
+      return false
     } else if (clubEvent?.registrationTypeCode === "N") {
-      setCanRegister(false)
+      return false
     } else if (!clubEvent?.registrationIsOpen) {
-      setCanRegister(false)
+      return false
     } else if (clubEvent.registrationTypeCode !== "O" && !isMember) {
-      setCanRegister(false)
+      return false
     } else if (clubEvent.ghinRequired && !player.ghin) {
-      setCanRegister(false)
-    } else {
-      setCanRegister(true)
+      return false
     }
-  }, [clubEvent, player, isMember, hasSignedUp])
+    return true
+  }
+  // React.useEffect(() => {
 
-  if (canRegister) {
+  // }, [clubEvent, player, isMember, hasSignedUp])
+
+  if (canRegister()) {
     return (
       <button
         className="btn btn-warning btn-sm"
