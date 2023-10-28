@@ -10,6 +10,8 @@ function usePolicies() {
       client("policies").then((data) => {
         return data
       }),
+    staleTime: Infinity,
+    cacheTime: Infinity,
   })
 
   return { ...result, policies: result.data ?? [] }

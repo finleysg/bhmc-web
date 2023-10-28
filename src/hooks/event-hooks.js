@@ -44,7 +44,7 @@ function useEventRegistrations(eventId) {
       }),
     {
       enabled: !!eventId,
-      cacheTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 5,
     },
   )
 
@@ -71,7 +71,7 @@ function useEventRegistrationSlots(eventId) {
     {
       enabled: !!eventId,
       // refetchInterval: 1000 * 30,
-      cacheTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 5,
     },
   )
 }
@@ -98,8 +98,7 @@ function usePlayerRegistrationSlots(playerId) {
         return data.map((slot) => new RegistrationSlot(slot))
       }),
     {
-      cacheTime: 1000 * 60 * 15,
-      staleTime: 1000 * 60 * 15,
+      staleTime: 1000 * 60 * 5,
     },
   )
 
@@ -109,9 +108,9 @@ function usePlayerRegistrationSlots(playerId) {
 export {
   useClubEvents,
   useCopyEvent,
-  useEventRegistrations,
   useEventRegistrationSlots,
+  useEventRegistrations,
   useEventWithRegistrations,
-  usePlayerRegistrations,
   usePlayerRegistrationSlots,
+  usePlayerRegistrations,
 }

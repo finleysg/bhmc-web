@@ -7,6 +7,7 @@ function usePhoto(id) {
   const client = useClient()
   const url = `photos/${id}/`
   return useQuery([url], () => client(url), {
+    staleTime: Infinity,
     cacheTime: Infinity,
   })
 }
@@ -23,9 +24,7 @@ function useRandomPhotos({ take, tag }) {
   }
   const url = getUrl()
 
-  return useQuery(["random-photos", tag || "none"], () => client(url), {
-    cacheTime: 5,
-  })
+  return useQuery(["random-photos", tag || "none"], () => client(url))
 }
 
 function useCreatePhoto() {
@@ -45,6 +44,7 @@ function useTags() {
   const client = useClient()
 
   return useQuery(["tags"], () => client(`tags`), {
+    staleTime: Infinity,
     cacheTime: Infinity,
   })
 }

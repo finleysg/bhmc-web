@@ -7,10 +7,7 @@ function DamCupResults() {
   const { data: results, status } = useQuery({
     queryKey: ["dam-cup-results"],
     queryFn: () => client("dam-cup").then((data) => data),
-    config: {
-      staleTime: Infinity,
-      cacheTime: Infinity,
-    },
+    staleTime: Infinity,
   })
 
   return (
@@ -32,11 +29,15 @@ function DamCupResults() {
                     <span title={`Played at ${r.site}`}>{r.season}</span>
                   </td>
                   <td className="text-center">
-                    {r.good_guys > r.bad_guys && <span style={{ fontWeight: "bold" }}>{r.good_guys}</span>}
+                    {r.good_guys > r.bad_guys && (
+                      <span style={{ fontWeight: "bold" }}>{r.good_guys}</span>
+                    )}
                     {r.good_guys > r.bad_guys || <span>{r.good_guys}</span>}
                   </td>
                   <td className="text-center">
-                    {r.good_guys < r.bad_guys && <span style={{ fontWeight: "bold" }}>{r.bad_guys}</span>}
+                    {r.good_guys < r.bad_guys && (
+                      <span style={{ fontWeight: "bold" }}>{r.bad_guys}</span>
+                    )}
                     {r.good_guys < r.bad_guys || <span>{r.bad_guys}</span>}
                   </td>
                 </tr>

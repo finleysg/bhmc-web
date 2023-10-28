@@ -33,8 +33,8 @@ function usePlayer() {
         return queryClient.getQueryData("player")
       },
       enabled: email !== undefined,
-      cacheTime: 1000 * 60 * 60,
-      staleTime: 1000 * 60 * 60,
+      cacheTime: Infinity,
+      staleTime: Infinity,
     },
   )
 
@@ -65,7 +65,7 @@ function useMyEvents() {
     },
     {
       enabled: enable,
-      cacheTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 5,
     },
   )
   return myEvents
@@ -141,7 +141,6 @@ function useFriends({ eventId }) {
         data.map((p) => new Player(p)),
       ),
     {
-      cacheTime: 1000 * 60 * 5,
       staleTime: 1000 * 60 * 5,
     },
   )

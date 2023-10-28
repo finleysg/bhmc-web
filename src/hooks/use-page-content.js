@@ -6,10 +6,7 @@ function usePageContent(contentKey) {
   const { data } = useQuery({
     queryKey: ["page-content", { contentKey }],
     queryFn: () => client(`page-content/?key=${contentKey}`).then((data) => data[0]),
-    config: {
-      staleTime: 1000 * 60 * 60,
-      cacheTime: 1000 * 60 * 60,
-    },
+    staleTime: 1000 * 60 * 5,
   })
 
   return data ?? { title: "loading...", content: "loading..." }

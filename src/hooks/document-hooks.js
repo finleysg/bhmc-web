@@ -17,7 +17,7 @@ function useEventDocuments(eventId) {
       }),
     {
       enabled: hasEventId,
-      cacheTime: Infinity,
+      staleTime: 5 * 60 * 1000,
     },
   )
   return documents ?? []
@@ -36,6 +36,7 @@ function useDocuments(documentType, year) {
         return []
       }),
     {
+      staleTime: Infinity,
       cacheTime: Infinity,
     },
   )
@@ -56,6 +57,7 @@ function useDocumentTypes(documentType) {
         return []
       }),
     {
+      staleTime: Infinity,
       cacheTime: Infinity,
     },
   )
@@ -104,6 +106,7 @@ function useStaticDocument(code) {
         return null
       }),
     {
+      staleTime: Infinity,
       cacheTime: Infinity,
     },
   )
@@ -130,22 +133,25 @@ function useStaticDocumentUpdate() {
   const formClient = useFormClient()
   const queryClient = useQueryClient()
 
-  return useMutation(({ documentId, formData }) => formClient(`documents/${documentId}`, formData, "PUT"), {
-    onError: () => {
-      toast.error("💣 Aww, Snap! Failed to update your document.")
+  return useMutation(
+    ({ documentId, formData }) => formClient(`documents/${documentId}`, formData, "PUT"),
+    {
+      onError: () => {
+        toast.error("💣 Aww, Snap! Failed to update your document.")
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries("static-documents")
+      },
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries("static-documents")
-    },
-  })
+  )
 }
 
 export {
-  useDocuments,
   useDocumentTypes,
+  useDocuments,
   useEventDocumentDelete,
-  useEventDocuments,
   useEventDocumentUpload,
+  useEventDocuments,
   useStaticDocument,
   useStaticDocumentCreate,
   useStaticDocumentUpdate,

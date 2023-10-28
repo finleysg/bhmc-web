@@ -1,11 +1,8 @@
-import * as Sentry from "@sentry/react"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 
-import React from "react"
-
-import { FullPageErrorFallback } from "components/errors"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { ReactQueryDevtools } from "react-query/devtools"
 import { BrowserRouter as Router } from "react-router-dom"
 import * as config from "utils/app-config"
 
@@ -39,15 +36,14 @@ function AppProviders({ children }) {
     <QueryClientProvider client={queryClient}>
       <LayoutProvider>
         <Router>
-          <Sentry.ErrorBoundary fallback={FullPageErrorFallback}>
-            <AuthProvider>
-              <EventRegistrationProvider>
-                <Elements stripe={stripePromise}>{children}</Elements>
-              </EventRegistrationProvider>
-            </AuthProvider>
-          </Sentry.ErrorBoundary>
+          <AuthProvider>
+            <EventRegistrationProvider>
+              <Elements stripe={stripePromise}>{children}</Elements>
+            </EventRegistrationProvider>
+          </AuthProvider>
         </Router>
       </LayoutProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }

@@ -26,10 +26,8 @@ function useSettings() {
         }
         return undefined
       }),
-    config: {
-      staleTime: 1000 * 60 * 60,
-      cacheTime: 1000 * 60 * 60,
-    },
+    staleTime: Infinity,
+    cacheTime: Infinity,
   })
 
   return data ?? defaultSettings

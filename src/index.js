@@ -1,7 +1,5 @@
 import "./bootstrap"
 
-import * as Sentry from "@sentry/react"
-
 import React, { Suspense } from "react"
 
 import { FullPageSpinner } from "components/spinners"
@@ -11,19 +9,8 @@ import AuthLayout from "layout/auth-layout"
 import MainLayout from "layout/main-layout"
 import { createRoot } from "react-dom/client"
 import { Route, Routes } from "react-router-dom"
-import * as config from "utils/app-config"
 
 const AdminLayout = React.lazy(() => import("./layout/admin-layout"))
-
-// import reportWebVitals from "./reportWebVitals"
-if (config.currentEnvironment !== "development") {
-  Sentry.init({
-    dsn: config.sentryApiKey,
-    autoSessionTracking: true,
-    tracesSampleRate: 0.0,
-    release: "bhmc-web@" + process.env.npm_package_version,
-  })
-}
 
 enableMapSet()
 
